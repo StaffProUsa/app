@@ -1,6 +1,6 @@
 {
   "name": "staffprousa_app",
-  "version": "1.3.9",
+  "version": "1.0.1",
   "description": "staffprousa_app",
   "scripts": {
     "start": "react-native start",
