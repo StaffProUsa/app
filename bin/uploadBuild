@@ -1,2 +1,2 @@
  #!/bin/bash
- scp -r build 2.2:/home/servisofts/servicios/CasaGrande/entornos/CasaGrande/
+ scp -r build 2.2:/home/servisofts/servicios/StaffProUsa/entornos/StaffProUsa/
