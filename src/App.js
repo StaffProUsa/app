@@ -84,12 +84,12 @@ const App = (props) => {
       >
         <SNavigation
           linking={{
-            prefixes: ["https://casagrande.servisofts.com/", "http://casagrande.servisofts.com/","https://casagrande.servisofts.com/link/"],
+            prefixes: ["https://staffprousa.servisofts.com/", "http://staffprousa.servisofts.com/","https://staffprousa.servisofts.com/link/"],
             getInitialURL: () => {
               Firebase.getInitialURL();
             }
           }}
-          props={{ title: 'App Casa Grande', pages: Pages, navBar: NavBar }}
+          props={{ title: 'Staff Pro USA', pages: Pages, navBar: NavBar }}
         />
         <Socket store={store} />
         {/* <NavBar /> */}
