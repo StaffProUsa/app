@@ -1,0 +1,122 @@
+# OSX
+#
+.DS_Store
+
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+*.apk
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# BUCK
+buck-out/
+\.buckd/
+
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
+
+# Bundle artifact
+*.jsbundle
+
+# CocoaPods
+*/ios/Pods/
+/ios/Pods/
+/ios/.xcode.env.local
+
+
+
+# CRA gitignore
+
+# dependencies
+/node_modules
+*/node_modules
+/.pnp
+.pnp.js
+# testing
+/coverage
+# production
+/build
+
+# misc
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+.metro-health-check*
+
+.eslintcache
+.secrets.base64
+# SECRETS
+/.env
+
+/ios/GoogleService-Info.plist
+/ios/servisofts_erp_app/Info.plist
+/ios/ExportOptions.plist
+/ios/Certificates.p12
+/ios/SERP_appstore.mobileprovision
+/ios/AuthKey_5KCFQBMUQK.p8
+/ios/AuthKey_N7G47KBF2S.p8
+
+/android/app/google-services.json
+/android/app/service-account.json
+/android/app/debug.keystore
+/android/app/app.jks
+/android/app/src/main/res/values/strings.xml
+
+/public/firebase-messaging-sw.js
+/public/.well-known/assetlinks.json
+
+/src/LoginApi/config.ts
+/src/Firebase/index.js
+/src/Config/socket.ts
+
+/.ssh/id_rsa
+/.ssh/config
+
+
+# END
+.eslintcache
+android/.settings/org.eclipse.buildship.core.prefs

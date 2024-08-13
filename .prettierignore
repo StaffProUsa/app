@@ -1,0 +1,11 @@
+# Ignore all folder:
+.vscode
+**/android
+**/ios
+**/node_modules
+**/public
+**/src/Assets
+**/src/LoginApis
+package.json
+
+# ^\s*$\n
