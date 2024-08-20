@@ -169,10 +169,10 @@ class Perfil extends Component {
               name={icon}
               width={20}
               height={20}
-              fill={url == 'salir' ? '#ff4132' : STheme.color.primary}></SIcon>
+              fill={url == 'salir' ? '#ff4132' : STheme.color.text}></SIcon>
           </SView>
           <SView row col={'xs-9'}>
-            <SText color={url == 'salir' ? '#ff4132' : STheme.color.primary} font={"Roboto"}>
+            <SText color={url == 'salir' ? '#ff4132' : STheme.color.text} font={"Roboto"}>
               {titulo}
             </SText>
           </SView>
@@ -180,7 +180,7 @@ class Perfil extends Component {
             <SIcon
               name={'MenuPerfil'}
               width={9}
-              fill={url == 'salir' ? '#ff4132' : STheme.color.primary}></SIcon>
+              fill={url == 'salir' ? '#ff4132' : STheme.color.text}></SIcon>
           </SView>
           <SHr height={20} />
         </SView>
@@ -237,7 +237,7 @@ class Perfil extends Component {
                   name={STheme.getTheme() == 'dark' ? "Dark" : "Sun"}
                   width={20}
                   height={20}
-                  fill={STheme.color.primary}></SIcon>
+                  fill={STheme.color.text}></SIcon>
               </SView>
               <SView row col={'xs-9'}>
                 <SText font={"Roboto"}>Modo {STheme.getTheme() == 'dark' ? "oscuro" : "claro"}</SText>

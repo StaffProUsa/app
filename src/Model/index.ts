@@ -4,6 +4,7 @@ import Usuario from "servisofts-rn-usuario";
 import Roles_permisos from "servisofts-rn-roles_permisos";
 import Chat from 'servisofts-rn-chat'
 import notification from "./notification";
+import staffprousa from "./staffprousa";
 import { STheme } from "servisofts-component";
 
 const Model = {
@@ -11,7 +12,8 @@ const Model = {
     ...Roles_permisos.Model,
     ...Contabilidad.Model,
     ...Chat.Model,
-    ...notification
+    ...notification,
+    ...staffprousa
 }
 
 Usuario.init({

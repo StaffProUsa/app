@@ -305,67 +305,67 @@ class Perfil extends React.Component {
     )
   }
 
-  getFormEntrada(){
+  getFormEntrada() {
     return (
       <>
-      <SForm
-        center
-        row
-        ref={(form) => {
-          this.form = form;
-        }}
-        inputProps={{
-          customStyle: 'romeo',
-          separation: 16,
+        <SForm
+          center
+          row
+          ref={(form) => {
+            this.form = form;
+          }}
+          inputProps={{
+            customStyle: 'romeo',
+            separation: 16,
 
-          color: STheme.color.text
-          // fontSize: 16,
-          // font: "Roboto",
-        }}
-        inputs={{
-          foto_p: {
-            type: 'image',
-            isRequired: false,
-            defaultValue: `${SSocket.api.root}evento/${this.key}_entrada?time=${new Date().getTime()}`,
-            col: 'xs-4 sm-3.5 md-3 lg-2.5 xl-2.5',
-            style: {
-              borderRadius: 8,
-              overflow: 'hidden',
-              width: 130,
-              height: 130,
-              borderWidth: 0
+            color: STheme.color.text
+            // fontSize: 16,
+            // font: "Roboto",
+          }}
+          inputs={{
+            foto_p: {
+              type: 'image',
+              isRequired: false,
+              defaultValue: `${SSocket.api.root}evento/${this.key}_entrada?time=${new Date().getTime()}`,
+              col: 'xs-4 sm-3.5 md-3 lg-2.5 xl-2.5',
+              style: {
+                borderRadius: 8,
+                overflow: 'hidden',
+                width: 130,
+                height: 130,
+                borderWidth: 0
+              }
             }
+          }}
+          // onSubmitName={"Registrar"}
+          onSubmit={(values) => {
+            this.form.uploadFiles(
+              SSocket.api.root + 'upload/' + evento.component + '/' + this.key + '_entrada'
+            );
+            SNavigation.goBack();
           }
-        }}
-        // onSubmitName={"Registrar"}
-        onSubmit={(values) => {
-              this.form.uploadFiles(
-                SSocket.api.root + 'upload/' + evento.component + '/' + this.key+'_entrada'
-              );
-              SNavigation.goBack(); 
           }
-        }
-        
-      />
+
+        />
         <SHr height={5} />
-          <SView col={'xs-11'} row center>
-            <SView col={'xs-9'}></SView>
-            <SView col={'xs-10 sm-3 md-3 lg-3 xl-3'} >
-              <SView
-                center
-                style={{
-                  borderRadius: 10,
-                }}
-                onPress={() => {
-                  this.form.submit()
-                }}
-                backgroundColor={'#833AB4'}
-                height={40}
-              >
-                <SText fontSize={14}>Actualizar</SText>
-              </SView>
+        <SView col={'xs-11'} row center>
+          <SView col={'xs-9'}></SView>
+          <SView col={'xs-10 sm-3 md-3 lg-3 xl-3'} >
+            <SView
+              center
+              style={{
+                borderRadius: 10,
+              }}
+              onPress={() => {
+                this.form.submit()
+              }}
+              backgroundColor={'#833AB4'}
+              height={40}
+            >
+              <SText fontSize={14}>Actualizar</SText>
             </SView>
           </SView>
+        </SView>
       </>
     )
   }
@@ -378,51 +378,51 @@ class Perfil extends React.Component {
           <SHr height={25} />
           <SView col={"xs-12"} center >
             <SView col={"xs-12 sm-10 md-8 lg-6 xl-4 xxl-3"} center >
-                <SView col={"xs-12"} height={this.state.height}
-                    onLayout={e => {
-                        const { width, height } = e.nativeEvent.layout
-                        const scale = width / ImageSize.width;
+              <SView col={"xs-12"} height={this.state.height}
+                onLayout={e => {
+                  const { width, height } = e.nativeEvent.layout
+                  const scale = width / ImageSize.width;
 
-                        this.setState({ width: ImageSize.width * scale, height: ImageSize.height * scale, scale: scale })
-                    }} center>
-                    <SImage src={require("../../../../../Assets/images/test.jpeg")} />
-                    <SView style={{
-                        top: 718 * this.state.scale,
-                        position: "absolute",
-                        backgroundColor: "#FFF",
-                        width: 545 * this.state.scale,
-                        height: 84 * this.state.scale,
-                        borderRadius: 14 * this.state.scale,
-                        borderWidth: 3 * this.state.scale,
-                        borderColor: "#000"
-                    }} center>
-                        <SText color={"#000"} fontSize={30 * this.state.scale} center bold>{this.state.nombre}</SText>
-                    </SView>
-                    <SView style={{
-                        top: 855 * this.state.scale,
-                        position: "absolute",
-                        backgroundColor: "#000",
-                        opacity:"0.85",
-                        width: 270 * this.state.scale,
-                        height: 270 * this.state.scale,
-                        borderRadius: 14 * this.state.scale,
-                        borderWidth: 3 * this.state.scale,
-                        borderColor: "#000",
-                        overflow: 'hidden',
-                    }} center >
-                        {!this.state.showQr ? <SIcon  name="Logo" fill={STheme.color.primary}  style={{
-                            width: "50%", height: "50%",
-                        }} /> : <EntradaQR key_entrada={this.key_entrada} col={"xs-12"} style={{
-                            padding: 12 * this.state.scale
-                        }} />}
-
-                    </SView>
+                  this.setState({ width: ImageSize.width * scale, height: ImageSize.height * scale, scale: scale })
+                }} center>
+                <SImage src={require("../../../../../Assets/images/test.jpeg")} />
+                <SView style={{
+                  top: 718 * this.state.scale,
+                  position: "absolute",
+                  backgroundColor: "#FFF",
+                  width: 545 * this.state.scale,
+                  height: 84 * this.state.scale,
+                  borderRadius: 14 * this.state.scale,
+                  borderWidth: 3 * this.state.scale,
+                  borderColor: "#000"
+                }} center>
+                  <SText color={"#000"} fontSize={30 * this.state.scale} center bold>{this.state.nombre}</SText>
                 </SView>
+                <SView style={{
+                  top: 855 * this.state.scale,
+                  position: "absolute",
+                  backgroundColor: "#000",
+                  opacity: "0.85",
+                  width: 270 * this.state.scale,
+                  height: 270 * this.state.scale,
+                  borderRadius: 14 * this.state.scale,
+                  borderWidth: 3 * this.state.scale,
+                  borderColor: "#000",
+                  overflow: 'hidden',
+                }} center >
+                  {!this.state.showQr ? <SIcon name="Logo" fill={STheme.color.primary} style={{
+                    width: "50%", height: "50%",
+                  }} /> : <EntradaQR key_entrada={this.key_entrada} col={"xs-12"} style={{
+                    padding: 12 * this.state.scale
+                  }} />}
+
+                </SView>
+              </SView>
             </SView>
-        </SView>
-          
-          
-          
+          </SView>
+
+
+
         </SView>
       </>
     )
@@ -529,11 +529,14 @@ class Perfil extends React.Component {
           actividad.Actions._getReducer(this.props).data = null
           sector.Actions._getReducer(this.props).data = null
           tipo_entrada.Actions._getReducer(this.props).data = null
-          this.setState({...this.state})
+          this.setState({ ...this.state })
         }}>
           <SView col={'xs-12 '} center>
             <SView col={'xs-10 sm-10 md-10 lg-8 xl-6'} center row>
               {this.getDataEvento()}
+              <SText onPress={() => {
+                SNavigation.navigate("/staff", { key_evento: this.key })
+              }}>{"STAFF"}</SText>
             </SView>
           </SView>
           <SHr height={30} />

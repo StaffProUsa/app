@@ -24,7 +24,7 @@ export default class EventoQR extends Component<{ key_evento: any }> {
                 errorCorrectionLevel: "M",
                 type_color: "solid",
                 colorBody: "#ffffff",
-                image_src: "https://casagrande.servisofts.com/logo192.png",
+                image_src: "https://staffprousa.servisofts.com/logo192.png",
                 body: "CircleConectVH",
                 framework: "Rounded",
                 header: "Circle",
