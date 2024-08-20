@@ -10,6 +10,7 @@ import Reserva from "./svg/reserva";
 import Tarjeta from "./svg/tarjeta";
 import User from "./svg/user";
 import Admin from "./svg/admin";
+import Event from "./svg/event";
 
 //Logo
 import Logo, { ReactComponent as LogoW } from './svg/logo.svg';
@@ -42,6 +43,7 @@ const Assets: SAssets = {
         ...Tarjeta,
         ...User,
         ...Admin,
+        ...Event
     }
 }
 

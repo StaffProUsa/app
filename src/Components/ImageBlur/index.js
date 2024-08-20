@@ -42,7 +42,7 @@ class ImageBlur extends Component {
                 <SView col={"xs-12"} center height style={{
                     position: "absolute",
                     opacity: 0.6,
-                    backgroundColor: STheme.color.background
+                    backgroundColor: STheme.color.darkGray
                 }}>
                 </SView>
                 {/*ACABA EL EFECTO BLUR */}
