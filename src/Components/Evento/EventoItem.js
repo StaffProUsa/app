@@ -66,13 +66,19 @@ export default class EventoItem extends Component {
                     </SView>
                     <SView col={"xs-8"} padding={5}>
                         <SText fontSize={16} style={{ textTransform: 'uppercase' }}>{descripcion}</SText>
-                        <SHr h={10} />
+                        <SHr h={7} />
+                        <SView row>
+                            <SIcon width={10} name={"iubicacion"} fill={STheme.color.text} />
+                            <SView width={7} />
+                            <SText fontSize={10} style={{ color: STheme.color.gray, textDecorationLine:"underline" }}>1500 Marilla St, Dallas, TX 75201</SText>
+                        </SView>
+                        <SHr h={5} />
                         <SView row>
                             <SIcon width={10} name={"idate"} />
-                            <SView width={10} />
+                            <SView width={7} />
                             <SText fontSize={10} style={{ color: STheme.color.gray }}>{new SDate(data.fecha).toString('DAY')}, {new SDate(data.fecha).toString('MONTH')} {new SDate(data.fecha).toString('dd')}</SText>
                         </SView>
-                        <SHr h={10} />
+                        <SHr h={7} />
                         <SText fontSize={12} style={{ textTransform: 'uppercase' }}>REQUIRES:</SText>
                         <SHr h={5} />
                         <SView height={32} width={105}

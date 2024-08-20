@@ -5,6 +5,7 @@ import {
   SGradient,
   SHr,
   SIcon,
+  SImage,
   SNavigation,
   SText,
   STheme,
@@ -42,14 +43,9 @@ class PBarraFooter extends Component {
             width: 80
           }}
           center>
-          <SView
-            height={5}
-            col={'xs-12'}
-            style={{
-              backgroundColor: isSelect ? STheme.color.text : '',
-              borderBottomLeftRadius: 5,
-              borderBottomRightRadius: 5
-            }}></SView>
+          {isSelect && <SView height={70} width={70} center style={{ position: "absolute" }}>
+            <SImage src={require('../../Assets/images/selectMenu.png')} />
+          </SView>}
           <SHr height={10}></SHr>
           <SView height={23} colSquare center>
             <SIcon name={icon} fill={STheme.color.primary} />
@@ -59,14 +55,6 @@ class PBarraFooter extends Component {
             {title}
           </SText>
           <SHr height={10}></SHr>
-          <SView
-            height={5}
-            col={'xs-12'}
-            style={{
-              backgroundColor: isSelect ? STheme.color.primary : '',
-              borderTopLeftRadius: 5,
-              borderTopRightRadius: 5
-            }}></SView>
         </SView>
       </SView>
     );
@@ -83,10 +71,10 @@ class PBarraFooter extends Component {
               position: 'absolute',
               bottom: 15,
               backgroundColor: STheme.color.secondary,
-              borderRadius:16,
+              borderRadius: 16,
               overflow: 'hidden',
             }}>
-           
+
             <SView col={'xs-12'} row backgroundColor={STheme.color.secondary} center>
               {this.getItem({
                 key: '/',
@@ -97,8 +85,8 @@ class PBarraFooter extends Component {
               })}
               {this.getItem({
                 key: '/entradas',
-                title: 'ENTRADAS',
-                icon: 'Entradas',
+                title: 'TRABAJO',
+                icon: 'trabajo',
                 url: '/entradas',
                 params: {}
               })}
@@ -111,7 +99,7 @@ class PBarraFooter extends Component {
                 params: {}
               })}
             </SView>
-          
+
 
           </SView>
         </SView>

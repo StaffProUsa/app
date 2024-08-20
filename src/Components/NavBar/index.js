@@ -32,10 +32,11 @@ export default class NavBar extends React.Component {
             <SText>{this.props?.title}</SText>
           </SView>
           <SView width={90} height center
-            onPress={() => {
-              SNavigation.reset("/");
-            }}>
-            <RContent />
+            // onPress={() => {
+            //   SNavigation.reset("/");
+            // }}
+            >
+            {/* <RContent /> */}
           </SView>
         </SView>
       </SView >

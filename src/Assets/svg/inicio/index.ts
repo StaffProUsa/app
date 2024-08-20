@@ -13,6 +13,8 @@ import User, { ReactComponent as UserW } from './user.svg';
 import sound0, { ReactComponent as sound0W } from './sound0.svg';
 import sound1, { ReactComponent as sound1W } from './sound1.svg';
 import playVideo, { ReactComponent as playVideoW } from './playVideo.svg';
+import selectMenu, { ReactComponent as selectMenuW } from './selectMenu.svg';
+import trabajo, { ReactComponent as trabajoW } from './trabajo.svg';
 
 
 const Assets = {
@@ -29,6 +31,8 @@ const Assets = {
 	"sound0": { Native: sound0, Web: sound0W },
 	"sound1": { Native: sound1, Web: sound1W },
 	"playVideo": { Native: playVideo, Web: playVideoW },
+	"selectMenu": { Native: selectMenu, Web: selectMenuW },
+	"trabajo": { Native: trabajo, Web: trabajoW },
 
 }
 
