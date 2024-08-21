@@ -34,19 +34,19 @@ class PBarraFooter extends Component {
       <SView
         flex
         center
-        height={90}
+        height={70}
         onPress={() => {
           SNavigation.navigate(url, params);
         }}>
         <SView
           style={{
-            width: 80
+            width: 70
           }}
           center>
-          {isSelect && <SView height={70} width={70} center style={{ position: "absolute" }}>
+          {isSelect && <SView height={55} width={55} center style={{ position: "absolute", top:-5 }}>
             <SImage src={require('../../Assets/images/selectMenu.png')} />
           </SView>}
-          <SHr height={10}></SHr>
+          <SHr height={5}></SHr>
           <SView height={23} colSquare center>
             <SIcon name={icon} fill={STheme.color.primary} />
           </SView>
@@ -66,7 +66,7 @@ class PBarraFooter extends Component {
           col={'xs-12'} center>
           <SView
             col={'xs-11'}
-            height={90}
+            height={65}
             style={{
               position: 'absolute',
               bottom: 15,

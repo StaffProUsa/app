@@ -32,6 +32,7 @@ import Model from '../../Model';
 import { Platform } from 'react-native';
 import EventoQR from './Components/EventoQR';
 import { Container } from '../../Components';
+import EventoStaff from './Components/EventoStaff';
 
 const SPACE = 50;
 
@@ -546,6 +547,8 @@ class Perfil extends React.Component {
 
                 {/* <SHr height={SPACE} /> */}
                 {this.getBody()}
+                <SHr height={15}/>
+                <EventoStaff key_evento={this.key} />
                 {/* {this.getFecha()} */}
                 {/* <SHr height={60} color={this.bgSpace} /> */}
                 {/* {this.getPublicidad()} */}
