@@ -301,7 +301,7 @@ class Perfil extends React.Component {
               // width: 10
 
             }} />
-            <SHr h={20} />
+            <SHr h={35} />
           </SView>
 
           <SView col={"xs-12"} height={355}>
@@ -549,7 +549,7 @@ class Perfil extends React.Component {
                 {this.getBody()}
                 <SHr height={15}/>
                 <EventoStaff key_evento={this.key} />
-                {/* {this.getFecha()} */}
+                {this.getFecha()}
                 {/* <SHr height={60} color={this.bgSpace} /> */}
                 {/* {this.getPublicidad()} */}
                 {/* <SHr height={100} color={this.bgSpace} /> */}
