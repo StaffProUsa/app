@@ -90,6 +90,13 @@ class PBarraFooter extends Component {
                 url: '/entradas',
                 params: {}
               })}
+               {this.getItem({
+                key: '/calendario',
+                title: 'CALENDARIO',
+                icon: 'icalendario',
+                url: '/calendario',
+                params: {}
+              })}
               {/* {this.getItem({ key: "reservas", title: 'RESERVAS', icon: 'Reservas', url: 'reservas', params: {} })} */}
               {this.getItem({
                 key: '/login',

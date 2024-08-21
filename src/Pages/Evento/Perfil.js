@@ -284,14 +284,8 @@ class Perfil extends React.Component {
     return (
       <>
         <SView col={'xs-12'} border={this.bgborder} center row>
-          <SView col={'xs-12'} border={this.bgborder} center
-            style={{
-              backgroundColor: STheme.color.card,
-              borderRadius: 4,
-              padding: 16,
-            }}>
 
-            <SHr />
+          <SView col={"xs-12"} center>
             <SText col={"xs-8"} center color={STheme.color.text} bold font={'Roboto'} fontSize={24}>
               {DATA.descripcion}
             </SText>
@@ -307,55 +301,7 @@ class Perfil extends React.Component {
 
             }} />
             <SHr h={20} />
-
-            <SView col={"xs-11"}>
-              <TextWithLink
-                // center
-                justify
-                color={STheme.color.text}
-                font={'Roboto'}
-                fontSize={12}>
-                {DATA.observacion}
-              </TextWithLink>
-            </SView>
-
-            <SHr />
-            <SView col={"xs-12"} flex style={{ alignItems: "flex-end" }} >
-              <SView width={40} height={40} center row style={{
-                borderRightWidth: 3,
-                borderBottomWidth: 3,
-                borderColor: STheme.color.card,
-                borderStyle: 'dashed',
-                // borderRadius: 8,
-                // position: 'absolute',
-                // bottom: -10,
-              }}>
-              </SView>
-            </SView>
-            <SHr />
-            <SView row center col={"xs-12"}>
-              <SView flex />
-              <SView height={16} width={16} center style={{
-                paddingTop: 1
-              }}>
-                <SIcon name={"Eyes"} fill={STheme.color.lightGray} />
-              </SView>
-              <SView width={4} />
-              <SText bold>{DATA?.visitas}</SText>
-              {/* <SView width={4} /> */}
-              {/* <SText color={STheme.color.lightGray}>vistas</SText> */}
-
-            </SView>
           </SView>
-
-
-          <SHr height={16} color={this.bgSpace} />
-
-          {this.renderCompartir(DATA)}
-          <SHr height={16} color={this.bgSpace} />
-          {this.getBotones(DATA)}
-
-          {/* <SView col={'xs-12'} height={355}> */}
 
           <SView col={"xs-12"} height={355}>
             {currentActivity?.tipo == "video" ?
@@ -387,7 +333,7 @@ class Perfil extends React.Component {
             <SScrollView2>
               <SList
                 // data={Object.values(data_actividad ?? 0).sort((a, b) => a.index != b.index ? (a.index > b.index ? 1 : -1) : (new SDate(a.fecha_on,"yyyy-MM-ddThh:mm:ss").getTime() > new SDate(b.fecha_on,"yyyy-MM-ddThh:mm:ss").getTime() ? 1 : -1))}
-                data={(data_actividad??[]).sort((a, b) => a.index != b.index ? (a.index > b.index ? 1 : -1) : (new SDate(a.fecha_on,"yyyy-MM-ddThh:mm:ss").getTime() > new SDate(b.fecha_on,"yyyy-MM-ddThh:mm:ss").getTime() ? 1 : -1))}
+                data={(data_actividad ?? []).sort((a, b) => a.index != b.index ? (a.index > b.index ? 1 : -1) : (new SDate(a.fecha_on, "yyyy-MM-ddThh:mm:ss").getTime() > new SDate(b.fecha_on, "yyyy-MM-ddThh:mm:ss").getTime() ? 1 : -1))}
 
                 horizontal={true}
                 // order={[{ key: "index", order: "asc", peso: 1 }]}
@@ -437,13 +383,63 @@ class Perfil extends React.Component {
                             : 'transparent'
                         }
                         style={{ position: 'absolute', borderRadius: 4 }}></SView>
-                        {/* <SText>{obj.index}</SText> */}
+                      {/* <SText>{obj.index}</SText> */}
                     </SView>
                   );
                 }}
               />
             </SScrollView2>
           </SView>
+
+
+          <SView col={'xs-12'} border={this.bgborder} center
+            style={{
+              // backgroundColor: STheme.color.card,
+              borderRadius: 4,
+              padding: 5,
+            }}>
+
+            <SHr />
+
+
+            <SView col={"xs-12"}>
+              <TextWithLink
+                // center
+                justify
+                color={STheme.color.text}
+                font={'Roboto'}
+                fontSize={12}>
+                {DATA.observacion}
+              </TextWithLink>
+            </SView>
+
+            <SHr />
+           
+            <SView row center col={"xs-12"}>
+              <SView flex />
+              <SView height={16} width={16} center style={{
+                paddingTop: 1
+              }}>
+                <SIcon name={"Eyes"} fill={STheme.color.lightGray} />
+              </SView>
+              <SView width={4} />
+              <SText bold>{DATA?.visitas}</SText>
+              {/* <SView width={4} /> */}
+              {/* <SText color={STheme.color.lightGray}>vistas</SText> */}
+
+            </SView>
+          </SView>
+
+
+          <SHr height={16} color={this.bgSpace} />
+
+          {this.renderCompartir(DATA)}
+          <SHr height={16} color={this.bgSpace} />
+          {this.getBotones(DATA)}
+
+          {/* <SView col={'xs-12'} height={355}> */}
+
+
         </SView >
       </>
     );
@@ -550,11 +546,11 @@ class Perfil extends React.Component {
 
                 {/* <SHr height={SPACE} /> */}
                 {this.getBody()}
-                {this.getFecha()}
-                <SHr height={60} color={this.bgSpace} />
-                {this.getPublicidad()}
-                <SHr height={100} color={this.bgSpace} />
-                <EventoQR key_evento={this.key} />
+                {/* {this.getFecha()} */}
+                {/* <SHr height={60} color={this.bgSpace} /> */}
+                {/* {this.getPublicidad()} */}
+                {/* <SHr height={100} color={this.bgSpace} /> */}
+                {/* <EventoQR key_evento={this.key} /> */}
                 <SHr height={100} color={this.bgSpace} />
               </SView>
             </SView>

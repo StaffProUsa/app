@@ -38,7 +38,7 @@ export default class TipoItem extends Component {
         // const fecha = new SDate(data.fecha, "yyyy-MM-dd")
         // dia:.toString('dd'),
         // mes: new SDate(data.fecha).toString('MONTH'),
-        return <SView width={55}  center style={{overflow:"hidden"}}>
+        return <SView width={55}   style={{overflow:"hidden"}}>
             <SImage src={imgPath} style={{
                 resizeMode: "cover", width: 50, height: 50,
                 borderRadius: 6,
@@ -46,7 +46,7 @@ export default class TipoItem extends Component {
                 borderColor: STheme.color.darkGray,
                 borderWidth: 1
             }} />
-            <SView col={"xs-8"}>
+            <SView width={50} center >
                 <SText center fontSize={9}>{data?.descripcion}</SText>
             </SView>
         </SView>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, RefreshControl, FlatList } from 'react-native';
-import { SHr, SLoad, SPage, SText, SView } from 'servisofts-component';
+import { SForm, SHr, SIcon, SLoad, SPage, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import EventoItem from '../Components/Evento/EventoItem';
 import TipoItem from '../Components/Staff/TipoItem';
@@ -99,6 +99,47 @@ export default class Inicio extends Component {
     this.setState({ dataTipo: [], refreshing: true })
     this.requestData();
   };
+
+  getForm() {
+    return <SForm
+      ref={(ref) => { this.form = ref; }}
+      row
+      style={{
+        justifyContent: "space-between",
+      }}
+      inputProps={{
+        col: "xs-12",
+      }}
+      inputs={{
+        Codigo: {
+          placeholder: "Search", type: "text", isRequired: true, icon: (
+            <SIcon
+              name={'lupa'}
+              fill={STheme.color.primary}
+              width={17}
+              height={20}
+            />
+          )
+        },
+      }}
+      error={this.state.error}
+
+      onSubmit={(values) => {
+        Model.usuario.Action.verificarCodigoPass({ codigo: values.Codigo }).then(resp => {
+          var usr_rec = resp.data;
+          SNavigation.navigate("/login/recuperar_pass", usr_rec);
+        }).catch(e => {
+          console.error(e);
+          if (e?.error == "error_datos") {
+            this.setState({ loading: false, error: "Código erróneo, verifique nuevamente." })
+          } else {
+            this.setState({ loading: false, error: "Ha ocurrido un error al introducir el código." })
+          }
+        })
+      }}
+    />
+  }
+
   render() {
     // if (this.state.dataTipo) return <SLoad />
     const arr = this.state.dataTipo ?? [];
@@ -106,62 +147,72 @@ export default class Inicio extends Component {
     console.log("DATA")
     console.log(this.state.dataTipo)
     console.log(this.state.data)
-   
-    return <SPage title={"Próximos eventos"} preventBack  footer={<PBarraFooter url={'/'} />}>
-      <FlatList
-        contentContainerStyle={{
-          width: "100%",
-          height: 150,
-          // alignItems: "center"
-        }}
-        // refreshControl={
-        //   <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh.bind(this)} />
-        // }
-        data={arr}
-        horizontal
-        showsHorizontalScrollIndicator={true}
-        ListHeaderComponent={() => <SView width={space} />}
-        ItemSeparatorComponent={() => <SView width={space} />}
-        ListFooterComponent={() => <SView width={space} />}
-        // keyExtractor={item => item.key.toString()}
-        keyExtractor={item => item.key ? item.key.toString() : String(index)}
-        onEndReachedThreshold={0.3}
-        renderItem={({ item, index }) => {
-          if (!item) return null;
-          console.log("ITEM")
-          console.log(item)
-          return <TipoItem ref={(ref) => this.ref[item?.key] = ref} key={item?.key.toString()} data={item} />
-          // return <SText>{item.descripcion} ggg</SText>
-        }}
-      />
 
-      <SHr h={30} />
+    return <SPage title={"Próximos eventos"} preventBack footer={<PBarraFooter url={'/'} />}>
+      <Container>
+        <SHr h={10} />
+        {this.getForm()}
+        <SHr h={15} />
 
-      <FlatList
-        contentContainerStyle={{
-          width: "100%",
-          // alignItems: "center"
-        }}
-        refreshControl={
-          <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh.bind(this)} />
-        }
-        data={this.state.data}
-        keyExtractor={item => item.key.toString()}
-        onEndReachedThreshold={0.3}
-        viewabilityConfig={{ minimumViewTime: 700, itemVisiblePercentThreshold: 75 }}
-        onViewableItemsChanged={this.onViewableItemsChanged}
-        onEndReached={this.onEndReached.bind(this)}
-        ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-        ListFooterComponent={this.renderItemFooter.bind(this)}
-        renderItem={({ item, index }) => {
-          return <EventoItem ref={(ref) => this.ref[item.key] = ref} key={item.key} data={item} />
-        }}
-      />
-      {/* <Carrito
+        <FlatList
+          contentContainerStyle={{
+            width: "100%",
+            height: 90,
+            // alignItems: "center"
+          }}
+          // refreshControl={
+          //   <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh.bind(this)} />
+          // }
+          data={arr}
+          horizontal
+          showsHorizontalScrollIndicator={true}
+          // scrollEnabled={true}
+          ListHeaderComponent={() => <SView width={space} />}
+          ItemSeparatorComponent={() => <SView width={space} />}
+          ListFooterComponent={() => <SView width={space} />}
+          // keyExtractor={item => item.key.toString()}
+          keyExtractor={item => item.key ? item.key.toString() : String(index)}
+          onEndReachedThreshold={0.3}
+          renderItem={({ item, index }) => {
+            if (!item) return null;
+            console.log("ITEM")
+            console.log(item)
+            return <TipoItem ref={(ref) => this.ref[item?.key] = ref} key={item?.key.toString()} data={item} />
+            // return <SText>{item.descripcion} ggg</SText>
+          }}
+        />
+
+        <SHr h={10} />
+        <SView col={"xs-11"} justify>
+          <SText fontSize={20} bold >Events</SText>
+        </SView>
+        <SHr h={15} />
+        <FlatList
+          contentContainerStyle={{
+            width: "100%",
+            // alignItems: "center"
+          }}
+          refreshControl={
+            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh.bind(this)} />
+          }
+          data={this.state.data}
+          keyExtractor={item => item.key.toString()}
+          onEndReachedThreshold={0.3}
+          viewabilityConfig={{ minimumViewTime: 700, itemVisiblePercentThreshold: 75 }}
+          onViewableItemsChanged={this.onViewableItemsChanged}
+          onEndReached={this.onEndReached.bind(this)}
+          ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
+          ListFooterComponent={this.renderItemFooter.bind(this)}
+          renderItem={({ item, index }) => {
+            return <EventoItem ref={(ref) => this.ref[item.key] = ref} key={item.key} data={item} />
+          }}
+        />
+        {/* <Carrito
         style={{
           bottom: '25%'
         }}
       /> */}
+      </Container>
     </SPage>
   }
 }

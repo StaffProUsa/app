@@ -1,4 +1,5 @@
 import { SInputsCofig, STheme } from 'servisofts-component';
+import Background from 'servisofts-component/img/Background';
 const inputs = (): SInputsCofig => {
     return {
         default: {
@@ -16,10 +17,11 @@ const inputs = (): SInputsCofig => {
                 borderWidth: 1,
                 borderColor: "#E0E0E0" + "40",
                 height: 55,
-                borderRadius: 4,
+                borderRadius: 6,
                 marginTop: 50,
                 paddingStart: 16,
-                backgroundColor: STheme.color.card,
+                // backgroundColor: STheme.color.card,
+                backgroundColor:"#08080B"
                 // backgroundColor: '#E0E0E0' + '35'
             },
             InputText: {
