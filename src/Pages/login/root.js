@@ -115,25 +115,29 @@ class Login extends Component {
     }
     getSocial() {
         return (
-            <SView col={'xs-12'} height={50} row center style={{
+            <SView col={'xs-12'} height={120} row center style={{
                 justifyContent: "space-around"
             }}>
-                <SView  height={40}>
+                <SView height={70} col={'xs-12'}>
                     <LoginApple onLogin={(usuario) => {
                         this.loginRedSocial("apple_key", usuario)
                     }}>
-                        <SView height={50} width={100} center style={{ backgroundColor: 'white', borderRadius: 8, borderColor: STheme.color.lightGray, borderWidth: 2, padding: 8 }}>
-                            <SIcon name={'IconApple'} />
+                        <SView height={50} center row style={{ backgroundColor: '#08080B', borderRadius: 8, borderColor: STheme.color.darkGray, borderWidth: 2, padding: 8 }}>
+                            <SIcon name={'IconApple'} fill={STheme.color.white} width={30} />
+                            <SView width={15} />
+                            <SText color={STheme.color.white} fontSize={18}>Continuar con Apple</SText>
                         </SView>
                     </LoginApple>
                 </SView>
-                <SView  height={40}>
+                <SView height={70} col={'xs-12'}>
                     <LoginGoogle onLogin={(usuario) => {
                         console.log("onLogin", usuario)
                         this.loginRedSocial("gmail_key", usuario)
                     }}>
-                        <SView height={50} width={100} center style={{ backgroundColor: 'white', borderRadius: 8, borderColor: STheme.color.lightGray, borderWidth: 2, padding: 8 }}>
-                            <SIcon name={'IconGoogle'} />
+                        <SView height={50} center row style={{ backgroundColor: '#08080B', borderRadius: 8, borderColor: STheme.color.darkGray, borderWidth: 2, padding: 8 }}>
+                            <SIcon name={'IconGoogle'} width={30} />
+                            <SView width={15} />
+                            <SText color={STheme.color.white} fontSize={18}>Continuar con Google</SText>
                         </SView>
                     </LoginGoogle>
                 </SView>
@@ -153,7 +157,7 @@ class Login extends Component {
     renderHeader() {
         return <SView col={'xs-12'} center>
             <SHr height={50} />
-            <SView col={'xs-11'} height={120} center>
+            <SView col={'xs-11'} height={100} center>
                 <SIcon name={'Logo'} fill={STheme.color.primary} />
             </SView>
         </SView>
@@ -184,122 +188,132 @@ class Login extends Component {
 
         if (!this.state.ready) return this.renderHeader();
         return (
-            <SPage title={'Login'} hidden footer={<PBarraFooter url={'/login'} />} >
-                    {this.renderHeader()}
+            <SPage title={'Login'} hidden  >
+                {this.renderHeader()}
+                <SHr height={30} />
+                <SView col={"xs-12"} height={35} center backgroundColor={STheme.color.secondary} padding={25}>
+                    <SText fontSize={23}>Iniciar sesión</SText>
+                </SView>
+                <SHr height={10} />
+                <Container>
+                    {/* {this.renderMenssage("Inicia sesión con")} */}
+
                     <SHr height={30} />
-                    <Container>
-                        {this.renderMenssage("Inicia sesión con")}
-                        <SHr height={30} />
-                        {this.getSocial()}
-                        {/* <SText fontSize={18}>Iniciar sesión</SText> */}
-                        <SHr height={30} />
-                        {this.renderMenssage("o con tu cuenta")}
-                        <SHr height={30} />
-                        {/* {this.getFilter()} */}
-                        {/* <SHr height={16} /> */}
-                        <SForm
-                            ref={ref => this.form = ref}
-                            inputProps={{
-                                separation: 8,
-                                height:40,
-                            }}
+                    {this.getSocial()}
+                    {/* <SText fontSize={18}>Iniciar sesión</SText> */}
+                    <SHr height={30} />
+                    {this.renderMenssage("o con tu cuenta")}
+                    <SHr height={20} />
+                    {/* {this.getFilter()} */}
+                    {/* <SHr height={16} /> */}
+                    <SForm
+                        ref={ref => this.form = ref}
+                        inputProps={{
+                            separation: 8,
+                            height: 40,
+                        }}
 
-                            inputs={{
-                                usuario: {
-                                    placeholder: "Correo electrónico",
-                                    type: 'email',
-                                    required: true,
-                                    // autoFocus: true,
-                                    keyboardType: 'email-address',
-                                    onKeyPress: (evt) => {
-                                        if (evt.key === 'Enter') {
-                                            this.form.focus('password');
-                                        }
-                                    },
-                                    icon: (
-                                        <SIcon
-                                            name={'InputEmail'}
-                                            fill={STheme.color.primary}
-                                            width={17}
-                                            height={20}
-                                        />
-                                    )
+                        inputs={{
+                            usuario: {
+                                placeholder: "Correo electrónico",
+                                type: 'email',
+                                required: true,
+                                // autoFocus: true,
+                                keyboardType: 'email-address',
+                                onKeyPress: (evt) => {
+                                    if (evt.key === 'Enter') {
+                                        this.form.focus('password');
+                                    }
                                 },
-                                password: {
-                                    placeholder: "Contraseña",
+                                icon: (
+                                    <SIcon
+                                        name={'InputEmail'}
+                                        fill={STheme.color.primary}
+                                        width={17}
+                                        height={20}
+                                    />
+                                )
+                            },
+                            password: {
+                                placeholder: "Contraseña",
 
-                                    type: "password",
-                                    required: true,
-                                    onKeyPress: (evt) => {
-                                        if (evt.key === 'Enter') {
-                                            this.form.submit();
-                                        }
-                                    },
-                                    icon: (
-                                        <SIcon
-                                            name={'InputPassword'}
-                                            fill={STheme.color.primary}
-                                            width={17}
-                                            height={20}
-                                        />
-                                    )
+                                type: "password",
+                                required: true,
+                                onKeyPress: (evt) => {
+                                    if (evt.key === 'Enter') {
+                                        this.form.submit();
+                                    }
+                                },
+                                icon: (
+                                    <SIcon
+                                        name={'InputPassword'}
+                                        fill={STheme.color.primary}
+                                        width={17}
+                                        height={20}
+                                    />
+                                )
+                            }
+                        }}
+                        loading={this.state.loading}
+                        error={this.state.error}
+                        // onSubmitName={"Ingresar"}
+                        onSubmitProps={{
+                            type: "outline"
+                        }}
+                        onSubmit={(data) => {
+                            data["password"] = CryptoJS.MD5(data["password"]).toString();
+                            console.log(data);
+
+                            Model.usuario.Action.login(data).then((resp) => {
+                                if (this.ruta) {
+                                    SNavigation.navigate("carga", { ruta: this.ruta });
+                                } else {
+                                    SNavigation.goBack();
                                 }
-                            }}
-                            loading={this.state.loading}
-                            error={this.state.error}
-                            // onSubmitName={"Ingresar"}
-                            onSubmitProps={{
-                                type: "outline"
-                            }}
-                            onSubmit={(data) => {
-                                data["password"] = CryptoJS.MD5(data["password"]).toString();
-                                console.log(data);
+                                console.log("exito");
+                            }).catch(e => {
+                                // SPopup.alert("usuario no encontrado")
+                                if (e?.error == "error_password") {
+                                    this.setState({ loading: false, error: "Usuario o contraseña incorrectos." })
+                                } else {
+                                    this.setState({ loading: false, error: "Ha ocurrido un error al iniciar sesión." })
+                                }
+                            })
+                        }}
+                    />
+                    <SHr height={8} />
+                    {/* <PButtom
+                        small
+                        onPress={() => {
+                            this.form.submit();
+                        }}>
+                        Iniciar sesión
+                    </PButtom> */}
 
-                                Model.usuario.Action.login(data).then((resp) => {
-                                    if (this.ruta) {
-                                        SNavigation.navigate("carga", { ruta: this.ruta });
-                                    } else {
-                                        SNavigation.goBack();
-                                    }
-                                    console.log("exito");
-                                }).catch(e => {
-                                    // SPopup.alert("usuario no encontrado")
-                                    if (e?.error == "error_password") {
-                                        this.setState({ loading: false, error: "Usuario o contraseña incorrectos." })
-                                    } else {
-                                        this.setState({ loading: false, error: "Ha ocurrido un error al iniciar sesión." })
-                                    }
-                                })
-                            }}
-                        />
-                        <SHr height={8} />
-                        <PButtom
-                            small
-                            onPress={() => {
-                                this.form.submit();
-                            }}>
-                            Iniciar sesión
-                        </PButtom>
+                    <SView width={180} height={50} center backgroundColor={STheme.color.secondary}
+                        style={{ borderRadius: 14 }}>
+                        <SText color={STheme.color.white} fontSize={15}>Login</SText>
+                    </SView>
 
-                        <SHr height={15} />
-                        <SView col={"xs-12"} center row>
-                            <SText>¿Olvidaste tu contraseña? </SText>
-                            <SText onPress={() => {
-                                SNavigation.navigate("/login/recuperar")
-                            }} color={STheme.color.text} style={{textDecorationLine:"underline"}}>click aquí</SText>
-                        </SView>
-                        <SHr height={15} />
-                        <SView col={"xs-12"} center row>
-                            <SText>¿No tienes cuenta? </SText>
-                            <SText onPress={() => {
-                                SNavigation.navigate("/registro")
-                            }} color={STheme.color.text} style={{textDecorationLine:"underline"}}>click aquí</SText>
-                        </SView>
+                    <SHr height={20} />
+                    <SView col={"xs-12"} center row>
+                        <SText>¿Olvidaste tu contraseña? </SText>
+                        <SText onPress={() => {
+                            SNavigation.navigate("/login/recuperar")
+                        }} color={STheme.color.text} style={{ textDecorationLine: "underline" }}>click aquí</SText>
+                    </SView>
+                    <SHr height={15} />
+                    <SView col={"xs-12"} center row>
+                        <SText>¿No tienes cuenta? </SText>
+                        <SText onPress={() => {
+                            SNavigation.navigate("/registro")
+                        }} color={STheme.color.text} style={{ textDecorationLine: "underline" }}>click aquí</SText>
+                    </SView>
 
-                    </Container>
-                    <SHr height={60} />
+                </Container>
+                <SHr height={60} />
 
-                    {/* <SView col={"xs-12"} center >
+                {/* <SView col={"xs-12"} center >
                         <SText>¿No tienes una cuenta?</SText>
                         <SHr height={20} />
                         <SButtom type='secondary' style={{ textAlign: "center" }} onPress={() => {
