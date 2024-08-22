@@ -3,12 +3,6 @@ import { connect } from 'react-redux';
 import { SButtom, SForm, SHr, SIcon, SImage, SInput, SNavigation, SPage, SPopup, SText, STheme, SThread, SView } from 'servisofts-component';
 import Model from '../../Model';
 import CryptoJS from 'crypto-js';
-import PButtom from '../../Components/PButtom';
-import LoginFacebook from '../../LoginApis/LoginFacebook';
-import LoginGoogle from '../../LoginApis/LoginGoogle';
-import LoginApple from '../../LoginApis/LoginApple';
-import PBarraFooter from '../../Components/PBarraFooter';
-import { Container } from '../../Components';
 
 class root extends Component {
     constructor(props) {
@@ -24,34 +18,35 @@ class root extends Component {
         })
     }
 
-
-
     render() {
         if (Model.usuario.Action.getUsuarioLog()) {
             SNavigation.goBack();
-            // SNavigation.navigate("/login");
             return null;
         }
 
-        // if (!this.state.ready) return this.renderHeader();
         return (
-            <SPage title={''} hidden  >
-
+            <SPage title={''} hidden footer={<SView col={'xs-12'} style={{ alignItems: 'flex-end',position:"absolute", bottom:25,right:25, }} >
+                <SText fontSize={30} center bold color={STheme.color.primary}>A celebration of</SText>
+                <SText fontSize={30} center bold color={STheme.color.primary}>flavors</SText>
+                <SHr height={25} />
+                <SView  onPress={()=>{
+                    SNavigation.navigate('/intro/dos')
+                }}>
+                    <SIcon name={'next'} fill={STheme.color.primary} style={{ width: 50, height:50 }} />
+                </SView>
+            </SView>} >
                 <SView col={'xs-12'} height
                     style={{
                         zIndex: 9999,
                         position: "relative",
-                        backgroundColor:"#B8191A40",
+                        backgroundColor: "#B8191A90",
                     }}>
-                    <Container >
                         <SHr height={25} />
-                        <SView col={'xs-12'} style={{ alignItems: 'flex-end' }}>
+                        <SView col={'xs-12'} style={{ alignItems: 'flex-end', top: 25, right:25, position: "absolute" }}>
                             <SIcon name={'Logo'} fill={STheme.color.primary} style={{ width: 150 }} />
                         </SView>
-                    </Container>
                 </SView>
                 <SImage src={require('../../Assets/images/intro1.jpg')} style={{ resizeMode: "cover", zIndex: 9, position: "absolute" }} />
-
             </SPage >
         );
     }

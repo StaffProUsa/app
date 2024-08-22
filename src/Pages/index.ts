@@ -50,7 +50,8 @@ import staff_tipo from './staff_tipo';
 import staff from './staff';
 import intro from './Intro';
 const NewPages = SPage.combinePages("/", {
-    "": Inicio,
+    "": Carga,
+    "inicio": Inicio,
     ...entradas,
     ...solicitud_qr,
     ...notification,

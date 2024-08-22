@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   SHr,
   SIcon,
+  SImage,
   SNavigation,
   SPage,
   STheme,
@@ -23,18 +24,8 @@ class Carga extends Component {
   }
 
   redirect() {
-    if (this.ruta) {
-      console.log("rutaaaa")
-      console.log(this.ruta.route.name)
-      SNavigation.replace(this.ruta.route.name);
-      return;
-    }
-
-    if (SNavigation?.lastRoute?.route?.name != "/") {
-      return;
-    }
-   
-    SNavigation.replace('inicio');
+    
+    SNavigation.replace('/inicio');
   }
   componentDidMount() {
     this.hilo();
@@ -48,7 +39,12 @@ class Carga extends Component {
     return (
       <SPage hidden disableScroll center>
         <SHr height={52} />
-        <SView col={'xs-9 sm-7 md-5 lg-4 xl-3'} height={200}>
+        <SView col={'xs-9 sm-7 md-5 lg-4 xl-3'} height={100}
+          style={{
+            zIndex: 9999,
+            position: "relative",
+        }}
+        >
           <SIcon name={'Logo'} fill={STheme.color.primary} />
         </SView>
         <SHr height={32} />
@@ -56,6 +52,7 @@ class Carga extends Component {
                     <SIcon name={"tuvidaesmejor"} />
                 </SView> */}
         <SHr height={32} />
+        <SImage src={require('../Assets/images/carga.jpg')} style={{ resizeMode: "cover", zIndex: 9, position: "absolute" }} />
       </SPage>
     );
   }

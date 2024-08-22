@@ -156,7 +156,7 @@ class Login extends Component {
 
     renderHeader() {
         return <SView col={'xs-12'} center>
-            <SHr height={50} />
+            <SHr height={20} />
             <SView col={'xs-11'} height={100} center>
                 <SIcon name={'Logo'} fill={STheme.color.primary} />
             </SView>
@@ -188,7 +188,7 @@ class Login extends Component {
 
         if (!this.state.ready) return this.renderHeader();
         return (
-            <SPage title={'Login'} hidden  >
+            <SPage title={''}   >
                 {this.renderHeader()}
                 <SHr height={30} />
                 <SView col={"xs-12"} height={35} center backgroundColor={STheme.color.secondary} padding={25}>
@@ -311,7 +311,7 @@ class Login extends Component {
                     </SView>
 
                 </Container>
-                <SHr height={60} />
+                <SHr height={20} />
 
                 {/* <SView col={"xs-12"} center >
                         <SText>¿No tienes una cuenta?</SText>

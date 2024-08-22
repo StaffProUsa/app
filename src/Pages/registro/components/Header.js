@@ -12,7 +12,7 @@ export default class Header extends Component {
     render() {
         return (
             <SView col={"xs-12"} center backgroundColor={STheme.color.secondary}>
-                <SHr height={30} />
+                <SHr height={20} />
                 {/* <SView col={"xs-11"} height={120} center>
                     <SIcon name={"Logo"} fill={STheme.color.primary} height={} />
                 </SView>
@@ -33,6 +33,7 @@ export default class Header extends Component {
                 }}>
 
                 </SView> */}
+                <SHr height={20} />
             </SView>
         );
     }
