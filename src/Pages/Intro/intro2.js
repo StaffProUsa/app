@@ -9,8 +9,8 @@ class intro2 extends Component {
         super(props);
         this.state = {
         };
-        this.ruta = SNavigation.getParam('ruta');
-        console.log(this.ruta);
+        // this.ruta = SNavigation.getParam('ruta');
+        // console.log(this.ruta);
     }
     componentDidMount() {
         new SThread(100, "espera").start(() => {
@@ -19,10 +19,10 @@ class intro2 extends Component {
     }
 
     render() {
-        if (Model.usuario.Action.getUsuarioLog()) {
-            SNavigation.goBack();
-            return null;
-        }
+        // if (Model.usuario.Action.getUsuarioLog()) {
+        //     SNavigation.goBack();
+        //     return null;
+        // }
 
         return (
             <SPage title={''} hidden footer={<SView col={'xs-12'} style={{ alignItems: 'flex-end', position: "absolute", bottom: 25, right: 25, }} >

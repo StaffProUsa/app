@@ -80,7 +80,7 @@ class PBarraFooter extends Component {
                 key: '/',
                 title: 'INICIO',
                 icon: 'Inicio',
-                url: '/',
+                url: '/inicio',
                 params: {}
               })}
               {this.getItem({

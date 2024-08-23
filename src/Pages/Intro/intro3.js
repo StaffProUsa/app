@@ -19,10 +19,10 @@ class intro3 extends Component {
     }
 
     render() {
-        if (Model.usuario.Action.getUsuarioLog()) {
-            SNavigation.goBack();
-            return null;
-        }
+        // if (Model.usuario.Action.getUsuarioLog()) {
+        //     SNavigation.goBack();
+        //     return null;
+        // }
 
         return (
             <SPage title={''} hidden footer={<SView col={'xs-12'} style={{ alignItems: 'flex-end', position: "absolute", bottom: 25, right: 25, }} >
