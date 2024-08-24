@@ -33,6 +33,7 @@ import { Platform } from 'react-native';
 import EventoQR from './Components/EventoQR';
 import { Container } from '../../Components';
 import EventoStaff from './Components/EventoStaff';
+import Mapa from './Components/Mapa';
 
 const SPACE = 50;
 
@@ -546,9 +547,13 @@ class Perfil extends React.Component {
                 {/* {this.getHeader()} */}
 
                 {/* <SHr height={SPACE} /> */}
+                <SHr height={15}/>
                 {this.getBody()}
                 <SHr height={15}/>
                 <EventoStaff key_evento={this.key} />
+                <SHr height={30}/>
+                
+                <Mapa height={400} data={this.state.data} />
                 {this.getFecha()}
                 {/* <SHr height={60} color={this.bgSpace} /> */}
                 {/* {this.getPublicidad()} */}
