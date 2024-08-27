@@ -49,6 +49,7 @@ import t2 from './t2';
 import staff_tipo from './staff_tipo';
 import staff from './staff';
 import intro from './Intro';
+import Ingreso from './Ingreso';
 const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
@@ -81,6 +82,7 @@ const Pages: SPageListProps = {
     // '/': Carga,
     // 'inicio': Inicio,
     "inicio2": Inicio2,
+    "ingreso": Ingreso,
     // 'test': Test,
     'evento/perfil': Perfil,
     'evento/registro': Registro,

@@ -416,26 +416,23 @@ class Perfil extends React.Component {
             </SView>
 
             <SHr />
-           
-            <SView row center col={"xs-12"}>
+            {/* MOSTRAR EN COMPANY */}
+            {/* <SView row center col={"xs-12"}>
               <SView flex />
-              <SView height={16} width={16} center style={{
+              <SView height={25} width={30} center style={{
                 paddingTop: 1
               }}>
-                <SIcon name={"Eyes"} fill={STheme.color.lightGray} />
+                <SIcon name={"Eyes"} fill={STheme.color.lightGray} height={25} />
               </SView>
               <SView width={4} />
               <SText bold>{DATA?.visitas}</SText>
-              {/* <SView width={4} /> */}
-              {/* <SText color={STheme.color.lightGray}>vistas</SText> */}
-
-            </SView>
+            </SView> */}
           </SView>
 
 
           <SHr height={16} color={this.bgSpace} />
-
-          {this.renderCompartir(DATA)}
+          {/* MOSTRAR EN COMPANY */}
+          {/* {this.renderCompartir(DATA)} */}
           <SHr height={16} color={this.bgSpace} />
           {this.getBotones(DATA)}
 
@@ -450,12 +447,12 @@ class Perfil extends React.Component {
   renderCompartir(DATA) {
     return <SView col={"xs-12"} center row>
       <SView width={220} height={40} row style={{
-        backgroundColor: STheme.color.secondary,
+
         borderRadius: 8,
         // borderBottomRightRadius: 8,
-        borderWidth: 1,
+        borderWidth: 0,
         overflow: "hidden",
-        borderColor: STheme.color.primary
+        // borderColor: STheme.color.primary
       }} onPress={() => {
         Compartir.open({
           type: "",
@@ -469,12 +466,12 @@ class Perfil extends React.Component {
           // url: "https://casagrande.servisofts.com/evento?key=" + DATA.key,
         })
       }} >
-        <SView width={50} height backgroundColor={STheme.color.primary} center>
-          <SIcon name={'shareIcon'} fill={STheme.color.secondary} height={20} width={20} />
+        <SView width={50} backgroundColor={STheme.color.secondary} center>
+          <SIcon name={'shareIcon'} fill={STheme.color.text} height={20} width={20} />
         </SView>
         {/* <SView width={7} /> */}
-        <SView flex height center>
-          <SText center bold fontSize={16}>COMPARTIR</SText>
+        <SView flex height center backgroundColor={STheme.color.text}>
+          <SText center bold fontSize={18} color={STheme.color.black}>Share event</SText>
         </SView>
         {/* <SText center  bold fontSize={18}>COMPARTIR</SText> */}
       </SView>
@@ -547,12 +544,12 @@ class Perfil extends React.Component {
                 {/* {this.getHeader()} */}
 
                 {/* <SHr height={SPACE} /> */}
-                <SHr height={15}/>
+                <SHr height={15} />
                 {this.getBody()}
-                <SHr height={15}/>
+                <SHr height={15} />
                 <EventoStaff key_evento={this.key} />
-                <SHr height={30}/>
-                
+                <SHr height={30} />
+
                 <Mapa height={400} data={this.state.data} />
                 {this.getFecha()}
                 {/* <SHr height={60} color={this.bgSpace} /> */}
