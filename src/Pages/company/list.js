@@ -6,9 +6,8 @@ class index extends DPA.list {
     constructor(props) {
         super(props, {
             Parent: Parent,
-            excludes: ["key", "fecha_on", "key_usuario", "estado", "key_company"],
-            // itemType: "0",
-            params: ["key_company"],
+            excludes: ["key", "fecha_on", "key_usuario", "estado"],
+            // params: ["key_evento"],
             onRefresh: (resolve) => {
                 Parent.model.Action.CLEAR();
                 if (resolve) resolve();
@@ -26,7 +25,6 @@ class index extends DPA.list {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver" });
     }
     $filter(data) {
-
         return data.estado != 0
     }
 
@@ -34,7 +32,7 @@ class index extends DPA.list {
         return [{ key: "descripcion", order: "asc", peso: 1 }]
     }
     $getData() {
-        return Parent.model.Action.getAll({ key_company: this.$params.key_company });
+        return Parent.model.Action.getAll({});
     }
 }
 export default connect(index);

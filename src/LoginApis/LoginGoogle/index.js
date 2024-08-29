@@ -8,7 +8,7 @@ class LoginGoogle extends Component<LoginType> {
     constructor(props) {
         super(props);
         this.state = {
-            clientId: "41727723156-s6f9s6sab8aa4d1j8afft3qoggcvl38i.apps.googleusercontent.com"
+            clientId: "429540813214-81f9gus1ojshlhcm0dotik4bde1ph85u.apps.googleusercontent.com"
         };
     }
 

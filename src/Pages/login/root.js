@@ -188,7 +188,7 @@ class Login extends Component {
 
         if (!this.state.ready) return this.renderHeader();
         return (
-            <SPage title={''}   >
+            <SPage title={''} hidden  >
                 {this.renderHeader()}
                 <SHr height={30} />
                 <SView col={"xs-12"} height={35} center backgroundColor={STheme.color.secondary} padding={25}>

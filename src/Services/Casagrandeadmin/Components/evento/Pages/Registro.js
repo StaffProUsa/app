@@ -71,6 +71,7 @@ class Registro extends React.Component {
             defaultValue: data['fecha'],
             col: 'xs-12'
           },
+
           // cantidad: {
           //   label: 'cantidad',
           //   type: 'number',
@@ -91,7 +92,19 @@ class Registro extends React.Component {
             isRequired: false,
             defaultValue: data['estado_venta'],
             col: 'xs-12'
-          }
+          },
+          key_company: {
+            label: 'key_company',
+            isRequired: false,
+            defaultValue: data['key_company'],
+            col: 'xs-12'
+          },
+          key_ubicacion: {
+            label: 'key_ubicacion',
+            isRequired: false,
+            defaultValue: data['key_ubicacion'],
+            col: 'xs-12'
+          },
         }}
         // onSubmitName={"Registrar"}
         onSubmit={(values) => {

@@ -6,8 +6,7 @@ class index extends DPA.list {
     constructor(props) {
         super(props, {
             Parent: Parent,
-            excludes: ["key", "fecha_on", "key_usuario", "estado", "key_company"],
-            // itemType: "0",
+            excludes: ["key", "fecha_on", "key_usuario", "estado"],
             params: ["key_company"],
             onRefresh: (resolve) => {
                 Parent.model.Action.CLEAR();
@@ -26,7 +25,6 @@ class index extends DPA.list {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver" });
     }
     $filter(data) {
-
         return data.estado != 0
     }
 

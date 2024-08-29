@@ -5,19 +5,21 @@ import Reducer from "./Reducer";
 
 export default new SModel<Action, Reducer>({
     info: {
-        component: "staff_tipo"
+        component: "ubicacion"
     },
     Columns: {
         "key": { type: "text", pk: true },
         "key_usuario": { type: "text", fk: "usuario" },
-        "fecha_on": { type: "timestamp", label: "F. Creacion" },
         "key_company": { type: "text", fk: "company" },
+        "fecha_on": { type: "timestamp", label: "F. Creacion" },
         "estado": { type: "integer" },
-        "descripcion": { type: "text", },
-        "observacion": { type: "text", },
+        "descripcion": { type: "text", editable: true },
+        "observacion": { type: "text", editable: true },
+        "latitude": { type: "double", editable: true },
+        "longitude": { type: "double", editable: true },
     },
     image: {
-        name: "staff_tipo",
+        name: "ubicacion",
         api: "root",
     },
     Action,

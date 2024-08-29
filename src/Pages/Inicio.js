@@ -7,6 +7,7 @@ import TipoItem from '../Components/Staff/TipoItem';
 import { Container } from '../Components';
 import PBarraFooter from '../Components/PBarraFooter';
 import Carrito from '../Components/Carrito';
+import Actions from '../Actions';
 
 const CANTIDAD_X_PAGE = 4;
 export default class Inicio extends Component {
@@ -24,6 +25,11 @@ export default class Inicio extends Component {
   }
 
   componentDidMount() {
+    Actions.usuario_company.getAllCompanyUser().then(e => {
+      
+    }).catch(e => {
+
+    })
     this.requestData();
   }
 

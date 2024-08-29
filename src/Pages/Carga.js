@@ -11,6 +11,7 @@ import {
   SThread,
   SView
 } from 'servisofts-component';
+import Model from '../Model';
 // import usuario from '../Services/Usuario/Components/usuario';
 
 class Carga extends Component {
@@ -25,6 +26,11 @@ class Carga extends Component {
 
   redirect() {
     
+    const key_usuario = Model.usuario.Action.getKey();
+    if(!key_usuario){
+      SNavigation.replace('/login');
+      return;
+    }
     SNavigation.replace('/inicio');
   }
   componentDidMount() {

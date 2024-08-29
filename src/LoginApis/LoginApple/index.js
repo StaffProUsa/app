@@ -14,9 +14,9 @@ class LoginApple extends Component<LoginType> {
     }
     render() {
         return <AppleLogin
-            clientId="com.servisofts.casagrande"
+            clientId="com.servisofts.staffprousaapp"
             redirectURI="https://ricky.servisofts.com/"
-            usePopup={true}
+            // usePopup={true}
             callback={this.appleResponse} // Catch the response
             // scope="email name"
             // responseMode="query"
