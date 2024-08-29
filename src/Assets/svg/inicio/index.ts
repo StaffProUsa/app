@@ -17,6 +17,8 @@ import selectMenu, { ReactComponent as selectMenuW } from './selectMenu.svg';
 import trabajo, { ReactComponent as trabajoW } from './trabajo.svg';
 import icalendario, { ReactComponent as icalendarioW } from './icalendario.svg';
 import lupa, { ReactComponent as lupaW } from './lupa.svg';
+import company, { ReactComponent as companyW } from './company.svg';
+import staff, { ReactComponent as staffW } from './staff.svg';
 
 
 const Assets = {
@@ -36,7 +38,9 @@ const Assets = {
 	"selectMenu": { Native: selectMenu, Web: selectMenuW },
 	"trabajo": { Native: trabajo, Web: trabajoW },
 	"icalendario": { Native: icalendario, Web: icalendarioW },
-	"lupa": { Native: lupa, Web: lupaW }
+	"lupa": { Native: lupa, Web: lupaW },
+	"company": { Native: company, Web: companyW },
+	"staff": { Native: staff, Web: staffW },
 
 }
 

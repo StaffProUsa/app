@@ -95,8 +95,10 @@ class Mapa extends Component<MapaPropsType> {
                         height={50}
                         style={{ borderRadius: 8 }}
                         center
+                        row
                     >
-                        <SText color={STheme.color.text} center fontSize={15} >Go to Google Maps</SText>
+                        <SIcon name="googleMap" fill={STheme.color.text} width={25} height={17.45} />
+                        <SText color={STheme.color.text} center fontSize={16} >Go to Google Maps</SText>
                     </BtnNavegar>
                     <SHr height={40} />
                 </SView>
