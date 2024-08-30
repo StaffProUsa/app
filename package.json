@@ -8,7 +8,7 @@
     "web-old": "react-scripts start",
     "build": "webpack --config webpack.prod.js",
     "web": "webpack serve --config webpack.dev.js",
-    "web2": "NODE_OPTIONS=--max-old-space-size=4096 webpack serve --open --history-api-fallback --hot",
+    "web2": "webpack serve --open --history-api-fallback --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "servisofts",
@@ -79,7 +79,7 @@
     "redux-thunk": "^2.3.0",
     "servisofts-canvas": "1.0.4",
     "servisofts-charts": "1.0.4",
-    "servisofts-component": "file:../../servisofts-component/dist",
+    "servisofts-component": "3.0.38",
     "servisofts-db": "^1.0.7",
     "servisofts-model": "^1.0.7",
     "servisofts-page": "^1.0.12",
