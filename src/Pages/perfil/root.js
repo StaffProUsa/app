@@ -8,7 +8,8 @@ import {
   SPage,
   SText,
   STheme,
-  SView
+  SView,
+  SLanguage
 } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Carrito from '../../Components/Carrito';
@@ -132,7 +133,7 @@ class Perfil extends Component {
     );
   }
 
-  opcion({ url, titulo, icon, }) {
+  opcion({ url, titulo, titulo_en, icon, }) {
     // if (url == 'admin') {
     //   var roles = Roles_permisos.components.rol.Actions.getAll(this.props);
     //   var ru = Roles_permisos.components.usuarioRol.Actions.getAll(
@@ -172,9 +173,10 @@ class Perfil extends Component {
               fill={url == 'salir' ? '#ff4132' : STheme.color.text}></SIcon>
           </SView>
           <SView row col={'xs-9'}>
-            <SText color={url == 'salir' ? '#ff4132' : STheme.color.text} font={"Roboto"}>
-              {titulo}
-            </SText>
+            <SText color={url == 'salir' ? '#ff4132' : STheme.color.text} font={"Roboto"} language={{
+              es: titulo ,
+              en: titulo_en 
+            }} />
           </SView>
           <SView flex col={'xs-2'} style={{ alignItems: 'flex-end' }}>
             <SIcon
@@ -208,7 +210,10 @@ class Perfil extends Component {
           <SView row col={'xs-12'} center>
             <SHr height={10} />
             <SView row col={'xs-10'} center>
-              <SText color={STheme.color.text} font={"Roboto"} fontSize={16}>OPCIONES</SText>
+              <SText color={STheme.color.text} font={"Roboto"} fontSize={16} language={{
+                es: "OPCIONES",
+                en: "OPTIONS"
+              }}/>
             </SView>
             <SHr height={10} />
             <SView
@@ -222,7 +227,7 @@ class Perfil extends Component {
           </SView>
           <SView row col={'xs-12'} center>
             <SHr height={50} />
-            <SView
+            {/* <SView
               row
               col={'xs-11'}
               style={{
@@ -243,11 +248,6 @@ class Perfil extends Component {
                 <SText font={"Roboto"}>Modo {STheme.getTheme() == 'dark' ? "oscuro" : "claro"}</SText>
               </SView>
               <SView flex col={'xs-2'} style={{ alignItems: 'flex-end' }}>
-                {/* <SIcon
-                  name={'Modo'}
-                  width={35}
-                  fill={STheme.color.primary}></SIcon> */}
-
                 <SwitchTheme
                   width={35}
                   height={20}
@@ -257,32 +257,37 @@ class Perfil extends Component {
                 />
               </SView>
               <SHr height={20} />
-            </SView>
+            </SView> */}
             <SHr height={20} />
             {this.opcion({
               url: '/perfil/editar',
               titulo: 'Editar perfil',
+              titulo_en: 'Edit profile',
               icon: 'Editar'
             })}
             {this.opcion({
               url: '/notification',
               titulo: 'Notificaciones',
+              titulo_en: 'Notifications',
               icon: 'Notificacion'
             })}
             {!permiso_show_admin ? null : this.opcion({
               url: 'admin',
               titulo: 'Administración',
+              titulo_en: 'Administration',
               icon: 'Admin',
               page: "/"
             })}
             {this.opcion({
               url: 'terminos',
               titulo: 'Términos y Condiciones',
+              titulo_en: 'Terms and Conditions',
               icon: 'IconCheckedOk'
             })}
             {this.opcion({
               url: 'salir',
               titulo: 'Salir',
+              titulo_en: 'Exit',
               icon: 'SalirPerfil'
             })}
           </SView>
@@ -301,7 +306,7 @@ class Perfil extends Component {
     }
     return (
       <>
-        <SPage title='Perfil'>
+        <SPage titleLanguage={{ es: "Perfil", en: "Profile" }}>
           <SView col={"xs-12"} center>
             <SView col={'xs-12 sm-10 md-8 lg-6 xl-4'} center>
               <SView height={30}></SView>

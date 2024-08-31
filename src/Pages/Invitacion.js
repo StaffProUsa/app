@@ -3,8 +3,12 @@ import { SGradient, SHr, SIcon, SImage, SPage, SText, STheme, SView } from 'serv
 
 import PBarraFooter from '../Components/PBarraFooter';
 import { Btn, Container } from '../Components';
+import Model from '../Model';
 
 export default class Invitacion extends React.Component {
+  componentDidMount() {
+    this.usuario = Model.usuario.Action.getUsuarioLog();
+  }
   render() {
     return (
       <>
@@ -14,7 +18,7 @@ export default class Invitacion extends React.Component {
             <Container>
               <SView col={'xs-12'} row center>
                 <SView col={'xs-6'} >
-                  <SText fontSize={18} >Hi James Clark!</SText>
+                  <SText fontSize={18} >Hi !</SText>
                 </SView>
                 <SView col={'xs-6'} flex style={{ alignItems: "flex-end" }}>
                   <SView height={80} width={80} style={{ borderRadius: 50, }} center   >

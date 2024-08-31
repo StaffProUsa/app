@@ -1,35 +1,35 @@
 import { Text, View } from 'react-native'
 import React, { Component } from 'react'
-import { SIcon, SImage, STheme, SView } from 'servisofts-component'
+import { SIcon, SImage, STheme, SView, SLanguage } from 'servisofts-component'
 import Model from '../../Model'
 import SSocket from 'servisofts-socket';
 
-export default class RContent extends Component {
-    render() {
-        // let key_empresa = Model.empresa.Action.getKey();
-        return (
-            <SView col={"xs-12"} height
 
+export default class RContent extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
+
+    onChangeLanguage(language) {
+        this.setState({...this.state})
+    }
+    componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
+    render() {
+        return (
+            <SView col={"xs-12"} height center
                 style={{
-                    // borderBottomLeftRadius: 8,
-                    // borderBottomEndRadius:8,
-                    // borderRadius: 8,
                     borderWidth: 0,
-                    // borderBottomRightRadius:10,
-                    // backgroundColor: STheme.color.card,
-                    // backgroundColor: STheme.color.danger,
                     overflow: "hidden",
                     alignItems: "flex-end",
-                    paddingBottom:2,
+                    padding: 5,
                 }} >
-                {/* <SView flex col={"xs-12"} style={{
-                    padding: 2,
-                }}> */}
-
-                <SIcon name={"Logo"} fill={STheme.color.primary} />
-                {/* {!key_empresa ? <SIcon name={"logoCompleto"} fill={STheme.color.primary} /> : <SImage src={Model.empresa._get_image_download_path(SSocket.api, key_empresa)} />} */}
-                {/* </SView> */}
-
+                {SLanguage.language == "es" ? <SImage src={require("../../Assets/images/es.png")} style={{ height: 33, with: 33 }} /> : <SImage src={require("../../Assets/images/en.png")} style={{ height: 33, with: 33 }} />}
             </SView>
         )
     }

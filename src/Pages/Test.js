@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import SkeletonContent from 'react-native-skeleton-content';
 
-import { SHr, SNavigation, SPage, SText, SView } from 'servisofts-component';
+import { SDate, SHr, SInput, SLanguage, SNavigation, SPage, SText, STheme, SView } from 'servisofts-component';
 import LoginGoogle from '../LoginApis/LoginGoogle';
 import { Container } from '../Components';
 import SSocket from 'servisofts-socket';
+import Model from '../Model';
 
 class Test extends React.Component {
   constructor(props) {
@@ -15,30 +16,44 @@ class Test extends React.Component {
 
   render() {
     return (
-      <SPage hidden disableScroll>
+      <SPage titleLanguage={{ es: "Titulo", en: "Title" }} >
         <Container>
-          <SHr />
-          <SText>{JSON.stringify(this.state.usr)}</SText>
-          <SHr />
-          <LoginGoogle onLogin={(usr) => {
-            this.setState({ usr: usr })
-            console.log(usr)
-          }}>
-            <SText padding={8} card>Google</SText>
-          </LoginGoogle>
-
           <SText onPress={() => {
             SSocket.sendPromise({
-              service: "roles_permisos",
-              component: "rol",
-              type: "registros_por_rol",
+              component: "asistencia",
+              type: "registro",
+              data: {
+                descripcion: "ASITENCIA TEST",
+                key_usuario: Model.usuario.Action.getKey(),
+                fecha: new SDate().addSecond(60).toString()
+              },
+              key_usuario: Model.usuario.Action.getKey(),
+
             }).then(e => {
-              console.log(e)
-            }).catch(e => {
-              console.log(e)
+              this.setState({ data: e.data })
             })
-          }} >{"PROBAR ROLES"}</SText>
-          
+          }}>{"GENERAR"}</SText>
+          <SHr h={20} />
+          <SText>{JSON.stringify(this.state, "\n", "\t")}</SText>
+          <SHr h={20} />
+          <SInput
+            ref={ref => this.input = ref}
+            label={"CODIGO"}
+            placeholder={"_ _ _ _ _ _"} iconR={
+              <SView width={60} center card height onPress={() => {
+                const code = this.input.getValue();
+                SSocket.sendPromise({
+                  component: "asistencia",
+                  type: "asistir",
+                  codigo: code,
+                  key_usuario: Model.usuario.Action.getKey(),
+                }).then(e => {
+                  console.log(e);
+                }).catch(e => {
+                  console.error(e);
+                })
+              }}><SText>SUBIR</SText></SView>} />
+
         </Container>
       </SPage>
     );

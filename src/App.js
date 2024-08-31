@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native'
-import { SComponentContainer, SNavigation } from 'servisofts-component';
+import { SComponentContainer, SLanguage, SNavigation } from 'servisofts-component';
 import packageInfo from "../package.json";
 
 import Assets from './Assets';
@@ -51,6 +51,8 @@ try {
   console.log(e);
 }
 
+SLanguage.loadStorage();
+
 const App = (props) => {
   useEffect(() => {
     SSocket.sendPromise({
@@ -82,15 +84,15 @@ const App = (props) => {
         theme={{ initialTheme: 'dark', themes: Config.theme, }}
 
       >
-        <SNavigation
-          linking={{
-            prefixes: ["https://staffprousa.servisofts.com/", "http://staffprousa.servisofts.com/","https://staffprousa.servisofts.com/link/"],
-            getInitialURL: () => {
-              Firebase.getInitialURL();
-            }
-          }}
-          props={{ title: 'Staff Pro USA', pages: Pages, navBar: NavBar }}
-        />
+          <SNavigation
+            linking={{
+              prefixes: ["https://staffprousa.servisofts.com/", "http://staffprousa.servisofts.com/", "https://staffprousa.servisofts.com/link/"],
+              getInitialURL: () => {
+                Firebase.getInitialURL();
+              }
+            }}
+            props={{ title: 'Staff Pro USA', pages: Pages, navBar: NavBar }}
+          />
         <Socket store={store} />
         {/* <NavBar /> */}
       </SComponentContainer>

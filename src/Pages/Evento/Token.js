@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   SDate,
-  SGradient,
   SHr,
   SIcon,
   SImage,
@@ -15,8 +14,7 @@ import {
   SText,
   STheme,
   SThread,
-  SView,
-  SLanguage
+  SView
 } from 'servisofts-component';
 import PackageJson from "../../../package.json"
 import actividad from '../../Services/Casagrandeadmin/Components/actividad';
@@ -36,11 +34,10 @@ import EventoQR from './Components/EventoQR';
 import { Container } from '../../Components';
 import EventoStaff from './Components/EventoStaff';
 import Mapa from './Components/Mapa';
-import Asistencia from './Components/Asistencia';
 
 const SPACE = 50;
 
-class Perfil extends React.Component {
+class Token extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,55 +83,7 @@ class Perfil extends React.Component {
 
     })
   }
-  getBtnFooter() {
-    var { total, cantidad } = carrito.Actions.getInfo(this.props);
-    if (!cantidad) return null;
-    return (
-      <>
-        <SView
-          col={'xs-12 '}
-          center
-          height={70}
-          style={{ bottom: 0 }}
-          backgroundColor={STheme.color.primary}
-          onPress={() => {
-            cantidad == 0
-              ? SNavigation.navigate('carrito/mensajeCarritoVacio')
-              : SNavigation.navigate('/carrito');
-          }}>
-          <Container>
-            <SView col={'xs-12'} row center>
-              <SView flex height={40} border={this.bgborder}>
-                <SText
-                  color={STheme.color.secondary}
-                  font={'Roboto'}
-                  fontSize={15}>{`${cantidad} items`}</SText>
-                <SText
-                  color={STheme.color.secondary}
-                  font={'Roboto'}
-                  fontSize={22}>{`Bs. ${total.toFixed(2)}`}</SText>
-              </SView>
-              <SView flex padding={5} style={{
-                backgroundColor: STheme.color.secondary,
-                borderRadius: 8,
-                borderWidth: 1,
-                borderColor: '#eeeeee',
-              }}>
-                <SText
-                  center
-                  color={STheme.color.text}
-                  font={'Roboto'}
-                  fontSize={20}>
-                  MIS COMPRAS
-                </SText>
-              </SView>
-            </SView>
-          </Container>
-        </SView>
-      </>
-    );
-  }
-
+ 
   getHeader() {
     return (
       <>
@@ -307,13 +256,7 @@ class Perfil extends React.Component {
             }} />
             <SHr h={35} />
           </SView>
-          <SView col={"xs-11.5"}>
-            <SText fontSize={20} bold justify language={{
-              es: "Detalles del evento",
-              en: "Event details"
-            }} />
-            <SHr height={15} />
-          </SView>
+
           <SView col={"xs-12"} height={355}>
             {currentActivity?.tipo == "video" ?
               <SVideo src={
@@ -543,60 +486,9 @@ class Perfil extends React.Component {
         }}
         // footer={<PBarraFooter url={''} />}
         >
-          {!this.state.ready ? <SLoad /> :
-            <SView col={'xs-12'} center>
-              <SView
-                col={'xs-12 sm-12 md-10 lg-8 xl-6'}
-                row
-                center
-                backgroundColor={'transparent'}>
-                {/* {this.getHeader()} */}
-
-                {/* <SHr height={SPACE} /> */}
-
-                <SHr height={15} />
-                {this.getBody()}
-
-                {/* GET STAFF APPLY */}
-                <SView col={'xs-11.5'} style={{ borderRadius: 16, overflow: "hidden" , borderWidth:1, borderColor:STheme.color.darkGray}}>
-                  <SGradient
-                    colors={['#040405', '#0C0C10']}
-                    start={{ x: 0, y: 1 }}
-                    end={{ x: 1, y: 1 }}
-                  />
-                  <SHr height={15} />
-                  <SText fontSize={20} padding={10} bold justify language={{
-                    es: "Requiere:",
-                    en: "Requires:"
-                  }} />
-                  <SHr height={15} />
-                  <EventoStaff key_evento={this.key} />
-                  <SHr height={15} />
-                </SView>
-
-                <SHr height={30} />
-
-                {/* STAFF ASISTENCIA */}
-                <SView col={'xs-11.5'}>
-                  <Asistencia />
-                </SView> 
-                <SHr height={30} />
-
-                <Mapa height={400} data={this.state.data} />
-                {this.getFecha()}
-                {/* <SHr height={60} color={this.bgSpace} /> */}
-                {/* {this.getPublicidad()} */}
-                {/* <SHr height={100} color={this.bgSpace} /> */}
-                {/* <EventoQR key_evento={this.key} /> */}
-                <SHr height={100} color={this.bgSpace} />
-              </SView>
-            </SView>
-          }
+         
         </SPage>
-        {/* <Carrito style={{
-          bottom: 12
-        }} /> */}
-        {this.getBtnFooter()}
+       
       </>
     );
   }
@@ -604,5 +496,5 @@ class Perfil extends React.Component {
 const initStates = (state) => {
   return { state };
 };
-export default connect(initStates)(Perfil);
+export default connect(initStates)(Token);
 // export default (Perfil);

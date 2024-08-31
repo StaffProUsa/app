@@ -28,9 +28,28 @@ export default class EventoItem extends Component {
         if (!this.props?.data?.key) return;
         SNavigation.navigate("/evento", { key: this.props.data.key })
     }
+
+    renderPuestos = ({ label, cantidad }) => {
+        return <SView height={32} width={105}
+            style={{
+                borderRadius: 15,
+                backgroundColor: STheme.color.darkGray,
+                padding: 4,
+            }} row center>
+            <SView width={70} heigh>
+                <SText fontSize={9} style={{ color: STheme.color.text, lineHeight: '1.2' }}>{label}</SText>
+            </SView>
+            <SView width={25} height style={{ alignItems: "flex-end" }}>
+                <SView width={25} height={25} backgroundColor={STheme.color.background}
+                    style={{ borderRadius: 35 }} center>
+                    <SText fontSize={12} style={{ color: STheme.color.text }}>x{cantidad}</SText>
+                </SView>
+            </SView>
+        </SView>
+    }
     render() {
         const { data } = this.props;
-        const { descripcion, observacion, actividades } = data;
+        const { descripcion, observacion, actividades, ubicacion } = data;
         const firstActivity = actividades[0]
         const imgPath = SSocket.api.repo + 'actividad/' + firstActivity?.key;
         const fecha = new SDate(data.fecha, "yyyy-MM-dd")
@@ -50,7 +69,7 @@ export default class EventoItem extends Component {
                 borderColor: STheme.color.darkGray,
                 borderRadius: 16,
                 overflow: "hidden"
-            }} row onPress={()=>{
+            }} row onPress={() => {
                 SNavigation.navigate("/evento", { key: this.props.data.key })
             }}>
                 <SGradient
@@ -74,7 +93,7 @@ export default class EventoItem extends Component {
                             <SIcon width={10} name={"iubicacion"} fill={STheme.color.text} />
                         </SView>
                         <SView row col={"xs-11"}>
-                            <SText fontSize={10} style={{ color: STheme.color.gray, textDecorationLine: "underline" }}>1500 Marilla St, Dallas, TX 75201</SText>
+                            <SText fontSize={10} style={{ color: STheme.color.gray, textDecorationLine: "underline" }}>{ubicacion?.descripcion}</SText>
                         </SView>
                     </SView>
                     <SHr h={5} />
@@ -89,21 +108,8 @@ export default class EventoItem extends Component {
                     <SHr h={7} />
                     <SText fontSize={12} style={{ textTransform: 'uppercase' }}>REQUIRES:</SText>
                     <SHr h={5} />
-                    <SView height={32} width={105}
-                        style={{
-                            borderRadius: 15,
-                            backgroundColor: STheme.color.darkGray,
-                            padding: 4,
-                        }} row center>
-                        <SView width={70} heigh>
-                            <SText fontSize={9} style={{ color: STheme.color.text, lineHeight: '1.2' }}>Event Coordinator</SText>
-                        </SView>
-                        <SView width={25} height style={{ alignItems: "flex-end" }}>
-                            <SView width={25} height={25} backgroundColor={STheme.color.background}
-                                style={{ borderRadius: 35 }} center>
-                                <SText fontSize={12} style={{ color: STheme.color.text }}>x2</SText>
-                            </SView>
-                        </SView>
+                    <SView row col={"xs-12"}>
+                        {!data.pendientes ? null : data.pendientes.map(p => this.renderPuestos({ label: p.descripcion, cantidad: p.cantidad }))}
                     </SView>
                 </SView>
             </SView>

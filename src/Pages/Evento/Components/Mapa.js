@@ -10,7 +10,8 @@ import {
     STheme,
     SView,
     SNavigation,
-    SMapView2
+    SMapView2,
+    SLanguage,
 } from "servisofts-component";
 import SMapView from "servisofts-component/Component/SMapView";
 import SSocket from "servisofts-socket";
@@ -64,10 +65,13 @@ class Mapa extends Component<MapaPropsType> {
                     <SHr height={20} />
                     <SView col={"xs-12"} row center>
                         <SIcon name="iubicacion" fill={STheme.color.text} width={15} height={18} />
-                        <SView width={5}/>
-                        <SText fontSize={14} bold  color={STheme.color.text}>Address:</SText>
-                        <SView width={10}/>
-                        <SText fontSize={14}  color={STheme.color.gray}>
+                        <SView width={5} />
+                        <SText fontSize={14} bold color={STheme.color.text}language={{
+                            es: "Dirección:",
+                            en: "Address:"
+                        }}/>
+                        <SView width={10} />
+                        <SText fontSize={14} color={STheme.color.gray}>
                             1500 Marilla St, Dallas, TX 75201
                             {/* {this.props?.data?.address ?? ""}  */}
                         </SText>
@@ -98,7 +102,10 @@ class Mapa extends Component<MapaPropsType> {
                         row
                     >
                         <SIcon name="googleMap" fill={STheme.color.text} width={25} height={17.45} />
-                        <SText color={STheme.color.text} center fontSize={16} >Go to Google Maps</SText>
+                        <SText color={STheme.color.text} center fontSize={16} language={{
+                            es: "Ir a Google Maps",
+                            en: "Go to Google Maps"
+                        }} />
                     </BtnNavegar>
                     <SHr height={40} />
                 </SView>

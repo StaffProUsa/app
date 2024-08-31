@@ -19,6 +19,8 @@ import icalendario, { ReactComponent as icalendarioW } from './icalendario.svg';
 import lupa, { ReactComponent as lupaW } from './lupa.svg';
 import company, { ReactComponent as companyW } from './company.svg';
 import staff, { ReactComponent as staffW } from './staff.svg';
+import history, { ReactComponent as historyW } from './history.svg';
+import select, { ReactComponent as selectW } from './select.svg';
 
 
 const Assets = {
@@ -41,6 +43,8 @@ const Assets = {
 	"lupa": { Native: lupa, Web: lupaW },
 	"company": { Native: company, Web: companyW },
 	"staff": { Native: staff, Web: staffW },
+	"history": { Native: history, Web: historyW },
+	"select": { Native: select, Web: selectW },
 
 }
 

@@ -6,6 +6,7 @@ import Model from '../../../Model';
 import SSocket from 'servisofts-socket';
 
 class index extends DPA.profile {
+    usuarios = {}
     constructor(props) {
         super(props, { Parent: Parent, excludes: ["key", "key_servicio", "estado"] });
     }
@@ -68,6 +69,46 @@ class index extends DPA.profile {
             })
             console.error(e);
         })
+    }
+    handleInvitar() {
+        SNavigation.navigate("/usuario", {
+            onSelect: (e) => {
+                const key_usuario_invitado = e.key
+                SNotification.send({
+                    key: "staff_usuario-invitar",
+                    title: "Applying...",
+                    body: "Please wait while the application is being processed.",
+                    type: "loading"
+                })
+                SSocket.sendPromise({
+                    component: "staff_usuario",
+                    type: "invitar",
+                    key_usuario: Model.usuario.Action.getKey(),
+                    key_usuario_invitado: key_usuario_invitado,
+                    key_staff: this.pk,
+                }).then(e => {
+                    SNotification.send({
+                        key: "staff_usuario-invitar",
+                        title: "Successfully applied.",
+                        body: "Your application has been successfully registered.",
+                        color: STheme.color.success,
+                        time: 5000,
+                    })
+                    console.log(e);
+                }).catch(e => {
+                    SNotification.send({
+                        key: "staff_usuario-invitar",
+                        title: "Application error.",
+                        body: e.error ?? "Unknown error.",
+                        color: STheme.color.danger,
+                        time: 5000,
+                    })
+                    console.error(e);
+                })
+            }
+        })
+        return;
+
     }
     handleAprobar = (post) => {
         SPopup.confirm({
@@ -209,6 +250,8 @@ class index extends DPA.profile {
     $footer() {
 
         return <SView col={"xs-12"}>
+            <SHr h={16} />
+            <SText card padding={8} onPress={this.handleInvitar.bind(this)}>{"INVITAR"}</SText>
             <SHr h={16} />
             <SText card padding={8} onPress={this.handlePostular.bind(this)}>{"POSTULAR"}</SText>
             <SHr h={16} />

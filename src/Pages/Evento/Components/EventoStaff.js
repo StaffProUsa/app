@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { View, Text, FlatList, RefreshControl } from 'react-native';
-import { SDate, SIcon, SLoad, SPage, SText, STheme, SThread, SView, SNavigation, SImage } from 'servisofts-component';
+import { SDate, SIcon, SLoad, SPage, SText, STheme, SThread, SView, SNavigation, SImage, SLanguage } from 'servisofts-component';
 import parametro from '../../../Services/Casagrandeadmin/Components/parametro';
 import venta from '../../../Services/Casagrandeadmin/Components/venta';
 import Model from '../../../Model';
@@ -55,11 +55,11 @@ class EventoStaff extends Component {
                     ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
                     // numColumns={2}
                     renderItem={({ item, index }) => {
-                        if(item.estado == "0") return <></>
+                        if (item.estado == "0") return <></>
                         return <>
                             <SView col={"xs-12"} row center>
                                 <SView col={"xs-3"} center>
-                                    <SImage src={SSocket.api.root + 'staff/' +  item.key_staff_tipo} style={{
+                                    <SImage src={SSocket.api.root + 'staff/' + item.key_staff_tipo} style={{
                                         resizeMode: "cover", width: 50, height: 50,
                                         borderRadius: 6,
                                         overflow: "hidden",
@@ -68,14 +68,20 @@ class EventoStaff extends Component {
                                     }} />
                                 </SView>
                                 <SView col={"xs-3"} >
-                                <SText color={STheme.color.text}>{item.descripcion}</SText>
+                                    <SText color={STheme.color.text}>{item.descripcion}</SText>
                                 </SView>
                                 <SView col={"xs-3"} center>
                                     <SText color={STheme.color.gray}>X {item.cantidad}</SText>
                                 </SView>
                                 <SView col={"xs-3"} center>
-                                    <SView width={85} height={45} style={{backgroundColor:STheme.color.secondary, borderRadius:16}} center>
-                                    <SText color={STheme.color.text}>Apply</SText>
+                                    <SView width={85} height={45} style={{ backgroundColor: STheme.color.secondary, borderRadius: 16 }} center
+                                    onPress={() => {
+                                        SNavigation.navigate("/waiting", {key: item.key});
+                                      }}>
+                                        <SText color={STheme.color.text} language={{
+                                            es: "Aplicar",
+                                            en: "Apply"
+                                        }} />
                                     </SView>
                                 </SView>
 

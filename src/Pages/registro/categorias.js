@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SForm, SHr, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon, SList, SGradient } from 'servisofts-component';
-import { AccentBar } from '../../Components';
+import { SForm, SHr, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon, SList, SGradient, SList2, SImage, SNotification } from 'servisofts-component';
 import Container from '../../Components/Container';
-import Model from '../../Model';
-// import SectionApis from '../login/components/SectionApis';
-import BtnSend from './components/BtnSend';
+
 import Header from './components/Header';
-import CryptoJS from 'crypto-js';
-import PButtom from '../../Components/PButtom';
 import SSocket from 'servisofts-socket';
 import { FlatList, StyleSheet } from 'react-native';
+import Model from '../../Model';
+import Inicio from '../Inicio';
 
 class categorias extends Component {
     constructor(props) {
@@ -36,19 +33,24 @@ class categorias extends Component {
     }
 
     requestData() {
-
         SSocket.sendPromise({
-            component: "staff_tipo",
-            type: "getAll",
+            component: "evento",
+            type: "getInicioFiltros",
+            key_usuario: Model.usuario.Action.getKey()
         }).then(e => {
-            // if (e.data.length <= 0) {
-            //   this.state.endData = true;
-            // }
-            // this.state.dataTipo = [...this.state.dataTipo, ...e.data]
-            this.setState({ data: Object.values(e.data), refreshing: false })
+            let listTypes = [];
+            Object.values(e.data).map((company) => {
+                listTypes = [...listTypes, ...company.staff_tipos]
+            })
+            Object.values(e.favoritos).map(a => {
+                this.state.selectedItems[a.key_staff_tipo] = a
+            })
+            this.setState({ data: listTypes, favoritos: e.favoritos, refreshing: false })
+            // console.log(e);
         }).catch(e => {
-            // this.setState({ refreshing: false })
+            console.error(e);
         })
+
 
     }
 
@@ -58,8 +60,45 @@ class categorias extends Component {
 
             if (newSelectedItems[key]) {
                 // Si el elemento ya está seleccionado, eliminarlo del estado
+                SSocket.sendPromise({
+                    component: "staff_tipo_favorito",
+                    type: "editar",
+                    data: {
+                        ...newSelectedItems[key],
+                        estado: 0,
+                    },
+                    key_usuario: Model.usuario.Action.getKey(),
+
+                }).then(e => {
+                    if (Inicio.INSTANCE) Inicio.INSTANCE.onChangeFavorito();
+                }).catch(e => {
+                    // delete newSelectedItems[key];
+                    SNotification.send({
+                        title: "Error",
+                        body: e.error ?? "Ocurrio error",
+                    })
+                })
                 delete newSelectedItems[key];
             } else {
+                SSocket.sendPromise({
+                    component: "staff_tipo_favorito",
+                    type: "registro",
+                    data: {
+                        key_staff_tipo: key,
+                        key_usuario: Model.usuario.Action.getKey(),
+                    },
+                    key_usuario: Model.usuario.Action.getKey(),
+
+                }).then(e => {
+                    if (Inicio.INSTANCE) Inicio.INSTANCE.onChangeFavorito();
+                    this.state.selectedItems[e.data.key_staff_tipo] = e.data;
+                }).catch(e => {
+                    delete newSelectedItems[key];
+                    SNotification.send({
+                        title: "Error",
+                        body: e.error ?? "Ocurrio error",
+                    })
+                })
                 // Si el elemento no está seleccionado, añadirlo al estado
                 newSelectedItems[key] = true;
                 // newSelectedItems = {...prevState.selectedItems, key}
@@ -85,7 +124,10 @@ class categorias extends Component {
                                 backgroundColor: STheme.color.secondary,
                                 borderRadius: 10,
                             }} width={80} height={50} center>
-                            <SText color={STheme.color.text} fontSize={16}>Atrás</SText>
+                            <SText color={STheme.color.text} fontSize={16} language={{
+                                en: "Back",
+                                es: "Atrás",
+                            }}></SText>
                         </SView>
                     </SView>
                     <SView col={'xs-6'} style={{ alignItems: "flex-end" }}>
@@ -103,64 +145,66 @@ class categorias extends Component {
                         <SHr height={10} />
                     </SView>
                     <Header title="Positions to apply for" />
-
                     <SHr height={50} />
                     <Container>
-
                         <SView col={"xs-12"} style={{
                             flexDirection: 'row', // Coloca los elementos en una fila
                             flexWrap: 'wrap', // Permite que los elementos bajen a la siguiente fila
                             justifyContent: 'flex-start',
                         }} >
-                            <SList
+                            <SList2
+                                scrollEnabled={false}
                                 data={this.state.data}
+                                horizontal
                                 contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}
+                                space={0}
                                 order={[{ "key": "fecha_on", order: "desc", type: "date" }]}
                                 render={(f) => {
                                     const isSelected = this.state.selectedItems[f.key]; // Verifica si el elemento está seleccionado
-                                    return <SView padding={5}>
-                                        <SView row style={{
-                                            padding: 5,
-                                            borderRadius: 5,
-                                            borderWidth: 1,
-                                            borderColor: STheme.color.darkGray,
-                                            overflow: "hidden"
-                                        }}
-                                        >
-                                            <SGradient
+                                    return <SView row style={{
+                                        marginTop: 8,
+                                        marginRight: 8,
+                                        borderRadius: 5,
+                                        borderWidth: 1,
+                                        borderColor: STheme.color.darkGray,
+                                        overflow: "hidden",
+                                        alignItems: "center",
+                                    }} onPress={() => {
+                                        //this.setState(this.state.envio == 0 ? { envio: 1 } : { envio: 0 });
+                                        this.toggleSelection(f.key)
+                                    }}>
+                                        {/* <SGradient
                                                 colors={['#040405', '#0C0C10']}
                                                 start={{ x: 0, y: 1 }}
                                                 end={{ x: 1, y: 1 }}
-                                            />
-                                            <SView
-                                                col={'xs-1'}
-                                                onPress={() => {
-                                                    //this.setState(this.state.envio == 0 ? { envio: 1 } : { envio: 0 });
-                                                    this.toggleSelection(f.key)
-                                                }}>
-                                                <SIcon
-                                                    name={isSelected ? 'IconCheckedOk' : 'IconChecked'}
-                                                    fill={STheme.color.text}
-                                                    width={20}
-                                                    height={20}></SIcon>
-                                            </SView>
-                                            <SView width={15} />
-                                            <SText center fontSize={14} >{f.descripcion}</SText>
+                                            /> */}
+                                        <SView
+                                            width={30}
+                                            height={30}
+                                            center
+                                        >
+                                            <SImage src={SSocket.api.root + "staff_tipo/" + f.key} />
                                         </SView>
+
+                                        <SView width={4} />
+                                        <SText fontSize={14} >{f.descripcion}</SText>
+                                        <SView width={4} />
+                                        <SView
+                                            width={30}
+                                            height={30}
+                                            center
+                                        >
+                                            <SIcon
+                                                name={isSelected ? 'IconCheckedOk' : 'IconChecked'}
+                                                fill={isSelected ? STheme.color.success : STheme.color.lightGray}
+                                                width={20}
+                                                height={20}></SIcon>
+                                        </SView>
+                                        <SView width={4} />
                                     </SView>
                                 }}
                             />
-
                         </SView>
-
-                        <SHr height={30} />
-
-
-
-                        {/* <PButtom onPress={() => this.form.submit()}>{"Registrar"}</PButtom> */}
-
-                        <SHr height={30} />
-                        {/* <SectionApis /> */}
                     </Container>
                 </SView>
             </SPage>

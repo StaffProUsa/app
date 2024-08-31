@@ -20,13 +20,14 @@ class PBarraFooter extends Component {
     // this.page = SNavigation.getParam("page");
   }
 
-  getItem({ key, title, icon, url, params }) {
+  getItem({ key, title,title_en, icon, url, params }) {
     var color = STheme.color.primary;
     var isSelect = key == this.props.url;
 
     if (Model.usuario.Action.getKey()) {
       if (url == '/login') {
         title = 'PERFIL';
+        title_en = 'PROFILE';
         url = '/perfil';
       }
     }
@@ -51,9 +52,13 @@ class PBarraFooter extends Component {
             <SIcon name={icon} fill={STheme.color.primary} />
           </SView>
           <SView height={2} />
-          <SText fontSize={8} center color={color}>
+          {/* <SText fontSize={8} center color={color}> 
             {title}
-          </SText>
+          </SText> */}
+          <SText language={{
+            es: title,
+            en: title_en
+          }} fontSize={8} center color={color} />
           <SHr height={10}></SHr>
         </SView>
       </SView>
@@ -79,6 +84,7 @@ class PBarraFooter extends Component {
               {this.getItem({
                 key: '/',
                 title: 'INICIO',
+                title_en: 'HOME',
                 icon: 'Inicio',
                 url: '/inicio',
                 params: {}
@@ -86,14 +92,16 @@ class PBarraFooter extends Component {
               {this.getItem({
                 key: '/entradas',
                 title: 'TRABAJO',
+                title_en: 'WORK',
                 icon: 'trabajo',
                 url: '/invitacion',
                 params: {}
               })}
                {this.getItem({
                 key: '/calendario',
-                title: 'CALENDARIO',
-                icon: 'icalendario',
+                title: 'HISTORIAL',
+                title_en: 'HISTORY',
+                icon: 'history',
                 url: '/sorry',
                 params: {}
               })}
@@ -101,6 +109,7 @@ class PBarraFooter extends Component {
               {this.getItem({
                 key: '/login',
                 title: 'LOGIN',
+                title_en: 'LOGIN',
                 icon: 'User',
                 url: '/login',
                 params: {}

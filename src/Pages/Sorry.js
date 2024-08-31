@@ -21,7 +21,10 @@ export default class Sorry extends React.Component {
                 }}>
                 <SGradient colors={["#0C0C10", "#040405"]} style={{ borderRadius: 16, }} />
                 <SHr height={25} />
-                <SText fontSize={28} center>Sorry, you have no events assigned</SText>
+                <SText fontSize={28} center language={{
+                    es: "Lo sentimos, no tienes eventos asignados",
+                    en: "Sorry, you have no events assigned"
+                  }}/>
                 <SHr height={35} />
                 <SView width={140} height={140} center style={{
                   borderRadius: 130,
@@ -33,7 +36,10 @@ export default class Sorry extends React.Component {
                   <SIcon name={'noevent'} fill={STheme.color.primary} height={80} />
                 </SView>
                 <SHr height={35} />
-                <SText fontSize={20} center>We cannot show more information because he has not received an invitation to work in any event.</SText>
+                <SText fontSize={20} center language={{
+                    es: "No podemos mostrar más información porque no ha recibido invitación para trabajar en ningún evento.",
+                    en: "We cannot show more information because he has not received an invitation to work in any event."
+                  }}/>
                 <SHr height={25} />
               </SView>
             </Container>

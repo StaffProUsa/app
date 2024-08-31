@@ -29,6 +29,7 @@ class index extends DPA.profile {
             <MenuButtom label='Ubicaciones' url='/ubicacion' params={{ key_company: this.pk }} icon={<SIcon name='Ajustes' />} />
             <MenuButtom label='Staff Tipo' url='/staff_tipo' params={{ key_company: this.pk }} icon={<SIcon name='Ajustes' />} />
             <MenuButtom label='Usuarios' url='/company/roles' params={{ key_company: this.pk }} icon={<SIcon name='Ajustes' />} />
+            <MenuButtom label='Eventos' url='/company/eventos' params={{ key_company: this.pk }} icon={<SIcon name='Ajustes' />} />
         </MenuPages>
     }
 

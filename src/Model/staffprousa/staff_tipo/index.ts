@@ -13,7 +13,7 @@ export default new SModel<Action, Reducer>({
         "fecha_on": { type: "timestamp", label: "F. Creacion" },
         "key_company": { type: "text", fk: "company" },
         "estado": { type: "integer" },
-        "descripcion": { type: "text", },
+        "descripcion": { type: "text", editable:true },
         "observacion": { type: "text", },
     },
     image: {

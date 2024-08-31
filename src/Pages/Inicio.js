@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, RefreshControl, FlatList } from 'react-native';
-import { SForm, SHr, SIcon, SLoad, SPage, SText, STheme, SView } from 'servisofts-component';
+import { View, Text, RefreshControl, FlatList, ScrollView } from 'react-native';
+import { SForm, SHr, SIcon, SLoad, SPage, SText, STheme, SView, SLanguage, SNavigation } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import EventoItem from '../Components/Evento/EventoItem';
 import TipoItem from '../Components/Staff/TipoItem';
@@ -8,12 +8,16 @@ import { Container } from '../Components';
 import PBarraFooter from '../Components/PBarraFooter';
 import Carrito from '../Components/Carrito';
 import Actions from '../Actions';
+import Model from '../Model';
 
 const CANTIDAD_X_PAGE = 4;
+
 export default class Inicio extends Component {
+  static INSTANCE: Inicio;
   ref = {}
   constructor(props) {
     super(props);
+    Inicio.INSTANCE = this;
     this.state = {
       refreshing: false,
       page: 0,
@@ -25,48 +29,89 @@ export default class Inicio extends Component {
   }
 
   componentDidMount() {
-    Actions.usuario_company.getAllCompanyUser().then(e => {
-      
-    }).catch(e => {
+    // Actions.usuario_company.getAllCompanyUser().then(e => {
 
+    // }).catch(e => {
+
+    // })
+
+    SSocket.sendPromise({
+      component: "staff_usuario",
+      type: "getInvitacionesPendientes",
+      key_usuario: Model.usuario.Action.getKey()
+    }).then(e => {
+      this.setState({ invitaciones: e.data })
+    }).catch(e => {
+      console.error(e);
     })
+
+    this.state.data = []
+    this.state.page = 0;
+    this.state.endData = false;
+    this.getFiltros();
     this.requestData();
   }
+  onChangeFavorito() {
+    this.componentDidMount();
+  }
+  getFiltros() {
+    SSocket.sendPromise({
+      component: "evento",
+      type: "getInicioFiltros",
+      key_usuario: Model.usuario.Action.getKey()
+    }).then(e => {
+      let listTypes = [];
+      Object.values(e.data).map((company) => {
+        listTypes = [...listTypes, ...company.staff_tipos]
+      })
 
+      const favs = Object.values(e.favoritos);
+      listTypes = listTypes.filter(a => favs.find(b => b.key_staff_tipo == a.key))
+
+      this.setState({ dataTipo: [{ key: "ADD" }, ...listTypes], refreshing: false })
+      console.log(e);
+    }).catch(e => {
+      console.error(e);
+    })
+  }
 
   requestData() {
     SSocket.sendPromise({
       component: "evento",
       type: "getInicio",
       limit: CANTIDAD_X_PAGE,
-      offset: this.state.page * CANTIDAD_X_PAGE
+      offset: this.state.page * CANTIDAD_X_PAGE,
+      key_usuario: Model.usuario.Action.getKey(),
     }).then(e => {
       if (e.data.length <= 0) {
         this.state.endData = true;
       }
       this.state.data = [...this.state.data, ...e.data]
+
+
       this.setState({ data: this.state.data, refreshing: false })
     }).catch(e => {
       this.setState({ refreshing: false })
     })
 
-    SSocket.sendPromise({
-      component: "staff_tipo",
-      type: "getAll",
-    }).then(e => {
-      // if (e.data.length <= 0) {
-      //   this.state.endData = true;
-      // }
-      // this.state.dataTipo = [...this.state.dataTipo, ...e.data]
-      this.setState({ dataTipo: Object.values(e.data), refreshing: false })
-    }).catch(e => {
-      // this.setState({ refreshing: false })
-    })
+    // SSocket.sendPromise({
+    //   component: "staff_tipo",
+    //   type: "getAll",
+    // }).then(e => {
+    //   // if (e.data.length <= 0) {
+    //   //   this.state.endData = true;
+    //   // }
+    //   // this.state.dataTipo = [...this.state.dataTipo, ...e.data]
+    //   this.setState({ dataTipo: Object.values(e.data), refreshing: false })
+    // }).catch(e => {
+    //   // this.setState({ refreshing: false })
+    // })
 
   }
   onEndReached() {
-    if (this.state.data.length <= 0) return;
-    if (this.state.dataTipo.length <= 0) return;
+    console.log("ENTRO EN EL ONDEND")
+    // if (this.state.data.length <= 0) return;
+    // if (this.state.dataTipo.length <= 0) return;
     if (this.state.endData) return;
     this.state.page += 1;
     this.requestData();
@@ -150,50 +195,16 @@ export default class Inicio extends Component {
     // if (this.state.dataTipo) return <SLoad />
     const arr = this.state.dataTipo ?? [];
     const space = 15;
-    console.log("DATA")
-    console.log(this.state.dataTipo)
-    console.log(this.state.data)
+    // console.log("DATA")
+    // console.log(this.state.dataTipo)
+    // console.log(this.state.data)
 
-    return <SPage title={"Próximos eventos"} preventBack footer={<PBarraFooter url={'/'} />}>
-      <Container>
-        <SHr h={10} />
-        {this.getForm()}
-        <SHr h={15} />
-
+    return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} preventBack footer={<PBarraFooter url={'/'} />} disableScroll>
+      <Container flex>
         <FlatList
-          contentContainerStyle={{
-            width: "100%",
-            height: 90,
-            // alignItems: "center"
+          style={{
+            width: "100%"
           }}
-          // refreshControl={
-          //   <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh.bind(this)} />
-          // }
-          data={arr}
-          horizontal
-          showsHorizontalScrollIndicator={true}
-          // scrollEnabled={true}
-          ListHeaderComponent={() => <SView width={space} />}
-          ItemSeparatorComponent={() => <SView width={space} />}
-          ListFooterComponent={() => <SView width={space} />}
-          // keyExtractor={item => item.key.toString()}
-          keyExtractor={item => item.key ? item.key.toString() : String(index)}
-          onEndReachedThreshold={0.3}
-          renderItem={({ item, index }) => {
-            if (!item) return null;
-            console.log("ITEM")
-            console.log(item)
-            return <TipoItem ref={(ref) => this.ref[item?.key] = ref} key={item?.key.toString()} data={item} />
-            // return <SText>{item.descripcion} ggg</SText>
-          }}
-        />
-
-        <SHr h={10} />
-        <SView col={"xs-11"} justify>
-          <SText fontSize={20} bold >Events</SText>
-        </SView>
-        <SHr h={15} />
-        <FlatList
           contentContainerStyle={{
             width: "100%",
             // alignItems: "center"
@@ -201,6 +212,59 @@ export default class Inicio extends Component {
           refreshControl={
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh.bind(this)} />
           }
+          ListHeaderComponent={() => <SView col={"xs-12"}>
+            <SHr h={10} />
+            {this.getForm()}
+            <SHr h={15} />
+
+            <ScrollView style={{ width: "100%" }} horizontal>
+              <FlatList
+                contentContainerStyle={{
+                  width: "100%",
+                  height: 100,
+                  // alignItems: "center"
+                }}
+                // refreshControl={
+                //   <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh.bind(this)} />
+                // }
+                data={arr}
+                horizontal
+                showsHorizontalScrollIndicator={true}
+                scrollEnabled={false}
+                ListHeaderComponent={() => <SView width={space} />}
+                ItemSeparatorComponent={() => <SView width={space} />}
+                ListFooterComponent={() => <SView width={space} />}
+                // keyExtractor={item => item.key.toString()}
+                keyExtractor={item => item.key ? item.key.toString() : String(index)}
+                onEndReachedThreshold={0.3}
+                renderItem={({ item, index }) => {
+                  if (!item) return null;
+
+                  if (item.key == "ADD") {
+                    return <SView width={70} height={70} center card
+                      onPress={() => {
+                        SNavigation.navigate("/registro/categorias")
+                      }}>
+                      <SText>ADD</SText>
+                    </SView>
+                  }
+                  // console.log("ITEM")
+                  // console.log(item)
+                  return <TipoItem ref={(ref) => this.ref[item?.key] = ref} key={item?.key.toString()} data={item} />
+                  // return <SText>{item.descripcion} ggg</SText>
+                }}
+              />
+            </ScrollView>
+            <SHr h={10} />
+            <SView col={"xs-11"} justify>
+              <SText fontSize={20} bold language={{
+                es: "Tus eventos",
+                en: "Your events"
+              }} />
+            </SView>
+            <SHr h={15} />
+          </SView>}
+          scrollEnabled={true}
           data={this.state.data}
           keyExtractor={item => item.key.toString()}
           onEndReachedThreshold={0.3}

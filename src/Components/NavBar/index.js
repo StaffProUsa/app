@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
-import { SIcon, SNavigation, SText, STheme, SView } from 'servisofts-component'
+import { SIcon, SNavigation, SText, STheme, SView, SLanguage } from 'servisofts-component'
 import RContent from './RContent';
+import { SPopup } from 'servisofts-component';
+import BoxLanguages from '../Popups/BoxLanguages';
 
 export default class NavBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {}
+  }
+ 
 
   btnBack() {
     if (this.props.preventBack) return;
@@ -29,14 +36,15 @@ export default class NavBar extends React.Component {
             {this.btnBack()}
           </SView>
           <SView flex center>
-            <SText>{this.props?.title}</SText>
+            <SText language={this.props?.titleLanguage}>{this.props?.title}</SText>
           </SView>
-          <SView width={90} height center
-            // onPress={() => {
-            //   SNavigation.reset("/");
-            // }}
+          <SView width={90} heiht center
+            onPress={() => {
+              // SNavigation.reset("/");
+              SPopup.open({ key: "menuLat", content: <BoxLanguages datas={this.props?.data} /> });
+            }} 
             >
-            {/* <RContent /> */}
+            <RContent />
           </SView>
         </SView>
       </SView >
