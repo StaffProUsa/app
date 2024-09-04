@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { SButtom, SDate, SForm, SIcon, SLoad, SNavigation, SPage, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SButtom, SDate, SForm, SIcon, SLoad, SNavigation, SPage, SPopup, SText, STheme, SView, SLanguage } from 'servisofts-component';
 import CryptoJS from 'crypto-js';
 import PButtom from '../../Components/PButtom';
 import Model from '../../Model';
@@ -86,11 +86,14 @@ class recuperar_pass extends Component {
 
     render() {
         return (
-            <SPage title={"Registrar nueva contraseña"}>
+            <SPage titleLanguage={{ es: "Registrar nueva contraseña", en: "Register new password" }} >
                 <SView center>
                     <SView col={"xs-11 md-6 xl-4"} center>
                         <SView height={40} />
-                        <SText fontSize={24} color={STheme.color.primary} bold center>¡Restablece tu contraseña!</SText>
+                        <SText fontSize={24} color={STheme.color.primary} bold center language={{
+                            es: "¡Restablece tu contraseña!",
+                            en: "Reset your password!"
+                        }}/>
                         <SView height={30} />
 
                         {this.getForm()}
@@ -99,7 +102,11 @@ class recuperar_pass extends Component {
                             <PButtom
                                 onPress={() => {
                                     this.form.submit();
-                                }} >RESTABLECER CONTRASEÑA</PButtom>
+                                }} >
+                                    <SText color={STheme.color.black} language={{
+                                        es: "RESTABLECER CONTRASEÑA",
+                                        en: "RESET PASSWORD"
+                                    }}/></PButtom>
                         </SView>
                         <SView height={36} />
                     </SView>

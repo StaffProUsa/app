@@ -7,6 +7,13 @@ import googleMap, { ReactComponent as googleMapW } from './googleMap.svg';
 import noevent, { ReactComponent as noeventW } from './noevent.svg';
 import exclamacion, { ReactComponent as exclamacionW } from './exclamacion.svg';
 import start, { ReactComponent as startW } from './start.svg';
+import time, { ReactComponent as timeW } from './time.svg';
+import eventi, { ReactComponent as eventiW } from './eventi.svg';
+import worki, { ReactComponent as workiW } from './worki.svg';
+import timeIni, { ReactComponent as timeIniW } from './timeIni.svg';
+import timeFinish, { ReactComponent as timeFinishW } from './timeFinish.svg';
+import dating, { ReactComponent as datingW } from './dating.svg';
+
 
 
 const Assets = {
@@ -17,6 +24,12 @@ const Assets = {
 	"noevent": { Native: noevent, Web: noeventW },
 	"exclamacion": { Native: exclamacion, Web: exclamacionW },
 	"start": { Native: start, Web: startW },
+	"time": { Native: time, Web: timeW },
+	"eventi": { Native: eventi, Web: eventiW },
+	"worki": { Native: worki, Web: workiW },
+	"timeIni": { Native: timeIni, Web: timeIniW },
+	"timeFinish": { Native: timeFinish, Web: timeFinishW },
+	"dating": { Native: dating, Web: datingW },
 
 }
 

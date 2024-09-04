@@ -52,11 +52,13 @@ import intro from './Intro';
 import company from './company';
 import ubicacion from './ubicacion';
 import Ingreso from './Ingreso';
-import invitacion from './Invitacion';
+import invitationDetail from './invitationDetail';
 import sorry from './Sorry';
 import waiting from './waiting';
 
 import my_companys from "./my_companys";
+import invitations from './invitations';
+import trabajos from './trabajos';
 const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
@@ -82,7 +84,9 @@ const NewPages = SPage.combinePages("/", {
     ...intro,
     ...ubicacion,
     ...company,
-    "invitacion": invitacion,
+    trabajos,
+    "invitationDetail": invitationDetail,
+    invitations,
     "sorry": sorry,
     "waiting": waiting,
     my_companys

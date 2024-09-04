@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { SHr, SLoad, SThread } from 'servisofts-component';
-import { SButtom, SDate, SForm, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon } from 'servisofts-component';
+import { SButtom, SDate, SForm, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon, SLanguage } from 'servisofts-component';
 // import { Container, PButtom } from '../../Components';
 import Container from '../../Components/Container';
 import PButtom from '../../Components/PButtom';
@@ -69,18 +69,24 @@ class recuperar extends Component {
         //     SNavigation.navigate(Usuario.component + "/codigoRecuperarContrasena");
         // }
         return (
-            <SPage title={"Recuperar Contraseña"}>
+            <SPage titleLanguage={{ es: "Recuperar Contraseña", en: "Recover Password" }}>
                 <SView center>
                     <Container loading={!this.state.ready}>
                         <SView height={40} />
-                        <SText fontSize={16} color={STheme.color.text} center >Le enviaremos un mensaje para configurar o restablecer su nueva contraseña. </SText>
+                        <SText fontSize={16} color={STheme.color.text} center language={{
+                            es: "Le enviaremos un mensaje para configurar o restablecer su nueva contraseña.",
+                            en: "We will send you a message to set or reset your new password."
+                        }} />
                         <SView height={40} />
                         {this.getForm()}
                         <SView height={16} />
                         <SView col={"xs-11"} row center>
                             <PButtom onPress={() => {
                                 this.form.submit();
-                            }}>ENVIAR CÓDIGO</PButtom>
+                            }}><SText color={STheme.color.black} language={{
+                                es: "ENVIAR CÓDIGO",
+                                en: "SEND CODE"
+                            }} /></PButtom>
                         </SView>
                         <SHr />
                         <SHr />
@@ -90,7 +96,10 @@ class recuperar extends Component {
                         }}>
                             <SText fontSize={14} style={{
                                 textDecorationLine: "underline",
-                            }}>¡Ya tengo un código!</SText>
+                            }} language={{
+                                es: "¡Ya tengo un código!",
+                                en: "I already have a code!"
+                            }} />
                         </SView>
                         <SView height={36} />
                     </Container>

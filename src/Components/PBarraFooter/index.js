@@ -90,11 +90,11 @@ class PBarraFooter extends Component {
                 params: {}
               })}
               {this.getItem({
-                key: '/entradas',
+                key: '/trabajos',
                 title: 'TRABAJO',
                 title_en: 'WORK',
                 icon: 'trabajo',
-                url: '/invitacion',
+                url: '/trabajos',
                 params: {}
               })}
                {this.getItem({

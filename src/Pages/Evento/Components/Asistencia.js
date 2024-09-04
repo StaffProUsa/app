@@ -67,7 +67,7 @@ class Asistencia extends Component {
                         <SView col={"xs-12"} row >
                             <SIcon name={"User"} width={15} height={15} fill={STheme.color.text} />
                             <SView width={5} />
-                            <SText fontSize={16} color={STheme.color.lightGray}>{usuario.Nombres}</SText>
+                            <SText fontSize={16} color={STheme.color.lightGray}>{usuario.Nombres} {usuario.Apellidos}</SText>
                         </SView>
                         <SView col={"xs-12"} row >
                             <SIcon name={"InputEmail"} width={15} height={15} fill={STheme.color.text} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SForm, SHr, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon, SList, SGradient, SList2, SImage, SNotification } from 'servisofts-component';
+import { SForm, SHr, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon, SList, SGradient, SList2, SImage, SNotification, SLanguage } from 'servisofts-component';
 import Container from '../../Components/Container';
 
 import Header from './components/Header';
@@ -19,9 +19,19 @@ class categorias extends Component {
         this.params = SNavigation.getAllParams();
     }
 
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
+
     componentDidMount() {
         this.requestData();
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
     }
+
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
+
 
     icon = (name) => {
         return <SIcon
@@ -113,6 +123,11 @@ class categorias extends Component {
             ...this.params,
         };
         console.log(this.state.selectedItems)
+        let lenguaje = SLanguage.language;
+        let titleHeader = "Registro de Staff";
+        if (lenguaje == "en") {
+            titleHeader = "Staff Registration";
+        }
         return (
             <SPage footer={<SView col={'xs-12'} row center>
                 <SView col={'xs-11'} row>
@@ -144,7 +159,7 @@ class categorias extends Component {
                         <SIcon name={"Logo"} fill={STheme.color.primary} width={80} height={43} />
                         <SHr height={10} />
                     </SView>
-                    <Header title="Positions to apply for" />
+                    <Header title={titleHeader} />
                     <SHr height={50} />
                     <Container>
                         <SView col={"xs-12"} style={{

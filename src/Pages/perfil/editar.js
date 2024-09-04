@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SHr, SNavigation, SPage, SText, SView, STheme, SForm, SPopup, SImage, SLoad, SStorage, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList, } from 'servisofts-component';
+import { SHr, SNavigation, SPage, SText, SView, STheme, SForm, SPopup, SImage, SLoad, SStorage, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList, SLanguage } from 'servisofts-component';
 import { WebView } from 'react-native';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -23,6 +23,7 @@ class index extends Component {
     getForm() {
         if (!this.load_data()) return <SLoad />
         // var isApi = this.data.gmail_key || this.data.facebook_key
+        
         console.log((SSocket.api.root + "usuario/" + this.data?.key) + " fff")
         return <SForm
             ref={(ref) => { this.form = ref; }}
@@ -46,7 +47,7 @@ class index extends Component {
                     placeholder: 'Apellidos',
                     isRequired: true,
                     defaultValue: this.data.Apellidos,
-                    icon: <SIcon name={'InputUser'}  fill={STheme.color.text} width={20} height={20} />,
+                    icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
                 "Telefono": {
@@ -60,7 +61,7 @@ class index extends Component {
                     type: 'email',
                     isRequired: true,
                     defaultValue: this.data.Correo,
-                    icon: <SIcon name={'InputEmail'}  fill={STheme.color.text} width={20} height={30} />,
+                    icon: <SIcon name={'InputEmail'} fill={STheme.color.text} width={20} height={30} />,
                     height: 54
                 },
 
@@ -121,7 +122,7 @@ class index extends Component {
     render() {
         return (
             <>
-                <SPage title={'Editar perfil'} onRefresh={() => {
+                <SPage titleLanguage={{ es: "Editar perfil", en: "Edit profile" }} onRefresh={() => {
                     Model.usuario.Action.CLEAR();
                 }} >
                     <SView center>
@@ -135,7 +136,12 @@ class index extends Component {
                             <SView col={"xs-12"} row center>
                                 <PButtom fontSize={20} onPress={() => {
                                     this.form.submit();
-                                }}>CONFIRMAR</PButtom>
+                                }}>
+                                    <SText fontSize={20} color={STheme.color.black} language={{
+                                        es: "CONFIRMAR",
+                                        en: "CONFIRM"
+                                    }} />
+                                </PButtom>
                             </SView>
                             <SHr height={30} />
                             <SView
@@ -149,7 +155,10 @@ class index extends Component {
                             <SHr height={30} />
                             <PButtom fontSize={20} onPress={() => {
                                 SNavigation.navigate("/perfil/changepass")
-                            }}>CAMBIAR CONTRASEÑA</PButtom>
+                            }}><SText fontSize={20} color={STheme.color.black} language={{
+                                es: "CAMBIAR CONTRASEÑA",
+                                en: "CHANGE PASSWORD"
+                            }} /></PButtom>
                             <SView height={15} />
 
                             <PButtom secondary fontSize={20} onPress={() => {
@@ -167,7 +176,10 @@ class index extends Component {
                                 //     }
                                 // })
                                 SNavigation.navigate("/perfil/eliminar")
-                            }}>ELIMINAR CUENTA</PButtom>
+                            }}><SText fontSize={20} color={STheme.color.secondary} language={{
+                                es: "ELIMINAR CUENTA",
+                                en: "DELETE ACCOUNT"
+                            }} /></PButtom>
                             <SView height={36} />
 
                         </SView>

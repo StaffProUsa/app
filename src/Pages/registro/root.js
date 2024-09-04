@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SForm, SHr, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon } from 'servisofts-component';
+import { SForm, SHr, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon, SLanguage } from 'servisofts-component';
 import { AccentBar } from '../../Components';
 import Container from '../../Components/Container';
 import Model from '../../Model';
@@ -18,6 +18,16 @@ class root extends Component {
         };
         this.params = SNavigation.getAllParams();
     }
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
+    componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
+
     icon = (name) => {
         return <SIcon
             name={name}
@@ -26,10 +36,32 @@ class root extends Component {
             height={20}
         />
     }
+
+    // getForm() {
+    //     return 
     render() {
         var defaultData = {
             ...this.params,
         };
+        let lenguaje = SLanguage.language;
+        let titleHeader = "Registro de Staff";
+        let nombre = "Nombre";
+        let apellidos = "Apellidos";
+        let fecha = "Fecha de nacimiento";
+        let telefono = "Teléfono";
+        let correo = "Correo";
+        let password = "Password";
+        let repPassword = "Repetir password";
+        if (lenguaje == "en") {
+            titleHeader = "Staff registration";
+            nombre = "Name";
+            apellidos = "Last name";
+            fecha = "Date of birth";
+            telefono = "Phone";
+            correo = "Email";
+            password = "Password";
+            repPassword = "Repeat password";
+        }
         return (
             <SPage  >
                 <SView col={"xs-12"} center>
@@ -37,7 +69,7 @@ class root extends Component {
                         <SIcon name={"Logo"} fill={STheme.color.primary} width={80} height={43} />
                         <SHr height={10} />
                     </SView>
-                    <Header title="Staff registration" />
+                    <Header title={titleHeader} />
                     <SHr height={20} />
                     <Container>
                         {/* <SView col={"xs-12"} center>
@@ -55,16 +87,16 @@ class root extends Component {
                                 alignItems: "center",
                             }}
                             inputs={{
-                                Nombres: { placeholder: "Nombre", isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser") },
-                                Apellidos: { placeholder: "Apellidos", isRequired: true, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
-                                Fecha: { placeholder: "Fecha nacimiento", isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
-                                Telefono: { placeholder: "Telefono", isRequired: true, defaultValue: defaultData.Telefono, icon: this.icon("InputPhone") },
-                                Correo: { placeholder: "Correo", type: "email", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
+                                Nombres: { placeholder: nombre, isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser") },
+                                Apellidos: { placeholder: apellidos, isRequired: true, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
+                                Fecha: { placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
+                                Telefono: { placeholder: telefono, isRequired: true, defaultValue: defaultData.Telefono, icon: this.icon("InputPhone") },
+                                Correo: { placeholder: correo, type: "email", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
                                 // FechaNacimiento: { placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
                                 //telefono: { placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},
-                                Telefono: { placeholder: "Celular", isRequired: false, type: "phone" },
-                                Password: { placeholder: "Password", isRequired: true, type: "password", icon: this.icon("LockOutline") },
-                                RepPassword: { placeholder: "Repetir password", type: "password", isRequired: true, icon: this.icon("Repassword") },
+                                // Telefono: { placeholder: "Celular", isRequired: false, type: "phone" },
+                                Password: { placeholder: password, isRequired: true, type: "password", icon: this.icon("LockOutline") },
+                                RepPassword: { placeholder: repPassword, type: "password", isRequired: true, icon: this.icon("Repassword") },
                             }}
                             onSubmit={(values) => {
 
@@ -113,13 +145,21 @@ class root extends Component {
 
 
                                 if (values["Password"] != values["RepPassword"]) {
-                                    SPopup.alert('Las contraseñas no coinciden');
+                                    if (lenguaje == "en") {
+                                        SPopup.alert('Passwords do not match');
+                                    } else {
+                                        SPopup.alert('Las contraseñas no coinciden');
+                                    }
 
                                     return null;
                                 }
 
                                 if (this.state.envio == 0) {
-                                    SPopup.alert('Debes aceptar los términos y condiciones');
+                                    if (lenguaje == "en") {
+                                        SPopup.alert('You must accept the terms and conditions');
+                                    } else {
+                                        SPopup.alert('Debes aceptar los términos y condiciones');
+                                    }
                                     // var error = "Debes aceptar los términos y condiciones"
                                     // SPopup.open({ key: "errorRegistro", content: this.alertError(error) });
                                 } else {
@@ -136,13 +176,21 @@ class root extends Component {
                                             // Model.empresa.Action.setEmpresa(null)
                                             SNavigation.navigate("/registro/genero");
                                         }).catch(e => {
-                                            SPopup.alert("Error al iniciar con el nuevo usuario");
+                                            if (lenguaje == "en") {
+                                                SPopup.alert('Error starting with the new user');
+                                            } else {
+                                                SPopup.alert("Error al iniciar con el nuevo usuario");
+                                            }
                                             SNavigation.reset("/");
                                         })
                                         // SNavigation.replace('/');
 
                                     }).catch(e => {
-                                        SPopup.alert("Ya existe un usuario con este correo.")
+                                        if (lenguaje == "en") {
+                                            SPopup.alert('There is already a user with this email.');
+                                        } else {
+                                            SPopup.alert("Ya existe un usuario con este correo.")
+                                        }
                                     })
 
                                 }
@@ -170,9 +218,10 @@ class root extends Component {
                                 <SText
                                     color={STheme.color.text}
                                     fontSize={14}
-                                    style={{ textDecorationLine: 'underline' }}>
-                                    He leído y acepto los términos de uso y la Política de Privacidad
-                                </SText>
+                                    style={{ textDecorationLine: 'underline' }} language={{
+                                        es: 'He leído y acepto los términos de uso y la Política de Privacidad',
+                                        en: 'I have read and accept the terms of use and the Privacy Policy'
+                                    }} />
                             </SView>
                         </SView>
                         <SHr height={20} />
@@ -186,10 +235,13 @@ class root extends Component {
                                         backgroundColor: STheme.color.secondary,
                                         borderRadius: 10,
                                     }} width={80} height={50} center>
-                                    <SText color={STheme.color.text} fontSize={16}>Atrás</SText>
+                                    <SText color={STheme.color.text} fontSize={16} language={{
+                                        es: "Atrás",
+                                        en: "Back"
+                                    }} />
                                 </SView>
                             </SView>
-                            <SView col={'xs-6'} style={{alignItems:"flex-end"}}>
+                            <SView col={'xs-6'} style={{ alignItems: "flex-end" }}>
                                 <SView onPress={() => this.form.submit()}>
                                     <SIcon name={'next2'} style={{ width: 50, height: 50 }} />
                                 </SView>

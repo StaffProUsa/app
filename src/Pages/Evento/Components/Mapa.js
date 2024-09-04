@@ -34,7 +34,7 @@ class Mapa extends Component<MapaPropsType> {
             <SView col={"xs-12"} row center>
                 <SView col={"xs-12"} {...this.props} center>
                     <SView col={"xs-12"} flex>
-                        <SMapView2
+                        <SMapView
                             initialRegion={{
                                 // latitude: this.props.data?.latitude,
                                 // latitude: this.props.data?.latitude,
@@ -54,7 +54,7 @@ class Mapa extends Component<MapaPropsType> {
                             <SMarker lat={latitude} lng={longitude} >
                                 <SIcon name="iconMap" width={35} height={45} />
                             </SMarker>
-                        </SMapView2>
+                        </SMapView>
                         <SView col={"xs-12"} height style={{
                             position: "absolute",
                             // backgroundColor: "#f0f"

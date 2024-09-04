@@ -8,6 +8,7 @@ import edit from "./edit";
 import _delete from "./delete";
 import roles from "./roles";
 import eventos from "./eventos";
+import event from "./event";
 const model = Model.company;
 export const Parent = {
     name: "company",
@@ -21,6 +22,7 @@ export default SPage.combinePages(Parent.name, {
     "new": _new,
     ...profile,
     eventos,
+    event,
     "edit": edit,
     "delete": _delete,
     ...roles

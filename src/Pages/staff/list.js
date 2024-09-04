@@ -35,5 +35,6 @@ class index extends DPA.list {
     $getData() {
         return Parent.model.Action.getAll({ key_evento: this.$params.key_evento });
     }
+    
 }
 export default connect(index);

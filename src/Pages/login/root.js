@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SButtom, SForm, SHr, SIcon, SInput, SNavigation, SPage, SPopup, SText, STheme, SThread, SView } from 'servisofts-component';
+import { SButtom, SForm, SHr, SIcon, SInput, SNavigation, SPage, SPopup, SText, STheme, SThread, SView, SLanguage } from 'servisofts-component';
 import Model from '../../Model';
 import CryptoJS from 'crypto-js';
 import PButtom from '../../Components/PButtom';
@@ -18,10 +18,18 @@ class Login extends Component {
         this.ruta = SNavigation.getParam('ruta');
         console.log(this.ruta);
     }
+    
+    onChangeLanguage(language) {
+        this.setState({...this.state})
+    }
     componentDidMount() {
         new SThread(100, "espera").start(() => {
             this.setState({ ready: true })
         })
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
     }
 
     getFilter() {
@@ -125,7 +133,10 @@ class Login extends Component {
                         <SView height={50} center row style={{ backgroundColor: '#08080B', borderRadius: 8, borderColor: STheme.color.darkGray, borderWidth: 2, padding: 8 }}>
                             <SIcon name={'IconApple'} fill={STheme.color.white} width={30} />
                             <SView width={15} />
-                            <SText color={STheme.color.white} fontSize={18}>Continuar con Apple</SText>
+                            <SText color={STheme.color.white} fontSize={18} language={{
+                                es: "Continuar con Apple",
+                                en: "Continue with Apple"
+                            }} />
                         </SView>
                     </LoginApple>
                 </SView>
@@ -137,7 +148,10 @@ class Login extends Component {
                         <SView height={50} center row style={{ backgroundColor: '#08080B', borderRadius: 8, borderColor: STheme.color.darkGray, borderWidth: 2, padding: 8 }}>
                             <SIcon name={'IconGoogle'} width={30} />
                             <SView width={15} />
-                            <SText color={STheme.color.white} fontSize={18}>Continuar con Google</SText>
+                            <SText color={STheme.color.white} fontSize={18} language={{
+                                es: "Continuar con Google",
+                                en: "Continue with Google"
+                            }} />
                         </SView>
                     </LoginGoogle>
                 </SView>
@@ -162,7 +176,7 @@ class Login extends Component {
             </SView>
         </SView>
     }
-    renderMenssage(label) {
+    renderMenssage() {
         return <SView col={'xs-12'} height={20} row center>
             <SView col={'xs-3'} height center>
                 <SHr color={STheme.color.lightGray} height={1.5}></SHr>
@@ -171,7 +185,10 @@ class Login extends Component {
                 <SText
                     fontSize={14}
                     color={STheme.color.text}
-                    font={'LondonMM'}>{label}</SText>
+                    font={'LondonMM'} language={{
+                        es: "o con tu cuenta",
+                        en: "or with your account"
+                    }}></SText>
             </SView>
             <SView col={'xs-3'} height center>
                 <SHr color={STheme.color.lightGray} height={1.5}></SHr>
@@ -185,14 +202,28 @@ class Login extends Component {
             // SNavigation.navigate("/login");
             return null;
         }
+        let lenguaje = SLanguage.language;
+        let correo = "Correo electrónico";
+        let contrasena = "Contraseña";
+        let mensajeError = "Usuario o contraseña incorrectos.";
+        let mensajeError2 = "Ha ocurrido un error al iniciar sesión.";
+        if (lenguaje == "en") {
+            correo = "Email";
+            contrasena = "Password";
+            mensajeError = "Incorrect username or password.";
+            mensajeError2 = "An error occurred while logging in.";
+        }
 
         if (!this.state.ready) return this.renderHeader();
         return (
-            <SPage title={''} hidden  >
+            <SPage title={''}   >
                 {this.renderHeader()}
                 <SHr height={30} />
                 <SView col={"xs-12"} height={35} center backgroundColor={STheme.color.secondary} padding={25}>
-                    <SText fontSize={23}>Iniciar sesión</SText>
+                    <SText fontSize={23} language={{
+                        es: "Iniciar sesión",
+                        en: "Access"
+                    }} />
                 </SView>
                 <SHr height={10} />
                 <Container>
@@ -202,7 +233,7 @@ class Login extends Component {
                     {this.getSocial()}
                     {/* <SText fontSize={18}>Iniciar sesión</SText> */}
                     <SHr height={30} />
-                    {this.renderMenssage("o con tu cuenta")}
+                    {this.renderMenssage()}
                     <SHr height={20} />
                     {/* {this.getFilter()} */}
                     {/* <SHr height={16} /> */}
@@ -215,7 +246,7 @@ class Login extends Component {
 
                         inputs={{
                             usuario: {
-                                placeholder: "Correo electrónico",
+                                placeholder: correo,
                                 type: 'email',
                                 required: true,
                                 // autoFocus: true,
@@ -235,7 +266,7 @@ class Login extends Component {
                                 )
                             },
                             password: {
-                                placeholder: "Contraseña",
+                                placeholder: contrasena,
 
                                 type: "password",
                                 required: true,
@@ -274,9 +305,9 @@ class Login extends Component {
                             }).catch(e => {
                                 // SPopup.alert("usuario no encontrado")
                                 if (e?.error == "error_password") {
-                                    this.setState({ loading: false, error: "Usuario o contraseña incorrectos." })
+                                    this.setState({ loading: false, error: mensajeError })
                                 } else {
-                                    this.setState({ loading: false, error: "Ha ocurrido un error al iniciar sesión." })
+                                    this.setState({ loading: false, error: mensajeError2 })
                                 }
                             })
                         }}
@@ -292,22 +323,37 @@ class Login extends Component {
 
                     <SView width={180} height={50} center backgroundColor={STheme.color.secondary}
                         style={{ borderRadius: 14 }}>
-                        <SText color={STheme.color.white} fontSize={15}>Login</SText>
+                        <SText color={STheme.color.white} fontSize={15} language={{
+                            es: "Ingresar",
+                            en: "Login"
+                        }} />
                     </SView>
 
                     <SHr height={20} />
                     <SView col={"xs-12"} center row>
-                        <SText>¿Olvidaste tu contraseña? </SText>
+                        <SText language={{
+                            es: "¿Olvidaste tu contraseña?",
+                            en: "Forgot your password?"
+                        }} />
                         <SText onPress={() => {
                             SNavigation.navigate("/login/recuperar")
-                        }} color={STheme.color.text} style={{ textDecorationLine: "underline" }}>click aquí</SText>
+                        }} color={STheme.color.text} style={{ textDecorationLine: "underline" }} language={{
+                            es: "click aquí",
+                            en: "click here"
+                        }} />
                     </SView>
                     <SHr height={15} />
                     <SView col={"xs-12"} center row>
-                        <SText>¿No tienes cuenta? </SText>
+                        <SText language={{
+                            es: "¿No tienes cuenta? ",
+                            en: "Don't have an account? "
+                        }} />
                         <SText onPress={() => {
                             SNavigation.navigate("/registro")
-                        }} color={STheme.color.text} style={{ textDecorationLine: "underline" }}>click aquí</SText>
+                        }} color={STheme.color.text} style={{ textDecorationLine: "underline" }} language={{
+                            es: "click aquí",
+                            en: "click here"
+                        }} />
                     </SView>
 
                 </Container>

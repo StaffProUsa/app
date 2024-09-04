@@ -9,7 +9,8 @@ import {
   SScrollView2,
   SText,
   STheme,
-  SView
+  SView,
+  SLanguage
 } from 'servisofts-component';
 import PButtom from '../Components/PButtom';
 
@@ -194,6 +195,187 @@ divulgar información delicada, patrimonial o confidencial en sus comentarios en
 
 `;
 
+const Texto_en =  `TERMS AND CONDITIONS OF USE APP\n
+The following terms and conditions govern your use of this app and any available
+use of this app and any of the content made available by or through this app, including any content
+by or through this app, including any content derived therefrom (the “App”).
+derived therefrom (the “App”). Servisofts Srl. (“Servisofts Srl.” or “we” or “us”)
+has made the App available to you. We may change the Terms
+and Conditions from time to time, at any time without any notice,
+only by posting the changes on the App. BY USING THE APP, YOU ACCEPT
+AND AGREE TO THESE TERMS AND CONDITIONS AS THEY RELATE TO YOUR USE OF THE APP.
+USE OF THE APP. If you do not agree to these Terms and Conditions, you may not access or use the App.
+Conditions, you may not access or otherwise use this App.
+
+
+1. Proprietary Rights.
+As between you and Servisofts Srl, Servisofts Srl. is the sole and exclusive owner of all rights, title and interest in and to the App, all content (including, without limitation, all content on the App), and all content on the App.
+rights, title and interest in and to the App, all content (including,
+for example, audio, photographs, illustrations, graphics, other visual media, videos,
+copy, text, software, titles, Shockwave files, etc.), code, data, data and materials therein, the look and feel and
+and materials therein, the look and feel, the design and organization of the App, the compilation of the contents
+and the compilation of the contents, codes, data and materials therein,
+including, but not limited to, any copyrights, trademark rights,
+patent rights, database rights, moral rights, sui generis rights, and other intellectual property and proprietary
+other intellectual property and proprietary rights therein. Your use 
+does not grant you ownership of any of the content, code, data or materials that you may access on or through the
+you may access on or through the app.
+
+
+2. Limited License
+You may access and view the content of the app from any device and, 
+unless otherwise stated in these Terms and Conditions or this app, take individual copies or printouts of the
+this app, take individual copies or printouts of the app content for your personal, internal use only.
+personal, internal use only. Your use of the app and the services offered on or through the app are for your personal, internal use only.
+or through the app are for your personal, non-commercial use only.
+
+
+3. Prohibited Use.
+Any distribution, publication or commercial or promotional exploitation of the app, or
+of any of the contents, codes, data or materials in the app, is strictly
+prohibited, unless you have received the express prior written permission of the staff
+authorized by Servisofts Srl. or any other applicable rights holder. Unless it is as it is
+expressly permitted in this agreement, you may not download, report, display,
+publish, copy, reproduce, distribute, transmit, modify, perform, broadcast, transfer,
+create derivative works from, sell or otherwise exploit any of the
+contents, codes, data or materials in or available through the app. you
+further obligates not to alter, edit, delete, remove, or otherwise change the meaning or
+appearance of, or change the purpose of, any of the content, code, data or
+materials on or available through the app, including, without limitation, alteration or
+removal of any trademark, registered trademark, logo, service mark or any other
+proprietary content or proprietary rights notice. You acknowledge that you do not acquire
+no ownership rights when downloading any copyrighted material from or through the app.
+If you make any other use of the app, or the contents, codes, data or materials
+that are found there or that are available through the app, unless as stated.
+set forth above, you may violate copyright laws and other copyright laws.
+the United States and other countries, as well as applicable state laws, and may be subject
+to legal liability for such unauthorized use.
+
+
+4. Trademarks.
+The trademarks, logos, service marks, service marks, registered trademarks (collectively the “Trademarks”) displayed on the App or in the content available through the App.
+“Trademarks") displayed on the App or in the content available through the App are registered and unregistered Trademarks of Servisofts Srl.
+ are registered and unregistered Trademarks of Servisofts Srl. and others, and may not be used in connection with
+may not be used in connection with products and/or services that are not related, associated or sponsored by their
+or sponsored by their right holders and that may cause confusion to customers, or in any manner that denigrates or
+in any manner that disparages or discredits their right holders. All Trademarks
+Trademarks other than those of Servisofts Srl. that appear in the app or on or through the app services, if any.
+services, if any, are the property of their respective owners. Nothing contained in
+is contained in the app shall not be construed as granting, by implication,
+or otherwise granting, by implication, estoppel, or otherwise, any license or right to use any Trademark displayed in the app
+displayed on the app without the written permission of Servisofts Srl. or such third party that may own such Trademark.
+owners of such Trademark. Your misuse of the Trademarks displayed on the app
+or on or through any of the app services is strictly prohibited.
+
+
+5. User Information.
+In the course of your use of the App and/or the services made available to you on or through the App, you may be asked to provide us with certain information.
+on or through the App, you may be asked to provide us with certain personalized information (such information
+personalized information (such information hereinafter referred to as “User Information”). Servicer's information collection and use
+Servisofts Srl.'s information collection and use policies with respect to the privacy of such User Information are set forth in the User
+User Information are set forth in the app's Privacy Policy, which is incorporated herein by reference for your reference.
+is incorporated herein by reference for all purposes. You acknowledge and agree
+to be solely responsible for the accuracy of the content of the User Information.
+
+
+6. Materials Presented.
+Unless specifically requested, we do not ask for or wish to receive any information.
+confidential, secret or proprietary, or other material from you through the app, for
+email or any other way. Any information, creative works,
+demonstration, ideas, suggestions, concepts, methods, systems, designs, plans, techniques or
+other materials that you have sent or submitted to us (including, for example and without limitation,
+what you submit or send to our chat groups, message boards and/or to
+our 'blogs', or that you send us via email) ("Submitted Materials") are
+will be considered non-confidential or secret and may be used by us in any way.
+manner consistent with the app's Privacy Policy. When presenting or sending us
+Submitted Materials, you: (i) represent and warrant that the Submitted Materials
+are original to you, that no other person has any right to them, and that any
+"moral right" in the Submitted Materials has been waived, and (ii) you grant us,
+to us and our affiliates, royalty-free, unrestricted right and license,
+worldwide, perpetual, irrevocable, non-exclusive and fully transferable, which may be
+assigned and sublicensed, to use, copy, reproduce, modify, adapt, publish, translate,
+create derivative works from, distribute, perform, display and incorporate into other works
+any of the Submitted Materials (in whole or in part) in any form, medium or
+technology not known or yet to be developed, including promotional and/or commercial purposes.
+We cannot be responsible for retaining any Submission Materials provided by you and
+We may delete or destroy such Submission at any time.
+
+
+7. Prohibited User Conduct.
+You warrant and agree that, while using the app and the various services
+and items offered on or through the app, you will not: (a) personalize any
+person or entity nor misrepresent your affiliation with any other person or entity;
+(b) insert your own advertisement, brand positioning or other promotional content or
+that of a third party in any of the contents, materials or services or materials of the app
+(for example, without limitation, in an RSS update or in a recorded radio program (podcast)
+received from Servisofts Srl. or otherwise through the app), nor will you use, redistribute,
+republish or exploit said content or services for any other additional purpose
+commercial or promotional; nor (c) attempt to gain unauthorized access to other information systems.
+computing through the app. You will not: (i) engage in web surfing, "scraping" 
+(scraping) the screen", "scraping (scraping) the database", in collecting addresses of 
+email, wireless addresses or other personal or contact information, or
+any other automatic means of obtaining lists of users or other information from or through
+of the app or the services offered in or through the app, including, without limitation,
+any information found on any server or database related to the app
+or the services offered in or through the app; (ii) obtain or attempt to obtain access not
+authorized to computer systems, materials or information by any means; (iii) will use the
+app or the services made available to you on or through the app in any way
+with the intent to interrupt, damage, disable, overburden or impair the app or
+such services, including, without limitation, sending unsolicited mass messages or "flooding"
+servers with requests; (iv) use the app or the services or items of the app in
+violation of intellectual property or other legal or patrimonial rights of Servisofts Srl.
+or from any third party; or (v) use the app or the app services in violation of any
+applicable law. You further agree not to attempt (or encourage or support another's attempt) to deceive,
+destroy, decrypt, or otherwise alter or interfere with the app or the app services
+, or with any content thereof, or make any unauthorized use thereof.
+You agree not to use the app in any manner that could damage, disable, overburden or
+impair the app or interfere with anyone else's ability to use or enjoy the app
+or any of its services. You will not obtain or attempt to obtain any materials or information
+through any means that has not been stipulated or made available to the public
+intentionally through the app.
+
+
+8. Public Forums.
+Servisofts Srl. may, from time to time, have messaging services, chat services, news boards,
+blogs, other forums and other services available on or through the app. In addition to any other regulations
+and regulation that we may publish with respect to a particular service, you agree not to upload, inform,
+transmit, distribute or otherwise publish through the app or any service or item posted
+made available on or through the app, any material that (i) restricts or inhibits any other
+user to use and enjoy the app or the app services, (ii) is fraudulent, illegal, threatening,
+abusive, harassing, libelous, defamatory, obscene, vulgar, offensive, pornographic, profane,
+sexually explicit or indecent, (iii) constitutes or encourages conduct that could constitute a criminal offense,
+give rise to civil liability or otherwise violate any local, state, national or international law,
+iv) violates, plagiarizes or infringes the rights of third parties including, without limitation, copyrights, trademarks,
+trade secrets, confidentiality, contracts, patents, rights of privacy or publicity or any other rights
+proprietary, (v) contains a virus, spyware or other harmful component, (vi) contains fixed links,
+advertising, chain letters or pyramid schemes of any kind, or (vii) constitutes or contains indications
+false or misleading statements of origin, endorsements or statements of fact. You further agree not to impersonate any
+any other person or entity, whether real or fictitious, including anyone from Servisofts Srl. You may also not
+offer to buy or sell any product or service on or through your comments submitted on our forums.
+You alone are responsible for the content and consequences of any of your activities.
+
+
+9. Right of Monitoring and Editorial Control.
+Servisofts Srl. reserves the right, but has no obligation, to monitor and/or review all materials submitted to the app or through the app's services or articles by users, and Servisofts Srl. is not obligated to do so.
+submitted to the app or through the app services or articles by users, and Servisofts Srl. is not responsible for such materials submitted by users.
+responsible for such materials submitted by users. However, Servisofts Srl. reserves the right at all times to disclose any information that is
+at any time to disclose any information as necessary to satisfy any law, regulation or governmental request, or to edit, refuse to disclose any information
+or governmental request, or to edit, refuse to post or to remove any information or materials, in whole or in part, which, in Servisofts Srl.
+in Servisofts Srl.'s sole discretion, are objectionable or in violation of these Terms of Use, Servisofts Srl. policies, or Servisofts Srl. policies.
+Servisofts Srl. policies or applicable law. We may also impose limits on certain forum posts or restrict your access to some or all of the forums.
+your access to part or all of the forums without notice or penalty, if we believe that you are in breach of the guidelines set forth in this
+guidelines set forth in this paragraph, our terms and conditions or applicable law, or for any other reason
+without notice or liability.
+
+
+10. Private or Sensitive Information in Public Forums
+It is important to remember that comments submitted in a forum may be recorded and stored in multiple places, both in our app and elsewhere on the Internet, which may be accessible for a long time.
+locations, both in our app and elsewhere on the Internet, which may be accessible for a long time and you have no control over who will eventually read them.
+time and you have no control over who will eventually read them. It is therefore important for you to be careful
+and be selective about the personal information you disclose about yourself and others, and in particular, you should not
+disclose sensitive, proprietary or confidential information in your comments in our public forums.
+`;
+
 class TerminosCondiciones extends Component {
   constructor(props) {
     super(props);
@@ -202,7 +384,7 @@ class TerminosCondiciones extends Component {
 
   render() {
     return (
-      <SPage title={'Términos y condiciones'} center disableScroll>
+      <SPage titleLanguage={{ es: "Términos y condiciones", en: "Terms and Conditions" }} center disableScroll>
         <SView
           col={'xs-12'}
           center
@@ -218,9 +400,12 @@ class TerminosCondiciones extends Component {
                   style={{
                     textAlign: 'justify'
                   }}
-                  font={'Roboto'}>
-                  {Texto}
-                </SText>
+                  font={'Roboto'} language={{
+                    es: Texto,
+                    en: Texto_en
+                  }}/>
+                  {/* {Texto} */}
+                {/* </SText> */}
                 <SHr height={200} />
               </SView>
             </SView>
@@ -248,7 +433,10 @@ class TerminosCondiciones extends Component {
                   onPress={() => {
                     SNavigation.goBack();
                   }}>
-                  Aceptar
+                    <SText color={STheme.color.black} language={{
+                      es: "Aceptar",
+                      en: "Accept"
+                    }}/>
                 </PButtom>
               </SView>
             </SView>
