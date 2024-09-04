@@ -39,7 +39,7 @@ export default class Asistencias extends Component {
                     <SView width={16} />
                     <SView flex />
                     <SView style={{ justifyContent: "center" }}>
-                        <SText style={{ textAlign: "right" }} fontSize={12}>{obj.actual} / {obj.cantidad}</SText>
+                        <SText style={{ textAlign: "right" }} fontSize={12}>{obj.asistencias} / {obj.actual}</SText>
                         <SText style={{ textAlign: "right" }} color={STheme.color.lightGray} fontSize={12}>{obj.porcentaje + "%"}</SText>
                     </SView>
                 </SView>

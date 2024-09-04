@@ -13,7 +13,7 @@ export default class root extends Component {
     static INSTANCE;
     static TOPBAR = <>
         {/* <TopBar type={"usuario_back"} /> */}
-        <SView backgroundColor={"#96BE00"} height={20} col={"xs-12"}></SView>
+        {/* <SView backgroundColor={"#96BE00"} height={20} col={"xs-12"}></SView> */}
     </>
 
     static FOOTER = <>
@@ -197,10 +197,10 @@ export default class root extends Component {
                         <SText font={"Montserrat-Medium"}>{"Usuarios"}</SText>
                         <SText fontSize={10} color={STheme.color.gray}>{"Personal que tiene acceso / control de tu comercio"}</SText>
                     </SView>
-                    {this.state.add ? <SView width={130} height={26} backgroundColor={STheme.color.primary} borderRadius={8} center onPress={() => {
+                    {this.state.add ? <SView width={130} height={26} backgroundColor={STheme.color.card} borderRadius={8} center onPress={() => {
                         SNavigation.navigate("/company/roles/add", { key_company: this.key_company })
                     }}>
-                        <SText color={STheme.color.gray} fontSize={12} >{"+ Agregar usuario"}</SText>
+                        <SText color={STheme.color.text} fontSize={12} >{"+ Agregar usuario"}</SText>
                     </SView> : null}
 
                 </SView>
