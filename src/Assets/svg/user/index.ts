@@ -16,6 +16,8 @@ import eliminarCuenta, { ReactComponent as eliminarCuentaw } from './eliminarCue
 import barra, { ReactComponent as barraw } from './barra.svg';
 import qr, { ReactComponent as qrw } from './qr.svg';
 import party, { ReactComponent as partyw } from './party.svg';
+import hisCompleted, { ReactComponent as hisCompletedw } from './hisCompleted.svg';
+import hisEvent, { ReactComponent as hisEventw } from './hisEvent.svg';
 
 
 
@@ -40,6 +42,8 @@ const Assets = {
 	"qr": { Native: qr, Web: qrw },
 	"party": { Native: party, Web: partyw },
 	// "Repassword": { Native: Repassword, Web: RepasswordW },
+	"hisCompleted": { Native: hisCompleted, Web: hisCompletedw },
+	"hisEvent": { Native: hisEvent, Web: hisEventw },
 }
 
 export default Assets;
