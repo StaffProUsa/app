@@ -105,11 +105,12 @@ export default class trabajos extends Component {
                             <SView col={"xs-2"} row center>
                                 {/* <SIcon name={"staff"} width={16} /> */}
                                 <SView width={40} height={40} style={{borderRadius:5, overflow:"hidden"}} >
-                                    <SImage src={SSocket.api.root + "usuario/" + obj?.staff_usuario?.key_usuario_atiende} width={40} height={40} style={{ resizeMode: 'contain' }} />
+                                    <SImage src={SSocket.api.root + "usuario/" + obj?.staff_usuario?.key_usuario_atiende} width={40} height={40} style={{ resizeMode: 'cover', overflow:"hidden" }} />
                                 </SView>
                             </SView>
                             <SView col={"xs-10"}  >
-                                <SText>{obj?.staff_usuario?.key_usuario_atiende}</SText>
+                                {/* <SText>{obj?.staff_usuario?.key_usuario_atiende}</SText> */}
+                                <SText>{userCoordinador?.Nombres} {userCoordinador?.Apellidos}</SText>
                             </SView>
                         </SView> : null}
                         {/* <SText>{obj?.staff_usuario?.key_usuario_atiende}</SText><SHr /> */}
