@@ -3,7 +3,8 @@ import { View, Text } from 'react-native';
 import { SHr, SNavigation, SPage, SText, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { Container } from '../../Components';
-import Reclutas from './Components/reclutas';
+import Reclutas from './Components/Reclutas';
+import Asistencias from './Components/Asistencias';
 
 export default class event extends Component {
     constructor(props) {
@@ -35,9 +36,10 @@ export default class event extends Component {
             <SHr/>
             <SHr />
             <SText fontSize={12} col={"xs-12"}>{fecha}</SText>
-            <SHr/>
-            <SHr/>
+            <SHr h={50}/>
             <Reclutas key_evento={this.key_evento} />
+            <SHr h={50}/>
+            <Asistencias key_evento={this.key_evento} />
         </SView>
     }
     render() {

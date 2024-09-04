@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { SHr, SImage, SText, STheme, SUtil, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 
-export default class Reclutas extends Component {
+export default class Asistencias extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +15,7 @@ export default class Reclutas extends Component {
         if (!this.props.key_evento) return;
         SSocket.sendPromise({
             component: "evento",
-            type: "getEstadoReclutas",
+            type: "getEstadoAsistencias",
             key_evento: this.props.key_evento
         }).then(e => {
             this.setState({ data: e.data })
@@ -32,7 +32,7 @@ export default class Reclutas extends Component {
             <SView flex>
                 <SView row flex col={"xs-12"}>
                     <SView height style={{
-                        justifyContent: "center"
+                        justifyContent:"center"
                     }}>
                         <SText>{obj.tipo_staff}</SText>
                     </SView>
@@ -61,13 +61,12 @@ export default class Reclutas extends Component {
             </SView>
         </SView>
     }
-
     render() {
         if (!this.props.key_evento) return null;
         return <SView col={"xs-12"}>
             <SText fontSize={18} language={{
-                en: "Recruitment",
-                es: "Reclutas"
+                en: "Attendance",
+                es: "Asistencias"
             }} />
             <SHr h={16} />
             {Object.values(this.state.data).map((obj) => {
