@@ -37,7 +37,7 @@ export default class event extends Component {
             <SText fontSize={12} col={"xs-12"}>{fecha}</SText>
             <SHr/>
             <SHr/>
-            <Reclutas key_evento={this.key_evento}/>
+            <Reclutas key_evento={this.key_evento} />
         </SView>
     }
     render() {
