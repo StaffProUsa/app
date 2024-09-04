@@ -98,11 +98,11 @@ class PBarraFooter extends Component {
                 params: {}
               })}
                {this.getItem({
-                key: '/calendario',
+                key: '/history',
                 title: 'HISTORIAL',
                 title_en: 'HISTORY',
                 icon: 'history',
-                url: '/sorry',
+                url: '/history',
                 params: {}
               })}
               {/* {this.getItem({ key: "reservas", title: 'RESERVAS', icon: 'Reservas', url: 'reservas', params: {} })} */}
