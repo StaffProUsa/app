@@ -5,6 +5,7 @@ import Model from '../Model';
 import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate } from 'servisofts-component';
 import { Container } from '../Components';
 import Degradado from '../Components/Degradado';
+import PBarraFooter from '../Components/PBarraFooter';
 
 export default class trabajos extends Component {
     constructor(props) {
@@ -24,7 +25,7 @@ export default class trabajos extends Component {
         })
     }
     render() {
-        return <SPage>
+        return <SPage titleLanguage={{ es: "Trabajos en curso", en: "Work in progress" }} preventBack footer={<PBarraFooter url={'/trabajos'} />}>
             <Container>
                 <SList2 data={this.state.data} order={[{ key: "staff/fecha_inicio", order: "desc" }]} render={(obj) => {
                     let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
@@ -36,7 +37,7 @@ export default class trabajos extends Component {
                         overflow: "hidden",
                     }}>
                         <Degradado />
-                        <SView col={"xs-2"} row center>
+                        <SView col={"xs-2 sm-2"} row center>
                             <SView style={{
                                 width: 40,
                                 height: 40,
@@ -50,74 +51,72 @@ export default class trabajos extends Component {
                                 }} />
                             </SView>
                         </SView>
-                        <SView col={"xs-10"} >
+                        <SView col={"xs-10 sm-3.5"} >
                             <SText fontSize={16}>{obj?.company?.descripcion}</SText>
                             <SText fontSize={14} color={STheme.color.gray} language={{
                                 es: "Empresa",
                                 en: "Company"
                             }} />
                         </SView>
-                        {/* <SText>{obj?.company?.descripcion}</SText> */}
+                        <SView col={"xs-12 sm-0.5"} height={10} />
+                        {(obj?.staff_usuario?.key_usuario_atiende) ? <SView col={"xs-12 sm-6"} row >
+                            <SView col={"xs-2 sm-4"} row center>
+                                <SView width={40} height={40} style={{ borderRadius: 5, overflow: "hidden" }} backgroundColor={STheme.color.darkGray}>
+                                    <SImage src={SSocket.api.root + "usuario/" + obj?.staff_usuario?.key_usuario_atiende} width={40} height={40} style={{ resizeMode: 'cover', overflow: "hidden" }} />
+                                </SView>
+                            </SView>
+                            <SView col={"xs-8 sm-8"}  >
+                                <SText>{userCoordinador?.Nombres} {userCoordinador?.Apellidos}</SText>
+                                <SText fontSize={14} color={STheme.color.gray} language={{
+                                    es: "Coordinador",
+                                    en: "Coordinator"
+                                }} />
+                            </SView>
+                        </SView> : null}
                         <SHr height={10} />
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"eventi"} width={15} />
+                            <SIcon name={"eventi"} fill={STheme.color.gray} width={15} />
                         </SView>
                         <SView col={"xs-10"}  >
                             <SText fontSize={16}>{obj?.evento?.descripcion}</SText>
                         </SView>
                         <SHr height={5} />
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"worki"} width={16} />
+                            <SIcon name={"worki"} fill={STheme.color.gray} width={16} />
                         </SView>
                         <SView col={"xs-10"}  >
                             <SText>{obj?.staff_tipo?.descripcion}</SText>
                         </SView>
                         <SHr height={5} />
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"dating"} width={16} />
+                            <SIcon name={"dating"} fill={STheme.color.gray} width={16} />
                         </SView>
                         <SView col={"xs-10"}  >
                             <SText>{new SDate(obj?.evento?.fecha).toString("yyyy-MM-dd")}</SText>
                         </SView>
-                        {/* <SText>{obj?.evento?.descripcion}</SText><SHr /> */}
-                        {/* <SText>{obj?.staff_tipo?.descripcion}</SText><SHr /> */}
                         <SHr height={10} />
-                        {/* <SView col={"xs-6"} row center> */}
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"timeIni"} width={16} />
+                            <SIcon name={"timeIni"} fill={STheme.color.gray} width={16} />
                         </SView>
                         <SView col={"xs-4"}  >
                             <SText>{new SDate(obj?.staff?.fecha_inicio).toString("hh:mm:ss")}</SText>
                         </SView>
-                        {/* </SView> */}
-                        {/* <SView col={"xs-6"} row center> */}
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"timeFinish"} width={16} />
+                            <SIcon name={"timeFinish"} fill={STheme.color.gray} width={16} />
                         </SView>
                         <SView col={"xs-4"}  >
                             <SText>{new SDate(obj?.staff?.fecha_fin).toString("hh:mm:ss")}</SText>
                         </SView>
-                        <SHr height={10} />
-                        {/* </SView> */}
-                        {/* <SText>{obj?.staff?.fecha_inicio}</SText><SHr /> */}
-                        {/* <SText>{obj?.staff?.fecha_fin}</SText><SHr /> */}
-                        {(obj?.staff_usuario?.key_usuario_atiende) ? <SView col={"xs-12"} row center>
-                            <SView col={"xs-2"} row center>
-                                {/* <SIcon name={"staff"} width={16} /> */}
-                                <SView width={40} height={40} style={{borderRadius:5, overflow:"hidden"}} >
-                                    <SImage src={SSocket.api.root + "usuario/" + obj?.staff_usuario?.key_usuario_atiende} width={40} height={40} style={{ resizeMode: 'cover', overflow:"hidden" }} />
-                                </SView>
-                            </SView>
-                            <SView col={"xs-10"}  >
-                                {/* <SText>{obj?.staff_usuario?.key_usuario_atiende}</SText> */}
-                                <SText>{userCoordinador?.Nombres} {userCoordinador?.Apellidos}</SText>
-                            </SView>
-                        </SView> : null}
-                        {/* <SText>{obj?.staff_usuario?.key_usuario_atiende}</SText><SHr /> */}
-                        <SText>{obj?.asistencia_staff_usuario ? obj?.asistencia_staff_usuario.length : 0}</SText>
+                        <SHr height={5} />
+                        <SView col={"xs-2"} row center>
+                            <SIcon name={"asistencia2"} fill={STheme.color.gray} width={16} />
+                        </SView>
+                        <SView col={"xs-10"}  >
+                            <SText>{obj?.asistencia_staff_usuario ? obj?.asistencia_staff_usuario.length : 0}</SText>
+                        </SView>
                     </SView>
                 }} />
-                <SHr height={25} />
+                <SHr height={90} />
             </Container>
         </SPage >
     }

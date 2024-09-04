@@ -13,6 +13,8 @@ import worki, { ReactComponent as workiW } from './worki.svg';
 import timeIni, { ReactComponent as timeIniW } from './timeIni.svg';
 import timeFinish, { ReactComponent as timeFinishW } from './timeFinish.svg';
 import dating, { ReactComponent as datingW } from './dating.svg';
+import asistencia, { ReactComponent as asistenciaW } from './asistencia.svg';
+import asistencia2, { ReactComponent as asistencia2W } from './asistencia2.svg';
 
 
 
@@ -30,6 +32,8 @@ const Assets = {
 	"timeIni": { Native: timeIni, Web: timeIniW },
 	"timeFinish": { Native: timeFinish, Web: timeFinishW },
 	"dating": { Native: dating, Web: datingW },
+	"asistencia": { Native: asistencia, Web: asistenciaW },
+	"asistencia2": { Native: asistencia2, Web: asistencia2W },
 
 }
 

@@ -59,6 +59,7 @@ import waiting from './waiting';
 import my_companys from "./my_companys";
 import invitations from './invitations';
 import trabajos from './trabajos';
+import history from './history';
 const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
@@ -85,6 +86,7 @@ const NewPages = SPage.combinePages("/", {
     ...ubicacion,
     ...company,
     trabajos,
+    history,
     "invitationDetail": invitationDetail,
     invitations,
     "sorry": sorry,
