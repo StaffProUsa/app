@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, RefreshControl, FlatList, ScrollView } from 'react-native';
-import { SForm, SHr, SIcon, SLoad, SPage, SText, STheme, SView, SLanguage, SNavigation } from 'servisofts-component';
+import { SForm, SHr, SIcon, SLoad, SPage, SText, STheme, SView, SLanguage, SNavigation, SGradient } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import EventoItem from '../Components/Evento/EventoItem';
 import TipoItem from '../Components/Staff/TipoItem';
@@ -253,7 +253,50 @@ export default class Inicio extends Component {
     // console.log("DATATIPO")
     // console.log(this.state.dataTipo)
     // console.log(this.state.data)
-
+    console.log("dataTipo")
+    console.log(this.state.dataTipo)
+    console.log("data")
+    console.log(this.state.data)
+    console.log("invitaciones")
+    console.log(this.state.invitaciones)
+    if ((this.state.dataTipo.length == 1) && (this.state.data.length == 0) && (this.state.invitaciones == 0)) return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} center preventBack footer={<PBarraFooter url={'/'} />} disableScroll>
+      <SView col={'xs-12'} center>
+        <Container>
+          <SView col={'xs-12'} center
+            style={{
+              padding: 20,
+              borderRadius: 16,
+              borderWidth: 1,
+              borderColor: STheme.color.darkGray,
+              overflow: 'hidden',
+            }}>
+            <SGradient colors={["#0C0C10", "#040405"]} style={{ borderRadius: 16, }} />
+            <SHr height={25} />
+            <SText fontSize={28} center language={{
+              es: "Lo sentimos, actualmente no hay información disponible",
+              en: "Sorry, there is currently no information available"
+            }} />
+            <SHr height={35} />
+            <SView width={140} height={140} center style={{
+              borderRadius: 130,
+              backgroundColor: STheme.color.white,
+              overflow: 'hidden',
+              borderWidth: 1,
+              borderColor: STheme.color.primary,
+            }}>
+              <SIcon name={'noevent'} fill={STheme.color.primary} height={80} />
+            </SView>
+            <SHr height={35} />
+            <SText fontSize={20} center language={{
+              es: "No estás asignado(a) a ninguna empresa o no formas parte de una. Por favor, contacta al administrador para más detalles",
+              en: "You are not assigned to any company or you are not part of one. Please contact the administrator for more details"
+            }} />
+            <SHr height={25} />
+          </SView>
+        </Container>
+        <SHr height={50} />
+      </SView>
+    </SPage>
 
     return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} preventBack footer={<PBarraFooter url={'/'} />} disableScroll>
       <Container flex>

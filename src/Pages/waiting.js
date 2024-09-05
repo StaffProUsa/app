@@ -9,7 +9,7 @@ export default class waiting extends React.Component {
   render() {
     return (
       <>
-        <SPage center title={'Waiting'} footer={<PBarraFooter url={'/'} />}>
+        <SPage center title={'Waiting'} footer={<PBarraFooter url={'/trabajos'} />}>
           <SView col={'xs-12'} center>
             <Container>
               <SView col={'xs-12'} center >

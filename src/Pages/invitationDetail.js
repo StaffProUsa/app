@@ -138,6 +138,7 @@ export default class invitationDetail extends React.Component {
                   </Btn>
                   <SView width={25} />
                   <Btn col={"xs-5"} onPress={() => {
+                    this.setState({ loading: true, error: "" })
                     SSocket.sendPromise({
                       component: "staff_usuario",
                       type: "aceptarInvitacion",
@@ -147,11 +148,16 @@ export default class invitationDetail extends React.Component {
                       console.log(e);
                       // SNavigation.navigate("/evento",{key:obj?.evento?.key});
                       // SNavigation.navigate("/inicio");
+                      this.setState({ loading: false })
                       SNavigation.reset("/inicio");
                     }).catch(e => {
                       console.error(e);
+                      this.setState({ loading: false, error: e.error })
                     })
-                  }} backgroundColor={STheme.color.secondary}>
+                  }} backgroundColor={STheme.color.secondary}
+                    loading={this.state.loading}
+
+                  >
                     <SText fontSize={18} color={STheme.color.text} language={{
                       es: "ACEPTAR",
                       en: "ACCEPT"

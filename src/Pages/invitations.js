@@ -70,14 +70,14 @@ export default class invitations extends Component {
                         </SView>
                         <SHr height={10} />
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"eventi"} width={15} />
+                            <SIcon name={"eventi"} width={15} fill={STheme.color.text} />
                         </SView>
                         <SView col={"xs-10"}  >
                             <SText fontSize={16}>{obj?.evento?.descripcion}</SText>
                         </SView>
                         <SHr height={5} />
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"worki"} width={16} />
+                            <SIcon name={"worki"} width={16} fill={STheme.color.text} />
                         </SView>
                         <SView col={"xs-10"}  >
                             <SText>{obj?.staff_tipo?.descripcion}</SText>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import { SDate, SGradient, SHr, SIcon, SNavigation, SText, STheme, SUtil, SView } from 'servisofts-component';
+import { SDate, SGradient, SHr, SIcon, SNavigation, SText, STheme, SUtil, SView, SLanguage } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import SVideo from '../SVideo';
 import ImageBlur from '../ImageBlur';
@@ -49,7 +49,7 @@ export default class EventoItem extends Component {
     }
     render() {
         const { data } = this.props;
-        const { descripcion, observacion, actividades, ubicacion } = data;
+        const { descripcion, observacion, actividades, ubicacion , key} = data;
         const firstActivity = actividades[0]
         const imgPath = SSocket.api.repo + 'actividad/' + firstActivity?.key;
         const fecha = new SDate(data.fecha, "yyyy-MM-dd")
@@ -85,7 +85,8 @@ export default class EventoItem extends Component {
                         }
                     </View>
                 </SView>
-                <SView col={"xs-8"} padding={5}>
+                <SView col={"xs-0.3"} />
+                <SView col={"xs-7.2"} padding={5}>
                     <SText fontSize={16} style={{ textTransform: 'uppercase' }}>{descripcion}</SText>
                     <SHr h={7} />
                     <SView row col={"xs-12"}>
@@ -106,7 +107,10 @@ export default class EventoItem extends Component {
                         </SView>
                     </SView>
                     <SHr h={7} />
-                    <SText fontSize={12} style={{ textTransform: 'uppercase' }}>REQUIRES:</SText>
+                    <SText fontSize={12} style={{ textTransform: 'uppercase' }} language={{
+                        es: "REQUIERE:",
+                        en: "REQUIRES:"
+                    }} />
                     <SHr h={5} />
                     <SView row col={"xs-12"}>
                         {!data.pendientes ? null : data.pendientes.map(p => this.renderPuestos({ label: p.descripcion, cantidad: p.cantidad }))}

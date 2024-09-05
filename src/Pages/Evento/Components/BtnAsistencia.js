@@ -28,9 +28,7 @@ class BtnAsistencia extends Component {
 
         return (
             <SView col={'xs-12'} backgroundColor={STheme.color.secondary} style={{ borderRadius: 14, overflow: "hidden" }} padding={15} row center
-            onPress={() => {
-                SNavigation.navigate("");
-            }}
+            onPress={this.props.onPress}
             >
                 <SIcon name={"start"} width={80} height={80} />
                 <SView width={15} />

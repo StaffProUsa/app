@@ -63,7 +63,8 @@ class Asistencia extends Component {
                             </SView>
                         </SView>
                     </SView>
-                    <SView col={"xs-9"} >
+                    <SView col={"xs-1"} />
+                    <SView col={"xs-8"} >
                         <SView col={"xs-12"} row >
                             <SIcon name={"User"} width={15} height={15} fill={STheme.color.text} />
                             <SView width={5} />
@@ -77,7 +78,9 @@ class Asistencia extends Component {
                     </SView>
                     <SHr height={25} />
                     <SView col={"xs-12"} >
-                        <BtnAsistencia />
+                        <BtnAsistencia onPress={() => {
+                            SNavigation.navigate("evento/token", { key: this.props.data.key});
+                        }} />
                     </SView>
                 </SView>
             </SView>

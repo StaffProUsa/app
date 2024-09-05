@@ -578,7 +578,7 @@ class Perfil extends React.Component {
 
                 {/* STAFF ASISTENCIA */}
                 <SView col={'xs-11.5'}>
-                  <Asistencia />
+                  <Asistencia  data={this.state.data}/>
                 </SView> 
                 <SHr height={30} />
 

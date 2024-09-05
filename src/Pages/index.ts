@@ -17,6 +17,7 @@ import entradas from './entradas';
 import Perfil from './Evento/Perfil';
 import Qr from './Evento/Qr';
 import Registro from './Evento/Registro';
+import Token from './Evento/Token';
 import Inicio from './Inicio';
 import Inicio2 from './Inicio2';
 import Reservas from './Reservas';
@@ -106,6 +107,7 @@ const Pages: SPageListProps = {
     'evento/perfil': Perfil,
     'evento/registro': Registro,
     'evento/qr': Qr,
+    'evento/token': Token,
     'ticket/entrada': Entrada,
     'ticket/reserva': Reserva,
     'carrito/confirmar': Confirmar,
