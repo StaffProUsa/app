@@ -29,7 +29,7 @@ export default class EventoItem extends Component {
         SNavigation.navigate("/evento", { key: this.props.data.key })
     }
 
-    renderPuestos = ({ label, cantidad }) => {
+    renderPuestos_ = ({ label, cantidad }) => {
         return <SView height={32} width={105}
             style={{
                 borderRadius: 15,
@@ -47,9 +47,50 @@ export default class EventoItem extends Component {
             </SView>
         </SView>
     }
+    renderPuestosItem = ({ label, cantidad, longitud }) => {
+        console.log("longitud", longitud)
+        return <>
+            <SView height={32} flex padding={2}>
+                <SView col={"xs-12"}
+                    style={{
+                        borderRadius: 15,
+                        backgroundColor: STheme.color.darkGray,
+                        padding: 4,
+                    }} row center>
+                    <SView col={"xs-8"} heigh>
+                        <SText fontSize={8} style={{ color: STheme.color.text, lineHeight: '1.2' , paddingLeft:2}}>{label}</SText>
+                    </SView>
+                    <SView col={"xs-4"} height style={{ alignItems: "flex-end" }}>
+                        <SView width={16} height={16} backgroundColor={STheme.color.background}
+                            style={{ borderRadius: 35 }} center>
+                            <SText fontSize={8} style={{ color: STheme.color.text }}>x{cantidad}</SText>
+                        </SView>
+                    </SView>
+                </SView>
+            </SView>
+        </>
+    }
+    renderPuestos(obj) {
+        let longitud = obj.length
+        if (longitud > 3) {
+            newObj = obj.slice(0, 3);
+            return <SView col={"xs-12"} row center>
+                {newObj.map(p => this.renderPuestosItem({ label: p.descripcion, cantidad: p.cantidad, longitud: obj.length }))}
+                <SView width={2} />
+                <SView width={24} height={24} center row
+                    style={{
+                        borderRadius: 55,
+                        backgroundColor: STheme.color.darkGray,
+                    }}><SText center fontSize={14}>+</SText></SView>
+            </SView>
+        } else {
+            return obj.map(p => this.renderPuestosItem({ label: p.descripcion, cantidad: p.cantidad, longitud: obj.length }))
+        }
+
+    }
     render() {
         const { data } = this.props;
-        const { descripcion, observacion, actividades, ubicacion , key} = data;
+        const { descripcion, observacion, actividades, ubicacion, key } = data;
         const firstActivity = actividades[0]
         const imgPath = SSocket.api.repo + 'actividad/' + firstActivity?.key;
         const fecha = new SDate(data.fecha, "yyyy-MM-dd")
@@ -77,7 +118,7 @@ export default class EventoItem extends Component {
                     start={{ x: 0, y: 1 }}
                     end={{ x: 1, y: 1 }}
                 />
-                <SView col={"xs-4"} >
+                <SView col={"xs-12 sm-4"} >
                     <View style={{ width: "100%", height: HEIGHT, borderRadius: 12, overflow: "hidden" }}>
                         {firstActivity?.tipo == "video" ?
                             <SVideo ref={ref => this.video = ref} src={imgPath} paused={true} />
@@ -85,8 +126,8 @@ export default class EventoItem extends Component {
                         }
                     </View>
                 </SView>
-                <SView col={"xs-0.3"} />
-                <SView col={"xs-7.2"} padding={5}>
+                <SView col={"xs-12 sm-0.3"} />
+                <SView col={"xs-12 sm-7.7"} padding={5}>
                     <SText fontSize={16} style={{ textTransform: 'uppercase' }}>{descripcion}</SText>
                     <SHr h={7} />
                     <SView row col={"xs-12"}>
@@ -113,7 +154,8 @@ export default class EventoItem extends Component {
                     }} />
                     <SHr h={5} />
                     <SView row col={"xs-12"}>
-                        {!data.pendientes ? null : data.pendientes.map(p => this.renderPuestos({ label: p.descripcion, cantidad: p.cantidad }))}
+                        {/* {!data.pendientes ? null : data.pendientes.map(p => this.renderPuestos({ label: p.descripcion, cantidad: p.cantidad, longitud: data.pendientes.length }))} */}
+                        {!data.pendientes ? null : this.renderPuestos(data.pendientes)}
                     </SView>
                 </SView>
             </SView>
