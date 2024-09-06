@@ -35,8 +35,9 @@ class Mapa extends Component<MapaPropsType> {
 
         return (
             <SView col={"xs-12"} row center>
+                <SHr height={40} />
                 <SView col={"xs-12"} {...this.props} center>
-                    <SView col={"xs-12"} flex>
+                    <SView col={"xs-12"} height ={350}>
                         <SMapView
                             initialRegion={{
                                 // latitude: this.props.data?.latitude,
