@@ -3,10 +3,10 @@ import React, { Component, forwardRef, useImperativeHandle, useRef, useState } f
 import { View, Text, TextInput, KeyboardAvoidingView, Platform, KeyboardTypeOptions, TextInputProps } from 'react-native';
 import { SColType, SHr, SInput, SNavigation, SPage, SText, STheme, SThread, SView } from 'servisofts-component';
 
-const color = "#000000"
+const color = "#ffffff"
 const colorGray = "#999999"
-const colorGray2 = "#BBBBBB"
-const colorCard = "#EEEEEE"
+const colorGray2 = "#999999"
+const colorCard = "#EEEEEE22"
 const font = 'Montserrat'
 
 type InputProps = {

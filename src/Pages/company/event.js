@@ -40,10 +40,9 @@ export default class event extends Component {
             <SHr />
             <SText fontSize={12} col={"xs-12"}>{fecha}</SText>
             <SHr h={50} />
-            <SText onPress={() => {
+            <SText card padding={16} onPress={() => {
                 SNavigation.navigate("/staff/add", { key_evento: this.key_evento })
             }} language={{ en: "Add new staff", es: "Crear nuevo staff" }}></SText>
-            <SHr h={50} />
             <Reclutas key_evento={this.key_evento} />
             <SHr h={50} />
             <Asistencias key_evento={this.key_evento} />

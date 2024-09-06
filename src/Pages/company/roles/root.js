@@ -109,13 +109,15 @@ export default class root extends Component {
         const rol = this.state.roles.find(a => a.key == obj.key_rol);
         return <SView col={"xs-12"} row center>
             <SView flex padding={8} style={{
-                borderRadius: 16,
+                borderRadius: 4,
                 borderWidth: 1,
-                borderColor: "#CCC"
+                borderColor: STheme.color.card
             }} row>
                 <SView flex>
                     <SText fontSize={12} font='Montserrat-Bold'>{obj?.usuario?.Nombres} {obj?.usuario?.Apellidos}</SText>
-                    <SText fontSize={12}>{rol?.descripcion ?? "Sin rol"}</SText>
+                    <SHr h={2}/>
+                    <SText fontSize={12} color={STheme.color.lightGray}>{rol?.descripcion ?? "Sin rol"}</SText>
+                    <SHr h={4}/>
                     <SText fontSize={12} color={STheme.color.gray}>{obj?.usuario?.Telefono}</SText>
                     <SText fontSize={12} color={STheme.color.gray}>{obj?.usuario?.Correo}</SText>
                 </SView>
@@ -190,14 +192,14 @@ export default class root extends Component {
         return <SPage  >
             <Container>
                 <SHr />
-                <PageTitle title='ADMINISTRADOR DE USUARIOS' />
+                {/* <PageTitle title='ADMINISTRADOR DE USUARIOS' /> */}
                 <SHr />
                 <SView col={"xs-12"} row>
                     <SView flex >
-                        <SText font={"Montserrat-Medium"}>{"Usuarios"}</SText>
-                        <SText fontSize={10} color={STheme.color.gray}>{"Personal que tiene acceso / control de tu comercio"}</SText>
+                        <SText font={"Montserrat-Medium"} language={{ en: "Users", es: "Usuarios" }} />
+                        {/* <SText fontSize={10} color={STheme.color.gray}>{"Personal que tiene acceso"}</SText> */}
                     </SView>
-                    {this.state.add ? <SView width={130} height={26} backgroundColor={STheme.color.card} borderRadius={8} center onPress={() => {
+                    {this.state.add ? <SView width={130} height={26} backgroundColor={STheme.color.card} borderRadius={4} center onPress={() => {
                         SNavigation.navigate("/company/roles/add", { key_company: this.key_company })
                     }}>
                         <SText color={STheme.color.text} fontSize={12} >{"+ Agregar usuario"}</SText>

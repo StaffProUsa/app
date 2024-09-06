@@ -1,7 +1,9 @@
+import React from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from "."
 import Model from '../../Model';
-import { SNavigation } from 'servisofts-component';
+import { SHr, SImage, SNavigation, SText, STheme, SView } from 'servisofts-component';
+import SSocket from 'servisofts-socket';
 
 class index extends DPA.list {
     constructor(props) {
@@ -29,6 +31,21 @@ class index extends DPA.list {
         return data.estado != 0
     }
 
+    onNew() {
+        SNavigation.navigate("/ubicacion/select", {
+            onSelect: (direccion) => {
+                Model.ubicacion.Action.registro({
+                    data: {
+                        key_company: this.$params.key_company,
+                        ...direccion,
+                        descripcion: direccion.direccion
+                    },
+                    key_usuario: Model.usuario.Action.getKey()
+                })
+                SNavigation.goBack();
+            },
+        })
+    }
     $onSelect(data) {
         SNavigation.navigate("/ubicacion/select", {
             onSelect: (direccion) => {
@@ -48,6 +65,20 @@ class index extends DPA.list {
         })
         return;
     }
+
+    $item(obj) {
+        return <SView col={"xs-12"} padding={8} row onPress={this.$onSelect.bind(this, obj)} style={{
+            borderBottomWidth: 1,
+            borderColor: STheme.color.card
+        }}>
+            <SView flex style={{ justifyContent: "center" }}>
+                <SText bold fontSize={16}>{obj.descripcion}</SText>
+                <SHr h={4} />
+                <SText color={STheme.color.lightGray} fontSize={8}>{obj.latitude},{obj.longitude}</SText>
+            </SView>
+        </SView>
+    }
+
     $order() {
         return [{ key: "descripcion", order: "asc", peso: 1 }]
     }
