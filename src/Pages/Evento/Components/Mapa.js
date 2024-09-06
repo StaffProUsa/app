@@ -26,11 +26,13 @@ class Mapa extends Component<MapaPropsType> {
     }
 
     render() {
-        var { latitude, longitude } = this.props?.data ?? {};
+        var latitude = -17.768507;
+        var longitude = -63.183698;
+        var { ubicacion } = this.props?.data ?? {};
 
-        if (!latitude) latitude = -17.768507
-        if (!longitude) longitude = -63.183698
-        
+        if (ubicacion?.latitude) latitude = ubicacion.latitude
+        if (ubicacion?.longitude) longitude = ubicacion.longitude
+
         return (
             <SView col={"xs-12"} row center>
                 <SView col={"xs-12"} {...this.props} center>
@@ -52,9 +54,9 @@ class Mapa extends Component<MapaPropsType> {
                             }}
                             preventCenter
                         >
-                            {/* <SMarker lat={latitude} lng={longitude} >
-                                <SIcon name="iconMap" width={35} height={45} />
-                            </SMarker> */}
+                            <SMapView.SMarker width={35} height={45} latitude={latitude} longitude={longitude} >
+                                <SIcon name={"iconMap"} width={35} height={45}  />
+                            </SMapView.SMarker>
                         </SMapView>
                         <SView col={"xs-12"} height style={{
                             position: "absolute",
@@ -67,13 +69,13 @@ class Mapa extends Component<MapaPropsType> {
                     <SView col={"xs-12"} row center>
                         <SIcon name="iubicacion" fill={STheme.color.text} width={15} height={18} />
                         <SView width={5} />
-                        <SText fontSize={14} bold color={STheme.color.text}language={{
+                        <SText fontSize={14} bold color={STheme.color.text} language={{
                             es: "Dirección:",
                             en: "Address:"
-                        }}/>
+                        }} />
                         <SView width={10} />
                         <SText fontSize={14} color={STheme.color.gray}>
-                            1500 Marilla St, Dallas, TX 75201
+                            {ubicacion?.descripcion ?? ""}
                             {/* {this.props?.data?.address ?? ""}  */}
                         </SText>
                     </SView>
