@@ -27,6 +27,7 @@ class Registro extends React.Component {
     super(props);
     this.state = {};
     this.key = SNavigation.getParam('key');
+    this.key_company = SNavigation.getParam('key_company');
     this._ref = {};
     this._ref2 = {};
   }
@@ -37,6 +38,11 @@ class Registro extends React.Component {
       data = evento.Actions.getByKey(this.key, this.props);
       if (!data) return <SLoad />;
     }
+    if (this.key_company) {
+      data['key_company'] = this.key_company;
+      // this.key_company = data.key_company;
+    }
+
 
     return (
       <SForm

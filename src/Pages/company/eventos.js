@@ -2,6 +2,7 @@ import React from "react";
 import { SDate, SHr, SList, SNavigation, SPage, SText, STheme, SUtil, SView } from "servisofts-component";
 import SSocket from "servisofts-socket";
 import { Container } from "../../Components";
+import FloatButtom from "../../Components/FloatButtom";
 
 export default class index extends React.Component {
     key_company = SNavigation.getParam("key_company")
@@ -68,7 +69,17 @@ export default class index extends React.Component {
         return <SPage titleLanguage={{
             en: "Event list",
             es: "Lista de eventos"
-        }}>
+        }} footer={<FloatButtom
+            style={{
+                position: 'absolute',
+                bottom: 10,
+                right: 5,
+                zIndex: 999
+            }}
+            onPress={() => {
+                SNavigation.navigate('admin/evento/registro', { key_company: this.key_company });
+            }}
+        />}>
             <Container>
                 <SList
                     buscador
@@ -78,6 +89,7 @@ export default class index extends React.Component {
                 />
                 {/* <SText>{JSON.stringify(this.state)}</SText> */}
             </Container>
+            
         </SPage>;
     }
 }
