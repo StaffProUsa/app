@@ -8,7 +8,7 @@ import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
 
 class index extends DPA.profile {
     constructor(props) {
-        super(props, { Parent: Parent, excludes: ["key", "key_servicio", "estado"] });
+        super(props, { Parent: Parent, excludes: ["key", "key_usuario", "key_servicio", "estado"] });
     }
     $allowEdit() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit" })

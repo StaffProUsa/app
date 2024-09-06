@@ -7,22 +7,25 @@ import Reclutas from './Components/Reclutas';
 import Asistencias from './Components/Asistencias';
 
 export default class event extends Component {
+    static INSTANCE;
     constructor(props) {
         super(props);
         this.state = {
         };
         this.key_evento = SNavigation.getParam("key_evento")
+        event.INSTANCE = this;
     }
 
     componentDidMount() {
+        this.setState({ loading: true })
         SSocket.sendPromise({
             component: "evento",
             type: "getByKey",
             key: this.key_evento
         }).then(e => {
-            this.setState({ data: e.data })
+            this.setState({ data: e.data, loading: false })
         }).catch(e => {
-
+            this.setState({ loading: false })
         })
     }
     renderHeader() {
@@ -51,8 +54,10 @@ export default class event extends Component {
         return <SPage titleLanguage={{
             en: "Event",
             es: "Evento"
+        }} onRefresh={() => {
+            this.componentDidMount();
         }}>
-            <Container loading={!this.state.data}>
+            <Container loading={!this.state.data || this.state.loading}>
                 {this.renderHeader()}
             </Container>
         </SPage>

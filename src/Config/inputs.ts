@@ -37,7 +37,7 @@ const inputs = (): SInputsCofig => {
             },
             error: {
                 // borderRadius: 16,
-                borderWidth: 2,
+                borderWidth: 1,
                 borderColor: STheme.color.danger
             }
         }

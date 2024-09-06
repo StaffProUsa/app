@@ -2,7 +2,25 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { SHr, SImage, SText, STheme, SUtil, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
+const getColorFromPercentage = (percentage) => {
+    // Asegurarse de que el valor esté entre 0 y 100
+    percentage = Math.max(0, Math.min(percentage, 100));
 
+    let r, g;
+
+    if (percentage < 50) {
+        // De 0 a 50, rojo (255, 0, 0) a amarillo (255, 255, 0)
+        r = 255;
+        g = Math.floor((percentage / 50) * 255);
+    } else {
+        // De 50 a 100, amarillo (255, 255, 0) a verde (0, 255, 0)
+        r = Math.floor(255 - ((percentage - 50) / 50) * 255);
+        g = 255;
+    }
+
+    // El color siempre tiene el componente azul en 0
+    return `rgb(${r}, ${g}, 0)`;
+}
 export default class Asistencias extends Component {
     constructor(props) {
         super(props);
@@ -35,6 +53,7 @@ export default class Asistencias extends Component {
                         justifyContent: "center"
                     }}>
                         <SText>{obj.tipo_staff}</SText>
+                        <SText fontSize={12} color={STheme.color.gray}>{obj.staff}</SText>
                     </SView>
                     <SView width={16} />
                     <SView flex />
@@ -44,7 +63,7 @@ export default class Asistencias extends Component {
                     </SView>
                 </SView>
                 <SView col={"xs-12"} style={{
-                    height: 14,
+                    height: 4,
                     borderRadius: 100,
                     backgroundColor: STheme.color.card,
                     overflow: 'hidden',
@@ -54,7 +73,8 @@ export default class Asistencias extends Component {
                         style={{
                             // width:(obj.porcentaje ?? 0) + "%",
                             height: "100%",
-                            backgroundColor: obj.color ?? STheme.colorFromText(obj.key_tipo_staff)
+                            // backgroundColor: obj.color ?? STheme.colorFromText(obj.key_tipo_staff)
+                            backgroundColor: getColorFromPercentage(parseFloat(obj.porcentaje ?? 0))
                             // backgroundColor: "#f0f"
                         }} />
                 </SView>

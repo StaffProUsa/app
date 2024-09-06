@@ -3,6 +3,7 @@ import { Parent } from "."
 import Model from '../../Model';
 
 class index extends DPA.list {
+    static INSTANCE;
     constructor(props) {
         super(props, {
             Parent: Parent,
@@ -14,6 +15,7 @@ class index extends DPA.list {
 
             }
         });
+        index.INSTANCE = this;
     }
     $allowNew() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new" });
@@ -35,6 +37,6 @@ class index extends DPA.list {
     $getData() {
         return Parent.model.Action.getAll({ key_evento: this.$params.key_evento });
     }
-    
+
 }
 export default connect(index);

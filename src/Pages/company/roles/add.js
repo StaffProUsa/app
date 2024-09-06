@@ -37,6 +37,14 @@ export default class add extends Component {
 
 
     componentDidMount() {
+        if (!this.key) {
+            SNavigation.navigate("/usuario", {
+                onSelect: (e) => {
+                    this.key_usuario = e.key;
+                    this.buscar_usuario(e.Correo, 0)
+                }
+            })
+        }
         this.getRoles();
     }
 
@@ -168,8 +176,8 @@ export default class add extends Component {
             })
         })
     }
-    buscar_usuario(val) {
-        new SThread(1000, "buscar_usuario", true).start(() => {
+    buscar_usuario(val, timeDelay = 1000) {
+        new SThread(timeDelay, "buscar_usuario", true).start(() => {
             const key_notification = "buscar_usuario";
             SNotification.send({
                 key: key_notification,

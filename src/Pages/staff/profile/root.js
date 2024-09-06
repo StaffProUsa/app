@@ -8,7 +8,7 @@ import SSocket from 'servisofts-socket';
 class index extends DPA.profile {
     usuarios = {}
     constructor(props) {
-        super(props, { Parent: Parent, excludes: ["key", "key_servicio", "estado"] });
+        super(props, { Parent: Parent, excludes: ["key", "key_servicio","key_usuario","key_evento","key_staff_tipo", "estado"] });
     }
     $allowEdit() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit" })

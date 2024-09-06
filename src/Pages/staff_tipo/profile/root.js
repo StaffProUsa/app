@@ -7,7 +7,7 @@ import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
 
 class index extends DPA.profile {
     constructor(props) {
-        super(props, { Parent: Parent, excludes: ["key", "key_servicio", "estado"] });
+        super(props, { Parent: Parent, excludes: ["key", "key_servicio", "key_usuario", "key_company","estado"] });
     }
     $allowEdit() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit" })
@@ -22,6 +22,12 @@ class index extends DPA.profile {
         return Parent.model.Action.getByKey(this.pk);
     }
 
+    $footer() {
+        return <SView col={"xs-12"}>
+            <SHr />
+            
+        </SView>
+    }
 
 }
 export default connect(index);
