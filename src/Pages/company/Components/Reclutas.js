@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SImage, SText, STheme, SUtil, SView } from 'servisofts-component';
+import { SHr, SImage, SNavigation, SText, STheme, SUtil, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 
 export default class Reclutas extends Component {
@@ -24,7 +24,10 @@ export default class Reclutas extends Component {
         })
     }
     renderObj(obj) {
-        return <SView col={"xs-12"} row style={{ paddingTop: 8 }}>
+        return <SView col={"xs-12"} row style={{ paddingTop: 8 }} onPress={() => {
+            console.log(obj);
+            SNavigation.navigate("/staff/profile", { pk: obj.key })
+        }}>
             <SView width={50} height={50} card>
                 <SImage src={SSocket.api.root + "staff_tipo/" + obj.key_tipo_staff} />
             </SView>
@@ -40,23 +43,21 @@ export default class Reclutas extends Component {
                     <SView flex />
                     <SView style={{ justifyContent: "center" }}>
                         <SText style={{ textAlign: "right" }} fontSize={12}>{obj.actual} / {obj.cantidad ?? 0}</SText>
-                        <SText style={{ textAlign: "right" }} color={STheme.color.lightGray} fontSize={12}>{(obj.porcentaje??0) + "%"}</SText>
+                        <SText style={{ textAlign: "right" }} color={STheme.color.lightGray} fontSize={12}>{(obj.porcentaje ?? 0) + "%"}</SText>
                     </SView>
                 </SView>
-                <SView row col={"xs-12"} >
-                    <SView style={{
-                        width: "100%",
-                        height: 14,
-                        borderRadius: 100,
-                        backgroundColor: STheme.color.card,
-                        overflow: 'hidden',
-                    }} row>
-                        <SView style={{
-                            width: obj.porcentaje + "%",
+                <SView col={"xs-12"} style={{
+                    height: 14,
+                    borderRadius: 100,
+                    backgroundColor: STheme.color.card,
+                    overflow: 'hidden',
+                }} >
+                    <SView
+                        width={(obj.porcentaje??0)+"%"}
+                        style={{
                             height: "100%",
                             backgroundColor: obj.color ?? STheme.colorFromText(obj.key_tipo_staff)
                         }} />
-                    </SView>
                 </SView>
             </SView>
         </SView>

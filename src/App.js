@@ -54,6 +54,7 @@ try {
 SLanguage.loadStorage();
 
 SMapView.bootstrapURLKeys = { key: "AIzaSyBO0I3cb4siQ7OiKH-nTDl5n3HSUd4FTQo" }
+ 
 const App = (props) => {
   useEffect(() => {
     SSocket.sendPromise({

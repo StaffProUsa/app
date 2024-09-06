@@ -5,6 +5,7 @@ import {
     SIcon,
     SImage,
     SMarker,
+    SMapView,
     SPage,
     SText,
     STheme,
@@ -13,7 +14,6 @@ import {
     SMapView2,
     SLanguage,
 } from "servisofts-component";
-import SMapView from "servisofts-component/Component/SMapView";
 import SSocket from "servisofts-socket";
 import BtnNavegar from "../../../Components/BtnNavegar";
 export type MapaPropsType = {
@@ -30,6 +30,7 @@ class Mapa extends Component<MapaPropsType> {
 
         if (!latitude) latitude = -17.768507
         if (!longitude) longitude = -63.183698
+        
         return (
             <SView col={"xs-12"} row center>
                 <SView col={"xs-12"} {...this.props} center>
@@ -51,9 +52,9 @@ class Mapa extends Component<MapaPropsType> {
                             }}
                             preventCenter
                         >
-                            <SMarker lat={latitude} lng={longitude} >
+                            {/* <SMarker lat={latitude} lng={longitude} >
                                 <SIcon name="iconMap" width={35} height={45} />
-                            </SMarker>
+                            </SMarker> */}
                         </SMapView>
                         <SView col={"xs-12"} height style={{
                             position: "absolute",

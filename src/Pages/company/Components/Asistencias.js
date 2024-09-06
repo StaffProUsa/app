@@ -32,7 +32,7 @@ export default class Asistencias extends Component {
             <SView flex>
                 <SView row flex col={"xs-12"}>
                     <SView height style={{
-                        justifyContent:"center"
+                        justifyContent: "center"
                     }}>
                         <SText>{obj.tipo_staff}</SText>
                     </SView>
@@ -43,20 +43,20 @@ export default class Asistencias extends Component {
                         <SText style={{ textAlign: "right" }} color={STheme.color.lightGray} fontSize={12}>{obj.porcentaje + "%"}</SText>
                     </SView>
                 </SView>
-                <SView row col={"xs-12"} >
-                    <SView style={{
-                        width: "100%",
-                        height: 14,
-                        borderRadius: 100,
-                        backgroundColor: STheme.color.card,
-                        overflow: 'hidden',
-                    }} row>
-                        <SView style={{
-                            width: obj.porcentaje + "%",
+                <SView col={"xs-12"} style={{
+                    height: 14,
+                    borderRadius: 100,
+                    backgroundColor: STheme.color.card,
+                    overflow: 'hidden',
+                }} >
+                    <SView
+                        width={(parseFloat(obj.porcentaje ?? 0))+"%"}
+                        style={{
+                            // width:(obj.porcentaje ?? 0) + "%",
                             height: "100%",
                             backgroundColor: obj.color ?? STheme.colorFromText(obj.key_tipo_staff)
+                            // backgroundColor: "#f0f"
                         }} />
-                    </SView>
                 </SView>
             </SView>
         </SView>

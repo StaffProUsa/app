@@ -20,7 +20,7 @@ class index extends DPA.profile {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver" })
     }
     $getData() {
-        this.usuarios = Model.usuario.Action.getAll();
+        this.usuarios = Model.usuario.Action.getAll() ?? {};
         return Parent.model.Action.getByKey(this.pk);
     }
 
@@ -288,7 +288,6 @@ class index extends DPA.profile {
                                 <SText fontSize={12}>{post.fecha_atiende}</SText>
                             </>
                                 : null}
-
                         </SView>
                     </SView>
                 }

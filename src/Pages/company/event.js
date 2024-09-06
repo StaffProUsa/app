@@ -38,7 +38,7 @@ export default class event extends Component {
             <SText fontSize={12} col={"xs-12"}>{fecha}</SText>
             <SHr h={50} />
             <SText onPress={() => {
-                SNavigation.navigate("/staff", { key_evento: this.key_evento })
+                SNavigation.navigate("/staff/add", { key_evento: this.key_evento })
             }} language={{ en: "Add new staff", es: "Crear nuevo staff" }}></SText>
             <SHr h={50} />
             <Reclutas key_evento={this.key_evento} />
