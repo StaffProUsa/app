@@ -332,7 +332,7 @@ export default class Inicio extends Component {
                 data={arr}
                 horizontal
                 showsHorizontalScrollIndicator={true}
-                scrollEnabled={false}
+                scrollEnabled={true}
                 ListHeaderComponent={() => <SView width={space} />}
                 ItemSeparatorComponent={() => <SView width={space} />}
                 ListFooterComponent={() => <SView width={space} />}
