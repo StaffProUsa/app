@@ -11,7 +11,7 @@ import {
   SView
 } from 'servisofts-component';
 import evento from '..';
-
+import eventos from "../../../../../Pages/company/eventos"
 const inputHandler = (text, nro) => {
   console.log(text.nativeEvent.text);
   var value = text.nativeEvent.text;
@@ -64,19 +64,20 @@ class Registro extends React.Component {
         }}
         inputs={{
           // foto_p: { type: "image", isRequired: false, defaultValue: `${SSocket.api.root}evento/${this.key}?time=${new Date().getTime()}`, col: "xs-4 sm-3.5 md-3 lg-2.5 xl-2.5", style: { borderRadius: 8, overflow: 'hidden', width: 130, height: 130, borderWidth: 0 } },
+          fecha: {
+            label: 'Fecha',
+            type: 'date',
+            isRequired: false,
+            defaultValue: data['fecha'],
+            col: 'xs-7'
+          },
           descripcion: {
             label: 'Nombre del evento',
             type: 'text',
             isRequired: true,
             defaultValue: data['descripcion']
           },
-          fecha: {
-            label: 'Fecha',
-            type: 'date',
-            isRequired: false,
-            defaultValue: data['fecha'],
-            col: 'xs-12'
-          },
+
 
           // cantidad: {
           //   label: 'cantidad',
@@ -92,28 +93,20 @@ class Registro extends React.Component {
             defaultValue: data['observacion'],
             col: 'xs-12'
           },
-          estado_venta: {
-            label: 'Estado venta ( 0=no_vender | 1=vender )',
-            type: 'number',
-            isRequired: false,
-            defaultValue: data['estado_venta'],
-            col: 'xs-12'
-          },
-          key_company: {
-            label: 'key_company',
-            isRequired: false,
-            defaultValue: data['key_company'],
-            col: 'xs-12'
-          },
-          key_ubicacion: {
-            label: 'key_ubicacion',
-            isRequired: false,
-            defaultValue: data['key_ubicacion'],
-            col: 'xs-12'
-          },
+          // key_ubicacion: {
+          //   label: 'Ubicacion',
+          //   isRequired: false,
+          //   defaultValue: data['key_ubicacion'],
+          //   // data: {},
+          //   col: 'xs-12'
+          // },
         }}
         // onSubmitName={"Registrar"}
         onSubmit={(values) => {
+          values.estado_venta = 0;
+          values.key_company = this.key_company;
+
+
           if (this.key) {
             evento.Actions.editar({ ...data, ...values }, this.props);
           } else {
@@ -132,6 +125,7 @@ class Registro extends React.Component {
         // if (this.form) {
         //   this.form.uploadFiles(SSocket.api.root + "upload/" + evento.component + "/" + this.key);
         // }
+        if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount();
         reducer.estado = '';
         SNavigation.goBack();
       }

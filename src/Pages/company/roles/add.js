@@ -253,7 +253,7 @@ export default class add extends Component {
                     ref={ref => this._inputs["nombre"] = ref}
                     col={"xs-12"}
                     inputStyle={{
-                        color: !!this.key ? "#999" : "#000"
+                        color: !!this.key ? "#999" : "#fff"
                     }}
                     // defaultValue={data.nombre}
                     disabled={!!this.key}
@@ -275,7 +275,7 @@ export default class add extends Component {
                     ref={ref => this._inputs["telefono"] = ref}
                     col={"xs-12"}
                     inputStyle={{
-                        color: !!this.key ? "#999" : "#000"
+                        color: !!this.key ? "#999" : "#fff"
                     }}
                     disabled={!!this.key}
                     // defaultValue={data.nombre}
@@ -295,7 +295,7 @@ export default class add extends Component {
                     ref={ref => this._inputs["correo"] = ref}
                     col={"xs-12"}
                     inputStyle={{
-                        color: !!this.key ? "#999" : "#000"
+                        color: !!this.key ? "#999" : "#fff"
                     }}
                     disabled={!!this.key}
                     // defaultValue={data.nombre}

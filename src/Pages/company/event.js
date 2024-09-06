@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SNavigation, SPage, SText, SView } from 'servisofts-component';
+import { SDate, SHr, SNavigation, SPage, SText, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { Container } from '../../Components';
 import Reclutas from './Components/Reclutas';
@@ -41,7 +41,7 @@ export default class event extends Component {
             <SText fontSize={12} col={"xs-12"}>{fecha}</SText>
             <SHr h={50} />
             <SText card padding={16} onPress={() => {
-                SNavigation.navigate("/staff/add", { key_evento: this.key_evento })
+                SNavigation.navigate("/staff/add", { key_evento: this.key_evento, fecha: new SDate( fecha,"yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
             }} language={{ en: "Add new staff", es: "Crear nuevo staff" }}></SText>
             <Reclutas key_evento={this.key_evento} />
             <SHr h={50} />

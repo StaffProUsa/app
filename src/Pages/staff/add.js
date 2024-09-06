@@ -79,6 +79,7 @@ export default class add extends Component {
         super(props);
         this.state = {
             key_evento: SNavigation.getParam("key_evento"),
+            fecha: SNavigation.getParam("fecha"),
         };
     }
     componentDidMount() {
@@ -156,19 +157,25 @@ export default class add extends Component {
                             })
                         }} />
                     <SInput ref={r => this._ref["descripcion"] = r} label={"Descripcion"} required placeholder={"Descripcion del staff"} type='textArea' />
-                    <SInput ref={r => this._ref["cantidad"] = r} col={"xs-7"} label={"Cantidad"} required placeholder={"1"} />
-                    <SInput ref={r => this._ref["fecha_inicio"] = r} col={"xs-5.5"} type='date' label={"Fecha Inicio"} required placeholder={"yyyy-MM-dd"} />
-                    <SInput ref={r => this._ref["hora_inicio"] = r} col={"xs-5.5"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => {
+                    <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={"Cantidad"} required placeholder={"0"} />
+                    <SInput ref={r => this._ref["fecha_inicio"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Inicio"} required placeholder={"yyyy-MM-dd"} />
+                    <SInput ref={r => this._ref["hora_inicio"] = r} col={"xs-5.5"} defaultValue={"00:01"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);
-                        console.log("resp",resp)
-                        if(resp!=e){
-                            
+                        if (resp != e) {
+
                             this._ref["hora_inicio"].setValue(resp);
                         }
                         // return this.filterHorario(e);
                     })} />
-                    <SInput ref={r => this._ref["fecha_fin"] = r} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
-                    <SInput ref={r => this._ref["hora_fin"] = r} col={"xs-5.5"} label={" "} required type='hour' />
+                    <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
+                    <SInput ref={r => this._ref["hora_fin"] = r} col={"xs-5.5"} label={" "} defaultValue={"23:59"} placeholder={"hh:mm"} required onChangeText={(e => {
+                        const resp = this.filterHorario(e);
+                        if (resp != e) {
+
+                            this._ref["hora_fin"].setValue(resp);
+                        }
+                        // return this.filterHorario(e);
+                    })} />
                 </SView>
                 <SHr h={16} />
                 <SButtom onPress={this.handlePress.bind(this)} type='danger'>{"GUARDAR"}</SButtom>

@@ -12,7 +12,7 @@ class index extends DPA.delete {
     }
     $onDelete() {
         this.data.estado = 0;
-        Parent.model.Action.editar(this.data).then((resp) => {
+        Parent.model.Action.editar({ data: this.data }).then((resp) => {
             SNavigation.goBack();
             SNavigation.goBack();
         }).catch(e => {

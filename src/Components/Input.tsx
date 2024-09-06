@@ -71,7 +71,7 @@ const Input = forwardRef((props: InputProps, ref) => {
                     height: props.height ?? 34,
                     borderRadius: 5,
                     borderWidth: 0.5,
-                    color: "#000",
+                    color: "#fff",
                     borderColor: "#CCC",
                     backgroundColor: colorCard,
                     padding: 0,

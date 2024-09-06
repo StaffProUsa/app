@@ -7,14 +7,15 @@ class index extends DPA.new {
     constructor(props) {
         super(props, {
             Parent: Parent,
-            params: ["onSelect?"],
-            excludes: ["key", "fecha_on", "key_usuario", "estado", "key_servicio"]
+            params: ["onSelect?", "key_company"],
+            excludes: ["key", "fecha_on", "key_usuario", "estado", "key_servicio", "key_company"]
         });
     }
     $allowAccess() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new" })
     }
     $onSubmit(data) {
+        data.key_company = this.$params?.key_company
         //data.key_empresa = Model.empresa.Action.getSelect()?.key;
         Parent.model.Action.registro({ data, key_usuario: Model.usuario.Action.getKey() }).then((resp) => {
             this.$submitFile(resp.data.key);
