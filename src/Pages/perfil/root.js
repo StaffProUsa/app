@@ -19,6 +19,7 @@ import carrito from '../../Services/Casagrandeadmin/Components/carrito';
 import packageInfo from "../../../package.json"
 // import Roles_permisos from '../Roles_permisos';
 import Model from '../../Model';
+import Degradado from '../../Components/Degradado';
 
 class Perfil extends Component {
   static navigationOptions = {
@@ -196,16 +197,18 @@ class Perfil extends Component {
     return (
       <SView col={'xs-12'} center>
         <SView
-          backgroundColor={STheme.color.card}
+          // backgroundColor={STheme.color.card}
           col={'xs-12'}
           style={{
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
             borderBottomLeftRadius: 4,
             borderBottomRightRadius: 4,
-            borderTopWidth: 1,
-            borderTopColor: STheme.color.card
+            borderWidth: 1,
+            borderColor: STheme.color.card,
+            overflow: 'hidden',
           }}>
+            <Degradado />
           <SHr />
           <SView row col={'xs-12'} center>
             <SHr height={10} />
