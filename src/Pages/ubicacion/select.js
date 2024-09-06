@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SGeolocation, SHr, SInput, SMapView, SNavigation, SPage, SText, STheme, SView } from 'servisofts-component';
+import { SButtom, SGeolocation, SHr, SInput, SMapView, SNavigation, SNotification, SPage, SText, STheme, SView } from 'servisofts-component';
 
 export default class select extends Component {
     map: SMapView;
@@ -18,9 +18,15 @@ export default class select extends Component {
             this.map.animateToRegion({ latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 })
         } else {
             SGeolocation.getCurrentPosition({
-
+                
             }).then(e => {
                 this.map.animateToRegion({ latitude: e.coords.latitude, longitude: e.coords.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 })
+            }).catch(e => {
+                SNotification.send({
+                    title: "Error",
+                    body: "No pudimos optener tu ubicacion",
+                    color: STheme.color.danger
+                })
             })
         }
 

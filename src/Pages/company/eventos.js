@@ -25,11 +25,15 @@ const getColorFromPercentage = (percentage) => {
 }
 
 export default class index extends React.Component {
+    static INSTANCE = null;
+
     key_company = SNavigation.getParam("key_company")
     state = {
 
     }
+
     componentDidMount() {
+        index.INSTANCE = this;
         this.setState({ loading: true })
         SSocket.sendPromise({
             component: "evento",
