@@ -2,6 +2,7 @@ import React from "react";
 import { SDate, SHr, SList, SNavigation, SPage, SText, STheme, SUtil, SView } from "servisofts-component";
 import SSocket from "servisofts-socket";
 import { Container } from "../../Components";
+import FloatButtom from "../../Components/FloatButtom";
 
 const getColorFromPercentage = (percentage) => {
     // Asegurarse de que el valor esté entre 0 y 100
@@ -67,22 +68,26 @@ export default class index extends React.Component {
         </SView>
     }
     renderItem(obj) {
-        return <SView col={"xs-12"} card padding={8} onPress={() => {
+        return <SView col={"xs-12"} style={{
+            borderWidth: 1,
+            borderRadius: 8,
+            borderColor: STheme.color.card
+        }} padding={8} onPress={() => {
             // SNavigation.navigate("admin/evento/perfil", { key: obj.key })
             SNavigation.navigate("/company/event", { key_evento: obj.key })
         }}>
-            <SText fontSize={16} bold>{obj.descripcion}</SText>
-            <SText color={STheme.color.lightGray}>{SUtil.limitString(obj.observacion, 200, "...")}</SText>
+            <SHr/>
+            <SText fontSize={14} bold>{obj.descripcion}</SText>
+            <SHr h={4} />
+            <SText fontSize={12} color={STheme.color.lightGray}>{SUtil.limitString(obj.observacion, 200, "...").trim()}</SText>
             <SHr />
-            <SText>{`Reclutas ${obj.actual ?? 0}/${obj.cantidad ?? 0}`}</SText>
-            <SHr h={6} />
+            <SText fontSize={12} color={STheme.color.gray}>{`Reclutas ${obj.actual ?? 0}/${obj.cantidad ?? 0}`}</SText>
             {this.renderBarra({ color: null, porcentaje: obj.porcentaje_reclutas, key: obj.key + "b" })}
             <SHr />
-            <SText>{`Asistencias ${obj.asistencias ?? 0}/${obj.actual ?? 0}`}</SText>
-            <SHr h={6} />
+            <SText fontSize={12} color={STheme.color.gray}>{`Asistencias ${obj.asistencias ?? 0}/${obj.actual ?? 0}`}</SText>
             {this.renderBarra({ color: null, porcentaje: obj.porcentaje_asistencia, key: obj.key + "a" })}
-            <SHr />
-            <SText color={STheme.color.lightGray}>{new SDate(obj.fecha).toString("yyyy-MM-dd hh:mm")}</SText>
+            <SHr/>
+            <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray}>{new SDate(obj.fecha).toString("yyyy-MM-dd hh:mm")}</SText>
 
             {/* <SText color={STheme.color.lightGray}>{new SDate(obj.fecha_on).toString("yyyy-MM-dd hh:mm")}</SText> */}
             {/* <SText>{obj.}</SText> */}
@@ -95,17 +100,31 @@ export default class index extends React.Component {
         }}
             onRefresh={(e) => {
                 this.componentDidMount();
-                if(e) e();
-            }}>
+                if (e) e();
+            }}
+
+            footer={<FloatButtom
+                style={{
+                    position: 'absolute',
+                    bottom: 10,
+                    right: 5,
+                    zIndex: 999
+                }}
+                onPress={() => {
+                    SNavigation.navigate('admin/evento/registro', { key_company: this.key_company });
+                }}
+            />}>
             <Container loading={this.state.loading}>
                 <SList
                     buscador
+                    space={16}
                     data={this.state?.data}
                     order={[{ key: "fecha", order: "desc" }]}
                     render={this.renderItem.bind(this)}
                 />
                 {/* <SText>{JSON.stringify(this.state)}</SText> */}
             </Container>
+
         </SPage>;
     }
 }

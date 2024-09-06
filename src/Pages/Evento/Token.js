@@ -235,15 +235,15 @@ export default class Sorry extends React.Component {
                   en: "START"
                 }} />
               </PButtom>
-              <SHr height={15} />
-              <PButtom secondary onPress={() => {
+              <SHr height={25} />
+              {/* <PButtom secondary onPress={() => {
 
               }}>
                 <SText color={STheme.color.text} language={{
                   es: "CANCELAR",
                   en: "CANCEL"
                 }} />
-              </PButtom>
+              </PButtom> */}
             </SView>
           </Container>
           <SHr height={25} />

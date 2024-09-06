@@ -118,15 +118,15 @@ export default class history extends Component {
                     </SView>
                 </SView>
                 <SView col={"xs-10"} >
-                    <SText fontSize={16}>{obj?.descripcion}</SText>
-                    <SText fontSize={14} color={STheme.color.gray}>{obj?.staff_tipo?.descripcion}</SText>
+                    <SText fontSize={14}>{obj?.descripcion}</SText>
+                    <SText fontSize={12} color={STheme.color.gray}>{obj?.staff_tipo?.descripcion}</SText>
                 </SView>
                 <SHr height={15} />
                 <SView col={"xs-2"} row center>
-                    <SIcon name={"dating"} fill={STheme.color.gray} width={16} />
+                    <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
                 </SView>
                 <SView col={"xs-10"}  >
-                    <SText>{new SDate(obj?.fecha).toString("yyyy-MM-dd")}</SText>
+                    <SText fontSize={12}>{new SDate(obj?.fecha).toString("yyyy-MM-dd")}</SText>
                 </SView>
             </SView>
         }} />

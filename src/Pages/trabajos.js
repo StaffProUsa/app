@@ -53,7 +53,7 @@ export default class trabajos extends Component {
                         </SView>
                         <SView col={"xs-10 sm-3.5"} >
                             <SText fontSize={16}>{obj?.company?.descripcion}</SText>
-                            <SText fontSize={14} color={STheme.color.gray} language={{
+                            <SText fontSize={12} color={STheme.color.gray} language={{
                                 es: "Empresa",
                                 en: "Company"
                             }} />
@@ -67,7 +67,7 @@ export default class trabajos extends Component {
                             </SView>
                             <SView col={"xs-8 sm-8"}  >
                                 <SText>{userCoordinador?.Nombres} {userCoordinador?.Apellidos}</SText>
-                                <SText fontSize={14} color={STheme.color.gray} language={{
+                                <SText fontSize={12} color={STheme.color.gray} language={{
                                     es: "Coordinador",
                                     en: "Coordinator"
                                 }} />
@@ -75,44 +75,44 @@ export default class trabajos extends Component {
                         </SView> : null}
                         <SHr height={10} />
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"eventi"} fill={STheme.color.gray} width={15} />
+                            <SIcon name={"eventi"} fill={STheme.color.gray} width={12} />
                         </SView>
                         <SView col={"xs-10"}  >
-                            <SText fontSize={16}>{obj?.evento?.descripcion}</SText>
+                            <SText fontSize={12}>{obj?.evento?.descripcion}</SText>
                         </SView>
-                        <SHr height={5} />
+                        {/* <SHr height={5} /> */}
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"worki"} fill={STheme.color.gray} width={16} />
+                            <SIcon name={"worki"} fill={STheme.color.gray} width={12} />
                         </SView>
                         <SView col={"xs-10"}  >
-                            <SText>{obj?.staff_tipo?.descripcion}</SText>
+                            <SText fontSize={12}>{obj?.staff_tipo?.descripcion}</SText>
                         </SView>
-                        <SHr height={5} />
+                        {/* <SHr height={5} /> */}
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"dating"} fill={STheme.color.gray} width={16} />
+                            <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
                         </SView>
                         <SView col={"xs-10"}  >
-                            <SText>{new SDate(obj?.evento?.fecha).toString("yyyy-MM-dd")}</SText>
+                            <SText fontSize={12}>{new SDate(obj?.evento?.fecha).toString("yyyy-MM-dd")}</SText>
                         </SView>
-                        <SHr height={10} />
+                        {/* <SHr height={5} /> */}
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"timeIni"} fill={STheme.color.gray} width={16} />
+                            <SIcon name={"timeIni"} fill={STheme.color.gray} height={12} />
                         </SView>
                         <SView col={"xs-4"}  >
-                            <SText>{new SDate(obj?.staff?.fecha_inicio).toString("hh:mm:ss")}</SText>
+                            <SText fontSize={12}>{new SDate(obj?.staff?.fecha_inicio).toString("hh:mm:ss")}</SText>
                         </SView>
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"timeFinish"} fill={STheme.color.gray} width={16} />
+                            <SIcon name={"timeFinish"} fill={STheme.color.gray} width={12} />
                         </SView>
                         <SView col={"xs-4"}  >
-                            <SText>{new SDate(obj?.staff?.fecha_fin).toString("hh:mm:ss")}</SText>
+                            <SText fontSize={12}>{new SDate(obj?.staff?.fecha_fin).toString("hh:mm:ss")}</SText>
                         </SView>
-                        <SHr height={5} />
+                        {/* <SHr height={5} /> */}
                         <SView col={"xs-2"} row center>
-                            <SIcon name={"asistencia2"} fill={STheme.color.gray} width={16} />
+                            <SIcon name={"asistencia2"} fill={STheme.color.gray} height={12} />
                         </SView>
                         <SView col={"xs-10"}  >
-                            <SText>{obj?.asistencia_staff_usuario ? obj?.asistencia_staff_usuario.length : 0}</SText>
+                            <SText fontSize={12}>{obj?.asistencia_staff_usuario ? obj?.asistencia_staff_usuario.length : 0}</SText>
                         </SView>
                     </SView>
                 }} />
