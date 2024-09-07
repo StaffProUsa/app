@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SDate, SHr, SIcon, SInput, SNavigation, SNotification, SPage, SText, STheme, SThread, SView } from 'servisofts-component';
+import { SButtom, SDate, SHr, SIcon, SInput, SNavigation, SNotification, SPage, SText, STheme, SThread, SView, SLanguage} from 'servisofts-component';
 import PBarraFooter from '../../Components/PBarraFooter';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
@@ -101,7 +101,7 @@ export default class root extends Component {
     </>
   }
   render() {
-    return <SPage preventBack footer={<PBarraFooter url={'/token'} />}>
+    return <SPage titleLanguage={{ es: "Asistencia", en: "Assistance" }}  footer={<PBarraFooter url={'/token'}   />}>
       <Container>
         {this.getToken()}
         <SButtom type='danger' onPress={() => {

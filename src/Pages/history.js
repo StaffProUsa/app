@@ -298,7 +298,7 @@ export default class history extends Component {
     }
 
     render() {
-        return <SPage titleLanguage={{ es: "Mi historial", en: "My history" }} preventBack footer={<PBarraFooter url={'/history'} />}>
+        return <SPage titleLanguage={{ es: "Mi historial", en: "My history" }}  footer={<PBarraFooter url={'/trabajos'} />}>
             <Container>
                 {this.getPerfil()}
                 <SHr height={25} />

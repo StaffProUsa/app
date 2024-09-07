@@ -22,6 +22,7 @@ import staff, { ReactComponent as staffW } from './staff.svg';
 import history, { ReactComponent as historyW } from './history.svg';
 import select, { ReactComponent as selectW } from './select.svg';
 import exclamacion2, { ReactComponent as exclamacion2W } from './exclamacion2.svg';
+import asiste, { ReactComponent as asisteW } from './asiste.svg';
 
 
 const Assets = {
@@ -47,6 +48,7 @@ const Assets = {
 	"history": { Native: history, Web: historyW },
 	"select": { Native: select, Web: selectW },
 	"exclamacion2": { Native: exclamacion2, Web: exclamacion2W },
+	"asiste": { Native: asiste, Web: asisteW },
 
 }
 

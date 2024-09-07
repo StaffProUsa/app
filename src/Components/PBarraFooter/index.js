@@ -58,7 +58,7 @@ class PBarraFooter extends Component {
           <SText language={{
             es: title,
             en: title_en
-          }} fontSize={8} center color={color} />
+          }} fontSize={7.5} center color={color} />
           <SHr height={10}></SHr>
         </SView>
       </SView>
@@ -93,7 +93,7 @@ class PBarraFooter extends Component {
                 key: '/token',
                 title: 'ASISTENCIA',
                 title_en: 'ASSIST',
-                icon: 'Ajustes',
+                icon: 'asiste',
                 url: '/token',
                 params: {}
               })}
@@ -105,14 +105,14 @@ class PBarraFooter extends Component {
                 url: '/trabajos',
                 params: {}
               })}
-              {this.getItem({
+              {/* {this.getItem({
                 key: '/history',
                 title: 'HISTORIAL',
                 title_en: 'HISTORY',
                 icon: 'history',
                 url: '/history',
                 params: {}
-              })}
+              })} */}
               {/* {this.getItem({ key: "reservas", title: 'RESERVAS', icon: 'Reservas', url: 'reservas', params: {} })} */}
               {this.getItem({
                 key: '/login',
