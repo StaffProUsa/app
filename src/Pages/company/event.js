@@ -42,7 +42,7 @@ export default class event extends Component {
             <SText fontSize={12} col={"xs-12"}>{fecha}</SText>
             <SHr h={50} />
             <SText card padding={16} onPress={() => {
-                SNavigation.navigate("/staff/add", { key_evento: this.key_evento, fecha: new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
+                SNavigation.navigate("/staff/add", { key_evento: this.key_evento, key_company: this.state.data.key_company, fecha: new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
             }} language={{ en: "Add new staff", es: "Crear nuevo staff" }}></SText>
             <Reclutas key_evento={this.key_evento} />
             <SHr h={50} />
@@ -59,6 +59,7 @@ export default class event extends Component {
         }}>
             <Container loading={!this.state.data || this.state.loading}>
                 {this.renderHeader()}
+                <SHr h={50}/>
                 <SButtom type='danger' onPress={() => {
                     // SNavigation.navigate('admin/evento/registro', { key: item });
                     SPopup.confirm({
@@ -86,7 +87,11 @@ export default class event extends Component {
 
                         }
                     });
-                }}>ELIMINAR</SButtom>
+                }}><SText center language={{
+                    en: "DELETE EVENT",
+                    es: "ELIMINAR EL EVENTO",
+                }} /></SButtom>
+                <SHr h={50}/>
             </Container>
         </SPage>
     }

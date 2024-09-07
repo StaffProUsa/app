@@ -45,7 +45,8 @@ export default class Reclutas extends Component {
     renderObj(obj) {
         return <SView col={"xs-12"} row style={{ paddingTop: 8 }} onPress={() => {
             console.log(obj);
-            SNavigation.navigate("/staff/profile", { pk: obj.key })
+            SNavigation.navigate("/staff/add", { key_evento: obj.key_evento, pk: obj.key, })
+            // SNavigation.navigate("/staff/profile", { pk: obj.key })
         }}>
             <SView width={50} height={50} card>
                 <SImage src={SSocket.api.root + "staff_tipo/" + obj.key_tipo_staff} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SHr, SInput, SNavigation, SPage, SText, SView } from 'servisofts-component';
+import { SButtom, SDate, SHr, SInput, SNavigation, SPage, SPopup, SText, SView } from 'servisofts-component';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -80,17 +80,25 @@ export default class add extends Component {
         this.state = {
             pk: SNavigation.getParam("pk"),
             key_evento: SNavigation.getParam("key_evento"),
+            key_company: SNavigation.getParam("key_company"),
             fecha: SNavigation.getParam("fecha"),
         };
     }
     componentDidMount() {
-        if(!this.state.pk) return;
+        if (!this.state.pk) return;
         SSocket.sendPromise({
             component: "staff",
             type: "getByKey",
             key: this.state.pk,
         }).then(e => {
-            this.setState({ data: e.data })
+            // this.setState({ data: e.data })
+            this.state.data = e.data;
+            this._ref["descripcion"].setValue(e.data.descripcion)
+            this._ref["cantidad"].setValue(e.data.cantidad)
+            this._ref["fecha_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
+            this._ref["hora_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
+            this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
+            this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
             console.log(e);
         }).catch(e => {
             console.error(e);
@@ -107,40 +115,85 @@ export default class add extends Component {
                 val[k] = input.getValue()
             }
         })
-        const dataTipo = this._ref["tipo"].getData();
-
         if (!valid) {
             return;
         }
-        SSocket.sendPromise({
-            component: "staff",
-            type: "registro",
-            data: {
-                "descripcion": val.descripcion,
-                "observacion": val.observacion,
-                "key_evento": this.state.key_evento,
-                "key_staff_tipo": dataTipo.key,
-                "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
-                "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
-                cantidad: val.cantidad
-            },
-            key_usuario: Model.usuario.Action.getKey(),
-        }).then(e => {
-            if (event.INSTANCE) event.INSTANCE.componentDidMount();
-            SNavigation.goBack();
-        }).catch(e => {
-            console.error(e);
+
+        if (this.state.pk) {
+            SSocket.sendPromise({
+                component: "staff",
+                type: "editar",
+                data: {
+                    ...this.state.data,
+                    "descripcion": val.descripcion,
+                    "observacion": val.observacion,
+                    "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
+                    "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
+                    cantidad: val.cantidad
+                },
+                key_usuario: Model.usuario.Action.getKey(),
+            }).then(e => {
+                if (event.INSTANCE) event.INSTANCE.componentDidMount();
+                SNavigation.goBack();
+            }).catch(e => {
+                console.error(e);
+            })
+        } else {
+            const dataTipo = this._ref["tipo"].getData();
+            SSocket.sendPromise({
+                component: "staff",
+                type: "registro",
+                data: {
+                    "descripcion": val.descripcion,
+                    "observacion": val.observacion,
+                    "key_evento": this.state.key_evento,
+                    "key_staff_tipo": dataTipo.key,
+                    "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
+                    "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
+                    cantidad: val.cantidad
+                },
+                key_usuario: Model.usuario.Action.getKey(),
+            }).then(e => {
+                if (event.INSTANCE) event.INSTANCE.componentDidMount();
+                SNavigation.goBack();
+            }).catch(e => {
+                console.error(e);
+            })
+        }
+
+
+    }
+    handleEliminar() {
+        SPopup.confirm({
+            title: "Seguro de eliminar?",
+            onPress: () => {
+                SSocket.sendPromise({
+                    component: "staff",
+                    type: "editar",
+                    data: {
+                        ...this.state.data,
+                        estado: 0,
+                    },
+                    key_usuario: Model.usuario.Action.getKey(),
+                }).then(e => {
+                    if (event.INSTANCE) event.INSTANCE.componentDidMount();
+                    SNavigation.goBack();
+                }).catch(e => {
+                    console.error(e);
+                })
+            }
         })
 
     }
     _ref = {}
     render() {
-        return <SPage titleLanguage={{ en: "Staff", es: "Staff" }}>
+        return <SPage titleLanguage={{ en: "Staff", es: "Staff" }
+        } >
             <Container>
                 <SView row col={"xs-12"} style={{
                     justifyContent: "space-between"
                 }}>
-                    <SInput
+                    {this.state.pk ? null : <SInput
                         ref={r => this._ref["tipo"] = r}
                         label={"Tipo de staff"}
                         col={"xs-7"}
@@ -148,9 +201,9 @@ export default class add extends Component {
                         placeholder={"Seleccione su tipo de staff"}
                         required
                         onPress={() => {
-                            if (!this.state?.data?.key_company) return;
+                            if (!this.state?.key_company) return;
                             SNavigation.navigate("/staff_tipo", {
-                                key_company: this.state?.data?.key_company, onSelect: (e) => {
+                                key_company: this.state.key_company, onSelect: (e) => {
                                     const input: SInput = this._ref["tipo"];
                                     input.setValue(e.descripcion)
                                     input.setData(e);
@@ -158,6 +211,7 @@ export default class add extends Component {
                                 }
                             })
                         }} />
+                    }
                     <SInput ref={r => this._ref["descripcion"] = r} label={"Descripcion"} required placeholder={"Descripcion del staff"} type='textArea' />
                     <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={"Cantidad"} required placeholder={"0"} />
                     <SInput ref={r => this._ref["fecha_inicio"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Inicio"} required placeholder={"yyyy-MM-dd"} />
@@ -180,10 +234,23 @@ export default class add extends Component {
                     })} />
                 </SView>
                 <SHr h={16} />
-                <SButtom onPress={this.handlePress.bind(this)} type='danger'>{"GUARDAR"}</SButtom>
+
+                <SView row col={"xs-12"} center>
+                    {this.state.pk ? <>
+                        <SButtom onPress={() => {
+                            SNavigation.navigate("/staff/profile", { pk: this.state.pk })
+                        }} type='primary'>{"INVITAR"}</SButtom>
+                        <SView width={30} />
+                        <SButtom onPress={this.handleEliminar.bind(this)} type='danger'>{"ELIMINAR"}</SButtom>
+                        <SView width={30} />
+                    </> : null}
+
+                    <SButtom onPress={this.handlePress.bind(this)} type='outline'>{"GUARDAR"}</SButtom>
+
+                </SView>
 
             </Container>
 
-        </SPage>
+        </SPage >
     }
 }
