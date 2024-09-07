@@ -48,9 +48,9 @@ export default class EventoItem extends Component {
             </SView>
         </SView>
     }
-    renderPuestosItem = ({ label, cantidad, longitud ,key_staff_tipo}) => {
+    renderPuestosItem = ({ label, cantidad, longitud, key_staff_tipo }) => {
         let staff_tipo = Model.staff_tipo.Action.getByKey(key_staff_tipo);
-        console.log("staff_tipo", staff_tipo)
+        // console.log("staff_tipo", staff_tipo)
         return <>
             <SView height={32} flex padding={2}>
                 <SView col={"xs-12"}
@@ -60,7 +60,7 @@ export default class EventoItem extends Component {
                         padding: 4,
                     }} row center>
                     <SView col={"xs-8"} heigh>
-                        <SText fontSize={8} style={{ color: STheme.color.text, lineHeight: '1.2' , paddingLeft:2}}>{staff_tipo?.descripcion}</SText>
+                        <SText fontSize={8} style={{ color: STheme.color.text, lineHeight: '1.2', paddingLeft: 2 }}>{staff_tipo?.descripcion}</SText>
                     </SView>
                     <SView col={"xs-4"} height style={{ alignItems: "flex-end" }}>
                         <SView width={16} height={16} backgroundColor={STheme.color.background}
@@ -93,7 +93,10 @@ export default class EventoItem extends Component {
     render() {
         const { data } = this.props;
         const { descripcion, observacion, actividades, ubicacion, key } = data;
-        const firstActivity = actividades ? actividades[0] : {}
+        // if(actividades == null) return <View />
+        console.log("actividades", actividades)
+        const firstActivity = actividades ? actividades[0] : [];
+
         const imgPath = SSocket.api.repo + 'actividad/' + firstActivity?.key;
         const fecha = new SDate(data.fecha, "yyyy-MM-dd")
         // dia:.toString('dd'),
@@ -151,10 +154,10 @@ export default class EventoItem extends Component {
                         es: "REQUIERE:",
                         en: "REQUIRES:"
                     }} />
-                    <SHr h={5} />
+                    <SHr height={5} />
                     <SView row col={"xs-12"}>
                         {/* {!data.pendientes ? null : data.pendientes.map(p => this.renderPuestos({ label: p.descripcion, cantidad: p.cantidad, longitud: data.pendientes.length }))} */}
-                        {!data.pendientes ? null : this.renderPuestos(data.pendientes)}
+                        {!data.pendientes ? <SView/> : this.renderPuestos(data.pendientes)}
                     </SView>
                 </SView>
             </SView>

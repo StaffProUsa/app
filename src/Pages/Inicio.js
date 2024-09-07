@@ -298,8 +298,9 @@ export default class Inicio extends Component {
       </SView>
     </SPage>
 
-    return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} preventBack footer={<PBarraFooter url={'/'} />} disableScroll>
+    return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} preventBack footer={<PBarraFooter url={'/'} />} >
       <Container flex>
+      {/* <Container > */}
         <FlatList
           style={{
             width: "100%"
