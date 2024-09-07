@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { View, Text, FlatList, RefreshControl } from 'react-native';
-import { SDate, SIcon, SLoad, SPage, SText, STheme, SThread, SView, SNavigation, SImage, SLanguage, SGradient, SHr, SList, SNotification } from 'servisofts-component';
+import { SDate, SIcon, SLoad, SPage, SText, STheme, SThread, SView, SNavigation, SImage, SLanguage, SGradient, SHr, SList, SNotification, SPopup } from 'servisofts-component';
 import Model from '../../../Model';
 import SSocket from 'servisofts-socket';
 
@@ -56,6 +56,7 @@ export default class TrabajosDelEvento extends Component {
                 color: STheme.color.success,
                 time: 5000,
             })
+            this.componentDidMount();
             console.log(e);
         }).catch(e => {
             SNotification.send({
@@ -70,7 +71,14 @@ export default class TrabajosDelEvento extends Component {
     }
     renderStaffUsuario(obj) {
         const { staff_usuario } = obj
-        if (!staff_usuario) return null;
+        if (!staff_usuario) return <SText onPress={() => {
+            SPopup.confirm({
+                title: "Seguro",
+                onPress: () => {
+                    this.handlePostular(obj.key)
+                }
+            })
+        }} underLine>{"POSTULARME PARA EL PUESTO"}</SText>;
         if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Invitacion pendiente de confirmar", es: "Invitacion pendiente de confirmar" }} />
         if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Esperando aprobacion", es: "Esperando aprobacion" }} />
         if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "Sin jefe" }} />
