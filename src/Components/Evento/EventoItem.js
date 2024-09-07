@@ -93,8 +93,7 @@ export default class EventoItem extends Component {
     render() {
         const { data } = this.props;
         const { descripcion, observacion, actividades, ubicacion, key } = data;
-        if((actividades == null) || (actividades.length == 0) ) return null;
-        const firstActivity = actividades[0];
+        const firstActivity = actividades ? actividades[0] : {}
         const imgPath = SSocket.api.repo + 'actividad/' + firstActivity?.key;
         const fecha = new SDate(data.fecha, "yyyy-MM-dd")
         // dia:.toString('dd'),
@@ -104,9 +103,6 @@ export default class EventoItem extends Component {
             alignItems: "center",
 
         }} >
-
-
-
             <SView col={"xs-12"} style={{
                 padding: 10,
                 borderWidth: 1,

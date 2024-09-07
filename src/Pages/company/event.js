@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SHr, SNavigation, SPage, SText, SView } from 'servisofts-component';
+import { SButtom, SDate, SHr, SNavigation, SNotification, SPage, SPopup, SText, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { Container } from '../../Components';
 import Reclutas from './Components/Reclutas';
 import Asistencias from './Components/Asistencias';
-
+import Model from '../../Model';
+import eventosPage from "./eventos"
 export default class event extends Component {
     static INSTANCE;
     constructor(props) {
@@ -41,7 +42,7 @@ export default class event extends Component {
             <SText fontSize={12} col={"xs-12"}>{fecha}</SText>
             <SHr h={50} />
             <SText card padding={16} onPress={() => {
-                SNavigation.navigate("/staff/add", { key_evento: this.key_evento, fecha: new SDate( fecha,"yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
+                SNavigation.navigate("/staff/add", { key_evento: this.key_evento, fecha: new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
             }} language={{ en: "Add new staff", es: "Crear nuevo staff" }}></SText>
             <Reclutas key_evento={this.key_evento} />
             <SHr h={50} />
@@ -58,6 +59,34 @@ export default class event extends Component {
         }}>
             <Container loading={!this.state.data || this.state.loading}>
                 {this.renderHeader()}
+                <SButtom type='danger' onPress={() => {
+                    // SNavigation.navigate('admin/evento/registro', { key: item });
+                    SPopup.confirm({
+                        title: 'Eliminar',
+                        message: '¿Esta seguro de eliminar?',
+                        onPress: () => {
+                            // evento.Actions.eliminar(this.state.data, this.props);
+                            SSocket.sendPromise({
+                                component: "evento",
+                                type: "editar",
+                                data: {
+                                    key: this.key_evento,
+                                    estado: 0,
+                                },
+                                key_usuario: Model.usuario.Action.getKey()
+                            }).then(e => {
+                                if (eventosPage.INSTANCE) eventosPage.INSTANCE.componentDidMount();
+                                SNavigation.goBack();
+                            }).catch(e => {
+                                SNotification.send({
+                                    title: "error",
+                                    body: "Error al eliminar"
+                                })
+                            })
+
+                        }
+                    });
+                }}>ELIMINAR</SButtom>
             </Container>
         </SPage>
     }

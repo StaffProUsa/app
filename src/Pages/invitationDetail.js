@@ -1,5 +1,5 @@
 import React from 'react';
-import { SGradient, SHr, SIcon, SImage, SPage, SText, STheme, SView, SLanguage, SNavigation, SDate } from 'servisofts-component';
+import { SGradient, SHr, SIcon, SImage, SPage, SText, STheme, SView, SLanguage, SNavigation, SDate, SLoad } from 'servisofts-component';
 
 import PBarraFooter from '../Components/PBarraFooter';
 import { Btn, Container } from '../Components';
@@ -43,7 +43,7 @@ export default class invitationDetail extends React.Component {
         <SPage titleLanguage={{ es: "Invitación", en: "Invitation" }}  >
           <SView col={'xs-12'} >
             <SHr height={25} />
-            <Container>
+            <Container loading={!this.state.data}>
               <SView col={'xs-12'} row center>
                 <SView col={'xs-6'} >
                   <SText fontSize={18} language={{
