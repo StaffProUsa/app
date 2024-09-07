@@ -17,7 +17,7 @@ import entradas from './entradas';
 import Perfil from './Evento/Perfil';
 import Qr from './Evento/Qr';
 import Registro from './Evento/Registro';
-import Token from './Evento/Token';
+import token from './Token';
 import Inicio from './Inicio';
 import Inicio2 from './Inicio2';
 import Reservas from './Reservas';
@@ -91,7 +91,7 @@ const NewPages = SPage.combinePages("/", {
     "invitationDetail": invitationDetail,
     invitations,
     "sorry": sorry,
-    'token': Token,
+    ...token,
     "waiting": waiting,
     my_companys
 
