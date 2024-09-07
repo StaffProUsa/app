@@ -26,65 +26,68 @@ class Mapa extends Component<MapaPropsType> {
     }
 
     render() {
-        var latitude = -17.768507;
-        var longitude = -63.183698;
+
         var { ubicacion } = this.props?.data ?? {};
+        if(!ubicacion) return null;
+        var latitude = ubicacion.latitude;
+        var longitude = ubicacion.longitude;
+        // if (ubicacion?.latitude) latitude = ubicacion.latitude
+        // if (ubicacion?.longitude) longitude = ubicacion.longitude
+        if (!latitude || !longitude) return null;
+            return (
+                <SView col={"xs-12"} row center>
+                    <SHr height={40} />
+                    <SView col={"xs-12"} {...this.props} center>
+                        <SView col={"xs-12"} height={350}>
+                            <SMapView
+                                initialRegion={{
+                                    // latitude: this.props.data?.latitude,
+                                    // latitude: this.props.data?.latitude,
+                                    latitude: latitude,
+                                    longitude: longitude,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                }}
+                                options={{
+                                    fullscreenControl: false,
+                                    zoomControl: false,
+                                    gestureHandling: "none",
+                                    scrollwheel: false,
+                                }}
+                                preventCenter
+                            >
+                                <SMapView.SMarker width={35} height={45} latitude={latitude} longitude={longitude} >
+                                    <SView width={35} height={45} >
+                                        <SIcon name={"iconMap"} width={35} height={45} />
+                                    </SView>
+                                </SMapView.SMarker>
+                            </SMapView>
+                            <SView col={"xs-12"} height style={{
+                                position: "absolute",
+                                // backgroundColor: "#f0f"
+                            }} withoutFeedback>
 
-        if (ubicacion?.latitude) latitude = ubicacion.latitude
-        if (ubicacion?.longitude) longitude = ubicacion.longitude
-
-        return (
-            <SView col={"xs-12"} row center>
-                <SHr height={40} />
-                <SView col={"xs-12"} {...this.props} center>
-                    <SView col={"xs-12"} height ={350}>
-                        <SMapView
-                            initialRegion={{
-                                // latitude: this.props.data?.latitude,
-                                // latitude: this.props.data?.latitude,
-                                latitude: latitude,
-                                longitude: longitude,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            }}
-                            options={{
-                                fullscreenControl: false,
-                                zoomControl: false,
-                                gestureHandling: "none",
-                                scrollwheel: false,
-                            }}
-                            preventCenter
-                        >
-                            <SMapView.SMarker width={35} height={45} latitude={latitude} longitude={longitude} >
-                                <SIcon name={"iconMap"} width={35} height={45}  />
-                            </SMapView.SMarker>
-                        </SMapView>
-                        <SView col={"xs-12"} height style={{
-                            position: "absolute",
-                            // backgroundColor: "#f0f"
-                        }} withoutFeedback>
-
+                            </SView>
                         </SView>
-                    </SView>
-                    <SHr height={20} />
-                    <SView col={"xs-12"} row center>
-                        <SIcon name="iubicacion" fill={STheme.color.text} width={15} height={18} />
-                        <SView width={5} />
-                        <SText fontSize={14} bold color={STheme.color.text} language={{
-                            es: "Dirección:",
-                            en: "Address:"
-                        }} />
-                        <SView width={10} />
-                        <SText fontSize={14} color={STheme.color.gray}>
-                            {ubicacion?.descripcion ?? ""}
-                            {/* {this.props?.data?.address ?? ""}  */}
-                        </SText>
-                    </SView>
+                        <SHr height={20} />
+                        <SView col={"xs-12"} row center>
+                            <SIcon name="iubicacion" fill={STheme.color.text} width={15} height={18} />
+                            <SView width={5} />
+                            <SText fontSize={14} bold color={STheme.color.text} language={{
+                                es: "Dirección:",
+                                en: "Address:"
+                            }} />
+                            <SView width={10} />
+                            <SText fontSize={14} color={STheme.color.gray}>
+                                {ubicacion?.descripcion ?? ""}
+                                {/* {this.props?.data?.address ?? ""}  */}
+                            </SText>
+                        </SView>
 
 
 
-                    <SHr height={20} />
-                    {/* <SView
+                        <SHr height={20} />
+                        {/* <SView
                         center
                         backgroundColor={STheme.color.darkGray}
                         width={170}
@@ -97,24 +100,24 @@ class Mapa extends Component<MapaPropsType> {
                         <SText>Ir a Google Maps</SText>
                     </SView> */}
 
-                    <BtnNavegar latLng={{ latitude: latitude, longitude: longitude }}
-                        backgroundColor={STheme.color.darkGray}
-                        width={190}
-                        height={50}
-                        style={{ borderRadius: 8 }}
-                        center
-                        row
-                    >
-                        <SIcon name="googleMap" fill={STheme.color.text} width={25} height={17.45} />
-                        <SText color={STheme.color.text} center fontSize={16} language={{
-                            es: "Ir a Google Maps",
-                            en: "Go to Google Maps"
-                        }} />
-                    </BtnNavegar>
-                    <SHr height={40} />
+                        <BtnNavegar latLng={{ latitude: latitude, longitude: longitude }}
+                            backgroundColor={STheme.color.darkGray}
+                            width={190}
+                            height={50}
+                            style={{ borderRadius: 8 }}
+                            center
+                            row
+                        >
+                            <SIcon name="googleMap" fill={STheme.color.text} width={25} height={17.45} />
+                            <SText color={STheme.color.text} center fontSize={16} language={{
+                                es: "Ir a Google Maps",
+                                en: "Go to Google Maps"
+                            }} />
+                        </BtnNavegar>
+                        <SHr height={40} />
+                    </SView>
                 </SView>
-            </SView>
-        );
+            );
     }
 }
 export default Mapa;

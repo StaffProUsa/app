@@ -22,37 +22,11 @@ export default class Sorry extends React.Component {
   }
 
   componentDidMount() {
-    new SThread(100, "asdasd", true).start(() => {
-      this.getData();
-      this.setState({ ready: true })
-    })
     let usuario = Model.usuario.Action.getUsuarioLog();
     this.setState({ usuario: usuario })
   }
 
 
-  getData() {
-    SSocket.sendPromise({
-      component: "evento",
-      type: "getPerfil",
-      key: this.key,
-      key_usuario: Model.usuario.Action.getKey() ?? "",
-      tipo: Platform.OS,
-      device_info: {
-        OS: Platform.OS,
-        version: PackageJson.version,
-        descripcion: Platform.select({
-          "web": `Web ${window.navigator.userAgent}`,
-          "android": `Android ${Platform?.constants?.Version}, ${Platform?.constants?.Manufacturer} ${Platform?.constants?.Brand} ${Platform?.constants?.Model}`,
-          "ios": `IOS ${Platform?.Version}, ${Platform?.constants?.systemName}`,
-        }),
-      }
-    }).then(e => {
-      this.setState({ data: e.data })
-    }).catch(e => {
-
-    })
-  }
 
   getPerfil() {
     var usuario = this.state.usuario;

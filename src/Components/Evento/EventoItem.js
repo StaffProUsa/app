@@ -58,7 +58,7 @@ export default class EventoItem extends Component {
                         padding: 4,
                     }} row center>
                     <SView col={"xs-8"} heigh>
-                        <SText fontSize={8} style={{ color: STheme.color.text, lineHeight: '1.2' , paddingLeft:2}}>{label}</SText>
+                        <SText fontSize={8} style={{ color: STheme.color.text, lineHeight: '1.2', paddingLeft: 2 }}>{label}</SText>
                     </SView>
                     <SView col={"xs-4"} height style={{ alignItems: "flex-end" }}>
                         <SView width={16} height={16} backgroundColor={STheme.color.background}
@@ -91,7 +91,7 @@ export default class EventoItem extends Component {
     render() {
         const { data } = this.props;
         const { descripcion, observacion, actividades, ubicacion, key } = data;
-        const firstActivity = actividades[0]
+        const firstActivity = actividades ? actividades[0] : {}
         const imgPath = SSocket.api.repo + 'actividad/' + firstActivity?.key;
         const fecha = new SDate(data.fecha, "yyyy-MM-dd")
         // dia:.toString('dd'),
@@ -101,9 +101,6 @@ export default class EventoItem extends Component {
             alignItems: "center",
 
         }} >
-
-
-
             <SView col={"xs-12"} style={{
                 padding: 10,
                 borderWidth: 1,

@@ -20,7 +20,7 @@ class PBarraFooter extends Component {
     // this.page = SNavigation.getParam("page");
   }
 
-  getItem({ key, title,title_en, icon, url, params }) {
+  getItem({ key, title, title_en, icon, url, params }) {
     var color = STheme.color.primary;
     var isSelect = key == this.props.url;
 
@@ -44,7 +44,7 @@ class PBarraFooter extends Component {
             width: 70
           }}
           center>
-          {isSelect && <SView height={55} width={55} center style={{ position: "absolute", top:-5 }}>
+          {isSelect && <SView height={55} width={55} center style={{ position: "absolute", top: -5 }}>
             <SImage src={require('../../Assets/images/selectMenu.png')} />
           </SView>}
           <SHr height={5}></SHr>
@@ -90,6 +90,14 @@ class PBarraFooter extends Component {
                 params: {}
               })}
               {this.getItem({
+                key: '/token',
+                title: 'ASISTENCIA',
+                title_en: 'ASSIST',
+                icon: 'Ajustes',
+                url: '/token',
+                params: {}
+              })}
+              {this.getItem({
                 key: '/trabajos',
                 title: 'TRABAJO',
                 title_en: 'WORK',
@@ -97,7 +105,7 @@ class PBarraFooter extends Component {
                 url: '/trabajos',
                 params: {}
               })}
-               {this.getItem({
+              {this.getItem({
                 key: '/history',
                 title: 'HISTORIAL',
                 title_en: 'HISTORY',

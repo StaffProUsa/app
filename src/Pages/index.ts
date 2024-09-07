@@ -91,6 +91,7 @@ const NewPages = SPage.combinePages("/", {
     "invitationDetail": invitationDetail,
     invitations,
     "sorry": sorry,
+    'token': Token,
     "waiting": waiting,
     my_companys
 
@@ -107,7 +108,6 @@ const Pages: SPageListProps = {
     'evento/perfil': Perfil,
     'evento/registro': Registro,
     'evento/qr': Qr,
-    'evento/token': Token,
     'ticket/entrada': Entrada,
     'ticket/reserva': Reserva,
     'carrito/confirmar': Confirmar,

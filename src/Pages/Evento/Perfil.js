@@ -16,7 +16,8 @@ import {
   STheme,
   SThread,
   SView,
-  SLanguage
+  SLanguage,
+  SNotification
 } from 'servisofts-component';
 import PackageJson from "../../../package.json"
 import actividad from '../../Services/Casagrandeadmin/Components/actividad';
@@ -37,6 +38,7 @@ import { Container } from '../../Components';
 import EventoStaff from './Components/EventoStaff';
 import Mapa from './Components/Mapa';
 import Asistencia from './Components/Asistencia';
+import MisTrabajosDelEvento from './Components/MisTrabajosDelEvento';
 
 const SPACE = 50;
 
@@ -83,7 +85,10 @@ class Perfil extends React.Component {
     }).then(e => {
       this.setState({ data: e.data })
     }).catch(e => {
-
+      SNotification.send({
+        title: "Error",
+        body: e.error ?? "No se pudo completar la accion."
+      })
     })
   }
   getBtnFooter() {
@@ -274,11 +279,12 @@ class Perfil extends React.Component {
     var data_actividad = DATA?.actividades
 
     if (!DATA) return <SLoad />;
-    if (!data_actividad) return <SLoad />;
-    let arr = new SOrdenador([{ key: "index", order: "asc", peso: 1 }]).ordenarArray(data_actividad);
-    let currentActivity = arr[0] ?? {}
+
+    // if (!data_actividad) return <SLoad />;
+    let arr = new SOrdenador([{ key: "index", order: "asc", peso: 1 }]).ordenarArray(data_actividad ?? []);
+    let currentActivity = arr[0] ?? null
     if (!this.state.foto_id) {
-      this.state.foto_id = Object.values(data_actividad)[0]?.key;
+      this.state.foto_id = Object.values(data_actividad ?? {})[0]?.key;
       // console.log(data_actividad)
       this.state.foto_id = currentActivity?.key;
       // console.log(this.state.foto_id);
@@ -289,17 +295,13 @@ class Perfil extends React.Component {
     return (
       <>
         <SView col={'xs-12'} border={this.bgborder} center row>
-
           <SView col={"xs-12"} center>
             <SText col={"xs-8"} center color={STheme.color.text} bold font={'Roboto'} fontSize={24}>
               {DATA.descripcion}
             </SText>
-
-
             <SHr height={15} />
             <SView col={"xs-6"} style={{
               borderBottomColor: STheme.color.card,
-              // borderBottomColor: "#B07E49",
               borderStyle: 'dashed',
               borderBottomWidth: 3
               // width: 10
@@ -314,110 +316,95 @@ class Perfil extends React.Component {
             }} />
             <SHr height={15} />
           </SView>
-          <SView col={"xs-12"} height={355}>
-            {currentActivity?.tipo == "video" ?
-              <SVideo src={
-                SSocket.api.repo +
-                'actividad/' +
-                this.state.foto_id
-              } height={355} />
-              : <ImageBlur
-                src={
+          {!currentActivity ? null : <>
+            <SView col={"xs-11.5"} height={355}>
+              {currentActivity?.tipo == "video" ?
+                <SVideo src={
                   SSocket.api.repo +
                   'actividad/' +
                   this.state.foto_id
                 } height={355} />
-            }
-          </SView>
-          {/* <SImage
-              src={
-                SSocket.api.root +
-                'actividad/' +
-                this.state.foto_id
+                : <ImageBlur
+                  src={
+                    SSocket.api.repo +
+                    'actividad/' +
+                    this.state.foto_id
+                  } height={355} />
               }
-              style={{ width: '100%', resizeMode: 'contain', borderRadius: 8 }}
-            /> */}
-          {/* </SView> */}
-
-          <SView col={'xs-12'} height={4} backgroundColor={'transparent'} />
-          <SView col={'xs-12'} height={55} backgroundColor={'transparent'}>
-            <SScrollView2>
-              <SList
-                // data={Object.values(data_actividad ?? 0).sort((a, b) => a.index != b.index ? (a.index > b.index ? 1 : -1) : (new SDate(a.fecha_on,"yyyy-MM-ddThh:mm:ss").getTime() > new SDate(b.fecha_on,"yyyy-MM-ddThh:mm:ss").getTime() ? 1 : -1))}
-                data={(data_actividad ?? []).sort((a, b) => a.index != b.index ? (a.index > b.index ? 1 : -1) : (new SDate(a.fecha_on, "yyyy-MM-ddThh:mm:ss").getTime() > new SDate(b.fecha_on, "yyyy-MM-ddThh:mm:ss").getTime() ? 1 : -1))}
-
-                horizontal={true}
-                // order={[{ key: "index", order: "asc", peso: 1 }]}
-                render={(obj, key) => {
-                  // obj.key = key;
-                  // console.log("obj. ", obj.key);
-                  return (
-                    <SView
-                      width={50}
-                      height={50}
-                      card
-                      onPress={() => {
-                        // alert(obj.key);
-                        // this.foto_id = obj.foto;
-                        this.setState({ foto_id: obj.key });
-                        // console.log("final ", this.state.foto_id);
-                      }}>
-                      <SImage
-                        src={
-                          SSocket.api.repo +
-                          'actividad/' +
-                          obj.key
-                        }
-                        style={{
-                          width: '100%',
-                          position: 'relative',
-                          resizeMode: 'cover',
-                          borderRadius: 4
-                        }}
-                      />
-                      <SImage
-                        src={obj.foto}
-                        style={{
-                          width: '100%',
-                          position: 'relative',
-                          resizeMode: 'cover',
-                          borderRadius: 4
-                        }}
-                      />
-
+            </SView>
+            <SView col={'xs-12'} height={4} backgroundColor={'transparent'} />
+            <SView col={'xs-11.5'} height={55} backgroundColor={'transparent'}>
+              <SScrollView2>
+                <SList
+                  // data={Object.values(data_actividad ?? 0).sort((a, b) => a.index != b.index ? (a.index > b.index ? 1 : -1) : (new SDate(a.fecha_on,"yyyy-MM-ddThh:mm:ss").getTime() > new SDate(b.fecha_on,"yyyy-MM-ddThh:mm:ss").getTime() ? 1 : -1))}
+                  data={(data_actividad ?? []).sort((a, b) => a.index != b.index ? (a.index > b.index ? 1 : -1) : (new SDate(a.fecha_on, "yyyy-MM-ddThh:mm:ss").getTime() > new SDate(b.fecha_on, "yyyy-MM-ddThh:mm:ss").getTime() ? 1 : -1))}
+                  horizontal={true}
+                  // order={[{ key: "index", order: "asc", peso: 1 }]}
+                  render={(obj, key) => {
+                    // obj.key = key;
+                    // console.log("obj. ", obj.key);
+                    return (
                       <SView
                         width={50}
                         height={50}
-                        backgroundColor={
-                          obj.key == this.state.foto_id
-                            ? '#FFFFFF' + 99
-                            : 'transparent'
-                        }
-                        style={{ position: 'absolute', borderRadius: 4 }}></SView>
-                      {/* <SText>{obj.index}</SText> */}
-                    </SView>
-                  );
-                }}
-              />
-            </SScrollView2>
-          </SView>
+                        card
+                        onPress={() => {
+                          // alert(obj.key);
+                          // this.foto_id = obj.foto;
+                          this.setState({ foto_id: obj.key });
+                          // console.log("final ", this.state.foto_id);
+                        }}>
+                        <SImage
+                          src={
+                            SSocket.api.repo +
+                            'actividad/' +
+                            obj.key
+                          }
+                          style={{
+                            width: '100%',
+                            position: 'relative',
+                            resizeMode: 'cover',
+                            borderRadius: 4
+                          }}
+                        />
+                        <SImage
+                          src={obj.foto}
+                          style={{
+                            width: '100%',
+                            position: 'relative',
+                            resizeMode: 'cover',
+                            borderRadius: 4
+                          }}
+                        />
 
-
-          <SView col={'xs-12'} border={this.bgborder} center
+                        <SView
+                          width={50}
+                          height={50}
+                          backgroundColor={
+                            obj.key == this.state.foto_id
+                              ? '#FFFFFF' + 99
+                              : 'transparent'
+                          }
+                          style={{ position: 'absolute', borderRadius: 4 }}></SView>
+                        {/* <SText>{obj.index}</SText> */}
+                      </SView>
+                    );
+                  }}
+                />
+              </SScrollView2>
+            </SView>
+          </>}
+          <SView col={'xs-11.5'} border={this.bgborder} center
             style={{
               // backgroundColor: STheme.color.card,
               borderRadius: 4,
-              padding: 5,
             }}>
-
             <SHr />
-
-
             <SView col={"xs-12"}>
               <TextWithLink
                 // center
                 justify
-                color={STheme.color.text}
+                color={STheme.color.lightGray}
                 font={'Roboto'}
                 fontSize={12}>
                 {DATA.observacion}
@@ -558,7 +545,7 @@ class Perfil extends React.Component {
                 {this.getBody()}
 
                 {/* GET STAFF APPLY */}
-                <SView col={'xs-11.5'} style={{ borderRadius: 16, overflow: "hidden" , borderWidth:1, borderColor:STheme.color.darkGray}}>
+                {/* <SView col={'xs-11.5'} style={{ borderRadius: 16, overflow: "hidden" , borderWidth:1, borderColor:STheme.color.darkGray}}>
                   <SGradient
                     colors={['#040405', '#0C0C10']}
                     start={{ x: 0, y: 1 }}
@@ -572,14 +559,17 @@ class Perfil extends React.Component {
                   <SHr height={15} />
                   <EventoStaff key_evento={this.key} />
                   <SHr height={15} />
-                </SView>
+                </SView> */}
 
                 <SHr height={30} />
 
                 {/* STAFF ASISTENCIA */}
-                <SView col={'xs-11.5'}>
+                {/* <SView col={'xs-11.5'}>
                   <Asistencia  data={this.state.data}/>
-                </SView> 
+                </SView>  */}
+                <SView col={'xs-11.5'}>
+                  <MisTrabajosDelEvento key_evento={this.key} />
+                </SView>
                 <SHr height={30} />
 
                 <Mapa height={400} data={this.state.data} />
