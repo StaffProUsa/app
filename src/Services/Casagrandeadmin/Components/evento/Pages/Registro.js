@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
+  SDate,
   SForm,
   SHr,
   SLoad,
@@ -65,10 +66,10 @@ class Registro extends React.Component {
         inputs={{
           // foto_p: { type: "image", isRequired: false, defaultValue: `${SSocket.api.root}evento/${this.key}?time=${new Date().getTime()}`, col: "xs-4 sm-3.5 md-3 lg-2.5 xl-2.5", style: { borderRadius: 8, overflow: 'hidden', width: 130, height: 130, borderWidth: 0 } },
           fecha: {
-            label: 'Fecha',
+            label: 'Fecha del evento',
             type: 'date',
             isRequired: false,
-            defaultValue: data['fecha'],
+            defaultValue: data['fecha'] ?? new SDate().toString("yyyy-MM-dd"),
             col: 'xs-7'
           },
           descripcion: {
@@ -87,8 +88,9 @@ class Registro extends React.Component {
           //   col: 'xs-5.5'
           // },
           observacion: {
-            label: 'Observación',
+            label: 'Informarcion sobre el evento',
             type: 'textArea',
+            placeholder: "Informarcion sobre el evento",
             isRequired: false,
             defaultValue: data['observacion'],
             col: 'xs-12'

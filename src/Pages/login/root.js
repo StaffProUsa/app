@@ -322,7 +322,9 @@ class Login extends Component {
                     </PButtom> */}
 
                     <SView width={180} height={50} center backgroundColor={STheme.color.secondary}
-                        style={{ borderRadius: 14 }}>
+                        style={{ borderRadius: 14 }} onPress={()=>{
+                            this.form.submit();
+                        }}>
                         <SText color={STheme.color.white} fontSize={15} language={{
                             es: "Ingresar",
                             en: "Login"

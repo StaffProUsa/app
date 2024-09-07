@@ -29,6 +29,7 @@ export default class root extends Component {
             add: true
         };
         this.key_company = SNavigation.getParam("key_company");
+        this.onSelect = SNavigation.getParam("onSelect","");
     }
 
     reload() {
@@ -107,17 +108,20 @@ export default class root extends Component {
 
     renderItem(obj) {
         const rol = this.state.roles.find(a => a.key == obj.key_rol);
-        return <SView col={"xs-12"} row center>
+        return <SView col={"xs-12"} row center >
             <SView flex padding={8} style={{
                 borderRadius: 4,
                 borderWidth: 1,
                 borderColor: STheme.color.card
             }} row>
-                <SView flex>
+                <SView flex onPress={!this.onSelect ? null : () => {
+                    this.onSelect(obj);
+                    SNavigation.goBack();
+                }}>
                     <SText fontSize={12} font='Montserrat-Bold'>{obj?.usuario?.Nombres} {obj?.usuario?.Apellidos}</SText>
-                    <SHr h={2}/>
+                    <SHr h={2} />
                     <SText fontSize={12} color={STheme.color.lightGray}>{rol?.descripcion ?? "Sin rol"}</SText>
-                    <SHr h={4}/>
+                    <SHr h={4} />
                     <SText fontSize={12} color={STheme.color.gray}>{obj?.usuario?.Telefono}</SText>
                     <SText fontSize={12} color={STheme.color.gray}>{obj?.usuario?.Correo}</SText>
                 </SView>

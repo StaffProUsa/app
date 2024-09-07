@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from ".."
-import { SHr, SIcon, SText, SView } from 'servisofts-component';
+import { SHr, SIcon, SNavigation, SText, SView } from 'servisofts-component';
 import Model from '../../../Model';
 import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
 import UsuarioTipo from './UsuarioTipo';
+import SSocket from 'servisofts-socket';
 
 class index extends DPA.profile {
     constructor(props) {
@@ -26,7 +27,7 @@ class index extends DPA.profile {
     $footer() {
         return <SView col={"xs-12"}>
             <SHr />
-            <UsuarioTipo  key_staff_tipo={this.pk}/>
+            <UsuarioTipo key_staff_tipo={this.pk} key_company={this.data?.key_company} />
         </SView>
     }
 

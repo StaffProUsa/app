@@ -2,7 +2,7 @@ import React from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from "."
 import Model from '../../Model';
-import { SHr, SImage, SNavigation, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SNavigation, SPopup, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 
 class index extends DPA.list {
@@ -67,14 +67,31 @@ class index extends DPA.list {
     }
 
     $item(obj) {
-        return <SView col={"xs-12"} padding={8} row onPress={this.$onSelect.bind(this, obj)} style={{
+        return <SView col={"xs-12"} padding={8} row style={{
             borderBottomWidth: 1,
             borderColor: STheme.color.card
         }}>
-            <SView flex style={{ justifyContent: "center" }}>
+            <SView flex style={{ justifyContent: "center" }} onPress={this.$onSelect.bind(this, obj)}>
                 <SText bold fontSize={16}>{obj.descripcion}</SText>
                 <SHr h={4} />
                 <SText color={STheme.color.lightGray} fontSize={8}>{obj.latitude},{obj.longitude}</SText>
+            </SView>
+            <SView width={30} height={30} onPress={() => {
+                SPopup.confirm({
+                    title: "Esta seguro que descea eliminar?",
+                    message: "Eliminar",
+                    onPress: () => {
+                        Model.ubicacion.Action.editar({
+                            data: {
+                                ...obj,
+                                estado: 0
+                            }
+                        })
+                    }
+                })
+
+            }}>
+                <SIcon name='Delete' />
             </SView>
         </SView>
     }
