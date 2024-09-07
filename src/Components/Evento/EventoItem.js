@@ -6,6 +6,7 @@ import SVideo from '../SVideo';
 import ImageBlur from '../ImageBlur';
 import PFecha from '../PFecha';
 import Container from '../Container';
+import Model from '../../Model';
 
 const HEIGHT = Dimensions.get('window').height / 4.6
 export default class EventoItem extends Component {
@@ -47,18 +48,19 @@ export default class EventoItem extends Component {
             </SView>
         </SView>
     }
-    renderPuestosItem = ({ label, cantidad, longitud }) => {
-        console.log("longitud", longitud)
+    renderPuestosItem = ({ label, cantidad, longitud ,key_staff_tipo}) => {
+        let staff_tipo = Model.staff_tipo.Action.getByKey(key_staff_tipo);
+        console.log("staff_tipo", staff_tipo)
         return <>
             <SView height={32} flex padding={2}>
                 <SView col={"xs-12"}
                     style={{
-                        borderRadius: 15,
+                        borderRadius: 10,
                         backgroundColor: STheme.color.darkGray,
                         padding: 4,
                     }} row center>
                     <SView col={"xs-8"} heigh>
-                        <SText fontSize={8} style={{ color: STheme.color.text, lineHeight: '1.2' , paddingLeft:2}}>{label}</SText>
+                        <SText fontSize={8} style={{ color: STheme.color.text, lineHeight: '1.2' , paddingLeft:2}}>{staff_tipo?.descripcion}</SText>
                     </SView>
                     <SView col={"xs-4"} height style={{ alignItems: "flex-end" }}>
                         <SView width={16} height={16} backgroundColor={STheme.color.background}
@@ -75,7 +77,7 @@ export default class EventoItem extends Component {
         if (longitud > 3) {
             newObj = obj.slice(0, 3);
             return <SView col={"xs-12"} row center>
-                {newObj.map(p => this.renderPuestosItem({ label: p.descripcion, cantidad: p.cantidad, longitud: obj.length }))}
+                {newObj.map(p => this.renderPuestosItem({ label: p.descripcion, cantidad: p.cantidad, longitud: obj.length, key_staff_tipo: p.key_staff_tipo }))}
                 <SView width={2} />
                 <SView width={24} height={24} center row
                     style={{
@@ -84,14 +86,15 @@ export default class EventoItem extends Component {
                     }}><SText center fontSize={14}>+</SText></SView>
             </SView>
         } else {
-            return obj.map(p => this.renderPuestosItem({ label: p.descripcion, cantidad: p.cantidad, longitud: obj.length }))
+            return obj.map(p => this.renderPuestosItem({ label: p.descripcion, cantidad: p.cantidad, longitud: obj.length, key_staff_tipo: p.key_staff_tipo }))
         }
 
     }
     render() {
         const { data } = this.props;
         const { descripcion, observacion, actividades, ubicacion, key } = data;
-        const firstActivity = actividades[0]
+        if((actividades == null) || (actividades.length == 0) ) return null;
+        const firstActivity = actividades[0];
         const imgPath = SSocket.api.repo + 'actividad/' + firstActivity?.key;
         const fecha = new SDate(data.fecha, "yyyy-MM-dd")
         // dia:.toString('dd'),

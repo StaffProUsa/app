@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
-import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate } from 'servisofts-component';
+import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate, SNavigation } from 'servisofts-component';
 import { Container } from '../Components';
 import Degradado from '../Components/Degradado';
 import PBarraFooter from '../Components/PBarraFooter';
@@ -27,6 +27,30 @@ export default class trabajos extends Component {
     render() {
         return <SPage titleLanguage={{ es: "Trabajos en curso", en: "Work in progress" }} preventBack footer={<PBarraFooter url={'/trabajos'} />}>
             <Container>
+                <SView col={"xs-12"} row>
+                    <SView col={"xs-6"}>
+                        <SText fontSize={18} bold language={{
+                            es: "Trabajos en curso",
+                            en: "Jobs in progress"
+                        }} />
+                    </SView>
+                    <SView col={"xs-6"} flex style={{ alignItems: "flex-end" }} center>
+                        <SView width={150} backgroundColor={STheme.color.secondary} padding={10} style={{
+                            borderRadius: 10,
+                            overflow: "hidden",
+                        }} row center onPress={()=>{
+                            SNavigation.navigate("/history")
+                        }}>
+                            <SIcon name={"history"} fill={STheme.color.white} width={20} />
+                            <SView width={10} />
+                            <SText fontSize={12} color={STheme.color.text} language={{
+                                es: "VER HISTORIAL",
+                                en: "SEE HISTORY"
+                            }} />
+                        </SView>
+                    </SView>
+                </SView>
+                <SHr height={10} />
                 <SList2 data={this.state.data} order={[{ key: "staff/fecha_inicio", order: "desc" }]} render={(obj) => {
                     let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
                     console.log("userCoordinador", userCoordinador)
