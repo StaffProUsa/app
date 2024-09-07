@@ -15,6 +15,8 @@ import timeFinish, { ReactComponent as timeFinishW } from './timeFinish.svg';
 import dating, { ReactComponent as datingW } from './dating.svg';
 import asistencia, { ReactComponent as asistenciaW } from './asistencia.svg';
 import asistencia2, { ReactComponent as asistencia2W } from './asistencia2.svg';
+import ok, { ReactComponent as okW } from './ok.svg';
+import aplausos, { ReactComponent as aplausosW } from './aplausos.svg';
 
 
 
@@ -34,6 +36,8 @@ const Assets = {
 	"dating": { Native: dating, Web: datingW },
 	"asistencia": { Native: asistencia, Web: asistenciaW },
 	"asistencia2": { Native: asistencia2, Web: asistencia2W },
+	"ok": { Native: ok, Web: okW },
+	"aplausos": { Native: aplausos, Web: aplausosW },
 
 }
 
