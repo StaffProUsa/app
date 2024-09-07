@@ -17,6 +17,7 @@ import asistencia, { ReactComponent as asistenciaW } from './asistencia.svg';
 import asistencia2, { ReactComponent as asistencia2W } from './asistencia2.svg';
 import ok, { ReactComponent as okW } from './ok.svg';
 import aplausos, { ReactComponent as aplausosW } from './aplausos.svg';
+import mano1, { ReactComponent as mano1W } from './mano1.svg';
 
 
 
@@ -38,6 +39,7 @@ const Assets = {
 	"asistencia2": { Native: asistencia2, Web: asistencia2W },
 	"ok": { Native: ok, Web: okW },
 	"aplausos": { Native: aplausos, Web: aplausosW },
+	"mano1": { Native: mano1, Web: mano1W },
 
 }
 
