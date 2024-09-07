@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SDate, SHr, SIcon, SInput, SNavigation, SNotification, SPage, SText, STheme, SThread, SView, SLanguage} from 'servisofts-component';
+import { SButtom, SDate, SHr, SIcon, SInput, SNavigation, SNotification, SPage, SText, STheme, SThread, SView, SLanguage } from 'servisofts-component';
 import PBarraFooter from '../../Components/PBarraFooter';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
+import PButtom from '../../Components/PButtom';
 
 export default class root extends Component {
   constructor(props) {
@@ -101,10 +102,11 @@ export default class root extends Component {
     </>
   }
   render() {
-    return <SPage titleLanguage={{ es: "Asistencia", en: "Assistance" }}  footer={<PBarraFooter url={'/token'}   />}>
+    return <SPage titleLanguage={{ es: "Asistencia", en: "Assistance" }} footer={<PBarraFooter url={'/token'} />}>
       <Container>
+        <SHr h={40} />
         {this.getToken()}
-        <SButtom type='danger' onPress={() => {
+        {/* <SButtom type='danger' onPress={() => {
           const code = this.input.getValue() ?? "";
           if (code.length < 6) {
             SNotification.send({
@@ -133,9 +135,47 @@ export default class root extends Component {
             })
             console.error(e);
           })
-        }}>MARCAR</SButtom>
+        }}>MARCAR</SButtom> */}
+        <SHr h={40} />
+        <PButtom rojo onPress={() => {
+          const code = this.input.getValue() ?? "";
+          if (code.length < 6) {
+            SNotification.send({
+              title: "Error",
+              body: "El codigo debe ser de 6 digitos",
+              color: STheme.color.danger
+            })
+            return null;
+          }
+          SSocket.sendPromise({
+            component: "asistencia",
+            type: "asistir",
+            codigo: code,
+            key_usuario: Model.usuario.Action.getKey(),
+          }).then(e => {
+            SNotification.send({
+              title: "Exito",
+              body: "Se realizo la asistenncia con exito"
+            })
+            SNavigation.navigate("/token/exito")
+          }).catch(e => {
+            SNotification.send({
+              title: "Error",
+              body: "No se pudo realizar la asistencia.",
+              color: STheme.color.danger
+            })
+            console.error(e);
+          })
+        }}
+          loading={this.state.loading}
+        >
+          <SText color={STheme.color.text} language={{
+            es: "INICIAR",
+            en: "START"
+          }} />
+        </PButtom>
 
-        <SHr h={50}/>
+        <SHr h={50} />
         <SText onPress={() => {
           SNavigation.navigate("/token/exito")
         }}>{"TEST VENTANA EXITO"}</SText>
