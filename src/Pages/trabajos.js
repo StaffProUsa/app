@@ -25,7 +25,7 @@ export default class trabajos extends Component {
         })
     }
     render() {
-        return <SPage titleLanguage={{ es: "Trabajos en curso", en: "Work in progress" }} preventBack footer={<PBarraFooter url={'/trabajos'} />}>
+        return <SPage titleLanguage={{ es: "Trabajos", en: "Jobs" }}  footer={<PBarraFooter url={'/trabajos'} />}>
             <Container>
                 <SView col={"xs-12"} row>
                     <SView col={"xs-6"}>
