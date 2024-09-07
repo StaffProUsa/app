@@ -53,14 +53,13 @@ export default class Reclutas extends Component {
             <SView width={8} />
             <SView flex>
                 <SView row flex col={"xs-12"}>
-                    <SView height style={{
-                        justifyContent: "center"
+                    <SView flex height style={{
+                        justifyContent: "center",
                     }}>
                         <SText>{obj.tipo_staff}</SText>
                         <SText fontSize={12} color={STheme.color.gray}>{obj.staff}</SText>
                     </SView>
                     <SView width={16} />
-                    <SView flex />
                     <SView style={{ justifyContent: "center" }}>
                         <SText style={{ textAlign: "right" }} fontSize={12}>{obj.actual} / {obj.cantidad ?? 0}</SText>
                         <SText style={{ textAlign: "right" }} color={STheme.color.lightGray} fontSize={12}>{(obj.porcentaje ?? 0) + "%"}</SText>

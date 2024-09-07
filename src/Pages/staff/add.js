@@ -78,15 +78,17 @@ export default class add extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            pk: SNavigation.getParam("pk"),
             key_evento: SNavigation.getParam("key_evento"),
             fecha: SNavigation.getParam("fecha"),
         };
     }
     componentDidMount() {
+        if(!this.state.pk) return;
         SSocket.sendPromise({
-            component: "evento",
+            component: "staff",
             type: "getByKey",
-            key: this.state.key_evento,
+            key: this.state.pk,
         }).then(e => {
             this.setState({ data: e.data })
             console.log(e);

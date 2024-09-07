@@ -39,6 +39,7 @@ import EventoStaff from './Components/EventoStaff';
 import Mapa from './Components/Mapa';
 import Asistencia from './Components/Asistencia';
 import MisTrabajosDelEvento from './Components/MisTrabajosDelEvento';
+import TrabajosDelEvento from './Components/TrabajosDelEvento';
 
 const SPACE = 50;
 
@@ -568,7 +569,8 @@ class Perfil extends React.Component {
                   <Asistencia  data={this.state.data}/>
                 </SView>  */}
                 <SView col={'xs-11.5'}>
-                  <MisTrabajosDelEvento key_evento={this.key} />
+                  {/* <MisTrabajosDelEvento key_evento={this.key} /> */}
+                  <TrabajosDelEvento key_evento={this.key} />
                 </SView>
                 <SHr height={30} />
 
