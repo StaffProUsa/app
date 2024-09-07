@@ -100,30 +100,30 @@ export default class TrabajosDelEvento extends Component {
     }
 
 
-    item_(obj) {
-        const { key_staff_tipo, staff_tipo, descripcion, fecha_inicio, fecha_fin, asistencia, staff_usuario } = obj
-        return <SView col={"xs-12"} row padding={10} >
-            <SView width={60} height={60} style={{ borderRadius: 4, overflow: "hidden", backgroundColor: STheme.color.card }}>
-                <SImage src={SSocket.api.root + "staff_tipo/" + key_staff_tipo} />
-            </SView>
-            <SView width={8} />
-            <SView flex>
-                <SView>
-                    <SText fontSize={14}>{staff_tipo}</SText>
-                    <SText fontSize={12} color={STheme.color.lightGray}>{descripcion}</SText>
-                    {this.renderStaffUsuario(obj)}
-                    {!asistencia ? null : <SText fontSize={12} color={STheme.color.success} language={{ en: "Marked Assistance", es: "Asistencia Marcada" }} />}
-                </SView>
-                <SHr h={4} />
-                <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray} language={{
-                    en: `Start ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} to ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`,
-                    es: `Desde ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} hasta ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`
-                }} />
-                <SHr h={8} />
-                <SHr h={1} color={STheme.color.card} />
-            </SView>
-        </SView>
-    }
+    // item_(obj) {
+    //     const { key_staff_tipo, staff_tipo, descripcion, fecha_inicio, fecha_fin, asistencia, staff_usuario } = obj
+    //     return <SView col={"xs-12"} row padding={10} >
+    //         <SView width={60} height={60} style={{ borderRadius: 4, overflow: "hidden", backgroundColor: STheme.color.card }}>
+    //             <SImage src={SSocket.api.root + "staff_tipo/" + key_staff_tipo} />
+    //         </SView>
+    //         <SView width={8} />
+    //         <SView flex>
+    //             <SView>
+    //                 <SText fontSize={14}>{staff_tipo}</SText>
+    //                 <SText fontSize={12} color={STheme.color.lightGray}>{descripcion}</SText>
+    //                 {this.renderStaffUsuario(obj)}
+    //                 {!asistencia ? null : <SText fontSize={12} color={STheme.color.success} language={{ en: "Marked Assistance", es: "Asistencia Marcada" }} />}
+    //             </SView>
+    //             <SHr h={4} />
+    //             <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray} language={{
+    //                 en: `Start ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} to ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`,
+    //                 es: `Desde ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} hasta ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`
+    //             }} />
+    //             <SHr h={8} />
+    //             <SHr h={1} color={STheme.color.card} />
+    //         </SView>
+    //     </SView>
+    // }
 
     formatearFecha(fecha, lenguaje) {
         const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -135,9 +135,6 @@ export default class TrabajosDelEvento extends Component {
 
         let fecha_ini = new Date(obj.fecha_inicio);
         let fecha_fi = new Date(obj.fecha_fin);
-        // let fecha_ini_format = this.formatearFecha(fecha_ini);
-        // let fecha_fi_format = this.formatearFecha(fecha_fi);
-
 
         const { key_staff_tipo, staff_tipo, descripcion, fecha_inicio, fecha_fin, asistencia, staff_usuario } = obj
         return <SView col={"xs-12"} row padding={10} >
@@ -151,7 +148,7 @@ export default class TrabajosDelEvento extends Component {
                     <SText fontSize={14}>{staff_tipo}</SText>
                     <SText fontSize={12} color={STheme.color.lightGray}>{descripcion}</SText>
                 </SView>
-                <SView col={"xs-5 sm-4"}>
+                <SView col={"xs-5 sm-4"} style={{alignItems:"flex-end"}}>
                     {this.renderStaffUsuario(obj)}
                     {!asistencia ? null : <SText fontSize={12} color={STheme.color.success} language={{ en: "Marked Assistance", es: "Asistencia Marcada" }} />}
                 </SView>
@@ -161,7 +158,6 @@ export default class TrabajosDelEvento extends Component {
                     // es: `Desde ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} hasta ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`
                     en: `Start ${this.formatearFecha(fecha_ini,'en-US')} | ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`,
                     es: `Desde ${this.formatearFecha(fecha_ini,'es-ES')} | ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`
-                    // es: `Desde ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss")}`
                 }} />
                 <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray} language={{
                     en: `End ${this.formatearFecha(fecha_fi,'en-US')} | ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`,
