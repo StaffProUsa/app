@@ -44,11 +44,13 @@ export default class TrabajosDelEvento extends Component {
             <SView flex>
                 <SText fontSize={14}>{staff_tipo}</SText>
                 <SText fontSize={12} color={STheme.color.lightGray}>{descripcion}</SText>
-                <SHr h={4}/>
+                <SHr h={4} />
                 <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray} language={{
                     en: `Start ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} to ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`,
                     es: `Desde ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} hasta ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`
                 }} />
+                <SHr h={8} />
+                <SHr h={1} color={STheme.color.card} />
             </SView>
         </SView>
     }
@@ -58,9 +60,9 @@ export default class TrabajosDelEvento extends Component {
 
         return (
             <SView col={'xs-12'} >
-                <SText language={{ en: "My works in this event", es: "Mis trabajos en el evento" }} fontSize={16} bold />
+                <SText language={{ en: "Works", es: "Trabajos" }} fontSize={16} bold />
                 <SHr />
-                <SView col={'xs-12'} style={{ borderRadius: 8, overflow: "hidden", borderWidth: 1, borderColor: STheme.color.darkGray }}>
+                <SView col={'xs-12'} style={{ borderRadius: 8, overflow: "hidden", borderWidth: 1, borderColor: STheme.color.darkGray }} center>
                     <SGradient
                         colors={['#040405', '#0C0C10']}
                         start={{ x: 0, y: 1 }}
@@ -72,6 +74,7 @@ export default class TrabajosDelEvento extends Component {
                         data={this.state.data}
                         render={this.item.bind(this)}
                     />
+                    <SText language={{ en: "TODO INGLES VER EN ESPANOL", es: "Recuerda que luego de postular al evento tienes que marcar tu asistencia con el jefe asignado etc etc" }} color={STheme.color.warning} fontSize={10} />
                     <SHr height={8} />
                 </SView>
             </SView>
