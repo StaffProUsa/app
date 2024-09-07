@@ -41,11 +41,11 @@ export default class TrabajosDelEvento extends Component {
                 <SImage src={SSocket.api.root + "staff_tipo/" + key_staff_tipo} />
             </SView>
             <SView width={4} />
-            <SView>
+            <SView flex>
                 <SText fontSize={14}>{staff_tipo}</SText>
                 <SText fontSize={12} color={STheme.color.lightGray}>{descripcion}</SText>
-                <SHr />
-                <SText fontSize={10} color={STheme.color.lightGray} language={{
+                <SHr h={4}/>
+                <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray} language={{
                     en: `Start ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} to ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`,
                     es: `Desde ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} hasta ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`
                 }} />
