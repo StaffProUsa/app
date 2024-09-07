@@ -71,27 +71,39 @@ export default class TrabajosDelEvento extends Component {
     }
     renderStaffUsuario(obj) {
         const { staff_usuario } = obj
-        if (!staff_usuario) return <SText onPress={() => {
+        if (!staff_usuario) return <SView padding={5} style={{
+            borderRadius: 10,
+            backgroundColor: STheme.color.secondary,
+            overflow: "hidden",
+            height: 40,
+
+        }} center row onPress={() => {
             SPopup.confirm({
                 title: "Seguro",
                 onPress: () => {
                     this.handlePostular(obj.key)
                 }
             })
-        }} underLine>{"POSTULARME PARA EL PUESTO"}</SText>;
-        if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Invitacion pendiente de confirmar", es: "Invitacion pendiente de confirmar" }} />
-        if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Esperando aprobacion", es: "Esperando aprobacion" }} />
-        if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "Sin jefe" }} />
+        }}>
+            <SIcon name={"mano1"} width={20} height={20} fill={STheme.color.primary} />
+            <SView width={5} />
+            <SText language={{
+                en: "APPLY",
+                es: "POSTULARME"
+            }} /></SView>;
+        if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Invitation to be confirmed", es: "Invitacion pendiente de confirmar" }} />
+        if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Waiting for approval", es: "Esperando aprobación" }} />
+        if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "No boss", es: "Sin jefe" }} />
         return <>
-            <SText fontSize={12} color={STheme.color.success} language={{ en: "Registrado en el puesto", es: "Registrado en el puesto" }} />
+            <SText fontSize={12} color={STheme.color.success} language={{ en: "Registered in the post", es: "Registrado en el puesto" }} />
         </>
     }
 
 
-    item(obj) {
+    item_(obj) {
         const { key_staff_tipo, staff_tipo, descripcion, fecha_inicio, fecha_fin, asistencia, staff_usuario } = obj
-        return <SView col={"xs-12"} row padding={4} >
-            <SView width={30} height={30} style={{ borderRadius: 4, overflow: "hidden", backgroundColor: STheme.color.card }}>
+        return <SView col={"xs-12"} row padding={10} >
+            <SView width={60} height={60} style={{ borderRadius: 4, overflow: "hidden", backgroundColor: STheme.color.card }}>
                 <SImage src={SSocket.api.root + "staff_tipo/" + key_staff_tipo} />
             </SView>
             <SView width={8} />
@@ -100,7 +112,7 @@ export default class TrabajosDelEvento extends Component {
                     <SText fontSize={14}>{staff_tipo}</SText>
                     <SText fontSize={12} color={STheme.color.lightGray}>{descripcion}</SText>
                     {this.renderStaffUsuario(obj)}
-                    {!asistencia ? null : <SText fontSize={12} color={STheme.color.success} language={{ en: "Asistencia Marcada", es: "Asistencia Marcada" }} />}
+                    {!asistencia ? null : <SText fontSize={12} color={STheme.color.success} language={{ en: "Marked Assistance", es: "Asistencia Marcada" }} />}
                 </SView>
                 <SHr h={4} />
                 <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray} language={{
@@ -112,6 +124,55 @@ export default class TrabajosDelEvento extends Component {
             </SView>
         </SView>
     }
+
+    formatearFecha(fecha, lenguaje) {
+        const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
+        //  return fecha.toLocaleDateString('en-US', opciones);
+        return fecha.toLocaleDateString(lenguaje, opciones);
+    }
+
+    item(obj) {
+
+        let fecha_ini = new Date(obj.fecha_inicio);
+        let fecha_fi = new Date(obj.fecha_fin);
+        // let fecha_ini_format = this.formatearFecha(fecha_ini);
+        // let fecha_fi_format = this.formatearFecha(fecha_fi);
+
+
+        const { key_staff_tipo, staff_tipo, descripcion, fecha_inicio, fecha_fin, asistencia, staff_usuario } = obj
+        return <SView col={"xs-12"} row padding={10} >
+            <SView col={"xs-1.5"} row>
+                <SView width={60} height={60} style={{ borderRadius: 4, overflow: "hidden", backgroundColor: STheme.color.card }}>
+                    <SImage src={SSocket.api.root + "staff_tipo/" + key_staff_tipo} />
+                </SView>
+            </SView>
+            <SView col={"xs-12 sm-10.5"} row>
+                <SView col={"xs-7 sm-8"}>
+                    <SText fontSize={14}>{staff_tipo}</SText>
+                    <SText fontSize={12} color={STheme.color.lightGray}>{descripcion}</SText>
+                </SView>
+                <SView col={"xs-5 sm-4"}>
+                    {this.renderStaffUsuario(obj)}
+                    {!asistencia ? null : <SText fontSize={12} color={STheme.color.success} language={{ en: "Marked Assistance", es: "Asistencia Marcada" }} />}
+                </SView>
+                <SHr h={4} />
+                <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray} language={{
+                    // en: `Start ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} to ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`,
+                    // es: `Desde ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} hasta ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`
+                    en: `Start ${this.formatearFecha(fecha_ini,'en-US')} | ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`,
+                    es: `Desde ${this.formatearFecha(fecha_ini,'es-ES')} | ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`
+                    // es: `Desde ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss")}`
+                }} />
+                <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray} language={{
+                    en: `End ${this.formatearFecha(fecha_fi,'en-US')} | ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`,
+                    es: `Hasta ${this.formatearFecha(fecha_fi,'es-ES')} | ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`
+                }} />
+                <SHr h={8} />
+                <SHr h={1} color={STheme.color.card} />
+            </SView>
+        </SView>
+    }
+
     render() {
         if (!this.state.data) return null;
         if (Object.values(this.state.data).length <= 0) return <SText>{"No hay trabajos para en evento"}</SText>
@@ -132,9 +193,9 @@ export default class TrabajosDelEvento extends Component {
                         data={this.state.data}
                         render={this.item.bind(this)}
                     />
-                    <SText language={{
-                        en: "Puede seleccionar los trabajos en los que desea participar en el evento desde la lista superior. Su selección nos permitirá asignarle las tareas que más le interesen.",
-                        es: "You can select the jobs you wish to participate in for the event from the list above. Your selection will allow us to assign you the tasks that interest you the most."
+                    <SText padding={10} language={{
+                        es: "Puede seleccionar los trabajos en los que desea participar en el evento desde la lista superior. Su selección nos permitirá asignarle las tareas que más le interesen.",
+                        en: "You can select the jobs you wish to participate in for the event from the list above. Your selection will allow us to assign you the tasks that interest you the most."
                     }} color={STheme.color.warning} fontSize={10} />
                     <SHr height={8} />
                 </SView>
