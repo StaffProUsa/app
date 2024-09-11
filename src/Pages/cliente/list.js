@@ -32,9 +32,9 @@ class index extends DPA.list {
     }
 
     onNew() {
-        SNavigation.navigate("/ubicacion/select", {
+        SNavigation.navigate("/cliente/select", {
             onSelect: (direccion) => {
-                Model.ubicacion.Action.registro({
+                Model.cliente.Action.registro({
                     data: {
                         key_company: this.$params.key_company,
                         ...direccion,
@@ -46,25 +46,25 @@ class index extends DPA.list {
             },
         })
     }
-    $onSelect(data) {
-        SNavigation.navigate("/ubicacion/select", {
-            onSelect: (direccion) => {
-                Model.ubicacion.Action.editar({
-                    data: {
-                        ...data,
-                        ...direccion,
-                        descripcion: direccion.direccion
-                    }
-                })
-                SNavigation.goBack();
-            },
-            latitude: data.latitude,
-            longitude: data.longitude,
-            direccion: data.descripcion
+    // $onSelect(data) {
+    //     SNavigation.navigate("/cliente/select", {
+    //         onSelect: (direccion) => {
+    //             Model.cliente.Action.editar({
+    //                 data: {
+    //                     ...data,
+    //                     ...direccion,
+    //                     descripcion: direccion.direccion
+    //                 }
+    //             })
+    //             SNavigation.goBack();
+    //         },
+    //         latitude: data.latitude,
+    //         longitude: data.longitude,
+    //         direccion: data.descripcion
 
-        })
-        return;
-    }
+    //     })
+    //     return;
+    // }
 
     $item(obj) {
         return <SView col={"xs-12"} padding={8} row style={{
@@ -81,7 +81,7 @@ class index extends DPA.list {
                     title: "Esta seguro que descea eliminar?",
                     message: "Eliminar",
                     onPress: () => {
-                        Model.ubicacion.Action.editar({
+                        Model.cliente.Action.editar({
                             data: {
                                 ...obj,
                                 estado: 0

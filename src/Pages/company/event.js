@@ -34,12 +34,20 @@ export default class event extends Component {
         const { descripcion, observacion, fecha } = this.state.data
         return <SView col={"xs-12"} center>
             <SHr />
+            <SText underLine fontSize={12} col={"xs-12"} onPress={() => {
+                SNavigation.navigate('admin/evento/registro', { key_company: this.state?.data?.key_company, key: this.key_evento });
+                // SNavigation.navigate("/company/")registro
+            }}>{"Editar el evento"}</SText>
+            <SHr />
             <SText fontSize={16} bold>{descripcion}</SText>
             <SHr />
             <SText fontSize={12}>{observacion}</SText>
             <SHr />
             <SHr />
             <SText fontSize={12} col={"xs-12"}>{fecha}</SText>
+            <SHr />
+
+
             <SHr h={50} />
             <SText card padding={16} onPress={() => {
                 SNavigation.navigate("/staff/add", { key_evento: this.key_evento, key_company: this.state.data.key_company, fecha: new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
@@ -48,7 +56,7 @@ export default class event extends Component {
             <SHr h={50} />
             <Asistencias key_evento={this.key_evento} />
             <SHr h={50} />
-        </SView>
+        </SView >
     }
     render() {
         return <SPage titleLanguage={{
@@ -59,7 +67,7 @@ export default class event extends Component {
         }}>
             <Container loading={!this.state.data || this.state.loading}>
                 {this.renderHeader()}
-                <SHr h={50}/>
+                <SHr h={50} />
                 <SButtom type='danger' onPress={() => {
                     // SNavigation.navigate('admin/evento/registro', { key: item });
                     SPopup.confirm({
@@ -91,7 +99,7 @@ export default class event extends Component {
                     en: "DELETE EVENT",
                     es: "ELIMINAR EL EVENTO",
                 }} /></SButtom>
-                <SHr h={50}/>
+                <SHr h={50} />
             </Container>
         </SPage>
     }

@@ -17,7 +17,7 @@ const theme: SThemeThemes = {
     barStyle: 'light-content',
     barColor: '#000000',
     text: '#ffffff',
-    primary: '#ffffff',
+    primary: '#000000',
     secondary: '#5F0409',
     info: '#6E6F74',
     background: '#000000',

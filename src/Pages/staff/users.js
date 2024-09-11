@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SImage, SList, SNavigation, SPage, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SImage, SList, SNavigation, SPage, STable, STable2, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import { Container } from '../../Components';
@@ -9,6 +9,7 @@ export default class users extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            data_disponibles: {}
         };
         this.pk = SNavigation.getParam("pk");
     }
@@ -21,6 +22,16 @@ export default class users extends Component {
             key_usuario: Model.usuario.Action.getKey(),
         }).then(e => {
             this.setState({ data: e.data })
+        }).catch(e => {
+            console.error(e);
+        })
+        SSocket.sendPromise({
+            component: "staff",
+            type: "getUsuariosDisponibles",
+            key_staff: this.pk,
+            key_usuario: Model.usuario.Action.getKey(),
+        }).then(e => {
+            this.setState({ data_disponibles: e.data })
         }).catch(e => {
             console.error(e);
         })
@@ -52,21 +63,28 @@ export default class users extends Component {
         </SView>
     }
     render() {
-        return <SPage>
-            <Container>
-                <SText bold fontSize={18}>{this.state?.data?.evento?.descripcion}</SText>
-                <SHr />
-                <SText fontSize={16}>{this.state?.data?.staff_tipo?.descripcion}</SText>
-                <SText color={STheme.color.lightGray}>{this.state?.data?.descripcion}</SText>
-                <SHr />
-                <SText fontSize={10} color={STheme.color.lightGray}>{this.state?.data?.fecha_inicio} {this.state?.data?.fecha_fin}</SText>
-                <SHr />
-                <SList
+        return <SPage disableScroll>
+            {/* <Container÷> */}
+            <SText bold fontSize={18}>{this.state?.data?.evento?.descripcion}</SText>
+            <SHr />
+            <SText fontSize={16}>{this.state?.data?.staff_tipo?.descripcion}</SText>
+            <SText color={STheme.color.lightGray}>{this.state?.data?.descripcion}</SText>
+            <SHr />
+            <SText fontSize={10} color={STheme.color.lightGray}>{this.state?.data?.fecha_inicio} {this.state?.data?.fecha_fin}</SText>
+            <SHr />
+            {/* <SList
                     buscador
                     data={this.state?.data?.staff_usuario ?? []}
                     render={this.item.bind(this)}
-                />
-            </Container>
+                /> */}
+            <SView flex col={"xs-12"}>
+                <STable2 data={this.state.data_disponibles}
+                    header={[
+                        { key: "index", label: "#", width: 30 },
+                        { key: "key_usuario", width: 50 }
+                    ]} />
+            </SView>
+            {/* </Container> */}
         </SPage>
     }
 }

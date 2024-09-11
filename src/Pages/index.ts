@@ -51,7 +51,7 @@ import staff_tipo from './staff_tipo';
 import staff from './staff';
 import intro from './Intro';
 import company from './company';
-import ubicacion from './ubicacion';
+import cliente from './cliente';
 import Ingreso from './Ingreso';
 import invitationDetail from './invitationDetail';
 import sorry from './Sorry';
@@ -84,7 +84,7 @@ const NewPages = SPage.combinePages("/", {
     ...staff_tipo,
     ...staff,
     ...intro,
-    ...ubicacion,
+    ...cliente,
     ...company,
     trabajos,
     history,

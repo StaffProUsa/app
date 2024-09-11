@@ -38,12 +38,12 @@ export default class add extends Component {
 
     componentDidMount() {
         if (!this.key) {
-            SNavigation.navigate("/usuario", {
-                onSelect: (e) => {
-                    this.key_usuario = e.key;
-                    this.buscar_usuario(e.Correo, 0)
-                }
-            })
+            // SNavigation.navigate("/usuario", {
+            //     onSelect: (e) => {
+            //         this.key_usuario = e.key;
+            //         this.buscar_usuario(e.Correo, 0)
+            //     }
+            // })
         }
         this.getRoles();
     }
@@ -54,13 +54,21 @@ export default class add extends Component {
             component: "rol",
             type: "getAll",
         }).then(e => {
-            let roles_partner = Object.values(e.data).filter(e => e.estado > 0);
+            let roles_partner = Object.values(e.data).filter(e => e.estado > 0).sort((a, b) => a.index > b.index ? 1 : -1);
             // let roles_partner = Object.values(e.data).filter(e => e.tipo == "partner");
             // const mirolkey = Model.restaurante.Action.getSelectKeyRol();
             // const miRol = roles_partner.find(a => a.key == mirolkey);
             // roles_partner = roles_partner.filter(a => (a.index ?? 0) >= (miRol.index ?? 0))
             // this.state.miRol = miRol;
             this.state.roles = roles_partner;
+
+            if (roles_partner && this._inputs.rol) {
+                if (roles_partner[0]) {
+                    const rp = roles_partner[0];
+                    this._inputs.rol.setValue(rp.descripcion)
+                    this._inputs.rol.setData(rp)
+                }
+            }
             this.setState({ ...this.state })
             this.getUsuarioRestaurante();
 

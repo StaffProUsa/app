@@ -29,6 +29,7 @@ class Registro extends React.Component {
     this.state = {};
     this.key = SNavigation.getParam('key');
     this.key_company = SNavigation.getParam('key_company');
+    this.key_cliente = SNavigation.getParam('key_cliente');
     this._ref = {};
     this._ref2 = {};
   }
@@ -69,7 +70,7 @@ class Registro extends React.Component {
             label: 'Fecha del evento',
             type: 'date',
             isRequired: false,
-            defaultValue: data['fecha'] ?? new SDate().toString("yyyy-MM-dd"),
+            defaultValue: new SDate(data['fecha'], "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") ?? new SDate().toString("yyyy-MM-dd"),
             col: 'xs-7'
           },
           descripcion: {
@@ -106,8 +107,8 @@ class Registro extends React.Component {
         // onSubmitName={"Registrar"}
         onSubmit={(values) => {
           values.estado_venta = 0;
-          values.key_company = this.key_company;
-
+          if (this.key_company) values.key_company = this.key_company;
+          if (this.key_cliente) values.key_cliente = this.key_cliente;
 
           if (this.key) {
             evento.Actions.editar({ ...data, ...values }, this.props);
