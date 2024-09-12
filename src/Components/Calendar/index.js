@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SHr, SNavigation, SPage, SText, SView, STheme, SImage, SInput, SLoad, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList2, SScrollView2 } from 'servisofts-component';
+import { SHr, SNavigation, SPage, SText, SView, STheme, SImage, SInput, SLoad, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList2, SScrollView2, SLanguage } from 'servisofts-component';
 import { WebView } from 'react-native';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -232,9 +232,10 @@ class index extends Component {
         //asistencia
         //getByKeyUsuario
         return <SView col={"xs-12"} row>
-            <SText bold fontSize={22}>
-                Hola, {usuario.Nombres}
-            </SText>
+            <SText bold fontSize={22} language={{
+                es: "¡Hola " + usuario.Nombres+ "!",
+                en: "Hello " + usuario.Nombres+ "!"
+            }}/>
             <SHr height={15} />
             {/* <MiPlan data={usuario} onLoad={(data) => {
                 this.setState({ paquetes: data })
