@@ -340,13 +340,13 @@ export default class Inicio extends Component {
               }}
             />
           </ScrollView> */}
-          <SHr h={10} />
+          {/* <SHr h={10} />
           <SView col={"xs-11"} justify>
             <SText fontSize={20} bold language={{
               es: "Tus eventos",
               en: "Your events"
             }} />
-          </SView>
+          </SView> */}
           <SHr h={15} />
         </SView>
         <Calendar eventos = {this.state.data} />
