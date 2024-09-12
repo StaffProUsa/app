@@ -78,11 +78,11 @@ class index extends Component {
                     : null
                 }
                 <SText font={"Roboto"} fontSize={14} color={color}>{data?.diaMes || ""}</SText>
-                <SView col={"xs-12"} row center>
+                <SView col={"xs-12"}  center>
                     {data?.dataAsis ? data.dataAsis.map((k) => {
                         return (<>
                             <SText font={"Roboto"} fontSize={10} color={color}>{k.company_descripcion || ""}</SText>
-                            <SText font={"Roboto"} fontSize={11} color={color}>{k.descripcion || ""}</SText>
+                            <SText font={"Roboto"} center underLine fontSize={10} color={color}>{k.descripcion || ""}</SText>
                             {/* <SView style={{
                                 borderWidth: 1,
                                 borderRadius: 5,
