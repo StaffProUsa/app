@@ -51,7 +51,7 @@ class index extends Component {
                 // backgroundColor:  data.asistiendo ? "#D93444": STheme.color.card
                 backgroundColor: STheme.color.card
             }} center onPress={()=>{
-                data?.evento ? SNavigation.navigate("paquete", { key: data?.evento?.key }) : null
+                data?.evento ? SNavigation.navigate("/evento", { key: data?.evento?.key }) : null
             }}>
                 {data?.evento ? null : <Degradado />}
 
