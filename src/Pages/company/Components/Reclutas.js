@@ -88,15 +88,15 @@ export default class Reclutas extends Component {
 
     render() {
         if (!this.props.key_evento) return null;
+        const arr = Object.values(this.state.data) ?? [];
         return <SView col={"xs-12"}>
-            <SText fontSize={18} language={{
-                en: "Recruitment",
-                es: "Reclutas"
-            }} />
-            <SHr h={16} />
-            {Object.values(this.state.data).map((obj) => {
-                return this.renderObj(obj);
-            })}
+            {arr.length <= 0 ? <SView center col={"xs-12"} height={200}>
+                <SText color={STheme.color.lightGray}>{"NO TIENES RECLUTAS"}</SText>
+                <SText color={STheme.color.lightGray} fontSize={10}>{"Preciona en el boton + para agregar puestos."}</SText>
+            </SView> :
+                arr.map((obj) => {
+                    return this.renderObj(obj);
+                })}
         </SView>
     }
 }

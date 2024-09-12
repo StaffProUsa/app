@@ -98,37 +98,12 @@ export default class Eventos extends React.Component {
         </SView>
     }
     render() {
-        return <SPage titleLanguage={{
-            en: "Event list",
-            es: "Lista de eventos"
-        }}
-            onRefresh={(e) => {
-                this.componentDidMount();
-                if (e) e();
-            }}
-
-            footer={<FloatButtom
-                style={{
-                    position: 'absolute',
-                    bottom: 10,
-                    right: 5,
-                    zIndex: 999
-                }}
-                onPress={() => {
-                    SNavigation.navigate('admin/evento/registro', { key_cliente: this.key_cliente });
-                }}
-            />}>
-            <Container loading={this.state.loading}>
-                <SList
-                    buscador
-                    space={16}
-                    data={this.state?.data}
-                    order={[{ key: "fecha", order: "desc" }]}
-                    render={this.renderItem.bind(this)}
-                />
-                {/* <SText>{JSON.stringify(this.state)}</SText> */}
-            </Container>
-
-        </SPage>;
+        return <SList
+            buscador
+            space={16}
+            data={this.state?.data}
+            order={[{ key: "fecha", order: "desc" }]}
+            render={this.renderItem.bind(this)}
+        />
     }
 }

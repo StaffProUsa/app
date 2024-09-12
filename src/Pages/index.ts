@@ -14,7 +14,7 @@ import MensajePedidoError from './Billetera/MensajePedidoError';
 import usuario from './usuario';
 import MensajeCarritoVacio from './Carrito/MensajeCarritoVacio';
 import entradas from './entradas';
-import Perfil from './Evento/Perfil';
+// import Perfil from './Evento/Perfil';
 import Qr from './Evento/Qr';
 import Registro from './Evento/Registro';
 import token from './Token';
@@ -61,6 +61,7 @@ import my_companys from "./my_companys";
 import invitations from './invitations';
 import trabajos from './trabajos';
 import history from './history';
+import Evento from './Evento';
 const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
@@ -74,7 +75,8 @@ const NewPages = SPage.combinePages("/", {
     "test": Test,
     t2,
     manilla,
-    'evento': Perfil,
+    ...Evento,
+    // 'evento': Perfil,
     ...reportes,
     ...usuario,
     ...login,
@@ -105,8 +107,7 @@ const Pages: SPageListProps = {
     "inicio2": Inicio2,
     "ingreso": Ingreso,
     // 'test': Test,
-    'evento/perfil': Perfil,
-    'evento/registro': Registro,
+    // 'evento/registro': Registro,
     'evento/qr': Qr,
     'ticket/entrada': Entrada,
     'ticket/reserva': Reserva,

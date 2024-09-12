@@ -8,7 +8,7 @@ import Eventos from '../eventos';
 
 class index extends DPA.profile {
     constructor(props) {
-        super(props, { Parent: Parent, excludes: ["key", "key_servicio", "key_usuario", "fecha_on", "key_company", "estado", "latitude", "longitude"] });
+        super(props, { title: "Client", Parent: Parent, excludes: ["key", "key_servicio", "key_usuario", "fecha_on", "key_company", "estado", "latitude", "longitude"] });
     }
     $allowEdit() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit" })
@@ -38,10 +38,16 @@ class index extends DPA.profile {
     $footer() {
         return <SView col={"xs-12"}>
             <SHr />
-            <SText underLine onPress={() => {
-                SNavigation.navigate("admin/evento/registro", { key_cliente: this.data.key, key_company: this.data.key_company })
-            }}>{"Crear eventos"}</SText>
-            <Eventos key_cliente={this.pk}/>
+            <SView row col={"xs-12"} center>
+                <SText language={{ en: "Events", es: "Eventos" }} fontSize={16} bold flex />
+                <SView width={30} height={30} onPress={() => {
+                    SNavigation.navigate("/evento/registro", { key_cliente: this.data.key, key_company: this.data.key_company })
+                }}>
+                    <SIcon name='Add' />
+                </SView>
+            </SView>
+            <SHr />
+            <Eventos key_cliente={this.pk} />
         </SView>
     }
 }

@@ -12,7 +12,7 @@ import {
   SView
 } from 'servisofts-component';
 import evento from '..';
-import eventos from "../../../../../Pages/company/eventos"
+// import eventos from "../../../../../Pages/company/eventos"
 const inputHandler = (text, nro) => {
   console.log(text.nativeEvent.text);
   var value = text.nativeEvent.text;
@@ -128,7 +128,7 @@ class Registro extends React.Component {
         // if (this.form) {
         //   this.form.uploadFiles(SSocket.api.root + "upload/" + evento.component + "/" + this.key);
         // }
-        if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount();
+        // if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount();
         reducer.estado = '';
         SNavigation.goBack();
       }
