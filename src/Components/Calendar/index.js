@@ -39,6 +39,7 @@ class index extends Component {
     }
 
     renderDias(data, i) {
+       
         let hoy = new SDate(this.state.curDay).getDayOfWeek()
         let isSelect = false
         let color = isSelect ? STheme.color.white : STheme.color.text
@@ -48,9 +49,12 @@ class index extends Component {
             <SView col={"xs-1.7"} height={90} style={{
                 borderWidth: 1, borderColor: STheme.color.gray,
                 // backgroundColor:  data.asistiendo ? "#D93444": STheme.color.card
-                // backgroundColor: STheme.color.card
-            }} center >
-                <Degradado/>
+                backgroundColor: STheme.color.card
+            }} center onPress={()=>{
+                data?.evento ? SNavigation.navigate("paquete", { key: data?.evento?.key }) : null
+            }}>
+                {data?.evento ? null : <Degradado />}
+
                 {data?.isPaquete ? <SView style={{
                     position: "absolute",
                     bottom: 0,
@@ -58,14 +62,17 @@ class index extends Component {
                     height: 10,
                     backgroundColor: "#D70201"
                 }}></SView> : null}
-                {data?.paquete ?
+                {data?.evento ?
                     <SView col={"xs-12"} flex style={{
                         alignItems: "flex-end",
                         position: "absolute",
                         top: 0
                     }}>
-                        <SView width={20} height={20} card style={{ borderRadius: 45, overflow: 'hidden', }}>
-                            <SImage src={SSocket.api.root + "paquete/" + data?.paquete?.key_paquete} />
+                        <SView width={25} height={25} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth:1, borderColor:STheme.color.darkGray }}>
+                            {/* <SImage src={SSocket.api.root + "paquete/" + data?.paquete?.key_paquete} /> */}
+                            <SImage src={SSocket.api.root + "company/" + data?.evento?.key_company} style={{
+                                resizeMode: "cover",
+                            }} />
                         </SView>
                     </SView>
                     : null
@@ -73,15 +80,18 @@ class index extends Component {
                 <SText font={"Roboto"} fontSize={14} color={color}>{data?.diaMes || ""}</SText>
                 <SView col={"xs-12"} row center>
                     {data?.dataAsis ? data.dataAsis.map((k) => {
-                        return (
-                            <SView style={{
+                        return (<>
+                            <SText font={"Roboto"} fontSize={10} color={color}>{k.company_descripcion || ""}</SText>
+                            <SText font={"Roboto"} fontSize={11} color={color}>{k.descripcion || ""}</SText>
+                            {/* <SView style={{
                                 borderWidth: 1,
                                 borderRadius: 5,
                                 borderColor: "#D93444",
                                 padding: 2
                             }} width={32} >
                                 <SText font={"Roboto"} fontSize={10} color={color}>{k.horario || ""}</SText>
-                            </SView>
+                            </SView> */}
+                        </>
                         )
                     })
                         : null}
@@ -110,6 +120,9 @@ class index extends Component {
 
         // if (!this.state?.paquetes) return <SLoad />
         this.state.paquetes = this.state.paquetes || {}
+        let dataEventos = this.props.eventos || {}
+        // console.log("dataEventos")
+        // console.log(dataEventos)
 
         let primerDiaSemana = new Date(ano, mes, 1).getDay();
         let fechaFin = new Date(ano, mes + 1, 1);
@@ -117,7 +130,7 @@ class index extends Component {
         let ultimoDiaSemana = new Date(fechaFin).getDay();
         let ultimoDiaMes = new Date(fechaFin).getDate()
         var dataAsistencia = this.state.data;
-        
+
         // if (!dataAsistencia) return null;
         dataAsistencia = dataAsistencia || {};
 
@@ -144,14 +157,15 @@ class index extends Component {
                         let asistido;
                         // let asistio = Object.values(dataAsistencia).find(obj2 => obj2.fecha_on == fechaActual);
                         let sdActual = new SDate(fechaActual);
-                        Object.values(dataAsistencia).map((obj) => {
+                        // Object.values(dataAsistencia).map((obj) => {
+                        Object.values(dataEventos).map((obj) => {
                             // dato = Object.values(obj).find(obj2 => new SDate(obj2.fecha_on).toString("yyyy-MM-dd") == new SDate(fechaActual).toString("yyyy-MM-dd"));
                             // if (!dato) return null
 
                             // let formatFecha = new Date(obj.fecha_on)
 
                             // asistido = Object.values(obj).filter((a) => new SDate(a.fecha_on).toString("yyyy-MM-dd") == new SDate(fechaActual).toString("yyyy-MM-dd"))
-                            if (new SDate(obj.fecha_on).toString("yyyy-MM-dd") == sdActual.toString("yyyy-MM-dd")) {
+                            if (new SDate(obj.fecha).toString("yyyy-MM-dd") == sdActual.toString("yyyy-MM-dd")) {
                                 console.log("yes")
                                 asisti = true
                                 data = obj;
@@ -161,19 +175,19 @@ class index extends Component {
                         })
 
                         let isPaquete = false;
-                        Object.values(this.state.paquetes).map((obj) => {
-                            if ((new SDate(obj.fecha_inicio, "yyyy-MM-dd").equalDay(sdActual) || new SDate(obj.fecha_fin, "yyyy-MM-dd").equalDay(sdActual)) || (
-                                sdActual.isAfter(new SDate(obj.fecha_inicio, "yyyy-MM-dd")) && sdActual.isBefore(new SDate(obj.fecha_fin, "yyyy-MM-dd"))
-                            )) {
-                                isPaquete = true;
-                                // asisti = true
-                                // data = obj;
-                                // dataMostrar.push(obj)
-                            }
-                        })
+                        // Object.values(this.state.paquetes).map((obj) => {
+
+                        // Object.values(dataEventos).map((obj) => {
+                        //     if ((new SDate(obj.fecha_inicio, "yyyy-MM-dd").equalDay(sdActual) || new SDate(obj.fecha_fin, "yyyy-MM-dd").equalDay(sdActual)) || (
+                        //         sdActual.isAfter(new SDate(obj.fecha_inicio, "yyyy-MM-dd")) && sdActual.isBefore(new SDate(obj.fecha_fin, "yyyy-MM-dd"))
+                        //     )) {
+                        //         isPaquete = true;
+
+                        //     }
+                        // })
 
 
-                        calendario.push({ isPaquete: isPaquete, diaMes, index, dia_semana: j, semana: i, fecha: "", asistiendo: asisti, dataAsis: dataMostrar, paquete: dataMostrar[0] })
+                        calendario.push({ isPaquete: isPaquete, diaMes, index, dia_semana: j, semana: i, fecha: "", asistiendo: asisti, dataAsis: dataMostrar, evento: dataMostrar[0] })
                         asisti = false
                         data = null;
                         dataMostrar = []
@@ -187,6 +201,9 @@ class index extends Component {
                 }
             }
         }
+
+        // console.log("calendario")
+        // console.log(calendario)
 
         return <>
             <SView col={"xs-12"} row
@@ -233,9 +250,9 @@ class index extends Component {
         //getByKeyUsuario
         return <SView col={"xs-12"} row>
             <SText bold fontSize={22} language={{
-                es: "¡Hola " + usuario.Nombres+ "!",
-                en: "Hello " + usuario.Nombres+ "!"
-            }}/>
+                es: "¡Hola " + usuario.Nombres + "!",
+                en: "Hello " + usuario.Nombres + "!"
+            }} />
             <SHr height={15} />
             {/* <MiPlan data={usuario} onLoad={(data) => {
                 this.setState({ paquetes: data })
