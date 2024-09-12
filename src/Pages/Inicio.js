@@ -305,10 +305,10 @@ export default class Inicio extends Component {
           <SHr h={10} />
           {this.state.invitaciones && this.state.invitaciones.length > 0 && this.renderInvitaciones()}
           <SHr h={10} />
-          {this.getForm()}
-          <SHr h={15} />
+          {/* {this.getForm()}
+          <SHr h={15} /> */}
 
-          <ScrollView style={{ width: "100%" }} horizontal>
+          {/* <ScrollView style={{ width: "100%" }} horizontal>
             <FlatList
               contentContainerStyle={{
                 width: "100%",
@@ -339,7 +339,7 @@ export default class Inicio extends Component {
                 return <TipoItem ref={(ref) => this.ref[item?.key] = ref} key={item?.key.toString()} data={item} />
               }}
             />
-          </ScrollView>
+          </ScrollView> */}
           <SHr h={10} />
           <SView col={"xs-11"} justify>
             <SText fontSize={20} bold language={{
