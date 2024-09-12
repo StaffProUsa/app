@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SDate, SHr, SIcon, SInput, SNavigation, SNotification, SPage, SText, STheme, SThread, SView, SLanguage } from 'servisofts-component';
+import { SButtom, SDate, SHr, SIcon, SInput, SNavigation, SNotification, SPage, SText, STheme, SThread, SView, SLanguage, SImage } from 'servisofts-component';
 import PBarraFooter from '../../Components/PBarraFooter';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
@@ -41,7 +41,7 @@ export default class root extends Component {
   getToken() {
     return <>
       <SView col={"xs-12"} row>
-        <SView col={"xs-3"} center style={{
+        <SView col={"xs-3"} center height style={{
           borderWidth: 1,
           borderColor: STheme.color.background,
           borderRadius: 100,
@@ -52,13 +52,16 @@ export default class root extends Component {
           zIndex: 99,
           padding: 11
         }}>
-          <SView col={"xs-12"} center onPress={this.handleGetCode.bind(this)} style={{
+          <SView col={"xs-12"} center height onPress={this.handleGetCode.bind(this)} style={{
             backgroundColor: STheme.color.secondary,
             borderRadius: 100,
-            height: 105,
-            width: 105,
+            padding: 10,
+            // height: 105,
+            // width: 105,
           }}>
-            <SIcon name='Logo' width={80} />
+            {/* <SIcon name='Logo' width={80} /> */}
+            {/* <SImage source={require("../../Assets/images/logoToken.png")}  /> */}
+            <SImage src={require('../../Assets/images/logoToken.png')} style={{ resizeMode: "contain", zIndex: 9,  }} />
           </SView>
         </SView>
         <SView col={"xs-9"} style={{
@@ -67,7 +70,7 @@ export default class root extends Component {
           backgroundColor: STheme.color.gray,
           height: 90,
           top: 20,
-          left: -40,
+          left: -20,
           alignItems: "flex-end",
           padding: 10
         }}>
@@ -79,9 +82,9 @@ export default class root extends Component {
               height: 70,
               borderWidth: 0,
               right: 0,
-              fontSize: 30,
+              fontSize: 25,
               borderRadius: 12,
-              letterSpacing: 20
+              letterSpacing: 11
             }}
             // label={"CODIGO"}
             placeholder={"______"}
