@@ -91,7 +91,7 @@ export default class TrabajosDelEvento extends Component {
                 en: "APPLY",
                 es: "POSTULARME"
             }} /></SView>;
-        if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Invitation to be confirmed", es: "Invitacion pendiente de confirmar" }} />
+        if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Invitation to be confirmed", es: "Invitación pendiente de confirmar" }} />
         if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Waiting for approval", es: "Esperando aprobación" }} />
         if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "No boss", es: "Sin jefe" }} />
         return <>

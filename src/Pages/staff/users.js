@@ -1,6 +1,6 @@
 import React, { Component, version } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SImage, SInput, SList, SNavigation, SPage, SSwitch, STable, STable2, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SInput, SList, SNavigation, SPage, SSwitch, STable, STable2, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import { Container } from '../../Components';
@@ -87,14 +87,31 @@ export default class users extends Component {
         </>
     }
     render() {
-        return <SPage disableScroll>
-            {/* <Container÷> */}
-            <SView row style={{ alignItems: "flex-end" }} padding={4}>
-                <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion}</SText>
-                {this.separator()}
-                <SText fontSize={14}>{this.state?.data?.staff_tipo?.descripcion}</SText>
-                {this.separator()}
-                <SText color={STheme.color.lightGray}>{this.state?.data?.descripcion}</SText>
+        console.log("this.state.data")
+        console.log(this.state.data)
+        console.log(this.state.data_disponibles)
+
+        // console.log(this.data?.evento?.key_company)
+        return <SPage disableScroll title={"Armando mi STAFF"}>
+            <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 16, paddingLeft: 16 }} >
+                <SText fontSize={16} bold color={STheme.color.gray}>Evento: </SText>
+                <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
+                <SView width={6} />
+                <SText center color={STheme.color.lightGray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
+                {/* {this.separator()} */}
+                <SHr />
+                <SText fontSize={16} bold color={STheme.color.gray}>Se requiere:</SText>
+                <SView width={6} />
+                <SView style={{
+                    borderWidth: 1,
+                    borderColor: STheme.color.success,
+                    borderRadius: 4,
+                    padding: 4,
+                }}>
+                    <SText fontSize={18} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
+                </SView>
+                {/* {this.separator()} */}
+
                 {/* {this.separator()} */}
                 {/* <SText fontSize={10} color={STheme.color.lightGray}>{this.state?.data?.fecha_inicio} {this.state?.data?.fecha_fin}</SText> */}
             </SView>
@@ -105,6 +122,16 @@ export default class users extends Component {
                 /> */}
             <SView row col={"xs-12"} flex padding={16} >
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }}>
+                    <SText padding={8} card>{"Staff Disponibles"}</SText>
+                    <SView width={30} height={30} style={{
+                        position: "absolute",
+                        right: 2,
+                        top: 2,
+                    }} onPress={() => {
+                        SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
+                    }}>
+                        <SIcon name='Add' />
+                    </SView>
                     <STable2
                         key={"Algo"}
                         data={this.state.data_disponibles}
@@ -127,6 +154,8 @@ export default class users extends Component {
                             { key: "usuario", width: 150, render: (usr) => `${usr.Nombres} ${usr.Apellidos}` },
                             { key: "participacion", label: "#P", width: 50, order: "desc" },
                             { key: "usuario/Telefono", label: "Telefono", width: 100 },
+                            { key: "tipos_staff", label: "Tipos",width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", "):"" },
+
                         ]} />
                 </SView>
 
@@ -169,6 +198,7 @@ export default class users extends Component {
                     }}>{"<"}</SText>
                 </SView>
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }} >
+                    <SText padding={8} card>{"Staff Seleccionado"}</SText>
                     <STable2
                         key={"Algo1"}
                         data={this.state.data_disponibles}
@@ -194,13 +224,12 @@ export default class users extends Component {
                                 </SView>
                             },
                             { key: "usuario/Telefono", label: "Telefono", width: 100 },
+                            { key: "tipos_staff", label: "Tipos", width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
+
 
                         ]} />
                 </SView>
             </SView>
-
-
-            {/* </Container> */}
         </SPage>
     }
 }

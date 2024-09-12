@@ -14,7 +14,7 @@ export default class add extends Component {
 
     static TOPBAR = <>
         {/* <TopBar type={"usuario_back"} /> */}
-        <SView backgroundColor={"#96BE00"} height={20} col={"xs-12"}></SView>
+        {/* <SView backgroundColor={"#96BE00"} height={20} col={"xs-12"}></SView> */}
     </>
 
     static FOOTER = <>
@@ -329,7 +329,7 @@ export default class add extends Component {
                 // onSubmitEditing={() => this._inputs["index"].focus()}
                 />
                 <SHr h={64} />
-                <SText padding={8} backgroundColor={STheme.color.primary} color={STheme.color.secondary} borderRadius={4} onPress={() => {
+                <SText padding={8} backgroundColor={STheme.color.secondary} color={STheme.color.text} borderRadius={4} onPress={() => {
                     const usuario = this._inputs["nombre"].getData() ?? {};
                     if (!usuario.key) {
                         SNotification.send({
