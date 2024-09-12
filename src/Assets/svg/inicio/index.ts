@@ -23,6 +23,8 @@ import history, { ReactComponent as historyW } from './history.svg';
 import select, { ReactComponent as selectW } from './select.svg';
 import exclamacion2, { ReactComponent as exclamacion2W } from './exclamacion2.svg';
 import asiste, { ReactComponent as asisteW } from './asiste.svg';
+import Inext, { ReactComponent as InextW } from './Inext.svg';
+import Iprevious, { ReactComponent as IpreviousW } from './Iprevious.svg';
 
 
 const Assets = {
@@ -49,6 +51,8 @@ const Assets = {
 	"select": { Native: select, Web: selectW },
 	"exclamacion2": { Native: exclamacion2, Web: exclamacion2W },
 	"asiste": { Native: asiste, Web: asisteW },
+	"Inext": { Native: Inext, Web: InextW },
+	"Iprevious": { Native: Iprevious, Web: IpreviousW },
 
 }
 

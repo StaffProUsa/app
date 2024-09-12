@@ -21,7 +21,7 @@ class PBarraFooter extends Component {
   }
 
   getItem({ key, title, title_en, icon, url, params }) {
-    var color = STheme.color.primary;
+    var color = STheme.color.text;
     var isSelect = key == this.props.url;
 
     if (Model.usuario.Action.getKey()) {
@@ -49,7 +49,7 @@ class PBarraFooter extends Component {
           </SView>}
           <SHr height={5}></SHr>
           <SView height={23} colSquare center>
-            <SIcon name={icon} fill={STheme.color.primary} />
+            <SIcon name={icon} fill={STheme.color.text} />
           </SView>
           <SView height={2} />
           {/* <SText fontSize={8} center color={color}> 
