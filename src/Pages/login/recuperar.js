@@ -41,7 +41,7 @@ class recuperar extends Component {
                     placeholder: "email@example.com", type: "email", isRequired: true, icon: (
                         <SIcon
                             name={'InputEmail'}
-                            fill={STheme.color.primary}
+                            fill={STheme.color.text}
                             width={17}
                             height={20}
                         />
@@ -81,9 +81,9 @@ class recuperar extends Component {
                         {this.getForm()}
                         <SView height={16} />
                         <SView col={"xs-11"} row center>
-                            <PButtom onPress={() => {
+                            <PButtom rojo onPress={() => {
                                 this.form.submit();
-                            }}><SText color={STheme.color.black} language={{
+                            }}><SText color={STheme.color.text} language={{
                                 es: "ENVIAR CÓDIGO",
                                 en: "SEND CODE"
                             }} /></PButtom>

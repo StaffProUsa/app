@@ -28,8 +28,8 @@ export default class PButtom extends Component<PButtom_props> {
       : STheme.color.primary;
     var colorText = STheme.color.secondary;
     if (this.props.withe) {
-      bgColor = STheme.color.primary;
-      colorText = STheme.color.primary;
+      bgColor = STheme.color.white;
+      colorText = STheme.color.white;
     }
     if (this.props.rojo) {
       bgColor = STheme.color.secondary;

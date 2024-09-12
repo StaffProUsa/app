@@ -46,7 +46,7 @@ class recuperar_codigo extends Component {
                     placeholder: mensaje, type: "text", isRequired: true, icon: (
                         <SIcon
                             name={'InputPassword'}
-                            fill={STheme.color.primary}
+                            fill={STheme.color.text}
                             width={17}
                             height={20}
                         />
@@ -77,7 +77,7 @@ class recuperar_codigo extends Component {
                 <SView center>
                     <SView col={"xs-11 md-6 xl-4"} center>
                         <SView height={40} />
-                        <SText fontSize={24} color={STheme.color.primary} center language={{
+                        <SText fontSize={24} color={STheme.color.text} center language={{
                             es: "¡Mensaje Enviado!",
                             en: "Message Sent!"
                         }} />
@@ -95,16 +95,16 @@ class recuperar_codigo extends Component {
                                 borderRadius: 35
                             }}
                             center>
-                            <SIcon name={"InputEmail"} fill={STheme.color.primary} width={120} height={120} />
+                            <SIcon name={"InputEmail"} fill={STheme.color.text} width={120} height={120} />
                         </SView>
                         <SView height={36} />
                         {this.getForm()}
                         <SView height={16} />
                         <SView col={"xs-11"} row center>
-                            <PButtom 
+                            <PButtom rojo
                                 onPress={() => {
                                     this.form.submit();
-                                }}><SText color={STheme.color.black} language={{
+                                }}><SText color={STheme.color.text} language={{
                                     es: "VALIDAR",
                                     en: "VALIDATE"
                                 }} /></PButtom>

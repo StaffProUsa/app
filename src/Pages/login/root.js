@@ -162,7 +162,7 @@ class Login extends Component {
     icon = (name) => {
         return <SIcon
             name={name}
-            fill={STheme.color.primary}
+            fill={STheme.color.text}
             width={17}
             height={20}
         />
@@ -259,7 +259,7 @@ class Login extends Component {
                                 icon: (
                                     <SIcon
                                         name={'InputEmail'}
-                                        fill={STheme.color.primary}
+                                        fill={STheme.color.text}
                                         width={17}
                                         height={20}
                                     />
@@ -278,7 +278,7 @@ class Login extends Component {
                                 icon: (
                                     <SIcon
                                         name={'InputPassword'}
-                                        fill={STheme.color.primary}
+                                        fill={STheme.color.text}
                                         width={17}
                                         height={20}
                                     />

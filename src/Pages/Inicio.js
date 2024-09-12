@@ -9,6 +9,7 @@ import PBarraFooter from '../Components/PBarraFooter';
 import Carrito from '../Components/Carrito';
 import Actions from '../Actions';
 import Model from '../Model';
+import Calendar from '../Components/Calendar';
 
 const CANTIDAD_X_PAGE = 4;
 
@@ -299,22 +300,72 @@ export default class Inicio extends Component {
     </SPage>
 
     return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} preventBack footer={<PBarraFooter url={'/'} />} >
-      <Container flex>
-      {/* <Container > */}
+      <Container>
+        <SView col={"xs-12"}>
+          <SHr h={10} />
+          {this.state.invitaciones && this.state.invitaciones.length > 0 && this.renderInvitaciones()}
+          <SHr h={10} />
+          {this.getForm()}
+          <SHr h={15} />
+
+          <ScrollView style={{ width: "100%" }} horizontal>
+            <FlatList
+              contentContainerStyle={{
+                width: "100%",
+                height: 100,
+              }}
+              data={arr}
+              horizontal
+              showsHorizontalScrollIndicator={true}
+              scrollEnabled={true}
+              ListHeaderComponent={() => <SView width={space} />}
+              ItemSeparatorComponent={() => <SView width={space} />}
+              ListFooterComponent={() => <SView width={space} />}
+              keyExtractor={item => item.key ? item.key.toString() : String(index)}
+              onEndReachedThreshold={0.3}
+              renderItem={({ item, index }) => {
+                if (!item) return null;
+                if (item.key == "ADD") {
+                  return <SView width={70} height={70} center card
+                    onPress={() => {
+                      SNavigation.navigate("/registro/categorias")
+                    }}>
+                    <SText language={{
+                      es: "AGREGAR",
+                      en: "ADD"
+                    }} />
+                  </SView>
+                }
+                return <TipoItem ref={(ref) => this.ref[item?.key] = ref} key={item?.key.toString()} data={item} />
+              }}
+            />
+          </ScrollView>
+          <SHr h={10} />
+          <SView col={"xs-11"} justify>
+            <SText fontSize={20} bold language={{
+              es: "Tus eventos",
+              en: "Your events"
+            }} />
+          </SView>
+          <SHr h={15} />
+        </SView>
+        <Calendar eventos = {this.state.data} />
+      </Container>
+
+
+      {/* <Container flex>
         <FlatList
           style={{
             width: "100%"
           }}
           contentContainerStyle={{
             width: "100%",
-            // alignItems: "center"
           }}
           refreshControl={
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh.bind(this)} />
           }
           ListHeaderComponent={() => <SView col={"xs-12"}>
             <SHr h={10} />
-            {/* {this.renderInvitaciones()} */}
             {this.state.invitaciones && this.state.invitaciones.length > 0 && this.renderInvitaciones()}
             <SHr h={10} />
             {this.getForm()}
@@ -325,11 +376,7 @@ export default class Inicio extends Component {
                 contentContainerStyle={{
                   width: "100%",
                   height: 100,
-                  // alignItems: "center"
                 }}
-                // refreshControl={
-                //   <RefreshControl refreshing={this.state.refreshing} onRefresh={this.handleRefresh.bind(this)} />
-                // }
                 data={arr}
                 horizontal
                 showsHorizontalScrollIndicator={true}
@@ -337,12 +384,10 @@ export default class Inicio extends Component {
                 ListHeaderComponent={() => <SView width={space} />}
                 ItemSeparatorComponent={() => <SView width={space} />}
                 ListFooterComponent={() => <SView width={space} />}
-                // keyExtractor={item => item.key.toString()}
                 keyExtractor={item => item.key ? item.key.toString() : String(index)}
                 onEndReachedThreshold={0.3}
                 renderItem={({ item, index }) => {
                   if (!item) return null;
-
                   if (item.key == "ADD") {
                     return <SView width={70} height={70} center card
                       onPress={() => {
@@ -354,10 +399,7 @@ export default class Inicio extends Component {
                       }} />
                     </SView>
                   }
-                  // console.log("ITEM")
-                  // console.log(item)
                   return <TipoItem ref={(ref) => this.ref[item?.key] = ref} key={item?.key.toString()} data={item} />
-                  // return <SText>{item.descripcion} ggg</SText>
                 }}
               />
             </ScrollView>
@@ -383,12 +425,7 @@ export default class Inicio extends Component {
             return <EventoItem ref={(ref) => this.ref[item.key] = ref} key={item.key} data={item} />
           }}
         />
-        {/* <Carrito
-        style={{
-          bottom: '25%'
-        }}
-      /> */}
-      </Container>
+      </Container> */}
     </SPage>
   }
 }

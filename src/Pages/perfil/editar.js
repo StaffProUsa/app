@@ -134,10 +134,10 @@ class index extends Component {
                             {this.getForm()}
                             <SView height={16} />
                             <SView col={"xs-12"} row center>
-                                <PButtom fontSize={20} onPress={() => {
+                                <PButtom rojo fontSize={20} onPress={() => {
                                     this.form.submit();
                                 }}>
-                                    <SText fontSize={20} color={STheme.color.black} language={{
+                                    <SText fontSize={20} color={STheme.color.text} language={{
                                         es: "CONFIRMAR",
                                         en: "CONFIRM"
                                     }} />
@@ -153,9 +153,9 @@ class index extends Component {
                                     borderBottomColor: STheme.color.card
                                 }}></SView>
                             <SHr height={30} />
-                            <PButtom fontSize={20} onPress={() => {
+                            <PButtom rojo fontSize={20} onPress={() => {
                                 SNavigation.navigate("/perfil/changepass")
-                            }}><SText fontSize={20} color={STheme.color.black} language={{
+                            }}><SText fontSize={20} color={STheme.color.text} language={{
                                 es: "CAMBIAR CONTRASEÑA",
                                 en: "CHANGE PASSWORD"
                             }} /></PButtom>

@@ -32,7 +32,7 @@ class recuperar_pass extends Component {
                     placeholder: "Introduce tu nueva contraseña", isRequired: true, type: "password", icon: (
                         <SIcon
                             name={'LockOutline'}
-                            fill={STheme.color.primary}
+                            fill={STheme.color.text}
                             width={17}
                             height={20}
                         />
@@ -42,7 +42,7 @@ class recuperar_pass extends Component {
                     placeholder: "Confirma tu nueva contraseña", type: "password", isRequired: true, icon: (
                         <SIcon
                             name={'LockOutline'}
-                            fill={STheme.color.primary}
+                            fill={STheme.color.text}
                             width={17}
                             height={20}
                         />
@@ -90,7 +90,7 @@ class recuperar_pass extends Component {
                 <SView center>
                     <SView col={"xs-11 md-6 xl-4"} center>
                         <SView height={40} />
-                        <SText fontSize={24} color={STheme.color.primary} bold center language={{
+                        <SText fontSize={24} color={STheme.color.text} bold center language={{
                             es: "¡Restablece tu contraseña!",
                             en: "Reset your password!"
                         }}/>
@@ -99,11 +99,11 @@ class recuperar_pass extends Component {
                         {this.getForm()}
                         <SView height={30} />
                         <SView col={"xs-11"} row center>
-                            <PButtom
+                            <PButtom rojo
                                 onPress={() => {
                                     this.form.submit();
                                 }} >
-                                    <SText color={STheme.color.black} language={{
+                                    <SText color={STheme.color.text} language={{
                                         es: "RESTABLECER CONTRASEÑA",
                                         en: "RESET PASSWORD"
                                     }}/></PButtom>

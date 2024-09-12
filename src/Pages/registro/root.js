@@ -31,7 +31,7 @@ class root extends Component {
     icon = (name) => {
         return <SIcon
             name={name}
-            fill={STheme.color.primary}
+            fill={STheme.color.text}
             width={17}
             height={20}
         />
@@ -87,16 +87,19 @@ class root extends Component {
                                 alignItems: "center",
                             }}
                             inputs={{
-                                Nombres: { placeholder: nombre, isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser") },
-                                Apellidos: { placeholder: apellidos, isRequired: true, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
-                                Fecha: { placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
-                                Telefono: { placeholder: telefono, isRequired: true, defaultValue: defaultData.Telefono, icon: this.icon("InputPhone") },
-                                Correo: { placeholder: correo, type: "email", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
+                                Nombres: {label:"Nombres", placeholder: nombre, isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser") },
+                                Apellidos: {label:"Apellidos", placeholder: apellidos, isRequired: true, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
+                                Fecha: { label:"Fecha de nacimiento",placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
+                                Telefono: {label:"Teléfono",placeholder: telefono, isRequired: true, defaultValue: defaultData.Telefono, icon: this.icon("InputPhone") },
+                                Correo: {label:"Correo", placeholder: correo, type: "email", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
+                                ingles: {label:"Nivel de inglés", placeholder: correo, type: "select", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail"), options: ["NINGUNO", "BASICO","MEDIO","AVANZADO"] },
+                                papeles: {label:"¿Está autorizado para trabajar en los Estados Unidos?", placeholder: correo, type: "select", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail"), options: ["SI", "NO"] },
+                                
                                 // FechaNacimiento: { placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
                                 //telefono: { placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},
                                 // Telefono: { placeholder: "Celular", isRequired: false, type: "phone" },
-                                Password: { placeholder: password, isRequired: true, type: "password", icon: this.icon("LockOutline") },
-                                RepPassword: { placeholder: repPassword, type: "password", isRequired: true, icon: this.icon("Repassword") },
+                                Password: { label:"Contraseña",placeholder: password, isRequired: true, type: "password", icon: this.icon("LockOutline") },
+                                RepPassword: {label:"Repetir contraseña", placeholder: repPassword, type: "password", isRequired: true, icon: this.icon("Repassword") },
                             }}
                             onSubmit={(values) => {
 
