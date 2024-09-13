@@ -274,7 +274,14 @@ export default class users extends Component {
                                     {this.renderStaffUsuario(obj)}
                                 </SView>
                             },
-                            { key: "usuario/Telefono", label: "Telefono", width: 100 },
+                            // { key: "usuario/Telefono", label: "Telefono", width: 100 },
+                            {
+                                key: "usuario/Telefono", label: "Telefono", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
+                                    <SText fontSize={11} color={STheme.color.text} underLine>
+                                        {number}
+                                    </SText>
+                                </BtnWhatsapp>
+                            },
                             { key: "tipos_staff", label: "Tipos", width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
                             // {
                             //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
