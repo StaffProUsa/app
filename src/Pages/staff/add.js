@@ -245,7 +245,7 @@ export default class add extends Component {
                         <SView width={30} />
                     </> : null}
 
-                    <SButtom onPress={this.handlePress.bind(this)} type='outline'>{"GUARDAR"}</SButtom>
+                    <SButtom  onPress={this.handlePress.bind(this)} type='secondary'><SText>{"GUARDAR"}</SText></SButtom>
 
                 </SView>
 

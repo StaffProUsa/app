@@ -92,7 +92,7 @@ export default class Reclutas extends Component {
         return <SView col={"xs-12"}>
             {arr.length <= 0 ? <SView center col={"xs-12"} height={200}>
                 <SText color={STheme.color.lightGray}>{"NO TIENES RECLUTAS"}</SText>
-                <SText color={STheme.color.lightGray} fontSize={10}>{"Preciona en el boton + para agregar puestos."}</SText>
+                <SText color={STheme.color.lightGray} fontSize={10}>{"Presiona en el botón + para agregar puestos."}</SText>
             </SView> :
                 arr.map((obj) => {
                     return this.renderObj(obj);
