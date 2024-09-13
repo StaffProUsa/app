@@ -122,7 +122,7 @@ export default class users extends Component {
                 /> */}
             <SView row col={"xs-12"} flex padding={16} >
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }}>
-                    <SText padding={8} card>{"Staff Disponibles"}</SText>
+                    <SText padding={8} >{"Staff Disponibles"}</SText>
                     <SView width={30} height={30} style={{
                         position: "absolute",
                         right: 2,
@@ -198,7 +198,7 @@ export default class users extends Component {
                     }}>{"<"}</SText>
                 </SView>
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }} >
-                    <SText padding={8} card>{"Staff Seleccionado"}</SText>
+                    <SText padding={8} >{"Staff Seleccionado"}</SText>
                     <STable2
                         key={"Algo1"}
                         data={this.state.data_disponibles}
