@@ -126,7 +126,7 @@ export default class users extends Component {
                     <SView width={30} height={30} style={{
                         position: "absolute",
                         right: 2,
-                        top: 2,
+                        top: 4,
                     }} onPress={() => {
                         SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
                     }}>
