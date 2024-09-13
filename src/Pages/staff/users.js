@@ -45,7 +45,22 @@ export default class users extends Component {
                 Object.values(e.data).map(o => {
                     o.usuario = resp.data[o.key_usuario]?.usuario;
                 })
+
+                e.data.forEach(staff => {
+                    if (staff.tipos_staff) {
+                        staff.tipos_staff.sort((a, b) => {
+                            if (a.descripcion.toLowerCase() === this.state?.data?.staff_tipo?.descripcion.toLowerCase() && b.descripcion.toLowerCase() !== this.state?.data?.staff_tipo?.descripcion.toLowerCase()) {
+                                return -1; // Mover  al principio
+                            } else if (a.descripcion.toLowerCase() !== this.state?.data?.staff_tipo?.descripcion.toLowerCase() && b.descripcion.toLowerCase() === this.state?.data?.staff_tipo?.descripcion.toLowerCase()) {
+                                return 1; // Mantener el orden
+                            }
+                            return 0; // Si ambos o ninguno son , mantener el orden
+                        });
+                    }
+                });
+
                 this.setState({ data_disponibles: e.data })
+                
             })
 
         }).catch(e => {
