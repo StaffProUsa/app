@@ -253,7 +253,7 @@ export default class add extends Component {
             <Container>
                 <SHr />
                 <SView col={"xs-12"}>
-                    <SText font='Montserrat-ExtraBold'>{this.key_usuario ? "EDITAR USUARIO" : "NUEVO USUARIO"}</SText>
+                    <SText font='Montserrat-ExtraBold'>{this.key_usuario ? "EDITAR USUARIO" : "AGREGAR USUARIO"}</SText>
                     <SText font={"Montserrat-Medium"} color={STheme.color.primary}>{""}</SText>
                 </SView>
                 <SHr h={16} />

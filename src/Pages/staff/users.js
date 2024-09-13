@@ -100,15 +100,34 @@ export default class users extends Component {
                 <SText center color={STheme.color.lightGray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
                 {/* {this.separator()} */}
                 <SHr />
-                <SText fontSize={16} bold color={STheme.color.gray}>Se requiere:</SText>
-                <SView width={6} />
-                <SView style={{
-                    borderWidth: 1,
-                    borderColor: STheme.color.success,
-                    borderRadius: 4,
-                    padding: 4,
-                }}>
-                    <SText fontSize={18} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
+                <SView col={"xs-12"} row>
+                    <SView col={"xs-6"} row>
+                        <SText fontSize={16} bold color={STheme.color.gray}>Se requiere:</SText>
+                        <SView width={6} />
+                        <SView style={{
+                            borderWidth: 1,
+                            borderColor: STheme.color.success,
+                            borderRadius: 4,
+                            padding: 4,
+                        }} center>
+                            <SText fontSize={18} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
+                        </SView>
+                    </SView>
+                    <SView col={"xs-6"} row style={{ justifyContent: "flex-end" }}>
+                        <SView width={100} height={40} card center
+                            onPress={() => {
+                                SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
+                            }}>
+                            <SText fontSize={12}>ADD USUARIO</SText>
+                        </SView>
+                        <SView col={"xs-12 sm-0.3"} height={5} />
+                        <SView width={100} height={40} card center
+                            onPress={() => {
+                                SNavigation.navigate("/usuario/new", { key_company: this.state.data?.evento?.key_company })
+                            }}>
+                            <SText fontSize={12}>CREAR USUARIO</SText>
+                        </SView>
+                    </SView>
                 </SView>
                 {/* {this.separator()} */}
 
@@ -123,7 +142,7 @@ export default class users extends Component {
             <SView row col={"xs-12"} flex padding={16} >
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }}>
                     <SText padding={8} >{"Staff Disponibles"}</SText>
-                    <SView width={30} height={30} style={{
+                    {/* <SView width={30} height={30} style={{
                         position: "absolute",
                         right: 2,
                         top: 4,
@@ -131,7 +150,16 @@ export default class users extends Component {
                         SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
                     }}>
                         <SIcon name='Add' />
-                    </SView>
+                    </SView> */}
+                    {/* <SView width={90} height={30} style={{
+                        position: "absolute",
+                        right: 2,
+                        top: 4,
+                    }} onPress={() => {
+                        SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
+                    }}>
+                        <SText fontSize={12}>ADD USUARIO</SText>
+                    </SView> */}
                     <STable2
                         key={"Algo"}
                         data={this.state.data_disponibles}
@@ -154,7 +182,7 @@ export default class users extends Component {
                             { key: "usuario", width: 150, render: (usr) => `${usr.Nombres} ${usr.Apellidos}` },
                             { key: "participacion", label: "#P", width: 50, order: "desc" },
                             { key: "usuario/Telefono", label: "Telefono", width: 100 },
-                            { key: "tipos_staff", label: "Tipos",width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", "):"" },
+                            { key: "tipos_staff", label: "Tipos", width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
 
                         ]} />
                 </SView>
