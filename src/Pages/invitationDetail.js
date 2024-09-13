@@ -87,7 +87,9 @@ export default class invitationDetail extends React.Component {
 
                 </SView>
                 <SHr height={25} />
-                <SText fontSize={15} color={STheme.color.lightGray} justify >A bartender is a person who works in a bar or drinking establishment and is in charge of preparing and serving all types of drinks.</SText>
+                <SText fontSize={15} color={STheme.color.lightGray} center >
+                  {"'"}{obj?.staff_tipo?.observacion}{"'"}
+                </SText>
                 <SHr height={25} />
                 <SView col={'xs-12'} row center>
                   <SView col={'xs-6'} row >

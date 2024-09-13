@@ -60,7 +60,7 @@ export default class users extends Component {
                 });
 
                 this.setState({ data_disponibles: e.data })
-                
+
             })
 
         }).catch(e => {
@@ -268,6 +268,19 @@ export default class users extends Component {
                             },
                             { key: "usuario/Telefono", label: "Telefono", width: 100 },
                             { key: "tipos_staff", label: "Tipos", width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
+                            // {
+                            //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
+                            //         tipo_staff
+                            //             ? tipo_staff.map((a, index) => (
+                            //                 <SText row key={index} style={{ color: a.descripcion === "cocinero" ? "green" : "white" }}>
+                            //                     {a.descripcion}
+                            //                 </SText>
+                            //             ))
+                            //             // .reduce((prev, curr) => [prev, ', ', curr]) // Para añadir coma entre los elementos
+                            //             : ""
+                            //     }</SView>
+                            // },
+
 
 
                         ]} />
