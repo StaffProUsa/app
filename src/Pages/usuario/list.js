@@ -31,6 +31,11 @@ class index extends DPA.list {
     }
     $menu() {
         var menu = super.$menu();
+        menu.push({
+            label: "Add", onPress: () => {
+                SNavigation.navigate(Parent.path + "/add")
+            }
+        })
         if (Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "show_deleted" })) {
             menu.push({
                 label: "Eliminados", onPress: () => {

@@ -17,6 +17,11 @@ class index extends DPA.edit {
         return Parent.model.Action.getByKey(this.pk);
     }
 
+    $inputs(){
+        const inpt = super.$inputs();
+        return inpt;
+    }
+
     $onSubmit(data) {
         Parent.model.Action.editar({
             data: {
