@@ -25,6 +25,7 @@ import exclamacion2, { ReactComponent as exclamacion2W } from './exclamacion2.sv
 import asiste, { ReactComponent as asisteW } from './asiste.svg';
 import Inext, { ReactComponent as InextW } from './Inext.svg';
 import Iprevious, { ReactComponent as IpreviousW } from './Iprevious.svg';
+import alerta, { ReactComponent as alertaW } from './alerta.svg';
 
 
 const Assets = {
@@ -53,6 +54,7 @@ const Assets = {
 	"asiste": { Native: asiste, Web: asisteW },
 	"Inext": { Native: Inext, Web: InextW },
 	"Iprevious": { Native: Iprevious, Web: IpreviousW },
+	"alerta": { Native: alerta, Web: alertaW },
 
 }
 

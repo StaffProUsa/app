@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, RefreshControl, FlatList, ScrollView } from 'react-native';
-import { SForm, SHr, SIcon, SLoad, SPage, SText, STheme, SView, SLanguage, SNavigation, SGradient } from 'servisofts-component';
+import { SForm, SHr, SIcon, SLoad, SPage, SText, STheme, SView, SLanguage, SNavigation, SGradient, SDate } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import EventoItem from '../Components/Evento/EventoItem';
 import TipoItem from '../Components/Staff/TipoItem';
@@ -11,7 +11,7 @@ import Actions from '../Actions';
 import Model from '../Model';
 import Calendar from '../Components/Calendar';
 
-const CANTIDAD_X_PAGE = 4;
+const CANTIDAD_X_PAGE = 30;
 
 export default class Inicio extends Component {
   static INSTANCE: Inicio;
@@ -24,7 +24,9 @@ export default class Inicio extends Component {
       page: 0,
       endData: false,
       data: [],
-      dataTipo: []
+      dataTipo: [],
+      fecha_inicio: new SDate("2024/09/01").toString("yyyy-MM-dd"),
+      fecha_fin: new SDate("2024/09/30").toString("yyyy-MM-dd"),
     };
 
   }
@@ -78,11 +80,15 @@ export default class Inicio extends Component {
 
   requestData() {
     SSocket.sendPromise({
+      // component: "evento",
+      // type: "getInicio",
       component: "evento",
       type: "getInicio",
       limit: CANTIDAD_X_PAGE,
       offset: this.state.page * CANTIDAD_X_PAGE,
       key_usuario: Model.usuario.Action.getKey(),
+      fecha_inicio: this.state.fecha_inicio,
+      fecha_fin: this.state.fecha_fin
     }).then(e => {
       if (e.data.length <= 0) {
         this.state.endData = true;

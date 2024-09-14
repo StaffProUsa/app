@@ -101,7 +101,7 @@ class PBarraFooter extends Component {
                 key: '/company',
                 title: 'COMPAÑIAS',
                 title_en: 'COMPANIES',
-                icon: 'trabajo',
+                icon: 'company',
                 url: '/company',
                 params: {}
               })}
