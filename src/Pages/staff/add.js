@@ -237,9 +237,9 @@ export default class add extends Component {
 
                 <SView row col={"xs-12"} center>
                     {this.state.pk ? <>
-                        <SButtom onPress={() => {
+                        <SButtom   onPress={() => {
                             SNavigation.navigate("/staff/profile", { pk: this.state.pk })
-                        }} type='primary'>{"INVITAR"}</SButtom>
+                        }} type='secondary'><SText>{"INVITAR"}</SText></SButtom>
                         <SView width={30} />
                         <SButtom onPress={this.handleEliminar.bind(this)} type='danger'>{"ELIMINAR"}</SButtom>
                         <SView width={30} />

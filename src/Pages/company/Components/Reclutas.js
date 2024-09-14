@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SImage, SNavigation, SText, STheme, SUtil, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SNavigation, SText, STheme, SUtil, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 const getColorFromPercentage = (percentage) => {
     // Asegurarse de que el valor esté entre 0 y 100
@@ -82,6 +82,11 @@ export default class Reclutas extends Component {
                             backgroundColor: getColorFromPercentage(obj.porcentaje ?? 0)
                         }} />
                 </SView>
+            </SView>
+            <SView center padding={5} onPress={()=>{
+                SNavigation.navigate("/staff/add", { key_evento: obj.key_evento, pk: obj.key, })
+            }}>
+                <SIcon name={"Edit"} width={30} height={30} />
             </SView>
         </SView>
     }
