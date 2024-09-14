@@ -236,7 +236,7 @@ export default class users extends Component {
                         header={[
                             // { key: "index", label: "#", width: 30 },
                             {
-                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20}><SInput type='checkBox' defaultValue={elm.invitar} onChangeText={e => {
+                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.invitar} onChangeText={e => {
                                     elm.invitar = !!e;
                                 }} /></SView></SView>
                             },
@@ -308,7 +308,7 @@ export default class users extends Component {
                         }}
                         header={[
                             {
-                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
+                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
                                     elm.desinvitar = !!e;
                                 }} /></SView></SView>
                             },
