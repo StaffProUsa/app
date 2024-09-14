@@ -4,6 +4,7 @@ import { SHr, SIcon, SImage, SInput, SList, SNavigation, SPage, SSwitch, STable,
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import { Container } from '../../Components';
+import BtnWhatsapp from '../../Components/BtnWhatsapp';
 
 export default class users extends Component {
     constructor(props) {
@@ -45,7 +46,22 @@ export default class users extends Component {
                 Object.values(e.data).map(o => {
                     o.usuario = resp.data[o.key_usuario]?.usuario;
                 })
+
+                e.data.forEach(staff => {
+                    if (staff.tipos_staff) {
+                        staff.tipos_staff.sort((a, b) => {
+                            if (a.descripcion.toLowerCase() === this.state?.data?.staff_tipo?.descripcion.toLowerCase() && b.descripcion.toLowerCase() !== this.state?.data?.staff_tipo?.descripcion.toLowerCase()) {
+                                return -1; // Mover  al principio
+                            } else if (a.descripcion.toLowerCase() !== this.state?.data?.staff_tipo?.descripcion.toLowerCase() && b.descripcion.toLowerCase() === this.state?.data?.staff_tipo?.descripcion.toLowerCase()) {
+                                return 1; // Mantener el orden
+                            }
+                            return 0; // Si ambos o ninguno son , mantener el orden
+                        });
+                    }
+                });
+
                 this.setState({ data_disponibles: e.data })
+
             })
 
         }).catch(e => {
@@ -100,15 +116,34 @@ export default class users extends Component {
                 <SText center color={STheme.color.lightGray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
                 {/* {this.separator()} */}
                 <SHr />
-                <SText fontSize={16} bold color={STheme.color.gray}>Se requiere:</SText>
-                <SView width={6} />
-                <SView style={{
-                    borderWidth: 1,
-                    borderColor: STheme.color.success,
-                    borderRadius: 4,
-                    padding: 4,
-                }}>
-                    <SText fontSize={18} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
+                <SView col={"xs-12"} row>
+                    <SView col={"xs-6"} row>
+                        <SText fontSize={16} bold color={STheme.color.gray}>Se requiere:</SText>
+                        <SView width={6} />
+                        <SView style={{
+                            borderWidth: 1,
+                            borderColor: STheme.color.success,
+                            borderRadius: 4,
+                            padding: 4,
+                        }} center>
+                            <SText fontSize={18} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
+                        </SView>
+                    </SView>
+                    <SView col={"xs-6"} row style={{ justifyContent: "flex-end" }}>
+                        <SView width={100} height={40} card center
+                            onPress={() => {
+                                SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
+                            }}>
+                            <SText fontSize={12}>ADD USUARIO</SText>
+                        </SView>
+                        <SView col={"xs-12 sm-0.3"} height={5} />
+                        <SView width={100} height={40} card center
+                            onPress={() => {
+                                SNavigation.navigate("/usuario/new", { key_company: this.state.data?.evento?.key_company })
+                            }}>
+                            <SText fontSize={12}>CREAR USUARIO</SText>
+                        </SView>
+                    </SView>
                 </SView>
                 {/* {this.separator()} */}
 
@@ -122,16 +157,25 @@ export default class users extends Component {
                 /> */}
             <SView row col={"xs-12"} flex padding={16} >
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }}>
-                    <SText padding={8} card>{"Staff Disponibles"}</SText>
-                    <SView width={30} height={30} style={{
+                    <SText padding={8} >{"Staff Disponibles"}</SText>
+                    {/* <SView width={30} height={30} style={{
                         position: "absolute",
                         right: 2,
-                        top: 2,
+                        top: 4,
                     }} onPress={() => {
                         SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
                     }}>
                         <SIcon name='Add' />
-                    </SView>
+                    </SView> */}
+                    {/* <SView width={90} height={30} style={{
+                        position: "absolute",
+                        right: 2,
+                        top: 4,
+                    }} onPress={() => {
+                        SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
+                    }}>
+                        <SText fontSize={12}>ADD USUARIO</SText>
+                    </SView> */}
                     <STable2
                         key={"Algo"}
                         data={this.state.data_disponibles}
@@ -153,8 +197,15 @@ export default class users extends Component {
                             },
                             { key: "usuario", width: 150, render: (usr) => `${usr.Nombres} ${usr.Apellidos}` },
                             { key: "participacion", label: "#P", width: 50, order: "desc" },
-                            { key: "usuario/Telefono", label: "Telefono", width: 100 },
-                            { key: "tipos_staff", label: "Tipos",width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", "):"" },
+                            // { key: "usuario/Telefono", label: "Telefono", width: 100 },
+                            {
+                                key: "usuario/Telefono", label: "Telefono", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
+                                    <SText fontSize={11} color={STheme.color.text} underLine>
+                                        {number}
+                                    </SText>
+                                </BtnWhatsapp>
+                            },
+                            { key: "tipos_staff", label: "Tipos", width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
 
                         ]} />
                 </SView>
@@ -198,7 +249,7 @@ export default class users extends Component {
                     }}>{"<"}</SText>
                 </SView>
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }} >
-                    <SText padding={8} card>{"Staff Seleccionado"}</SText>
+                    <SText padding={8} >{"Staff Seleccionado"}</SText>
                     <STable2
                         key={"Algo1"}
                         data={this.state.data_disponibles}
@@ -223,8 +274,28 @@ export default class users extends Component {
                                     {this.renderStaffUsuario(obj)}
                                 </SView>
                             },
-                            { key: "usuario/Telefono", label: "Telefono", width: 100 },
+                            // { key: "usuario/Telefono", label: "Telefono", width: 100 },
+                            {
+                                key: "usuario/Telefono", label: "Telefono", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
+                                    <SText fontSize={11} color={STheme.color.text} underLine>
+                                        {number}
+                                    </SText>
+                                </BtnWhatsapp>
+                            },
                             { key: "tipos_staff", label: "Tipos", width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
+                            // {
+                            //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
+                            //         tipo_staff
+                            //             ? tipo_staff.map((a, index) => (
+                            //                 <SText row key={index} style={{ color: a.descripcion === "cocinero" ? "green" : "white" }}>
+                            //                     {a.descripcion}
+                            //                 </SText>
+                            //             ))
+                            //             // .reduce((prev, curr) => [prev, ', ', curr]) // Para añadir coma entre los elementos
+                            //             : ""
+                            //     }</SView>
+                            // },
+
 
 
                         ]} />
