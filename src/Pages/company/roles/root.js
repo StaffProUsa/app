@@ -29,7 +29,7 @@ export default class root extends Component {
             add: true
         };
         this.key_company = SNavigation.getParam("key_company");
-        this.onSelect = SNavigation.getParam("onSelect","");
+        this.onSelect = SNavigation.getParam("onSelect", "");
     }
 
     reload() {
@@ -111,19 +111,40 @@ export default class root extends Component {
         return <SView col={"xs-12"} row center >
             <SView flex padding={8} style={{
                 borderRadius: 4,
-                borderWidth: 1,
-                borderColor: STheme.color.card
+                borderBottomWidth: 1,
+                // borderRightWidth:1,
+                // borderLeftWidth:1,
+                borderColor: STheme.color.card,
+                alignItems: "center"
             }} row>
+                <SView width={40} height={40} card style={{ overflow: "hidden" }}>
+                    <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario} style={{ resizeMode: "cover" }} />
+                </SView>
+                <SView width={8} />
                 <SView flex onPress={!this.onSelect ? null : () => {
                     this.onSelect(obj);
                     SNavigation.goBack();
                 }}>
-                    <SText fontSize={12} font='Montserrat-Bold'>{obj?.usuario?.Nombres} {obj?.usuario?.Apellidos}</SText>
                     <SHr h={2} />
-                    <SText fontSize={12} color={STheme.color.lightGray}>{rol?.descripcion ?? "Sin rol"}</SText>
-                    <SHr h={4} />
-                    <SText fontSize={12} color={STheme.color.gray}>{obj?.usuario?.Telefono}</SText>
-                    <SText fontSize={12} color={STheme.color.gray}>{obj?.usuario?.Correo}</SText>
+                    <SView col={"xs-12"} row>
+                        <SText fontSize={14} font='Montserrat-Bold'>{obj?.usuario?.Nombres} {obj?.usuario?.Apellidos}</SText>
+                        <SView width={8} />
+                        <Text style={{
+                            padding: 0,
+                            paddingLeft: 4,
+                            paddingRight: 4,
+                            borderWidth: 1,
+                            height: 14,
+                            borderColor: rol.color ?? STheme.color.success,
+                            backgroundColor: (rol.color ?? STheme.color.success) + "44",
+                            borderRadius: 100,
+                            color: STheme.color.text,
+                            fontSize: 10
+                        }} >{rol?.descripcion ?? "Sin rol"}</Text>
+                    </SView>
+                    <SHr h={2} />
+                    <SText fontSize={10} color={STheme.color.gray}>{obj?.usuario?.Telefono}</SText>
+                    <SText fontSize={10} color={STheme.color.gray}>{obj?.usuario?.Correo}</SText>
                 </SView>
                 {!this.state.edit ? null :
                     <SView center height={60}>
@@ -135,45 +156,46 @@ export default class root extends Component {
                     </SView>
                 }
             </SView>
-            {!this.state.delete ? null :
-                <SView width={40} center height={30} onPress={() => {
-                    SPopup.confirm({
-                        title: "Seguro de eliminar?",
-                        onPress: () => {
-                            SSocket.sendPromise({
-                                component: "usuario_company",
-                                type: "editar",
-                                key_usuario: Model.usuario.Action.getKey(),
-                                data: {
-                                    key: obj.key,
-                                    estado: 0,
-                                }
-                            }).then(e => {
-                                this.setState((prevState) => {
-                                    let newState = { ...prevState }
-                                    delete newState.data[obj.key]
-                                    return newState;
+            {
+                !this.state.delete ? null :
+                    <SView width={40} center height={30} onPress={() => {
+                        SPopup.confirm({
+                            title: "Seguro de eliminar?",
+                            onPress: () => {
+                                SSocket.sendPromise({
+                                    component: "usuario_company",
+                                    type: "editar",
+                                    key_usuario: Model.usuario.Action.getKey(),
+                                    data: {
+                                        key: obj.key,
+                                        estado: 0,
+                                    }
+                                }).then(e => {
+                                    this.setState((prevState) => {
+                                        let newState = { ...prevState }
+                                        delete newState.data[obj.key]
+                                        return newState;
+                                    })
+                                    SNotification.send({
+                                        title: "Usuario eliminado",
+                                        body: "El usuario fue eliminado con exito.",
+                                        time: 5000,
+                                        color: STheme.color.success,
+                                    })
+                                }).catch(e => {
+                                    SNotification.send({
+                                        title: "No pudimos eliminar el usuario.",
+                                        body: "Ocurrio un error al eliminar el usuario, intente nuevamente.",
+                                        time: 5000,
+                                        color: STheme.color.danger,
+                                    })
                                 })
-                                SNotification.send({
-                                    title: "Usuario eliminado",
-                                    body: "El usuario fue eliminado con exito.",
-                                    time: 5000,
-                                    color: STheme.color.success,
-                                })
-                            }).catch(e => {
-                                SNotification.send({
-                                    title: "No pudimos eliminar el usuario.",
-                                    body: "Ocurrio un error al eliminar el usuario, intente nuevamente.",
-                                    time: 5000,
-                                    color: STheme.color.danger,
-                                })
-                            })
-                        }
-                    })
-                    // SNavigation.navigate("/roles/add", {key_company: this.key_company, key_usuario: obj.key_usuario, })
-                }} padding={4}>
-                    <SImage src={require("../../../Assets/img/borrar.png")} />
-                </SView>
+                            }
+                        })
+                        // SNavigation.navigate("/roles/add", {key_company: this.key_company, key_usuario: obj.key_usuario, })
+                    }} padding={4}>
+                        <SImage src={require("../../../Assets/img/borrar.png")} />
+                    </SView>
             }
         </SView >
     }

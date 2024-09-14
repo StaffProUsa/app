@@ -18,7 +18,7 @@ class Carga extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      delay: 1000,
+      delay: 500,
     };
     this.ruta = SNavigation.getParam('ruta');
     console.log(this.ruta);

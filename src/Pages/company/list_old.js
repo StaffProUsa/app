@@ -36,9 +36,6 @@ class index extends DPA.list {
         return true;
     }
     $filter(data) {
-        // const todas = Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver_todas", loading: "cargando" });
-        // if (todas == "cargando") return false;
-        // if (todas) return data.estado != 0
         return data.estado != 0
     }
 
@@ -64,9 +61,7 @@ class index extends DPA.list {
         return [{ key: "descripcion", order: "asc", peso: 1 }]
     }
     $getData() {
-        const todas = Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver_todas", loading: "cargando" });
-        if (todas == "cargando") return null;
-        return Parent.model.Action.getAll({ ver_mias: !todas });
+        return Parent.model.Action.getAll({});
     }
 
     // $footer() {

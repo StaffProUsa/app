@@ -9,6 +9,7 @@ import _delete from "./delete";
 import slect from "./select"
 import select from "./select";
 import eventos from "./eventos";
+import add from "./add"
 const model = Model.cliente;
 
 export const Parent = {
@@ -25,5 +26,6 @@ export default SPage.combinePages(Parent.name, {
     "edit": edit,
     "delete": _delete,
     eventos,
+    add,
     select
 })
