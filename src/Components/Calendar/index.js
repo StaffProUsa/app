@@ -39,7 +39,7 @@ class index extends Component {
     }
 
     renderDias(data, i) {
-       
+
         let hoy = new SDate(this.state.curDay).getDayOfWeek()
         let isSelect = false
         let color = isSelect ? STheme.color.white : STheme.color.text
@@ -50,7 +50,7 @@ class index extends Component {
                 borderWidth: 1, borderColor: STheme.color.gray,
                 // backgroundColor:  data.asistiendo ? "#D93444": STheme.color.card
                 backgroundColor: STheme.color.card
-            }} center onPress={()=>{
+            }} center onPress={() => {
                 data?.evento ? SNavigation.navigate("/evento", { key: data?.evento?.key }) : null
             }}>
                 {data?.evento ? null : <Degradado />}
@@ -68,7 +68,7 @@ class index extends Component {
                         position: "absolute",
                         top: 0
                     }}>
-                        <SView width={25} height={25} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth:1, borderColor:STheme.color.darkGray }}>
+                        <SView width={25} height={25} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth: 1, borderColor: STheme.color.darkGray }}>
                             {/* <SImage src={SSocket.api.root + "paquete/" + data?.paquete?.key_paquete} /> */}
                             <SImage src={SSocket.api.root + "company/" + data?.evento?.key_company} style={{
                                 resizeMode: "cover",
@@ -78,7 +78,7 @@ class index extends Component {
                     : null
                 }
                 <SText font={"Roboto"} fontSize={14} color={color}>{data?.diaMes || ""}</SText>
-                <SView col={"xs-12"}  center>
+                <SView col={"xs-12"} center>
                     {data?.dataAsis ? data.dataAsis.map((k) => {
                         return (<>
                             <SText font={"Roboto"} fontSize={10} color={color}>{k.company_descripcion || ""}</SText>
@@ -204,7 +204,7 @@ class index extends Component {
 
         // console.log("calendario")
         // console.log(calendario)
-
+        console.log(this.state.curDay)
         return <>
             <SView col={"xs-12"} row
                 center

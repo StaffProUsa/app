@@ -1,6 +1,6 @@
 import React, { Component, version } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SIcon, SImage, SInput, SList, SNavigation, SPage, SSwitch, STable, STable2, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SInput, SList, SNavigation, SNotification, SPage, SSwitch, STable, STable2, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import { Container } from '../../Components';
@@ -71,11 +71,56 @@ export default class users extends Component {
 
     }
 
+    handleAsignarJefe = (post) => {
+        SNavigation.navigate("/usuario", {
+            onSelect: (usuario) => {
+                SNotification.send({
+                    key: "staff_usuario-asingJefe",
+                    title: "Applying...",
+                    body: "Please wait.",
+                    type: "loading"
+                }) 
+                SSocket.sendPromise({
+                    component: "staff_usuario",
+                    type: "asignarJefe",
+                    key_usuario: Model.usuario.Action.getKey(),
+                    key_staff_usuario: post.key,
+                    key_usuario_atiende: usuario.key,
+                }).then(e => {
+                    SNotification.send({
+                        key: "staff_usuario-asingJefe",
+                        title: "Successfully applied.",
+                        body: "Successfully registered.",
+                        color: STheme.color.success,
+                        time: 5000,
+                    })
+                    if (this.state?.staf_usuario[e.data.key]) {
+                        this.state.staf_usuario[e.data.key] = {
+                            ...this.state.staf_usuario[e.data.key],
+                            ...e.data
+                        }
+                        this.setState({ ...this.state })
+                    }
+                    console.log(e);
+                }).catch(e => {
+                    SNotification.send({
+                        key: "staff_usuario-asingJefe",
+                        title: "Error.",
+                        body: e.error ?? "Unknown error.",
+                        color: STheme.color.danger,
+                        time: 5000,
+                    })
+                })
+            }
+        })
+    }
+
     renderStaffUsuario(staff_usuario) {
         if (!staff_usuario) return
         if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.lightGray} language={{ en: "Pendiente de confirmar", es: "Pendiente de confirmar" }} />
         if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Esperando aprobacion", es: "Esperando aprobacion" }} />
-        if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "Sin jefe" }} />
+        if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "Sin jefe" }}
+         onPress={this.handleAsignarJefe.bind(this, staff_usuario)} />
         return <>
             <SText fontSize={12} color={STheme.color.success} language={{ en: "Registrado en el puesto", es: "Registrado en el puesto" }} />
         </>
