@@ -12,7 +12,7 @@ class index extends DPA.new {
         });
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new" })
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new",user_data: { key_company: this.$params.key_company }  })
     }
     $onSubmit(data) {
         data.key_company = this.$params?.key_company

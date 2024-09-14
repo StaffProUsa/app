@@ -20,13 +20,13 @@ class index extends DPA.list {
         });
     }
     $allowNew() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new" });
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new", user_data: { key_company: this.$params.key_company } });
     }
     $allowTable() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "table" });
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "table", user_data: { key_company: this.$params.key_company } });
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver" });
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver", user_data:{key_company:this.$params.key_company} });
     }
     $filter(data) {
 
@@ -45,7 +45,7 @@ class index extends DPA.list {
                 <SImage src={SSocket.api.root + "staff_tipo/" + obj.key} />
             </SView>
             <SView width={8} />
-            <SView flex style={{ justifyContent:"center"}}>
+            <SView flex style={{ justifyContent: "center" }}>
                 <SText bold fontSize={16}>{obj.descripcion}</SText>
                 {/* <SText color={STheme.color.lightGray}>{obj.observacion}</SText> */}
             </SView>

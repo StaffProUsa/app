@@ -11,7 +11,9 @@ class index extends DPA.edit {
         });
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit" })
+        this.data = this.$getData();
+        if (!this.data) return "cargando"
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit", user_data: { key_company: this.data.key_company } })
     }
     $getData() {
         return Parent.model.Action.getByKey(this.pk);

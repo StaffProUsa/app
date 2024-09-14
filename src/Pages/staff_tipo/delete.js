@@ -8,7 +8,9 @@ class index extends DPA.delete {
         super(props, { Parent: Parent, });
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete" })
+        this.data = this.$getData();
+        if (!this.data) return "cargando"
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete", user_data: { key_company: this.data.key_company } })
     }
     $onDelete() {
         this.data.estado = 0;
