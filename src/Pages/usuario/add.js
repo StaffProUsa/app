@@ -28,7 +28,7 @@ export default class index extends React.Component {
                     inputs={{
                         "Nombres": { col: "xs-5.8", label: "Nombres *", required: true },
                         "Apellidos": { col: "xs-5.8", label: "Apellidos" },
-                        "CI": { col: "xs-5.8", label: "Numero de identidad", placeholder: "_ _ _ _ _ _ _" },
+                        // "CI": { col: "xs-5.8", label: "Numero de identidad", placeholder: "_ _ _ _ _ _ _" },
                         "Correo": { col: "xs-9.5", type: "email", label: "Correo", placeholder: "correo@example.com" },
                         "Telefono": { col: "xs-5.8", type: "telefono", label: "Telefono", defaultValue: "+1 " },
                     }} onSubmit={(val) => {

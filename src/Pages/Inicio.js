@@ -254,12 +254,12 @@ export default class Inicio extends Component {
     // console.log("DATATIPO")
     // console.log(this.state.dataTipo)
     // console.log(this.state.data)
-    console.log("dataTipo")
-    console.log(this.state.dataTipo)
-    console.log("data")
-    console.log(this.state.data)
-    console.log("invitaciones")
-    console.log(this.state.invitaciones)
+    // console.log("dataTipo")
+    // console.log(this.state.dataTipo)
+    // console.log("data")
+    // console.log(this.state.data)
+    // console.log("invitaciones")
+    // console.log(this.state.invitaciones)
     if ((this.state.dataTipo.length == 1) && (this.state.data.length == 0) && (this.state.invitaciones == 0)) return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} center preventBack footer={<PBarraFooter url={'/'} />} disableScroll>
       <SView col={'xs-12'} center>
         <Container>

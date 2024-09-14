@@ -184,15 +184,15 @@ export default class add extends Component {
             })
         })
     }
-    buscar_usuario(val, timeDelay = 1000) {
+    buscar_usuario(val, key_input, timeDelay = 1000) {
         new SThread(timeDelay, "buscar_usuario", true).start(() => {
             const key_notification = "buscar_usuario";
-            SNotification.send({
-                key: key_notification,
-                title: "Buscando usuario",
-                body: "Esperando encontrar al usuario",
-                type: "loading"
-            })
+            // SNotification.send({
+            //     key: key_notification,
+            //     title: "Buscando usuario",
+            //     body: "Esperando encontrar al usuario",
+            //     type: "loading"
+            // })
             SSocket.sendPromise({
                 service: "usuario",
                 component: "usuario",
@@ -202,34 +202,46 @@ export default class add extends Component {
                 SNotification.remove(key_notification)
                 if (e.data) {
                     const arrResultados = Object.keys(e.data);
-                    if (arrResultados.length > 1) {
+                    if (arrResultados.length >= 1) {
+                        if (this._inputs[key_input]) {
+                            const input = this._inputs[key_input];
+                            
+                        }
                         SNotification.send({
                             title: "Buscando usuario",
                             body: "Se encontraron mas de un usuario con " + val,
                             time: 5000,
                             color: STheme.color.warning,
                         })
-                        return;
-                    } else if (arrResultados.length == 1) {
-                        const keyUsuarioEncontrado = arrResultados[0];
-                        const usuarioEncontrado = e.data[keyUsuarioEncontrado];
-                        usuarioEncontrado.key = keyUsuarioEncontrado;
-                        if (this._inputs["correo"]) {
-                            this._inputs["nombre"].setValue(usuarioEncontrado.Nombres + " " + usuarioEncontrado.Apellidos)
-                            this._inputs["nombre"].setData(usuarioEncontrado)
-
-                            this._inputs["correo"].setValue(usuarioEncontrado.Correo)
-                            this._inputs["telefono"].setValue(usuarioEncontrado.Telefono)
-                        }
-                        return;
                     }
+                    // if (arrResultados.length > 1) {
+                    //     SNotification.send({
+                    //         title: "Buscando usuario",
+                    //         body: "Se encontraron mas de un usuario con " + val,
+                    //         time: 5000,
+                    //         color: STheme.color.warning,
+                    //     })
+                    //     return;
+                    // } else if (arrResultados.length == 1) {
+                    //     const keyUsuarioEncontrado = arrResultados[0];
+                    //     const usuarioEncontrado = e.data[keyUsuarioEncontrado];
+                    //     usuarioEncontrado.key = keyUsuarioEncontrado;
+                    //     if (this._inputs["correo"]) {
+                    //         this._inputs["nombre"].setValue(usuarioEncontrado.Nombres + " " + usuarioEncontrado.Apellidos)
+                    //         this._inputs["nombre"].setData(usuarioEncontrado)
+
+                    //         this._inputs["correo"].setValue(usuarioEncontrado.Correo)
+                    //         this._inputs["telefono"].setValue(usuarioEncontrado.Telefono)
+                    //     }
+                    //     return;
+                    // }
                 }
-                SNotification.send({
-                    title: "Buscando usuario",
-                    body: "No se encontro ningun usuario con " + val,
-                    time: 5000,
-                    color: STheme.color.danger,
-                })
+                // SNotification.send({
+                //     title: "Buscando usuario",
+                //     body: "No se encontro ningun usuario con " + val,
+                //     time: 5000,
+                //     color: STheme.color.danger,
+                // })
             }).catch(e => {
                 SNotification.remove(key_notification)
                 SNotification.send({
@@ -244,6 +256,96 @@ export default class add extends Component {
 
         })
     }
+
+    hanldeGuardar() {
+        const usuario = this._inputs["nombre"].getData() ?? {};
+        if (!usuario.key) {
+            SNotification.send({
+                title: "Datos incompletos.",
+                body: "Debe seleccionar un usuario",
+                time: 5000,
+                color: STheme.color.warning,
+            })
+            return;
+        }
+        const rol = this._inputs["rol"].getData() ?? {};
+        if (!rol.key) {
+            SNotification.send({
+                title: "Datos incompletos.",
+                body: "Debe seleccionar un rol",
+                time: 5000,
+                color: STheme.color.warning,
+            })
+            return;
+        }
+        if (!this.key) {
+            SSocket.sendPromise({
+                component: "usuario_company",
+                type: "registro",
+                key_usuario: Model.usuario.Action.getKey(),
+                data: {
+                    key_usuario: usuario.key,
+                    key_company: this.key_company,
+                    key_rol: rol.key
+                }
+            }).then(e => {
+                SNotification.send({
+                    title: "Nuevo usuario",
+                    body: "Usuario agregado con exito",
+                    time: 5000,
+                    color: STheme.color.success,
+                })
+                if (root.INSTANCE) {
+                    root.INSTANCE.reload()
+                }
+                SNavigation.goBack();
+            }).catch(e => {
+                if (e.error == "existe") {
+                    SNotification.send({
+                        title: "El usuario ya se encuentra registrado.",
+                        body: "No puede registrar 2 veces a un mismo usuario.",
+                        time: 5000,
+                        color: STheme.color.danger,
+                    })
+                    return;
+                }
+                SNotification.send({
+                    title: "No pudimos agregar al usuario.",
+                    body: "Ocurrio un error al agregar al usuario, intente nuevamente.",
+                    time: 5000,
+                    color: STheme.color.danger,
+                })
+            })
+        } else {
+            SSocket.sendPromise({
+                component: "usuario_company",
+                type: "editar",
+                key_usuario: Model.usuario.Action.getKey(),
+                data: {
+                    key: this.key,
+                    key_rol: rol.key
+                }
+            }).then(e => {
+                SNotification.send({
+                    title: "Editar usuario",
+                    body: "Usuario editado con exito",
+                    time: 5000,
+                    color: STheme.color.success,
+                })
+                if (root.INSTANCE) {
+                    root.INSTANCE.reload()
+                }
+                SNavigation.goBack();
+            }).catch(e => {
+                SNotification.send({
+                    title: "No pudimos editar al usuario.",
+                    body: "Ocurrio un error al editar al usuario, intente nuevamente.",
+                    time: 5000,
+                    color: STheme.color.danger,
+                })
+            })
+        }
+    }
     render() {
         // const restaurante = Model.restaurante.Action.getSelect();
         if (this.key) {
@@ -257,28 +359,42 @@ export default class add extends Component {
                     <SText font={"Montserrat-Medium"} color={STheme.color.primary}>{""}</SText>
                 </SView>
                 <SHr h={16} />
-                <Input
-                    ref={ref => this._inputs["nombre"] = ref}
-                    col={"xs-12"}
-                    inputStyle={{
-                        color: !!this.key ? "#999" : "#fff"
-                    }}
-                    // defaultValue={data.nombre}
-                    disabled={!!this.key}
-                    label={"Nombre de usuario"}
-                    // info={"Ejemplo: Hamburguesa clasica, Pir de limón"}
-                    placeholder={"Nombre de usuario"}
-                    onPress={() => {
-                        SNotification.send({
-                            title: "Campo no editable",
-                            body: "Debe insertar el teléfono o el correo",
-                            time: 5000,
-                            color: STheme.color.danger,
-                        })
-                    }}
-                // onSubmitEditing={() => this._inputs["index"].focus()}
-                />
+                <SView col={"xs-12"} style={{ justifyContent: "space-between" }} row>
+                    <Input
+                        ref={ref => {
+                            this._inputs["nombre"] = ref
+                            new SThread(100, "asdasd").start(() => {
+                                if (ref) ref.focus()
+                            })
+                        }}
+                        col={"xs-5.8"}
+                        inputStyle={{
+                            color: !!this.key ? "#999" : "#fff"
+                        }}
+                        label={"Nombre *"}
+                        placeholder={"Nombre"}
+                        onSubmitEditing={() => {
+                            if (this._inputs.apellido.focus) this._inputs.apellido.focus()
+                        }}
+
+                    />
+                    {/* <SHr h={16} /> */}
+                    <Input
+                        ref={ref => this._inputs["apellido"] = ref}
+                        col={"xs-5.8"}
+                        inputStyle={{
+                            color: !!this.key ? "#999" : "#fff"
+                        }}
+                        label={"Apellido"}
+                        placeholder={"Apellido"}
+                        onSubmitEditing={() => {
+                            if (this._inputs.telefono.focus) this._inputs.telefono.focus()
+                        }}
+
+                    />
+                </SView>
                 <SHr h={16} />
+                {/* <SHr h={16} /> */}
                 <Input
                     ref={ref => this._inputs["telefono"] = ref}
                     col={"xs-12"}
@@ -288,12 +404,15 @@ export default class add extends Component {
                     disabled={!!this.key}
                     // defaultValue={data.nombre}
                     label={"Número de teléfono"}
-                    info={"El número que ingreses debe estar registrado en la App"}
+                    // info={"El número que ingreses debe estar registrado en la App"}
                     placeholder={"+591 0000000"}
                     onChangeText={(e) => {
                         if (e.length > 6) {
-                            this.buscar_usuario(e)
+                            this.buscar_usuario(e, "telefono")
                         }
+                    }}
+                    onSubmitEditing={() => {
+                        if (this._inputs.correo.focus) this._inputs.correo.focus()
                     }}
 
                 // onSubmitEditing={() => this._inputs["index"].focus()}
@@ -308,12 +427,15 @@ export default class add extends Component {
                     disabled={!!this.key}
                     // defaultValue={data.nombre}
                     label={"Dirección de correo electrónico"}
-                    info={"El correo que ingreses debe estar registrado en la App"}
+                    // info={"El correo que ingreses debe estar registrado en la App"}
                     placeholder={"email@gmail.com"}
                     onChangeText={(e) => {
                         if (e.length > 6) {
-                            this.buscar_usuario(e)
+                            this.buscar_usuario(e, "correo")
                         }
+                    }}
+                    onSubmitEditing={() => {
+                        this.hanldeGuardar();
                     }}
                 // onSubmitEditing={() => this._inputs["index"].focus()}
                 />
@@ -330,98 +452,11 @@ export default class add extends Component {
                 />
                 <SHr h={64} />
                 <SText padding={8} backgroundColor={STheme.color.secondary} color={STheme.color.text} borderRadius={4} onPress={() => {
-                    const usuario = this._inputs["nombre"].getData() ?? {};
-                    if (!usuario.key) {
-                        SNotification.send({
-                            title: "Datos incompletos.",
-                            body: "Debe seleccionar un usuario",
-                            time: 5000,
-                            color: STheme.color.warning,
-                        })
-                        return;
-                    }
-                    const rol = this._inputs["rol"].getData() ?? {};
-                    if (!rol.key) {
-                        SNotification.send({
-                            title: "Datos incompletos.",
-                            body: "Debe seleccionar un rol",
-                            time: 5000,
-                            color: STheme.color.warning,
-                        })
-                        return;
-                    }
-                    console.log(usuario, rol)
-                    if (!this.key) {
-                        SSocket.sendPromise({
-                            component: "usuario_company",
-                            type: "registro",
-                            key_usuario: Model.usuario.Action.getKey(),
-                            data: {
-                                key_usuario: usuario.key,
-                                key_company: this.key_company,
-                                key_rol: rol.key
-                            }
-                        }).then(e => {
-                            SNotification.send({
-                                title: "Nuevo usuario",
-                                body: "Usuario agregado con exito",
-                                time: 5000,
-                                color: STheme.color.success,
-                            })
-                            if (root.INSTANCE) {
-                                root.INSTANCE.reload()
-                            }
-                            SNavigation.goBack();
-                        }).catch(e => {
-                            if (e.error == "existe") {
-                                SNotification.send({
-                                    title: "El usuario ya se encuentra registrado.",
-                                    body: "No puede registrar 2 veces a un mismo usuario.",
-                                    time: 5000,
-                                    color: STheme.color.danger,
-                                })
-                                return;
-                            }
-                            SNotification.send({
-                                title: "No pudimos agregar al usuario.",
-                                body: "Ocurrio un error al agregar al usuario, intente nuevamente.",
-                                time: 5000,
-                                color: STheme.color.danger,
-                            })
-                        })
-                    } else {
-                        SSocket.sendPromise({
-                            component: "usuario_company",
-                            type: "editar",
-                            key_usuario: Model.usuario.Action.getKey(),
-                            data: {
-                                key: this.key,
-                                key_rol: rol.key
-                            }
-                        }).then(e => {
-                            SNotification.send({
-                                title: "Editar usuario",
-                                body: "Usuario editado con exito",
-                                time: 5000,
-                                color: STheme.color.success,
-                            })
-                            if (root.INSTANCE) {
-                                root.INSTANCE.reload()
-                            }
-                            SNavigation.goBack();
-                        }).catch(e => {
-                            SNotification.send({
-                                title: "No pudimos editar al usuario.",
-                                body: "Ocurrio un error al editar al usuario, intente nuevamente.",
-                                time: 5000,
-                                color: STheme.color.danger,
-                            })
-                        })
-                    }
-
+                    this.hanldeGuardar()
 
                 }}>{"Guardar"}</SText>
+
             </Container>
-        </SPage>
+        </SPage >
     }
 }

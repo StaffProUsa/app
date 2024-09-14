@@ -3,7 +3,7 @@ import React, { Component, forwardRef, useImperativeHandle, useRef, useState } f
 import { View, Text, TextInput, KeyboardAvoidingView, Platform, KeyboardTypeOptions, TextInputProps } from 'react-native';
 import { SColType, SHr, SInput, SNavigation, SPage, SText, STheme, SThread, SView } from 'servisofts-component';
 
-const color = "#ffffff"
+const color = "#BBBBBB"
 const colorGray = "#999999"
 const colorGray2 = "#999999"
 const colorCard = "#EEEEEE22"
@@ -52,7 +52,7 @@ const Input = forwardRef((props: InputProps, ref) => {
     }));
     
     return <SView col={props.col}>
-        <SText fontSize={10} font={"Montserrat-Bold"} color={color}>{props.label}</SText>
+        <SText fontSize={12} font={"Montserrat"} color={color}>{props.label}</SText>
         <SHr h={3} />
         <SView style={{
             width: "100%",
@@ -70,15 +70,15 @@ const Input = forwardRef((props: InputProps, ref) => {
                     width: "100%",
                     height: props.height ?? 34,
                     borderRadius: 5,
-                    borderWidth: 0.5,
+                    borderWidth: 1,
                     color: "#fff",
-                    borderColor: "#CCC",
+                    borderColor: STheme.color.card,
                     backgroundColor: colorCard,
                     padding: 0,
                     paddingStart: 8,
                     fontFamily: "Montserrat",
                     textAlignVertical: "center",
-                    fontSize: 10,
+                    fontSize: 14,
                 }, props.inputStyle ?? {}]}
                 keyboardType={props.keyboardType ?? "default"}
                 multiline={props.multiline}
@@ -87,7 +87,7 @@ const Input = forwardRef((props: InputProps, ref) => {
                 editable={!props.onPress && !props.disabled}
                 placeholder={props.placeholder} />
         </SView>
-        <SText fontSize={6.5} font={"Montserrat-SemiBold"} color={colorGray2}>{props.info}</SText>
+        <SText fontSize={8} font={"Montserrat-SemiBold"} color={colorGray2}>{props.info}</SText>
     </SView>
 })
 
