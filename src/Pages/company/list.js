@@ -4,6 +4,7 @@ import { Parent } from "."
 import Model from '../../Model';
 import { SImage, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 class index extends DPA.list {
     constructor(props) {
@@ -55,5 +56,12 @@ class index extends DPA.list {
     $getData() {
         return Parent.model.Action.getAll({});
     }
+        
+    // $footer() {
+    //     return <PBarraFooter style={{
+    //         position: "absolute",
+    //         bottom: 0,
+    //     }} url={'/company'} />
+    // }
 }
 export default connect(index);

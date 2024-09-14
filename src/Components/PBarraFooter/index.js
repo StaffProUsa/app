@@ -98,11 +98,11 @@ class PBarraFooter extends Component {
                 params: {}
               })}
               {this.getItem({
-                key: '/trabajos',
-                title: 'TRABAJO',
-                title_en: 'WORK',
+                key: '/company',
+                title: 'COMPAÑIAS',
+                title_en: 'COMPANIES',
                 icon: 'trabajo',
-                url: '/trabajos',
+                url: '/company',
                 params: {}
               })}
               {/* {this.getItem({
