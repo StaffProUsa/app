@@ -2,7 +2,7 @@ import React from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from "."
 import Model from '../../Model';
-import { SHr, SIcon, SImage, SNavigation, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SNavigation, SPopup, SText, STheme, SUtil, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 
 class index extends DPA.list {
@@ -30,22 +30,25 @@ class index extends DPA.list {
     $filter(data) {
         return data.estado != 0
     }
-
     onNew() {
-        SNavigation.navigate("/cliente/select", {
-            onSelect: (direccion) => {
-                Model.cliente.Action.registro({
-                    data: {
-                        key_company: this.$params.key_company,
-                        ...direccion,
-                        descripcion: direccion.direccion
-                    },
-                    key_usuario: Model.usuario.Action.getKey()
-                })
-                SNavigation.goBack();
-            },
-        })
+        SNavigation.navigate("/cliente/add", { key_company: this.$params.key_company });
     }
+
+    // onNew() {
+    //     SNavigation.navigate("/cliente/select", {
+    //         onSelect: (direccion) => {
+    //             Model.cliente.Action.registro({
+    //                 data: {
+    //                     key_company: this.$params.key_company,
+    //                     ...direccion,
+    //                     descripcion: direccion.direccion
+    //                 },
+    //                 key_usuario: Model.usuario.Action.getKey()
+    //             })
+    //             SNavigation.goBack();
+    //         },
+    //     })
+    // }
     // $onSelect(data) {
     //     SNavigation.navigate("/cliente/select", {
     //         onSelect: (direccion) => {
@@ -74,7 +77,8 @@ class index extends DPA.list {
             <SView flex style={{ justifyContent: "center" }} onPress={this.$onSelect.bind(this, obj)}>
                 <SText bold fontSize={16}>{obj.descripcion}</SText>
                 <SHr h={4} />
-                <SText color={STheme.color.lightGray} fontSize={8}>{obj.latitude},{obj.longitude}</SText>
+                <SText color={STheme.color.lightGray} fontSize={8}>{SUtil.limitString(obj.observacion ?? "", 100)}</SText>
+                {/* <SText color={STheme.color.lightGray} fontSize={8}>{obj.latitude},{obj.longitude}</SText> */}
             </SView>
             <SView width={30} height={30} onPress={() => {
                 SPopup.confirm({

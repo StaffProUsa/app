@@ -236,11 +236,11 @@ export default class users extends Component {
                         header={[
                             // { key: "index", label: "#", width: 30 },
                             {
-                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20}><SInput type='checkBox' defaultValue={elm.invitar} onChangeText={e => {
+                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.invitar} onChangeText={e => {
                                     elm.invitar = !!e;
                                 }} /></SView></SView>
                             },
-                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres} ${usr.Apellidos}` },
+                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                             { key: "participacion", label: "#P", width: 50, order: "desc" },
                             // { key: "usuario/Telefono", label: "Telefono", width: 100 },
                             {
@@ -250,7 +250,7 @@ export default class users extends Component {
                                     </SText>
                                 </BtnWhatsapp>
                             },
-                            { key: "tipos_staff", label: "Tipos", width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
+                            { key: "tipos_staff", label: "Tipos", width: 200, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
 
                         ]} />
                 </SView>
@@ -308,11 +308,11 @@ export default class users extends Component {
                         }}
                         header={[
                             {
-                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
+                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
                                     elm.desinvitar = !!e;
                                 }} /></SView></SView>
                             },
-                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres} ${usr.Apellidos}` },
+                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres??""} ${usr.Apellidos??""}` },
                             {
                                 key: "staff_usuario", label: "Estado", width: 140, component: (obj) => <SView col={"xs-12"} center>
                                     {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
@@ -327,7 +327,7 @@ export default class users extends Component {
                                     </SText>
                                 </BtnWhatsapp>
                             },
-                            { key: "tipos_staff", label: "Tipos", width: 150, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
+                            { key: "tipos_staff", label: "Tipos", width: 200, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
                             // {
                             //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
                             //         tipo_staff

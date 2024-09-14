@@ -23,6 +23,9 @@ class index extends DPA.profile {
         this.usuarios = Model.usuario.Action.getAll();
         return Parent.model.Action.getByKey(this.pk);
     }
+    onEdit() {
+        SNavigation.navigate("/cliente/add", { pk: this.pk })
+    }
     componentDidMount() {
         SSocket.sendPromise({
             component: "evento",

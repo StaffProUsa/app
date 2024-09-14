@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { Component, forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import { View, Text, TextInput, KeyboardAvoidingView, Platform, KeyboardTypeOptions, TextInputProps } from 'react-native';
+import { View, Text, TextInput, KeyboardAvoidingView, Platform, KeyboardTypeOptions, TextInputProps, TextProps } from 'react-native';
 import { SColType, SHr, SInput, SNavigation, SPage, SText, STheme, SThread, SView } from 'servisofts-component';
 
 const color = "#BBBBBB"
@@ -23,7 +23,10 @@ type InputProps = {
     onSubmitEditing?: any,
     defaultValue?: any,
     defaultData?: any,
+    defaultInfo?: any,
     filter?: any,
+    labelStyle?: TextProps["style"],
+    infoStyle?: TextProps["style"],
     renderValue?: (evt: { value: any, data: any }) => any;
     onChangeText?: (txt: string) => any;
 }
@@ -31,6 +34,8 @@ type InputProps = {
 const Input = forwardRef((props: InputProps, ref) => {
     const [value, setValue] = useState(props.defaultValue);
     const [data, setData] = useState(props.defaultData ?? {});
+    const [info, setInfo] = useState(props.defaultInfo);
+    const [infoStyle, setInfoStyle] = useState({});
     const inputRef = useRef<TextInput>(null);
 
     useImperativeHandle(ref, () => ({
@@ -43,6 +48,8 @@ const Input = forwardRef((props: InputProps, ref) => {
         setValue: (e: any) => {
             setValue(e)
         },
+        setInfo,
+        setInfoStyle,
         getData: () => {
             return data;
         },
@@ -50,9 +57,9 @@ const Input = forwardRef((props: InputProps, ref) => {
             setData(e)
         },
     }));
-    
+
     return <SView col={props.col}>
-        <SText fontSize={12} font={"Montserrat"} color={color}>{props.label}</SText>
+        <SText fontSize={12} font={"Montserrat"} color={color} style={props.labelStyle}>{props.label}</SText>
         <SHr h={3} />
         <SView style={{
             width: "100%",
@@ -87,8 +94,10 @@ const Input = forwardRef((props: InputProps, ref) => {
                 editable={!props.onPress && !props.disabled}
                 placeholder={props.placeholder} />
         </SView>
-        <SText fontSize={8} font={"Montserrat-SemiBold"} color={colorGray2}>{props.info}</SText>
-    </SView>
+        <Text style={[{
+            fontSize: 8, fontFamily: "Montserrat-SemiBold", color: colorGray2
+        }, props.infoStyle, { ...infoStyle }]}>{info}</Text>
+    </SView >
 })
 
 export default Input;
