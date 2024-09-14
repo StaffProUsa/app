@@ -139,7 +139,7 @@ export default class users extends Component {
                         <SView col={"xs-12 sm-0.3"} height={5} />
                         <SView width={100} height={40} card center
                             onPress={() => {
-                                SNavigation.navigate("/usuario/new", { key_company: this.state.data?.evento?.key_company })
+                                SNavigation.navigate("/usuario/add", { key_company: this.state.data?.evento?.key_company })
                             }}>
                             <SText fontSize={12}>CREAR USUARIO</SText>
                         </SView>
