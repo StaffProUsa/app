@@ -6,6 +6,7 @@ import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import PButtom from '../../Components/PButtom';
+import Trabajos from '../../Components/Trabajos';
 
 export default class root extends Component {
   constructor(props) {
@@ -61,7 +62,7 @@ export default class root extends Component {
           }}>
             {/* <SIcon name='Logo' width={80} /> */}
             {/* <SImage source={require("../../Assets/images/logoToken.png")}  /> */}
-            <SImage src={require('../../Assets/images/logoToken.png')} style={{ resizeMode: "contain", zIndex: 9,  }} />
+            <SImage src={require('../../Assets/images/logoToken.png')} style={{ resizeMode: "contain", zIndex: 9, }} />
           </SView>
         </SView>
         <SView col={"xs-9"} style={{
@@ -178,11 +179,16 @@ export default class root extends Component {
           }} />
         </PButtom>
 
-        <SHr h={50} />
+        <SHr h={30} />
         <SText onPress={() => {
           SNavigation.navigate("/token/exito")
         }}>{"TEST VENTANA EXITO"}</SText>
+        <SHr h={20} />
+        <SHr h={1} color={STheme.color.card} />
+        <SHr h={20} />
+        <Trabajos />
       </Container>
+      <SHr h={90} />
     </SPage>
   }
 }
