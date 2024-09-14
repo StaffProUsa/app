@@ -111,29 +111,50 @@ class index extends Component {
               </SView>
             </SView> : null}
             <SHr height={10} />
-            <SView col={"xs-2"} row center>
-              <SIcon name={"eventi"} fill={STheme.color.gray} width={12} />
+            <SView col={"xs-2 sm-2"} row >
+              {/* <SIcon name={"eventi"} fill={STheme.color.gray} width={12} /> */}
+              <SText fontSize={12} color={STheme.color.gray} language={{
+                  es: "Evento: ",
+                  en: "Event: "
+                }} />
             </SView>
-            <SView col={"xs-10"}  >
+            <SView col={"xs-10 sm-4.5"}  >
               <SText fontSize={12}>{obj?.evento?.descripcion}</SText>
             </SView>
             {/* <SHr height={5} /> */}
-            <SView col={"xs-2"} row center>
-              <SIcon name={"worki"} fill={STheme.color.gray} width={12} />
+            <SView col={"xs-12 sm-0.5"} height={10} />
+            <SView col={"xs-2 sm-2"} row >
+              {/* <SIcon name={"worki"} fill={STheme.color.gray} width={12} /> */}
+              <SText fontSize={12} color={STheme.color.gray} language={{
+                  es: "Requiere: ",
+                  en: "Requires: "
+                }} />
             </SView>
-            <SView col={"xs-10"}  >
+            <SView col={"xs-10 sm-3"}  >
               <SText fontSize={12}>{obj?.staff_tipo?.descripcion}</SText>
             </SView>
-            {/* <SHr height={5} /> */}
-            <SView col={"xs-2"} row center>
-              <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
+            <SHr height={10}/>
+            <SHr h={1} color={STheme.color.card} />
+            <SHr height={10}/>
+
+
+            <SView col={"xs-2"} row >
+              {/* <SIcon name={"dating"} fill={STheme.color.gray} width={12} /> */}
+              <SText fontSize={12} color={STheme.color.gray} language={{
+                  es: "Fecha: ",
+                  en: "Date: "
+                }} />
             </SView>
             <SView col={"xs-10"}  >
               <SText fontSize={12}>{new SDate(obj?.evento?.fecha).toString("yyyy-MM-dd")}</SText>
             </SView>
-            {/* <SHr height={5} /> */}
+            <SHr height={10}/>
             <SView col={"xs-2"} row center>
-              <SIcon name={"timeIni"} fill={STheme.color.gray} height={12} />
+            <SText fontSize={12} color={STheme.color.gray} language={{
+                  es: "Hora de inicio: ",
+                  en: "Start time: "
+                }} />
+              {/* <SIcon name={"timeIni"} fill={STheme.color.gray} height={12} /> */}
             </SView>
             <SView col={"xs-4"}  >
               <SText fontSize={12}>{new SDate(obj?.staff?.fecha_inicio).toString("hh:mm:ss")}</SText>

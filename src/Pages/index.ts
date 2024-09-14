@@ -54,6 +54,7 @@ import company from './company';
 import cliente from './cliente';
 import Ingreso from './Ingreso';
 import invitationDetail from './invitationDetail';
+import invitationUser from './invitationUser';
 import sorry from './Sorry';
 import waiting from './waiting';
 
@@ -91,6 +92,7 @@ const NewPages = SPage.combinePages("/", {
     trabajos,
     history,
     "invitationDetail": invitationDetail,
+    "invitationUser": invitationUser,
     invitations,
     "sorry": sorry,
     ...token,

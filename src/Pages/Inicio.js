@@ -11,7 +11,7 @@ import Actions from '../Actions';
 import Model from '../Model';
 import Calendar from '../Components/Calendar';
 
-const CANTIDAD_X_PAGE = 4;
+const CANTIDAD_X_PAGE = 30;
 
 export default class Inicio extends Component {
   static INSTANCE: Inicio;
@@ -78,6 +78,8 @@ export default class Inicio extends Component {
 
   requestData() {
     SSocket.sendPromise({
+      // component: "evento",
+      // type: "getInicio",
       component: "evento",
       type: "getInicio",
       limit: CANTIDAD_X_PAGE,
