@@ -29,13 +29,16 @@ class index extends DPA.list {
         return true;
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver" });
     }
+    onNew(){
+        SNavigation.navigate(Parent.path + "/add")
+    }
     $menu() {
         var menu = super.$menu();
-        menu.push({
-            label: "Add", onPress: () => {
-                SNavigation.navigate(Parent.path + "/add")
-            }
-        })
+        // menu.push({
+        //     label: "Add", onPress: () => {
+        //         SNavigation.navigate(Parent.path + "/add")
+        //     }
+        // })
         if (Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "show_deleted" })) {
             menu.push({
                 label: "Eliminados", onPress: () => {

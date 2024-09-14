@@ -19,6 +19,9 @@ class index extends DPA.edit {
 
     $inputs(){
         const inpt = super.$inputs();
+        inpt.observacion.type = "textArea"
+        inpt.latitude.col = "xs-6"
+        inpt.latitude.col = "xs-6"
         return inpt;
     }
 

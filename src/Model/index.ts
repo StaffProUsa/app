@@ -24,6 +24,8 @@ Usuario.init({
         "Apellidos": { type: "text", notNull: true, editable: true },
         "CI": { type: "text", notNull: true, editable: true },
         "Correo": { type: "text", notNull: true, editable: true },
+        "papeles": { type: "text", editable: true },
+        "nivel_ingles": { type: "text", editable: true },
         "Telefono": { type: "text", editable: true },
         "Password": { type: "text", notNull: true, editable: true },
     },

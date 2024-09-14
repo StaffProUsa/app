@@ -1,16 +1,27 @@
 import React from "react";
-import { SForm, SInput, SNavigation, SPage, SText } from "servisofts-component";
+import { SForm, SInput, SNavigation, SPage, SText, SThread } from "servisofts-component";
 import { Container } from "../../Components";
 import SSocket from "servisofts-socket";
 import usuario from ".";
 import Model from "../../Model";
 
 export default class index extends React.Component {
+    pk = SNavigation.getParam("pk");
+    componentDidMount() {
+        if (this.pk) {
+
+        }
+    }
     render() {
         return <SPage title={"Nuevo usuario"}>
             <Container>
                 <SForm
                     row
+                    ref={(formInstance: SForm) => {
+                        new SThread(100, "asd").start(() => {
+                            if (formInstance) formInstance.focus("Nombres")
+                        })
+                    }}
                     style={{
                         justifyContent: "space-between"
                     }}
