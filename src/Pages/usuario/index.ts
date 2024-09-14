@@ -13,7 +13,7 @@ import eliminados from "./eliminados";
 import perfil from "./perfil";
 import eventos from "./eventos";
 import entradas from "./entradas";
-
+import add from "./add"
 const model = Model.usuario;
 
 export const Parent = {
@@ -36,4 +36,5 @@ export default SPage.combinePages(Parent.name, {
     "perfil": perfil,
     "eventos": eventos,
     "entradas": entradas,
+    add,
 })
