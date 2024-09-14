@@ -38,6 +38,7 @@ class index extends Component {
                 foto_p: { type: "image", isRequired: false, defaultValue: SSocket.api.root + "usuario/" + this.data?.key + "?date=" + new Date().getTime(), col: "xs-4", style: { borderRadius: 100, overflow: 'hidden', width: 140, height: 140, borderWidth: 1, borderColor: STheme.color.lightGray, alignItems: "center", } },
                 Nombres: {
                     placeholder: 'Nombres',
+                    label: 'Nombres',
                     isRequired: true,
                     defaultValue: this.data.Nombres,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
@@ -45,6 +46,7 @@ class index extends Component {
                 },
                 Apellidos: {
                     placeholder: 'Apellidos',
+                    label: 'Apellidos',
                     isRequired: true,
                     defaultValue: this.data.Apellidos,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
@@ -52,16 +54,38 @@ class index extends Component {
                 },
                 "Telefono": {
                     placeholder: 'Teléfono',
+                    label: 'Teléfono',
                     defaultValue: this.data['Telefono'],
                     type: 'phone',
                     height: 54
                 },
                 Correo: {
                     placeholder: 'Correo',
+                    label: 'Correo electrónico',
                     type: 'email',
                     isRequired: true,
                     defaultValue: this.data.Correo,
                     icon: <SIcon name={'InputEmail'} fill={STheme.color.text} width={20} height={30} />,
+                    height: 54
+                },
+                nivel_ingles: {
+                    placeholder: 'Nivel de inglés',
+                    label: 'Nivel de inglés',
+                    type: 'select',
+                    options:  [{ key: "", content: "SELECCIONAR"  },{ key: "NINGUNO", content: "NINGUNO" }, { key: "BASICO", content: "BASICO" },{ key: "MEDIO", content: "MEDIO" },{ key: "AVANZADO", content: "AVANZADO" }],
+                    isRequired: true,
+                    defaultValue: this.data.nivel_ingles,
+                    icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
+                    height: 54
+                },
+                papeles: {
+                    placeholder: '¿Está autorizado para trabajar en los Estados Unidos?',
+                    label: '¿Está autorizado para trabajar en los Estados Unidos?',
+                    type: 'select',
+                    options: [{ key: "", content: "SELECCIONAR"  }, { key: "SI", content: "SI" }, { key: "NO", content: "NO" }],
+                    isRequired: true,
+                    defaultValue: this.data.papeles,
+                    icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
 

@@ -92,8 +92,8 @@ class root extends Component {
                                 Fecha: { label:"Fecha de nacimiento",placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
                                 Telefono: {label:"Teléfono",placeholder: telefono, isRequired: true, defaultValue: defaultData.Telefono, icon: this.icon("InputPhone") },
                                 Correo: {label:"Correo", placeholder: correo, type: "email", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
-                                ingles: {label:"Nivel de inglés", placeholder: correo, type: "select", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail"), options: ["NINGUNO", "BASICO","MEDIO","AVANZADO"] },
-                                papeles: {label:"¿Está autorizado para trabajar en los Estados Unidos?", placeholder: correo, type: "select", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail"), options: ["SI", "NO"] },
+                                nivel_ingles: {label:"Nivel de inglés", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: "SELECCIONAR"  },{ key: "NINGUNO", content: "NINGUNO" }, { key: "BASICO", content: "BASICO" },{ key: "MEDIO", content: "MEDIO" },{ key: "AVANZADO", content: "AVANZADO" }] },
+                                papeles: {label:"¿Está autorizado para trabajar en los Estados Unidos?", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: "SELECCIONAR"  }, { key: "SI", content: "SI" }, { key: "NO", content: "NO" }] },
                                 
                                 // FechaNacimiento: { placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
                                 //telefono: { placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},
