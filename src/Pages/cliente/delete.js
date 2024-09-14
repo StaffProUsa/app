@@ -7,12 +7,17 @@ class index extends DPA.delete {
     constructor(props) {
         super(props, { Parent: Parent, });
     }
+    componentDidMount() {
+        this.data = this.$getData();
+    }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete" })
+        this.data = this.$getData();
+        if (!this.data) return "cargando";
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete", user_data: { key_company: this.data.key_company } })
     }
     $onDelete() {
         this.data.estado = 0;
-        Parent.model.Action.editar({data:this.data}).then((resp) => {
+        Parent.model.Action.editar({ data: this.data }).then((resp) => {
             SNavigation.goBack();
             SNavigation.goBack();
         }).catch(e => {

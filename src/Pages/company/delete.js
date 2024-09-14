@@ -8,11 +8,11 @@ class index extends DPA.delete {
         super(props, { Parent: Parent, });
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete" })
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete", user_data: { key_company: this.pk } })
     }
     $onDelete() {
         this.data.estado = 0;
-        Parent.model.Action.editar({data:this.data}).then((resp) => {
+        Parent.model.Action.editar({ data: this.data }).then((resp) => {
             SNavigation.goBack();
             SNavigation.goBack();
         }).catch(e => {
@@ -22,6 +22,7 @@ class index extends DPA.delete {
     }
 
     $getData() {
+
         return Parent.model.Action.getByKey(this.pk);
     }
 }

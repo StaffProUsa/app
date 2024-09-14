@@ -5,19 +5,31 @@ import { SHr, SIcon, SImage, SList, SNavigation, SNotification, SPopup, SText, S
 import Model from '../../../Model';
 import SSocket from 'servisofts-socket';
 import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
+import Roles from '../../../Roles';
 
 class index extends DPA.profile {
     constructor(props) {
         super(props, { Parent: Parent, excludes: ["key", "key_usuario", "key_servicio", "estado", "fecha_on",] });
     }
+    state = {
+    }
+    componentDidMount() {
+        // Roles.$getPermiso({
+        //     url: Parent.path, permiso: "ver", key_company: this.pk, key_usuario: Model.usuario.Action.getKey()
+        // }).then(e => {
+        //     this.setState({ permiso_ver: "si" })
+        // }).catch(e => {
+        //     this.setState({ permiso_ver: "" })
+        // })
+    }
     $allowEdit() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit" })
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit", user_data: { key_company: this.pk } })
     }
     $allowDelete() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete" })
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete", user_data: { key_company: this.pk } })
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver" })
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver", user_data: { key_company: this.pk } })
     }
     $getData() {
         this.usuarios = Model.usuario.Action.getAll();

@@ -87,19 +87,21 @@ class root extends Component {
                                 alignItems: "center",
                             }}
                             inputs={{
-                                Nombres: {label:"Nombres", placeholder: nombre, isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser") },
-                                Apellidos: {label:"Apellidos", placeholder: apellidos, isRequired: true, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
-                                Fecha: { label:"Fecha de nacimiento",placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
-                                Telefono: {label:"Teléfono",placeholder: telefono, isRequired: true, defaultValue: defaultData.Telefono, icon: this.icon("InputPhone") },
-                                Correo: {label:"Correo", placeholder: correo, type: "email", isRequired: true, defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
-                                nivel_ingles: {label:"Nivel de inglés", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: "SELECCIONAR"  },{ key: "NINGUNO", content: "NINGUNO" }, { key: "BASICO", content: "BASICO" },{ key: "MEDIO", content: "MEDIO" },{ key: "AVANZADO", content: "AVANZADO" }] },
-                                papeles: {label:"¿Está autorizado para trabajar en los Estados Unidos?", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: "SELECCIONAR"  }, { key: "SI", content: "SI" }, { key: "NO", content: "NO" }] },
-                                
-                                // FechaNacimiento: { placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
-                                //telefono: { placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},
-                                // Telefono: { placeholder: "Celular", isRequired: false, type: "phone" },
-                                Password: { label:"Contraseña",placeholder: password, isRequired: true, type: "password", icon: this.icon("LockOutline") },
-                                RepPassword: {label:"Repetir contraseña", placeholder: repPassword, type: "password", isRequired: true, icon: this.icon("Repassword") },
+                                Nombres: { label: "Nombres", placeholder: nombre, isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser") },
+                                Apellidos: { label: "Apellidos", placeholder: apellidos, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
+                                // Fecha: { label:"Fecha de nacimiento",placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
+                                Telefono: {
+                                    label: "Teléfono", placeholder: telefono, defaultValue: defaultData.Telefono, icon: this.icon("InputPhone")
+                                },
+                                Correo: { label: "Correo", placeholder: correo, type: "email", defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
+                                nivel_ingles: { label: "Nivel de inglés", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: "SELECCIONAR" }, { key: "NINGUNO", content: "NINGUNO" }, { key: "BASICO", content: "BASICO" }, { key: "MEDIO", content: "MEDIO" }, { key: "AVANZADO", content: "AVANZADO" }] },
+                                papeles: { label: "¿Está autorizado para trabajar en los Estados Unidos?", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: "SELECCIONAR" }, { key: "SI", content: "SI" }, { key: "NO", content: "NO" }] },
+
+                                // FechaNacimiento: {placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
+                                //telefono: {placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},
+                                // Telefono: {placeholder: "Celular", isRequired: false, type: "phone" },
+                                Password: { label: "Contraseña", placeholder: password, isRequired: true, type: "password", icon: this.icon("LockOutline") },
+                                RepPassword: { label: "Repetir contraseña", placeholder: repPassword, type: "password", isRequired: true, icon: this.icon("Repassword") },
                             }}
                             onSubmit={(values) => {
 

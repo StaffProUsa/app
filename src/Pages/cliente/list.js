@@ -19,13 +19,13 @@ class index extends DPA.list {
         });
     }
     $allowNew() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new" });
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new", user_data: { key_company: this.$params.key_company } });
     }
     $allowTable() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "table" });
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "table", user_data: { key_company: this.$params.key_company } });
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver" });
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver", user_data: { key_company: this.$params.key_company } });
     }
     $filter(data) {
         return data.estado != 0

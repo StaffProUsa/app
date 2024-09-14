@@ -11,22 +11,31 @@ class index extends DPA.profile {
         super(props, { title: "Client", Parent: Parent, excludes: ["key", "key_servicio", "key_usuario", "fecha_on", "key_company", "estado", "latitude", "longitude"] });
     }
     $allowEdit() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit" })
+        this.data = this.$getData();
+        if (!this.data) return "cargando"
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit", user_data: { key_company: this.data.key_company } })
     }
     $allowDelete() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete" })
+        this.data = this.$getData();
+        if (!this.data) return "cargando"
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete", user_data: { key_company: this.data.key_company } })
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver" })
+        this.data = this.$getData();
+        if (!this.data) return "cargando"
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver", user_data: { key_company: this.data.key_company } })
     }
     $getData() {
-        this.usuarios = Model.usuario.Action.getAll();
+        // this.usuarios = Model.usuario.Action.getAll();
         return Parent.model.Action.getByKey(this.pk);
     }
     onEdit() {
         SNavigation.navigate("/cliente/add", { pk: this.pk })
     }
     componentDidMount() {
+        // this.data = this.$getData();
+
+
         SSocket.sendPromise({
             component: "evento",
             type: "getEstadoEventos",
