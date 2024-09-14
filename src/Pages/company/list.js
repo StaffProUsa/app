@@ -7,6 +7,12 @@ import SSocket from 'servisofts-socket';
 import PBarraFooter from '../../Components/PBarraFooter';
 
 class index extends DPA.list {
+    static FOOTER = <>
+        <PBarraFooter style={{
+            position: "absolute",
+            bottom: 0,
+        }} url={'/company'} />
+    </>
     constructor(props) {
         super(props, {
             Parent: Parent,
@@ -56,7 +62,7 @@ class index extends DPA.list {
     $getData() {
         return Parent.model.Action.getAll({});
     }
-        
+
     // $footer() {
     //     return <PBarraFooter style={{
     //         position: "absolute",
