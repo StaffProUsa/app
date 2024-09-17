@@ -171,7 +171,7 @@ export default class TrabajosDelEvento extends Component {
 
     render() {
         if (!this.state.data) return null;
-        if (Object.values(this.state.data).length <= 0) return <SText>{"No hay trabajos para en evento"}</SText>
+        if (Object.values(this.state.data).length <= 0) return <SText>{"No hay trabajos para el evento"}</SText>
 
         return (
             <SView col={'xs-12'} >

@@ -79,7 +79,7 @@ export default class users extends Component {
                     title: "Applying...",
                     body: "Please wait.",
                     type: "loading"
-                }) 
+                })
                 SSocket.sendPromise({
                     component: "staff_usuario",
                     type: "asignarJefe",
@@ -120,7 +120,7 @@ export default class users extends Component {
         if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.lightGray} language={{ en: "Pendiente de confirmar", es: "Pendiente de confirmar" }} />
         if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Esperando aprobacion", es: "Esperando aprobacion" }} />
         if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "Sin jefe" }}
-         onPress={this.handleAsignarJefe.bind(this, staff_usuario)} />
+            onPress={this.handleAsignarJefe.bind(this, staff_usuario)} />
         return <>
             <SText fontSize={12} color={STheme.color.success} language={{ en: "Registrado en el puesto", es: "Registrado en el puesto" }} />
         </>
@@ -229,6 +229,7 @@ export default class users extends Component {
                         cellStyle={{
                             justifyContent: "center",
                             paddingStart: 2,
+                            height: 40
 
                         }}
                         // filter={a => a.estado != 0}
@@ -239,6 +240,14 @@ export default class users extends Component {
                                 key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.invitar} onChangeText={e => {
                                     elm.invitar = !!e;
                                 }} /></SView></SView>
+                            },
+                            {
+                                key: "key_usuario", label: "Foto", width: 50, component: (usr) => <SView card width={40} height={40} center
+                                    style={{ borderRadius: 4, overflow: "hidden" }}
+                                >
+                                    <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
+                                        resizeMode: "cover",
+                                    }} /></SView>
                             },
                             { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                             { key: "participacion", label: "#P", width: 50, order: "desc" },
@@ -304,6 +313,7 @@ export default class users extends Component {
                         cellStyle={{
                             justifyContent: "center",
                             paddingStart: 2,
+                            height: 40
 
                         }}
                         header={[
@@ -312,7 +322,14 @@ export default class users extends Component {
                                     elm.desinvitar = !!e;
                                 }} /></SView></SView>
                             },
-                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres??""} ${usr.Apellidos??""}` },
+                            {
+                                key: "key_usuario", label: "Foto", width: 50, component: (usr) => <SView card width={40} height={40} center
+                                    style={{ borderRadius: 4, overflow: "hidden" }}>
+                                    <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
+                                        resizeMode: "cover",
+                                    }} /></SView>
+                            },
+                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                             {
                                 key: "staff_usuario", label: "Estado", width: 140, component: (obj) => <SView col={"xs-12"} center>
                                     {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
