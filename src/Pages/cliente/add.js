@@ -35,6 +35,7 @@ export default class index extends React.Component {
                 <SForm
                     row
                     ref={(formInstance: SForm) => {
+                        this.form = formInstance;
                         new SThread(100, "asd").start(() => {
                             if (formInstance) formInstance.focus("Nombres")
                         })
@@ -43,6 +44,7 @@ export default class index extends React.Component {
                         justifyContent: "space-between"
                     }}
                     inputs={{
+                        "foto_p": { type: "image", isRequired: false, defaultValue: `${SSocket.api.root}cliente/${this.pk}?time=${new Date().getTime()}`, col: "xs-12 sm-3.5 md-3 lg-2.5 xl-2.5", style: { borderRadius: 8, overflow: 'hidden', width: 130, height: 130, borderWidth: 0 } },
                         "descripcion": { col: "xs-7", label: "Nombre del cliente *", required: true, defaultValue: this.state?.data?.descripcion },
                         "nivel_ingles": { col: "xs-5.5", type: "text", label: "Nivel de ingles", defaultValue: this.state?.data?.nivel_ingles },
                         "papeles": { col: "xs-5.5", type: "checkBox", label: "Requiere solo con papeles?", defaultValue: this.state?.data?.papeles },
@@ -58,6 +60,18 @@ Recuerda que cualquier modificación o actualización será comunicada a través
 ¡Gracias por tu colaboración! 😊
                             `
                         },
+                        "Direccion": {
+                            col: "xs-12", type: "text", label: "Direccion", defaultValue: this.state?.data?.Direccion,
+                            onPress: () => {
+                                SNavigation.navigate("/cliente/select", {
+                                    callback: (resp) => {
+                                        // this.form.setValue("Direccion", e?.descripcion)
+                                        console.log("datos dirección");
+                                        console.log(resp);
+                                    }
+                                })
+                            }
+                        },
                         // "Apellidos": { col: "xs-5.8", label: "Apellidos" },
                         // "CI": { col: "xs-5.8", label: "Numero de identidad", placeholder: "_ _ _ _ _ _ _" },
                         // "Correo": { col: "xs-9.5", type: "email", label: "Correo", placeholder: "correo@example.com" },
@@ -65,6 +79,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                     }} onSubmit={(val) => {
 
                         if (this.pk) {
+                            this.form.uploadFiles(Model.cliente._get_image_upload_path(SSocket.api, this.state.data.key), "foto_p");
                             SSocket.sendPromise({
                                 component: "cliente",
                                 type: "editar",
@@ -72,7 +87,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                                 data: {
                                     ...this.state.data,
                                     ...val,
-                                    papeles: !val.papeles?"":"true"
+                                    papeles: !val.papeles ? "" : "true"
                                 },
                                 key_usuario: Model.usuario.Action.getKey(),
                             }).then(e => {
@@ -87,6 +102,9 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                             if (this.key_company) {
                                 val.key_company = this.key_company;
                             }
+                            // this.form.uploadFiles(
+                            //     SSocket.api.root + 'upload/' + actividad.component + '/' + e.data.key
+                            //   );
                             SSocket.sendPromise({
                                 component: "cliente",
                                 type: "registro",
@@ -96,6 +114,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                                 },
                                 key_usuario: Model.usuario.Action.getKey(),
                             }).then(e => {
+                                this.form.uploadFiles(Model.cliente._get_image_upload_path(SSocket.api, e?.data?.key), "foto_p");
                                 Model.cliente.Action._dispatch(e);
                                 // SNavigation.goBack();
                                 SNavigation.replace("/cliente/profile", { pk: e?.data?.key })

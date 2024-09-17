@@ -355,8 +355,13 @@ export default class Inicio extends Component {
           </SView> */}
           <SHr h={15} />
         </SView>
-        <Calendar eventos = {this.state.data} />
+
       </Container>
+      <SView col={"xs-12"} center>
+        <SView col={"xs-11.5"} center>
+          <Calendar eventos={this.state.data} />
+        </SView>
+      </SView>
 
 
       {/* <Container flex>

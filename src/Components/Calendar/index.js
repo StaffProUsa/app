@@ -43,16 +43,18 @@ class index extends Component {
         let hoy = new SDate(this.state.curDay).getDayOfWeek()
         let isSelect = false
         let color = isSelect ? STheme.color.white : STheme.color.text
-        // console.log(data.asistiendo)
+
         let datosArray = data?.dataAsis
         return <>
-            <SView col={"xs-1.7"} height={90} style={{
+            <SView col={"xs-1.7"} height={100} style={{
                 borderWidth: 1, borderColor: STheme.color.gray,
                 // backgroundColor:  data.asistiendo ? "#D93444": STheme.color.card
                 backgroundColor: STheme.color.card
-            }} center onPress={() => {
-                data?.evento ? SNavigation.navigate("/evento", { key: data?.evento?.key }) : null
-            }}>
+            }} center 
+            // onPress={() => {
+            //     data?.evento ? SNavigation.navigate("/evento", { key: data?.evento?.key }) : null
+            // }}
+            >
                 {data?.evento ? null : <Degradado />}
 
                 {data?.isPaquete ? <SView style={{
@@ -62,27 +64,55 @@ class index extends Component {
                     height: 10,
                     backgroundColor: "#D70201"
                 }}></SView> : null}
-                {data?.evento ?
+                {/* {data?.evento ?
                     <SView col={"xs-12"} flex style={{
                         alignItems: "flex-end",
                         position: "absolute",
                         top: 0
                     }}>
                         <SView width={25} height={25} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth: 1, borderColor: STheme.color.darkGray }}>
-                            {/* <SImage src={SSocket.api.root + "paquete/" + data?.paquete?.key_paquete} /> */}
                             <SImage src={SSocket.api.root + "company/" + data?.evento?.key_company} style={{
                                 resizeMode: "cover",
                             }} />
                         </SView>
                     </SView>
                     : null
-                }
+                } */}
                 <SText font={"Roboto"} fontSize={14} color={color}>{data?.diaMes || ""}</SText>
+                {data?.dataAsis ? data.dataAsis.map((k) => {
+                    let desCorto = k.descripcion.length > 10 ? k.descripcion.substring(0, 10) + "..." : k.descripcion
+                    return (<>
+                        <SView col={"xs-11.5"} row center style={{
+                            borderWidth: 1,
+                            borderRadius: 5,
+                            borderColor: STheme.color.success,
+                            padding: 1.5,
+                            marginTop: 4,
+                            overflow: "hidden"
+                        }} onPress={()=>{
+                            SNavigation.navigate("/evento", { key: k?.key })
+                        }}>
+                            <Degradado />
+                            <SView width={20} height={20} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth: 1, borderColor: STheme.color.darkGray }}>
+                                <SImage src={SSocket.api.root + "company/" + k?.key_company} style={{
+                                    resizeMode: "cover",
+                                }} />
+                            </SView>
+                            <SView width={3} />
+                            <SView >
+                                <SText font={"Roboto"} center fontSize={10} color={color}>{desCorto || ""}</SText>
+                            </SView>
+                        </SView>
+                    </>)
+                }) : null}
+
+
                 <SView col={"xs-12"} center>
                     {data?.dataAsis ? data.dataAsis.map((k) => {
                         return (<>
-                            <SText font={"Roboto"} fontSize={10} color={color}>{k.company_descripcion || ""}</SText>
-                            <SText font={"Roboto"} center underLine fontSize={10} color={color}>{k.descripcion || ""}</SText>
+                            {/* <SText font={"Roboto"} fontSize={10} color={color}>{k.company_descripcion || ""}</SText> */}
+                            {/* <SText font={"Roboto"} center underLine fontSize={10} color={color}>{k.descripcion || ""}</SText> */}
+
                             {/* <SView style={{
                                 borderWidth: 1,
                                 borderRadius: 5,
@@ -230,15 +260,17 @@ class index extends Component {
                     <SIcon name='Inext' height={20} fill={STheme.color.secondary} />
                 </SView>
             </SView>
-            {this.getCabecera()}
-            <SView col={"xs-12"} row center>
-                <SList2
-                    horizontal
-                    space={0}
-                    // data={new Array(SDate.getDaysInMonth(this.state.curDay.getYear(), this.state.curDay.getMonth())).fill(0)}
-                    data={calendario}
-                    render={this.renderDias.bind(this)}
-                />
+            <SView col={"xs-12"} center  >
+                {this.getCabecera()}
+                <SView col={"xs-12"}  center>
+                    <SList2
+                        horizontal
+                        space={0}
+                        // data={new Array(SDate.getDaysInMonth(this.state.curDay.getYear(), this.state.curDay.getMonth())).fill(0)}
+                        data={calendario}
+                        render={this.renderDias.bind(this)}
+                    />
+                </SView>
             </SView>
         </>
     }
