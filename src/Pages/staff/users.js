@@ -163,39 +163,40 @@ export default class users extends Component {
         // console.log(this.data?.evento?.key_company)
         return <SPage disableScroll title={"Armando mi STAFF"}>
             <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8 }} >
-                <SText fontSize={16} bold color={STheme.color.gray}>Evento: </SText>
+                {/* <SText fontSize={16} bold color={STheme.color.gray}>Evento: </SText> */}
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
                 <SView width={6} />
                 <SText center color={STheme.color.lightGray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
                 {/* {this.separator()} */}
                 <SHr />
                 <SView col={"xs-12"} row>
-                    <SView col={"xs-6"} row>
-                        <SText fontSize={16} bold color={STheme.color.gray}>Se requiere:</SText>
-                        <SView width={6} />
+                    <SView row>
+                        {/* <SText fontSize={12} bold color={STheme.color.gray}>Se requiere:</SText> */}
+                        {/* <SView width={6} /> */}
                         <SView style={{
                             borderWidth: 1,
                             borderColor: STheme.color.success,
                             borderRadius: 4,
-                            padding: 4,
+                            padding: 2,
                         }} center>
-                            <SText fontSize={18} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
+                            <SText fontSize={12} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
                         </SView>
                     </SView>
-                    <SView col={"xs-6"} row style={{ justifyContent: "flex-end" }}>
-                        <SView width={100} height={40} card center
+                    <SView flex />
+                    <SView row style={{ justifyContent: "flex-end" }}>
+                        <SView width={25} height={25} center
                             onPress={() => {
                                 SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
                             }}>
-                            <SText fontSize={12}>ADD USUARIO</SText>
+                            <SIcon name='Add' />
                         </SView>
-                        <SView col={"xs-12 sm-0.3"} height={5} />
-                        <SView width={100} height={40} card center
+                        {/* <SView col={"xs-12 sm-0.3"} height={5} /> */}
+                        {/* <SView width={100} height={40} card center
                             onPress={() => {
                                 SNavigation.navigate("/usuario/add", { key_company: this.state.data?.evento?.key_company })
                             }}>
                             <SText fontSize={12}>CREAR USUARIO</SText>
-                        </SView>
+                        </SView> */}
                     </SView>
                 </SView>
                 {/* {this.separator()} */}
@@ -208,9 +209,10 @@ export default class users extends Component {
                     data={this.state?.data?.staff_usuario ?? []}
                     render={this.item.bind(this)}
                 /> */}
-            <SView row col={"xs-12"} flex padding={8} >
+            <SView row col={"xs-12"} flex padding={4} >
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }}>
-                    <SText padding={8} >{"Staff Disponibles"}</SText>
+                    <SHr h={4}/>
+                    <SText fontSize={12} center>{"Staff Disponibles"}</SText>
                     {/* <SView width={30} height={30} style={{
                         position: "absolute",
                         right: 2,
@@ -237,7 +239,7 @@ export default class users extends Component {
                         cellStyle={{
                             justifyContent: "center",
                             paddingStart: 2,
-                            height: 40
+                            height: 30
 
                         }}
                         // filter={a => a.estado != 0}
@@ -245,14 +247,13 @@ export default class users extends Component {
                         header={[
                             // { key: "index", label: "#", width: 30 },
                             {
-                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.invitar} onChangeText={e => {
+                                key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.invitar} onChangeText={e => {
                                     elm.invitar = !!e;
                                 }} /></SView></SView>
                             },
                             {
-                                key: "key_usuario", label: "Foto", width: 50, component: (usr) => <SView card width={40} height={40} center
-                                    style={{ borderRadius: 4, overflow: "hidden" }}
-                                >
+                                key: "key_usuario", label: "Foto", width: 30, component: (usr) => <SView card width={25} height={25} center
+                                    style={{ borderRadius: 4, overflow: "hidden" }}>
                                     <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
                                         resizeMode: "cover",
                                     }} /></SView>
@@ -272,10 +273,10 @@ export default class users extends Component {
                         ]} />
                 </SView>
 
-                <SView width={30} height center>
+                <SView width={25} height center>
                     {/* <SText padding={8} card>{">"}</SText> */}
                     {/* <SHr /> */}
-                    <SText padding={8} card onPress={() => {
+                    <SText padding={4} card onPress={() => {
 
                         const key_usuarios_invitados = Object.values(this.state.data_disponibles).filter(a => !!a.invitar).map(a => a.key_usuario);
                         if (key_usuarios_invitados.length <= 0) return;
@@ -293,7 +294,7 @@ export default class users extends Component {
                         })
                     }}>{">"}</SText>
                     <SHr h={50} />
-                    <SText padding={8} card onPress={() => {
+                    <SText padding={4} card onPress={() => {
                         const key_usuarios_desinvitados = Object.values(this.state.data_disponibles).filter(a => !!a.desinvitar).map(a => a.key_usuario);
                         if (key_usuarios_desinvitados.length <= 0) return;
                         SSocket.sendPromise({
@@ -311,7 +312,8 @@ export default class users extends Component {
                     }}>{"<"}</SText>
                 </SView>
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }} >
-                    <SText padding={8} >{"Staff Seleccionado"}</SText>
+                <SHr h={4}/>
+                    <SText  center fontSize={12} >{"Staff Seleccionado"}</SText>
                     <STable2
                         key={"Algo1"}
                         data={this.state.data_disponibles}
@@ -321,17 +323,17 @@ export default class users extends Component {
                         cellStyle={{
                             justifyContent: "center",
                             paddingStart: 2,
-                            height: 40
+                            height: 30
 
                         }}
                         header={[
                             {
-                                key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
+                                key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
                                     elm.desinvitar = !!e;
                                 }} /></SView></SView>
                             },
                             {
-                                key: "key_usuario", label: "Foto", width: 50, component: (usr) => <SView card width={40} height={40} center
+                                key: "key_usuario", label: "Foto", width: 30, component: (usr) => <SView card width={25} height={25} center
                                     style={{ borderRadius: 4, overflow: "hidden" }}>
                                     <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
                                         resizeMode: "cover",
@@ -389,6 +391,6 @@ export default class users extends Component {
                         ]} />
                 </SView>
             </SView>
-        </SPage>
+        </SPage >
     }
 }
