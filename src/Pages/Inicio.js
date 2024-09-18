@@ -32,6 +32,7 @@ export default class Inicio extends Component {
   }
 
   componentDidMount() {
+    
     // Actions.usuario_company.getAllCompanyUser().then(e => {
 
     // }).catch(e => {

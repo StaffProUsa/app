@@ -135,8 +135,8 @@ export default class root extends Component {
                             paddingRight: 4,
                             borderWidth: 1,
                             height: 14,
-                            borderColor: rol.color ?? STheme.color.success,
-                            backgroundColor: (rol.color ?? STheme.color.success) + "44",
+                            borderColor: rol?.color ?? STheme.color.success,
+                            backgroundColor: (rol?.color ?? STheme.color.success) + "44",
                             borderRadius: 100,
                             color: STheme.color.text,
                             fontSize: 10
