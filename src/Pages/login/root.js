@@ -85,7 +85,8 @@ class Login extends Component {
                 }).then(resp => {
                     // Model.empresa.Action.setEmpresa(null)
                     // SNavigation.reset("/");
-                    SNavigation.goBack();
+                    // SNavigation.goBack();
+                    SNavigation.reset("/perfil/editar");
                 }).catch(e => {
                     SPopup.alert("Error al iniciar con el nuevo usuario");
                 })
