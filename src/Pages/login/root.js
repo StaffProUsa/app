@@ -18,9 +18,9 @@ class Login extends Component {
         this.ruta = SNavigation.getParam('ruta');
         console.log(this.ruta);
     }
-    
+
     onChangeLanguage(language) {
-        this.setState({...this.state})
+        this.setState({ ...this.state })
     }
     componentDidMount() {
         new SThread(100, "espera").start(() => {
@@ -65,11 +65,22 @@ class Login extends Component {
         );
     }
 
+    handleLogin(user, isNew = false) {
+        console.log(user);
+        
+        SNavigation.goBack();
+        if(isNew){
+            new SThread(1000, "ir_a_editar_perfil").start(()=>{
+                SNavigation.navigate("/perfil/editar")
+            })
+        }
+    }
+
     loginRedSocial(key_red_social: "gmail_key" | "apple_key" | "facebook_key", usuario) {
         Model.usuario.Action.loginByKey({
             usuario: usuario.id,
         }).then(e => {
-            SNavigation.goBack();
+            this.handleLogin(e.data);
             console.log(e);
         }).catch(e => {
             Model.usuario.Action.registro({
@@ -85,7 +96,8 @@ class Login extends Component {
                 }).then(resp => {
                     // Model.empresa.Action.setEmpresa(null)
                     // SNavigation.reset("/");
-                    SNavigation.goBack();
+                    this.handleLogin(resp.data, true)
+                    // SNavigation.goBack();
                 }).catch(e => {
                     SPopup.alert("Error al iniciar con el nuevo usuario");
                 })
@@ -104,8 +116,9 @@ class Login extends Component {
                                 Model.usuario.Action.loginByKey({
                                     usuario: usuario.id,
                                 }).then(resp => {
+                                    this.handleLogin(resp.data, true)
                                     // Model.empresa.Action.setEmpresa(null)
-                                    SNavigation.goBack();
+                                    // SNavigation.goBack();
                                 }).catch(e => {
                                     SPopup.alert("Error al iniciar con el nuevo usuario");
                                 })
@@ -126,7 +139,7 @@ class Login extends Component {
             <SView col={'xs-12'} height={120} row center style={{
                 justifyContent: "space-around"
             }}>
-                <SView height={70} col={'xs-12'}>
+                {/* <SView height={70} col={'xs-12'}>
                     <LoginApple onLogin={(usuario) => {
                         this.loginRedSocial("apple_key", usuario)
                     }}>
@@ -139,7 +152,7 @@ class Login extends Component {
                             }} />
                         </SView>
                     </LoginApple>
-                </SView>
+                </SView> */}
                 <SView height={70} col={'xs-12'}>
                     <LoginGoogle onLogin={(usuario) => {
                         console.log("onLogin", usuario)
@@ -322,7 +335,7 @@ class Login extends Component {
                     </PButtom> */}
 
                     <SView width={180} height={50} center backgroundColor={STheme.color.secondary}
-                        style={{ borderRadius: 14 }} onPress={()=>{
+                        style={{ borderRadius: 14 }} onPress={() => {
                             this.form.submit();
                         }}>
                         <SText color={STheme.color.white} fontSize={15} language={{

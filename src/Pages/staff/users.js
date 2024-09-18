@@ -14,6 +14,7 @@ export default class users extends Component {
             no_disponibles: {}
         };
         this.pk = SNavigation.getParam("pk");
+        this.usuarios = {}
     }
 
     componentDidMount() {
@@ -46,7 +47,7 @@ export default class users extends Component {
                 Object.values(e.data).map(o => {
                     o.usuario = resp.data[o.key_usuario]?.usuario;
                 })
-
+                this.usuarios = resp.data;
                 e.data.forEach(staff => {
                     if (staff.tipos_staff) {
                         staff.tipos_staff.sort((a, b) => {
@@ -72,20 +73,29 @@ export default class users extends Component {
     }
 
     handleAsignarJefe = (post) => {
-        SNavigation.navigate("/usuario", {
+        if (!this.state?.data?.evento?.key_company) {
+            SNotification.send({
+                title: "No se encontro la compañia",
+                color: STheme.color.danger,
+                time: 5000
+            })
+            return;
+        }
+        SNavigation.navigate("/company/roles", {
+            key_company: this.state.data.evento.key_company,
             onSelect: (usuario) => {
                 SNotification.send({
                     key: "staff_usuario-asingJefe",
                     title: "Applying...",
                     body: "Please wait.",
                     type: "loading"
-                }) 
+                })
                 SSocket.sendPromise({
                     component: "staff_usuario",
                     type: "asignarJefe",
                     key_usuario: Model.usuario.Action.getKey(),
                     key_staff_usuario: post.key,
-                    key_usuario_atiende: usuario.key,
+                    key_usuario_atiende: usuario.key_usuario,
                 }).then(e => {
                     SNotification.send({
                         key: "staff_usuario-asingJefe",
@@ -94,13 +104,14 @@ export default class users extends Component {
                         color: STheme.color.success,
                         time: 5000,
                     })
-                    if (this.state?.staf_usuario[e.data.key]) {
-                        this.state.staf_usuario[e.data.key] = {
-                            ...this.state.staf_usuario[e.data.key],
-                            ...e.data
-                        }
-                        this.setState({ ...this.state })
-                    }
+                    // if (this.state?.staf_usuario[e.data.key]) {
+                    //     this.state.staf_usuario[e.data.key] = {
+                    //         ...this.state.staf_usuario[e.data.key],
+                    //         ...e.data
+                    //     }
+                    //     this.setState({ ...this.state })
+                    // }
+                    this.componentDidMount();
                     console.log(e);
                 }).catch(e => {
                     SNotification.send({
@@ -120,7 +131,7 @@ export default class users extends Component {
         if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.lightGray} language={{ en: "Pendiente de confirmar", es: "Pendiente de confirmar" }} />
         if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Esperando aprobacion", es: "Esperando aprobacion" }} />
         if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "Sin jefe" }}
-         onPress={this.handleAsignarJefe.bind(this, staff_usuario)} />
+            onPress={this.handleAsignarJefe.bind(this, staff_usuario)} />
         return <>
             <SText fontSize={12} color={STheme.color.success} language={{ en: "Registrado en el puesto", es: "Registrado en el puesto" }} />
         </>
@@ -148,13 +159,10 @@ export default class users extends Component {
         </>
     }
     render() {
-        console.log("this.state.data")
-        console.log(this.state.data)
-        console.log(this.state.data_disponibles)
 
         // console.log(this.data?.evento?.key_company)
         return <SPage disableScroll title={"Armando mi STAFF"}>
-            <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 16, paddingLeft: 16 }} >
+            <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8 }} >
                 <SText fontSize={16} bold color={STheme.color.gray}>Evento: </SText>
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
                 <SView width={6} />
@@ -200,7 +208,7 @@ export default class users extends Component {
                     data={this.state?.data?.staff_usuario ?? []}
                     render={this.item.bind(this)}
                 /> */}
-            <SView row col={"xs-12"} flex padding={16} >
+            <SView row col={"xs-12"} flex padding={8} >
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }}>
                     <SText padding={8} >{"Staff Disponibles"}</SText>
                     {/* <SView width={30} height={30} style={{
@@ -312,12 +320,33 @@ export default class users extends Component {
                                     elm.desinvitar = !!e;
                                 }} /></SView></SView>
                             },
-                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres??""} ${usr.Apellidos??""}` },
+                            {
+                                key: "usuario-imagen", width: 50, render: (usr) => `${usr.key ?? ""}`, component: (usr) => <SImage src={SSocket.api.root + "usuario/" + usr.key} style={{
+                                    width: 30,
+                                    height: 30
+                                }} />
+                            },
+                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                             {
                                 key: "staff_usuario", label: "Estado", width: 140, component: (obj) => <SView col={"xs-12"} center>
                                     {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
                                     {this.renderStaffUsuario(obj)}
                                 </SView>
+                            },
+                            {
+                                key: "staff_usuario-2", label: "Jefe", width: 140, component: (obj) => {
+                                    const user = this.usuarios[obj.key_usuario_atiende]?.usuario
+                                    return <SView col={"xs-12"} flex onPress={() => {
+                                        this.handleAsignarJefe(obj)
+                                    }} center>
+                                        {user ? <SView row><SView width={20} height={20} card>
+                                            <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario_atiende} />
+                                        </SView><SText flex fontSize={10}>{user.Nombres} {user.Apellidos}</SText></SView> : <SText fontSize={10}>{"Sin jefe"}</SText>}
+
+                                        {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
+                                        {/* {this.renderStaffUsuario(obj)} */}
+                                    </SView>
+                                }
                             },
                             // { key: "usuario/Telefono", label: "Telefono", width: 100 },
                             {
@@ -327,7 +356,10 @@ export default class users extends Component {
                                     </SText>
                                 </BtnWhatsapp>
                             },
-                            { key: "tipos_staff", label: "Tipos", width: 200, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
+                            {
+                                key: "tipos_staff", label: "Tipos", width: 200,
+                                render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : ""
+                            },
                             // {
                             //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
                             //         tipo_staff
