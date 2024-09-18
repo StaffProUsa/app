@@ -98,6 +98,7 @@ class Login extends Component {
                     // SNavigation.reset("/");
                     this.handleLogin(resp.data, true)
                     // SNavigation.goBack();
+                    // SNavigation.goBack();
                 }).catch(e => {
                     SPopup.alert("Error al iniciar con el nuevo usuario");
                 })

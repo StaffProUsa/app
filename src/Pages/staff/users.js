@@ -237,6 +237,7 @@ export default class users extends Component {
                         cellStyle={{
                             justifyContent: "center",
                             paddingStart: 2,
+                            height: 40
 
                         }}
                         // filter={a => a.estado != 0}
@@ -247,6 +248,14 @@ export default class users extends Component {
                                 key: "-", width: 30, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.invitar} onChangeText={e => {
                                     elm.invitar = !!e;
                                 }} /></SView></SView>
+                            },
+                            {
+                                key: "key_usuario", label: "Foto", width: 50, component: (usr) => <SView card width={40} height={40} center
+                                    style={{ borderRadius: 4, overflow: "hidden" }}
+                                >
+                                    <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
+                                        resizeMode: "cover",
+                                    }} /></SView>
                             },
                             { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                             { key: "participacion", label: "#P", width: 50, order: "desc" },
@@ -312,6 +321,7 @@ export default class users extends Component {
                         cellStyle={{
                             justifyContent: "center",
                             paddingStart: 2,
+                            height: 40
 
                         }}
                         header={[
@@ -321,10 +331,11 @@ export default class users extends Component {
                                 }} /></SView></SView>
                             },
                             {
-                                key: "usuario-imagen", width: 50, render: (usr) => `${usr.key ?? ""}`, component: (usr) => <SImage src={SSocket.api.root + "usuario/" + usr.key} style={{
-                                    width: 30,
-                                    height: 30
-                                }} />
+                                key: "key_usuario", label: "Foto", width: 50, component: (usr) => <SView card width={40} height={40} center
+                                    style={{ borderRadius: 4, overflow: "hidden" }}>
+                                    <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
+                                        resizeMode: "cover",
+                                    }} /></SView>
                             },
                             { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                             {

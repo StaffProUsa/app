@@ -23,7 +23,15 @@ class index extends Component {
     getForm() {
         if (!this.load_data()) return <SLoad />
         // var isApi = this.data.gmail_key || this.data.facebook_key
-        
+
+        //VERFICANDO SI FORMULARIO ESTÁ COMPLETO
+        if (!this.data.Nombres || !this.data.Apellidos || !this.data.Correo || !this.data.Telefono || !this.data.nivel_ingles || !this.data.papeles) {
+
+            SPopup.alert("Por favor completa toda la información solicitada en el formulario para que podamos enviarte las ofertas de trabajo. Si no proporciona esta información, es posible que no podamos compartir las oportunidades disponibles con usted (subir foto de perfil nítida en la que se vea claramente tu rostro).")
+
+            // SNavigation.goBack();
+        }
+
         console.log((SSocket.api.root + "usuario/" + this.data?.key) + " fff")
         return <SForm
             ref={(ref) => { this.form = ref; }}
@@ -35,7 +43,7 @@ class index extends Component {
                 separation: 12
             }}
             inputs={{
-                foto_p: { type: "image", isRequired: false, defaultValue: SSocket.api.root + "usuario/" + this.data?.key + "?date=" + new Date().getTime(), col: "xs-4", style: { borderRadius: 100, overflow: 'hidden', width: 140, height: 140, borderWidth: 1, borderColor: STheme.color.lightGray, alignItems: "center", } },
+                foto_p: { type: "image", placeholder: "Foto", isRequired: true, defaultValue: SSocket.api.root + "usuario/" + this.data?.key + "?date=" + new Date().getTime(), col: "xs-4", style: { borderRadius: 100, overflow: 'hidden', width: 140, height: 140, borderWidth: 1, borderColor: STheme.color.lightGray, alignItems: "center", } },
                 Nombres: {
                     placeholder: 'Nombres',
                     label: 'Nombres',
@@ -57,6 +65,7 @@ class index extends Component {
                     label: 'Teléfono',
                     defaultValue: this.data['Telefono'],
                     type: 'phone',
+                    isRequired: true,
                     height: 54
                 },
                 Correo: {
@@ -72,7 +81,7 @@ class index extends Component {
                     placeholder: 'Nivel de inglés',
                     label: 'Nivel de inglés',
                     type: 'select',
-                    options:  [{ key: "", content: "SELECCIONAR"  },{ key: "NINGUNO", content: "NINGUNO" }, { key: "BASICO", content: "BASICO" },{ key: "MEDIO", content: "MEDIO" },{ key: "AVANZADO", content: "AVANZADO" }],
+                    options: [{ key: "", content: "SELECCIONAR" }, { key: "NINGUNO", content: "NINGUNO" }, { key: "BASICO", content: "BASICO" }, { key: "MEDIO", content: "MEDIO" }, { key: "AVANZADO", content: "AVANZADO" }],
                     isRequired: true,
                     defaultValue: this.data.nivel_ingles,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
@@ -82,7 +91,7 @@ class index extends Component {
                     placeholder: '¿Está autorizado para trabajar en los Estados Unidos?',
                     label: '¿Está autorizado para trabajar en los Estados Unidos?',
                     type: 'select',
-                    options: [{ key: "", content: "SELECCIONAR"  }, { key: "SI", content: "SI" }, { key: "NO", content: "NO" }],
+                    options: [{ key: "", content: "SELECCIONAR" }, { key: "SI", content: "SI" }, { key: "NO", content: "NO" }],
                     isRequired: true,
                     defaultValue: this.data.papeles,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
@@ -144,6 +153,7 @@ class index extends Component {
     }
 
     render() {
+
         return (
             <>
                 <SPage titleLanguage={{ es: "Editar perfil", en: "Edit profile" }} onRefresh={() => {
