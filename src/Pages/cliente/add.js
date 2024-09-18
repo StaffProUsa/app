@@ -21,6 +21,7 @@ export default class index extends React.Component {
                 this.setState({
                     data: e.data
                 })
+
                 // SNavigation.goBack();
                 // SNavigation.replace("/cliente/profile", { pk: e?.data?.key })
                 console.log(e);
@@ -36,6 +37,7 @@ export default class index extends React.Component {
                     row
                     ref={(formInstance: SForm) => {
                         this.form = formInstance;
+
                         new SThread(100, "asd").start(() => {
                             if (formInstance) formInstance.focus("Nombres")
                         })
@@ -60,11 +62,17 @@ Recuerda que cualquier modificación o actualización será comunicada a través
 ¡Gracias por tu colaboración! 😊
                             `
                         },
-                        "Direccion": {
+                        "direccion": {
                             col: "xs-12", type: "text", label: "Direccion", defaultValue: this.state?.data?.Direccion,
                             onPress: () => {
                                 SNavigation.navigate("/cliente/select", {
-                                    callback: (resp) => {
+                                    latitude: this.direccion?.latitude ?? this.state?.data?.latitude,
+                                    longitude: this.direccion?.longitude ?? this.state?.data?.longitude,
+                                    direccion: this.direccion?.direccion ?? this.state?.data?.direccion,
+                                    onSelect: (resp) => {
+                                        SNavigation.goBack();
+                                        this.form.setValues({ direccion: resp.direccion })
+                                        this.direccion = resp;
                                         // this.form.setValue("Direccion", e?.descripcion)
                                         console.log("datos dirección");
                                         console.log(resp);
@@ -77,7 +85,10 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                         // "Correo": { col: "xs-9.5", type: "email", label: "Correo", placeholder: "correo@example.com" },
                         // "Telefono": { col: "xs-5.8", type: "telefono", label: "Telefono", defaultValue: "+1 " },
                     }} onSubmit={(val) => {
-
+                        if (this.direccion) {
+                            val.latitude = this.direccion.latitude
+                            val.longitude = this.direccion.longitude
+                        }
                         if (this.pk) {
                             this.form.uploadFiles(Model.cliente._get_image_upload_path(SSocket.api, this.state.data.key), "foto_p");
                             SSocket.sendPromise({
@@ -128,7 +139,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                     onSubmitName={"GUARDAR"}
                 />
             </Container>
-            <SHr height={25}/>
+            <SHr height={25} />
         </SPage>;
     }
 }
