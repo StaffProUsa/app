@@ -179,7 +179,7 @@ class root extends Component {
 
                                         }).then(resp => {
                                             // Model.empresa.Action.setEmpresa(null)
-                                            SNavigation.navigate("/registro/genero");
+                                            SNavigation.reset("/");
                                         }).catch(e => {
                                             if (lenguaje == "en") {
                                                 SPopup.alert('Error starting with the new user');

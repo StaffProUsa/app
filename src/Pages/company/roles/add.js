@@ -74,7 +74,7 @@ export default class add extends Component {
                 <SHr />
                 <SHr h={1} color={STheme.color.card} />
                 <SHr />
-                <SText fontSize={10} col={"xs-12"} color={STheme.color.gray}>{"Puedes invitar al usuario que tiene este telefono precionando sobre el boton invitar al lado del usuario."}</SText>
+                <SText fontSize={10} col={"xs-12"} color={STheme.color.gray}>{"Puedes invitar al usuario que tiene éste teléfono presionando sobre el botón invitar al lado del usuario."}</SText>
                 <SHr h={16} />
                 {Object.keys(users).map(user_key => {
                     const user = users[user_key];
@@ -281,7 +281,7 @@ export default class add extends Component {
                         this.openPopup(key_input, e.data)
                         SNotification.send({
                             title: "Buscando usuario",
-                            body: "Se encontraron mas de un usuario con " + val,
+                            body: "Se encontraron más de un usuario con " + val,
                             time: 5000,
                             color: STheme.color.warning,
                         })
@@ -291,7 +291,7 @@ export default class add extends Component {
                 SNotification.remove(key_notification)
                 SNotification.send({
                     title: "Buscando usuario",
-                    body: "Ocurrio un error al buscar el usuario.",
+                    body: "Ocurrió un error al buscar el usuario.",
                     time: 5000,
                     color: STheme.color.danger,
                 })
@@ -324,7 +324,7 @@ export default class add extends Component {
             if (!usuarioNuevo.Nombres) {
                 SNotification.send({
                     title: "Datos incompletos.",
-                    body: "Debe ingresar minimamente el nombre",
+                    body: "Debe ingresar mínimamente el nombre",
                     time: 5000,
                     color: STheme.color.warning,
                 })
@@ -334,7 +334,7 @@ export default class add extends Component {
             SNotification.send({
                 key: "registroUsuario",
                 title: "Registrando usuario",
-                body: "Porfavor espere...",
+                body: "Por favor espere...",
                 type: "loading"
                 // time: 5000,
                 // color: STheme.color.warning,
@@ -392,7 +392,7 @@ export default class add extends Component {
             }).then(e => {
                 SNotification.send({
                     title: "Nuevo usuario",
-                    body: "Usuario agregado con exito",
+                    body: "Usuario agregado con éxito",
                     time: 5000,
                     color: STheme.color.success,
                 })
@@ -429,7 +429,7 @@ export default class add extends Component {
             }).then(e => {
                 SNotification.send({
                     title: "Editar usuario",
-                    body: "Usuario editado con exito",
+                    body: "Usuario editado con éxito",
                     time: 5000,
                     color: STheme.color.success,
                 })
