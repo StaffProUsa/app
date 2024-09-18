@@ -55,42 +55,13 @@ export default class root extends React.Component {
         console.log(e.data)
         let roles_partner = Object.values(e.data).filter(e => e.estado > 0 && e.tipo == "company" && e.descripcion == "Staff").sort((a, b) => a.index > b.index ? 1 : -1);
         console.log(roles_partner[0])
-  
-       rol = roles_partner[0].key;
-        this.setState({ roles: rol })
-       console.log("nn1: ",rol)
-        // this.state.roles = roles_partner;
-  
-        // if (roles_partner && this._inputs.rol) {
-        //   if (roles_partner[0]) {
-        //     const rp = roles_partner[0];
-        //     this._inputs.rol.setValue(rp.descripcion)
-        //     this._inputs.rol.setData(rp)
-        //   }
-        // }
-        // this.setState({ ...this.state })
-        // this.getUsuarioRestaurante();
-  
-      }).catch(e => {
-  
-      })
 
-      // SSocket.sendPromise({
-      //   version: "2.0",
-      //   service: "usuario",
-      //   component: "usuario",
-      //   type: "getAllKeys",
-      //   keys: keys,
-      // }).then(resp => {
-      //   console.log(resp)
-      //   this.state.data = {}
-      //   Object.values(e.data).map(o => {
-      //     o.usuario = resp.data[o.key_usuario]?.usuario;
-      //   })
-      //   this.setState({ dataUsuCompany: e.data })
-      // }).catch(e2 => {
-      //   console.error(e);
-      // })
+        rol = roles_partner[0].key;
+        this.setState({ roles: rol })
+
+      }).catch(e => {
+
+      })
 
     }).catch(e => {
       console.error(e);
@@ -108,19 +79,7 @@ export default class root extends React.Component {
   }
 
   hanldeGuardar(myusuario) {
-    // let rol="";
 
-   
-
-    // if (!rol.key) {
-    //     SNotification.send({
-    //         title: "Datos incompletos.",
-    //         body: "Debe seleccionar un rol",
-    //         time: 5000,
-    //         color: STheme.color.warning,
-    //     })
-    //     return;
-    // }
     const usuario = myusuario ?? {};
     if (!usuario.key) {
       const usuarioNuevo = {
@@ -163,15 +122,7 @@ export default class root extends React.Component {
 
 
         const user = e.data;
-        // if (this._inputs["correo"]) {
-        //     this._inputs["nombre"].setValue(user.Nombres)
-        //     this._inputs["nombre"].setData(user)
-        //     this._inputs["apellido"].setValue(user.Apellidos)
-        //     this._inputs["correo"].setValue(user.Correo)
-        //     this._inputs["telefono"].setValue(user.Telefono)
-        // }
 
-        
         this.handleGuardarStep2(user, this.state.roles)
         // SNavigation.goBack();
         // SNavigation.replace("/usuario/profile", { pk: e?.data?.key })
