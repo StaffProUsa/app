@@ -1,5 +1,5 @@
 import React from "react";
-import { SForm, SInput, SNavigation, SPage, SText, SThread } from "servisofts-component";
+import { SForm, SHr, SInput, SNavigation, SPage, SText, SThread } from "servisofts-component";
 import { Container } from "../../Components";
 import SSocket from "servisofts-socket";
 import Model from "../../Model";
@@ -128,6 +128,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                     onSubmitName={"GUARDAR"}
                 />
             </Container>
+            <SHr height={25}/>
         </SPage>;
     }
 }

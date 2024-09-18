@@ -67,10 +67,10 @@ class Login extends Component {
 
     handleLogin(user, isNew = false) {
         console.log(user);
-        
+
         SNavigation.goBack();
-        if(isNew){
-            new SThread(1000, "ir_a_editar_perfil").start(()=>{
+        if (isNew) {
+            new SThread(1000, "ir_a_editar_perfil").start(() => {
                 SNavigation.navigate("/perfil/editar")
             })
         }
@@ -168,6 +168,18 @@ class Login extends Component {
                             }} />
                         </SView>
                     </LoginGoogle>
+                </SView>
+                <SView height={70} col={'xs-12'} onPress={() => {
+                    SNavigation.navigate("/registro")
+                }}>
+                    <SView height={50} center row style={{ backgroundColor: '#08080B', borderRadius: 8, borderColor: STheme.color.darkGray, borderWidth: 2, padding: 8 }}>
+                        <SIcon name={'Logosolo'} fill={STheme.color.white} width={30} />
+                        <SView width={15} />
+                        <SText color={STheme.color.white} fontSize={18} language={{
+                            es: "Crear cuenta",
+                            en: "Create account"
+                        }} />
+                    </SView>
                 </SView>
             </SView>
         );
@@ -359,7 +371,7 @@ class Login extends Component {
                         }} />
                     </SView>
                     <SHr height={15} />
-                    <SView col={"xs-12"} center row>
+                    {/* <SView col={"xs-12"} center row>
                         <SText language={{
                             es: "¿No tienes cuenta? ",
                             en: "Don't have an account? "
@@ -370,7 +382,7 @@ class Login extends Component {
                             es: "click aquí",
                             en: "click here"
                         }} />
-                    </SView>
+                    </SView> */}
 
                 </Container>
                 <SHr height={20} />

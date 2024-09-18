@@ -12,6 +12,7 @@ import AddFoto, { ReactComponent as AddFotoW } from './addFoto.svg';
 import DeleteCars, { ReactComponent as DeleteCarsW } from './deleteCars.svg';
 import List, { ReactComponent as ListW } from './list.svg';
 import eventos, { ReactComponent as eventosW } from './eventos.svg';
+import iconFoto, { ReactComponent as iconFotoW } from './iconFoto.svg';
 
 const Assets = {
 	"InputDocument": { Native: InputDocument, Web: InputDocumentW },
@@ -24,6 +25,7 @@ const Assets = {
 	"DeleteCars": { Native: DeleteCars, Web: DeleteCarsW },
 	"List": { Native: List, Web: ListW },
 	"eventos": { Native: eventos, Web: eventosW },
+	"iconFoto": { Native: iconFoto, Web: iconFotoW },
 
 }
 
