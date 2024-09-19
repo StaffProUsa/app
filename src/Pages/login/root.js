@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SButtom, SForm, SHr, SIcon, SInput, SNavigation, SPage, SPopup, SText, STheme, SThread, SView, SLanguage } from 'servisofts-component';
+import { SButtom, SForm, SHr, SIcon, SInput, SNavigation, SPage, SPopup, SText, STheme, SThread, SView, SLanguage, SStorage } from 'servisofts-component';
 import Model from '../../Model';
 import CryptoJS from 'crypto-js';
 import PButtom from '../../Components/PButtom';
@@ -17,6 +17,15 @@ class Login extends Component {
         };
         this.ruta = SNavigation.getParam('ruta');
         console.log(this.ruta);
+        // this.key_company = SStorage.getItem('key_company')
+        SStorage.getItem("key_company", resp => {
+            if (!resp) return;
+            try {
+                this.key_company = resp;
+            } catch (e) {
+                console.error(e);
+            }
+        })
     }
 
     onChangeLanguage(language) {
@@ -223,6 +232,7 @@ class Login extends Component {
     }
 
     render() {
+        console.log(this.key_company);
         if (Model.usuario.Action.getUsuarioLog()) {
             SNavigation.goBack();
             // SNavigation.navigate("/login");
@@ -324,6 +334,8 @@ class Login extends Component {
                             Model.usuario.Action.login(data).then((resp) => {
                                 if (this.ruta) {
                                     SNavigation.navigate("carga", { ruta: this.ruta });
+                                } else if (this.key_company) {
+                                    SNavigation.reset("/invitation", { key_company: this.key_company });
                                 } else {
                                     SNavigation.goBack();
                                 }

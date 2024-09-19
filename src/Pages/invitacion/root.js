@@ -19,12 +19,13 @@ export default class root extends React.Component {
   }
   componentDidMount() {
 
-    if (this.key_company) {
-      SStorage.setItem("key_company", JSON.stringify(this.key_company)) // Guardar la empresa en el storage
-    }
+
 
     let usuario_ = Model.usuario.Action.getUsuarioLog();
     if (!usuario_) {//verificar si el usuario esta logeado
+      if (this.key_company) {
+        SStorage.setItem("key_company", JSON.stringify(this.key_company)) // Guardar la empresa en el storage
+      }
       return SNavigation.replace('/login');
     }
     this.setState({ usuario: usuario_ })
