@@ -136,7 +136,7 @@ Bienvenido a *${empresa?.descripcion}*
                     icon: <SIcon name={"share"} fill={STheme.color.gray} width={25} />, label: "Copiar enlace",
                     onPress: () => {
                         if (Platform.OS == "web") {
-                            navigator.clipboard.writeText(this.state.message).then(() => {
+                            navigator.clipboard.writeText(this.state.link).then(() => {
                                 SNotification.send({
                                     title: "Copy",
                                     body: "El texto fue copiado con éxito.",
@@ -146,7 +146,7 @@ Bienvenido a *${empresa?.descripcion}*
 
                             })
                         } else {
-                            Clipboard.setString(this.state.message)
+                            Clipboard.setString(this.state.link)
                             // SNotification.send({
                             //     title: "Copy",
                             //     body: "El texto fue copiado con exito.",
@@ -156,7 +156,7 @@ Bienvenido a *${empresa?.descripcion}*
                     }
                 })}
                 <SHr h={16} />
-                {this.btn({
+                {/* {this.btn({
                     icon: <SIcon name={"share"} fill={STheme.color.gray} width={25} />, label: "Compartir enlace",
                     onPress: () => {
 
@@ -174,7 +174,7 @@ Bienvenido a *${empresa?.descripcion}*
                         }
 
                     }
-                })}
+                })} */}
                 <SHr h={16} />
             </Container>
         </SPage>
