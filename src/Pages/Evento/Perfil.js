@@ -519,6 +519,7 @@ class Perfil extends React.Component {
 
   render() {
     // if (!this.state.ready) return <SLoad />
+    console.log("data ubicacion", this.state.data);
     return (
       <>
         <SPage onRefresh={e => {
@@ -573,7 +574,13 @@ class Perfil extends React.Component {
                   <TrabajosDelEvento key_evento={this.key} />
                 </SView>
                 <SHr height={30} />
-
+                <SView col={'xs-11.5'} >
+                  <SText fontSize={20} bold justify language={{
+                    es: "Ubicación",
+                    en: "Ubication"
+                  }} />
+                </SView>
+                <SHr height={20} />
                 <Mapa height={400} data={this.state.data} />
                 {this.getFecha()}
                 {/* <SHr height={60} color={this.bgSpace} /> */}

@@ -27,10 +27,10 @@ class Mapa extends Component<MapaPropsType> {
 
     render() {
 
-        var { ubicacion } = this.props?.data ?? {};
-        if(!ubicacion) return null;
-        var latitude = ubicacion.latitude;
-        var longitude = ubicacion.longitude;
+        var { cliente } = this.props?.data ?? {};
+        if(!cliente) return null;
+        var latitude = cliente.latitude;
+        var longitude = cliente.longitude;
         // if (ubicacion?.latitude) latitude = ubicacion.latitude
         // if (ubicacion?.longitude) longitude = ubicacion.longitude
         if (!latitude || !longitude) return null;
@@ -79,7 +79,7 @@ class Mapa extends Component<MapaPropsType> {
                             }} />
                             <SView width={10} />
                             <SText fontSize={14} color={STheme.color.gray}>
-                                {ubicacion?.descripcion ?? ""}
+                                {cliente?.direccion ?? ""}
                                 {/* {this.props?.data?.address ?? ""}  */}
                             </SText>
                         </SView>

@@ -70,7 +70,7 @@ export default class add extends Component {
             }} col={"xs-12"} withoutFeedback backgroundColor={STheme.color.background} borderRadius={8} center padding={20}>
                 <SIcon width={20} name='AlertOutline' fill={STheme.color.warning} />
                 <SHr />
-                <SText color={STheme.color.warning} center fontSize={18}>{"El " + key_input + " ya existe!"}</SText>
+                <SText color={STheme.color.warning} center fontSize={18}>{"¡El " + key_input + " ya existe!"}</SText>
                 <SHr />
                 <SHr h={1} color={STheme.color.card} />
                 <SHr />

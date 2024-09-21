@@ -63,7 +63,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                             `
                         },
                         "direccion": {
-                            col: "xs-12", type: "text", label: "Direccion", defaultValue: this.state?.data?.Direccion,
+                            col: "xs-12", type: "text", label: "Direccion", defaultValue: this.state?.data?.direccion,
                             onPress: () => {
                                 SNavigation.navigate("/cliente/select", {
                                     latitude: this.direccion?.latitude ?? this.state?.data?.latitude,

@@ -64,6 +64,7 @@ import trabajos from './trabajos';
 import history from './history';
 import Evento from './Evento';
 import clock from './clock';
+import invitacion from './invitacion';
 const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
@@ -99,7 +100,8 @@ const NewPages = SPage.combinePages("/", {
     "sorry": sorry,
     ...token,
     "waiting": waiting,
-    my_companys
+    my_companys,
+    ...invitacion,
 
 })
 const Pages: SPageListProps = {
