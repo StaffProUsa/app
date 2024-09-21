@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Platform, Linking, Clipboard } from 'react-native';
-import { SDate, SHr, SIcon, SImage, SNavigation, SNotification, SPage, SText, STheme, SView } from 'servisofts-component';
+import { SDate, SHr, SIcon, SImage, SNavigation, SNotification, SPage, SText, STheme, SView, SLanguage } from 'servisofts-component';
 import { Container } from '../../Components';
 // import Share from 'react-native-share'
 import SSocket from 'servisofts-socket';
@@ -27,7 +27,7 @@ export default class invite extends Component {
         let usuario = Model.usuario.Action.getUsuarioLog();
         // let empresa = Model.empresa.Action.getSelect();
         let empresa = Model.company.Action.getAll()[this.key_company];
-        console.log("empresas: ",empresa);
+        console.log("empresas: ", empresa);
         SSocket.sendPromise({
             component: "invitacion",
             type: "registro",
@@ -80,10 +80,15 @@ Bienvenido a *${empresa?.descripcion}*
     render() {
         // const empresa = Model.empresa.Action.getSelect();
         const empresa = Model.company.Action.getByKey(this.key_company);
-        return <SPage title={"Crea un enlace de invitacion"}>
+        return <SPage titleLanguage={{ es: "Crea un enlace de invitacion", en: "Create an invitation link" }} >
             <Container>
                 <SHr h={40} />
-                <SText fontSize={16}>Cualquier persona en la app puede usar este enlace para unirse a este empresa. Compártelo solo con personas en las que confíes.</SText>
+                <SText fontSize={16} language={
+                    {
+                        es: "Cualquier persona en la app puede usar este enlace para unirse a este empresa. Compártelo solo con personas en las que confíes.",
+                        en: "Anyone in the app can use this link to join this company. Share it only with people you trust."
+                    }
+                }/>
                 <SHr h={40} />
                 <SView row col={"xs-12"} center>
                     <SView width={60} height={60} style={{
@@ -95,7 +100,10 @@ Bienvenido a *${empresa?.descripcion}*
                     <SView width={30} />
                     <SView flex>
                         {!this.state.link ?
-                            <SText fontSize={16} color={STheme.color.gray} >{"Creando nuevo enlace..."}</SText>
+                            <SText fontSize={16} color={STheme.color.gray} language={{
+                                es: "Creando nuevo enlace...",
+                                en: "Creating new link..."
+                            }} />
                             :
                             <SText fontSize={16} color={STheme.color.link} >{this.state.link}</SText>
                         }
@@ -131,7 +139,7 @@ Bienvenido a *${empresa?.descripcion}*
                             navigator.clipboard.writeText(this.state.message).then(() => {
                                 SNotification.send({
                                     title: "Copy",
-                                    body: "El texto fue copiado con exito.",
+                                    body: "El texto fue copiado con éxito.",
                                     time: 5000
                                 })
                             }).catch(e => {
@@ -159,7 +167,7 @@ Bienvenido a *${empresa?.descripcion}*
                         } else {
                             SNotification.send({
                                 title: "Share",
-                                body: "El modulo no esta disponible",
+                                body: "El módulo no está disponible",
                                 time: 5000,
                                 color: STheme.color.danger
                             })
