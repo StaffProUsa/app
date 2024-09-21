@@ -12,7 +12,7 @@ export default class exito extends Component {
     }
 
     render() {
-        return <SPage center title={'Sorry'} disableScroll footer={<PBarraFooter url={'/'} />}>
+        return <SPage center title={''} disableScroll footer={<PBarraFooter url={'/'} />}>
             <SView col={'xs-12'} center>
                 <Container>
                     <SView col={'xs-12'} center
