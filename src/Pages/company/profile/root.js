@@ -31,9 +31,25 @@ class index extends DPA.profile {
     $allowAccess() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver", user_data: { key_company: this.pk } })
     }
+
     $getData() {
         this.usuarios = Model.usuario.Action.getAll();
         return Parent.model.Action.getByKey(this.pk);
+    }
+
+    $menu() {
+        var items = super.$menu();
+        items.push({
+            children: <SView col={"xs-12"} center padding={10} row 
+            onPress={()=>{
+                SNavigation.navigate("/company/invite", { key_company: this.pk })
+            }}>
+                <SIcon name={"Compartir"} height={15} width={15} fill={STheme.color.text}/>
+                <SView width={10}/>
+                <SText>Share</SText>
+            </SView>,
+        })
+        return items;
     }
 
     $footer() {

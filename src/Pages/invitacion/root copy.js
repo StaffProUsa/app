@@ -14,139 +14,69 @@ export default class root extends React.Component {
       usuario: {},
       empresa: "Sofia"
     };
-    // this.key_company = "";
-    // this.key_company = SNavigation.getParam("key_company");
-    // this.key_company = "d62fafb2-7b7d-4125-bd6c-568d72f92431"
-    // this.key_company = SStorage.getItem("key_company") ?? "";
-
-    let ki = SNavigation.getParam("pk")
-
-    let key_inv = ki.replace(/^"|"$/g, "");
-
-    this.key_invitacion = key_inv;
-    // this.key_invitacion = SNavigation.getParam("pk");
-    // this.key_invitacion = "d62fafb2-7b7d-4125-bd6c-568d72f92431"
+    this.key_company = SNavigation.getParam("key_company");
+    this.key_company = "d62fafb2-7b7d-4125-bd6c-568d72f92431"
   }
   componentDidMount() {
+
+
+
     let usuario_ = Model.usuario.Action.getUsuarioLog();
-    if (this.key_invitacion) {
-
-      console.log("key_invitacion", this.key_invitacion)
-
-
-      if (!usuario_) {//verificar si el usuario esta logeado
-        SSocket.sendPromise({
-          component: "invitacion",
-          type: "getByKey",
-          key: this.key_invitacion
-        }).then(e => {
-          console.log("invitacion sin loguin")
-          console.log(e.data)
-          if (Object.keys(e.data).length === 0) {
-            return SNavigation.navigate("/")
-          }
-          SStorage.setItem("key_invitacion", JSON.stringify(e.data.key)) // Guardar la empresa en el storage
-          this.setState({ dataInvitacion: e.data })
-          // let invitacion = Object.values(e.data).filter(e => e.estado > 0 && e.key == this.key_invitacion);
-          // console.log(invitacion[0])
-
-          // rol = roles_partner[0].key;
-          // this.setState({ roles: rol })
-
-
-
-        }).catch(e => {
-          console.error(e);
-
-        })
-        // SStorage.setItem("key_company", JSON.stringify(this.state?.dataInvitacion?.key_company)) // Guardar la empresa en el storage
-        return SNavigation.replace('/login');
+    if (!usuario_) {//verificar si el usuario esta logeado
+      if (this.key_company) {
+        SStorage.setItem("key_company", JSON.stringify(this.key_company)) // Guardar la empresa en el storage
       }
-      this.setState({ usuario: usuario_ })
+      return SNavigation.replace('/login');
+    }
+    this.setState({ usuario: usuario_ })
 
+    SSocket.sendPromise({//obtener ususarios de la empresa
+      component: "usuario_company",
+      type: "getAll",
+      key_company: this.key_company
+    }).then(e => {
+      console.log("aqui")
+      console.log(e.data)
+      // let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))];
+
+      let esUsuarioCompany = Object.values(e.data).some(//verificar si el usuario ya esta en la empresa
+        (entry) => entry.key_usuario === usuario_.key
+      );
+
+      if (esUsuarioCompany) {
+        return SNavigation.navigate("/")
+      }
 
       SSocket.sendPromise({
-        component: "invitacion",
-        type: "getByKey",
-        key: this.key_invitacion
+        service: "roles_permisos",
+        component: "rol",
+        type: "getAll",
       }).then(e => {
-        console.log("invitacion")
+        console.log("roles")
         console.log(e.data)
-        if (Object.keys(e.data).length === 0) {
-          return SNavigation.navigate("/")
-        }
-        this.setState({ dataInvitacion: e.data })
-        // let invitacion = Object.values(e.data).filter(e => e.estado > 0 && e.key == this.key_invitacion);
-        // console.log(invitacion[0])
+        let roles_partner = Object.values(e.data).filter(e => e.estado > 0 && e.tipo == "company" && e.descripcion == "Staff").sort((a, b) => a.index > b.index ? 1 : -1);
+        console.log(roles_partner[0])
 
-        // rol = roles_partner[0].key;
-        // this.setState({ roles: rol })
-
-        // SStorage.setItem("key_company", JSON.stringify(this.key_company)) // Guardar la empresa en el storage
-
-        console.log("this.state?.dataInvitacion")
-        console.log(this.state?.dataInvitacion)
-
-        SSocket.sendPromise({//obtener ususarios de la empresa
-          component: "usuario_company",
-          type: "getAll",
-          key_company: e.data?.key_company
-        }).then(f => {
-          console.log("aqui")
-          console.log(f.data)
-          // let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))];
-
-          let esUsuarioCompany = Object.values(f.data).some(//verificar si el usuario ya esta en la empresa
-            (entry) => entry.key_usuario === usuario_.key
-          );
-
-          if (esUsuarioCompany) {
-            console.log("usuario ya esta en la empresa")
-            return SNavigation.navigate("/")
-          }
-
-          SSocket.sendPromise({
-            service: "roles_permisos",
-            component: "rol",
-            type: "getAll",
-          }).then(g => {
-            console.log("roles")
-            console.log(g.data)
-            let roles_partner = Object.values(g.data).filter(e => e.estado > 0 && e.tipo == "company" && e.descripcion == "Staff").sort((a, b) => a.index > b.index ? 1 : -1);
-            console.log(roles_partner[0])
-
-            rol = roles_partner[0].key;
-            this.setState({ roles: rol })
-
-          }).catch(e => {
-
-          })
-
-        }).catch(e => {
-          console.error(e);
-        })
+        rol = roles_partner[0].key;
+        this.setState({ roles: rol })
 
       }).catch(e => {
-        console.error(e);
 
       })
-      // console.log("key_company", this.state.dataInvitacion?.key_company)
-    }
 
+    }).catch(e => {
+      console.error(e);
+    })
 
-
-
-
-
-
-    // SSocket.sendPromise({
-    //   component: "company",
-    //   type: "getAll",
-    // }).then(e => {
-    //   this.setState({ dataCompany: e.data[this.state.dataCompany?.key_company] })
-    // }).catch(e => {
-    //   console.error(e);
-    // })
+    SSocket.sendPromise({
+      component: "company",
+      type: "getAll",
+      // key_usuario: Model.usuario.Action.getKey()
+    }).then(e => {
+      this.setState({ dataCompany: e.data[this.key_company] })
+    }).catch(e => {
+      console.error(e);
+    })
   }
 
   hanldeGuardar(myusuario) {
@@ -220,7 +150,7 @@ export default class root extends React.Component {
         key_usuario: Model.usuario.Action.getKey(),
         data: {
           key_usuario: usuario.key,
-          key_company: this.state?.dataInvitacion?.key_company,
+          key_company: this.key_company,
           key_rol: rol
         }
       }).then(e => {
@@ -308,7 +238,7 @@ export default class root extends React.Component {
                 </SView>
                 <SView col={'xs-6'} flex style={{ alignItems: "flex-end" }}>
                   <SView height={80} width={80} style={{ borderRadius: 50, backgroundColor: STheme.color.secondary }} center   >
-                    <SImage enablePreview src={SSocket.api.root + "company/" + this.state?.dataInvitacion?.key_company} width={100} height={100} style={{ resizeMode: 'cover', borderRadius: 50 }} />
+                    <SImage enablePreview src={SSocket.api.root + "company/" + this.key_company} width={100} height={100} style={{ resizeMode: 'cover', borderRadius: 50 }} />
                     {/* <SIcon name={"Logo"} fill={STheme.color.primary} width={60} height={60} /> */}
                   </SView>
                 </SView>
@@ -316,11 +246,10 @@ export default class root extends React.Component {
               <SHr height={15} />
             </Container>
             <SView col={'xs-12'} center backgroundColor={STheme.color.secondary} padding={15}>
-              {/* <SText fontSize={22} color={STheme.color.text} language={{
+              <SText fontSize={22} color={STheme.color.text} language={{
                 es: "¡Te invitamos a ser parte de " + company?.descripcion + "!",
                 en: "We invite you to be part of Staff Pro USA!"
-              }} /> */}
-              <SText fontSize={22} color={STheme.color.text} >{this.state?.dataInvitacion?.descripcion}</SText>
+              }} />
             </SView>
             <SHr height={30} />
             <Container>

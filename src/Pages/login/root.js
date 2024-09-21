@@ -17,11 +17,11 @@ class Login extends Component {
         };
         this.ruta = SNavigation.getParam('ruta');
         console.log(this.ruta);
-        // this.key_company = SStorage.getItem('key_company')
-        SStorage.getItem("key_company", resp => {
+        // this.key_invitacion = SStorage.getItem('key_company')
+        SStorage.getItem("key_invitacion", resp => {
             if (!resp) return;
             try {
-                this.key_company = resp;
+                this.key_invitacion = resp;
             } catch (e) {
                 console.error(e);
             }
@@ -232,7 +232,7 @@ class Login extends Component {
     }
 
     render() {
-        console.log(this.key_company);
+        console.log(this.key_invitacion);
         if (Model.usuario.Action.getUsuarioLog()) {
             SNavigation.goBack();
             // SNavigation.navigate("/login");
@@ -334,8 +334,8 @@ class Login extends Component {
                             Model.usuario.Action.login(data).then((resp) => {
                                 if (this.ruta) {
                                     SNavigation.navigate("carga", { ruta: this.ruta });
-                                } else if (this.key_company) {
-                                    SNavigation.reset("/invitation", { key_company: this.key_company });
+                                } else if (this.key_invitacion) {
+                                    SNavigation.reset("/invitation", { pk: this.key_invitacion });
                                 } else {
                                     SNavigation.goBack();
                                 }
