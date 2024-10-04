@@ -49,12 +49,12 @@ export default class MisTrabajosDelEvento extends Component {
                 <SText fontSize={12} color={STheme.color.lightGray}>{staff.descripcion}</SText>
                 <SHr />
                 <SText fontSize={10} color={STheme.color.lightGray} language={{
-                    en: `Start ${new SDate(staff.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`,
-                    es: `Inicia el ${new SDate(staff.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`
+                    en: `Start ${new SDate(staff.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}`,
+                    es: `Inicia el ${new SDate(staff.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}`
                 }} />
                 <SText fontSize={10} color={STheme.color.lightGray} language={{
-                    en: `End ${new SDate(staff.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`,
-                    es: `Termina el ${new SDate(staff.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`
+                    en: `End ${new SDate(staff.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}`,
+                    es: `Termina el ${new SDate(staff.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}`
                 }} />
                 {/* <SText fontSize={12} color={STheme.color.lightGray}>{staff.fecha_fin}</SText> */}
             </SView>

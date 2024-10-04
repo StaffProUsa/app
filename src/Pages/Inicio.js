@@ -362,6 +362,7 @@ export default class Inicio extends Component {
         <SView col={"xs-11.5"} center>
           <Calendar eventos={this.state.data} />
         </SView>
+        <SHr height={60} />
       </SView>
 
 

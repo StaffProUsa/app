@@ -91,7 +91,7 @@ class root extends Component {
                                 Apellidos: { label: "Apellidos", placeholder: apellidos, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
                                 // Fecha: { label:"Fecha de nacimiento",placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
                                 Telefono: {
-                                    label: "Teléfono", placeholder: telefono, defaultValue: defaultData.Telefono, icon: this.icon("InputPhone")
+                                    label: "Teléfono", placeholder: telefono, type:"phone" , defaultValue: defaultData.Telefono, 
                                 },
                                 Correo: { label: "Correo", placeholder: correo, type: "email", defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
                                 nivel_ingles: { label: "Nivel de inglés", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: "SELECCIONAR" }, { key: "NINGUNO", content: "NINGUNO" }, { key: "BASICO", content: "BASICO" }, { key: "MEDIO", content: "MEDIO" }, { key: "AVANZADO", content: "AVANZADO" }] },

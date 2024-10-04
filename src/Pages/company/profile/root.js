@@ -6,8 +6,16 @@ import Model from '../../../Model';
 import SSocket from 'servisofts-socket';
 import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
 import Roles from '../../../Roles';
+import PBarraFooter from '../../../Components/PBarraFooter';
 
 class index extends DPA.profile {
+    static FOOTER = <>
+        <PBarraFooter style={{
+            position: "absolute",
+            bottom: 0,
+        }} url={'/company'} />
+    </>
+
     constructor(props) {
         super(props, { Parent: Parent, excludes: ["key", "key_usuario", "key_servicio", "estado", "fecha_on",] });
     }
@@ -40,12 +48,12 @@ class index extends DPA.profile {
     $menu() {
         var items = super.$menu();
         items.push({
-            children: <SView col={"xs-12"} center padding={10} row 
-            onPress={()=>{
-                SNavigation.navigate("/company/invite", { key_company: this.pk })
-            }}>
-                <SIcon name={"Compartir"} height={15} width={15} fill={STheme.color.text}/>
-                <SView width={10}/>
+            children: <SView col={"xs-12"} center padding={10} row
+                onPress={() => {
+                    SNavigation.navigate("/company/invite", { key_company: this.pk })
+                }}>
+                <SIcon name={"Compartir"} height={15} width={15} fill={STheme.color.text} />
+                <SView width={10} />
                 <SText>Share</SText>
             </SView>,
         })

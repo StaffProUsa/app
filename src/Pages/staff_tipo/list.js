@@ -4,8 +4,15 @@ import { Parent } from "."
 import Model from '../../Model';
 import { SImage, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 class index extends DPA.list {
+    static FOOTER = <>
+        <PBarraFooter style={{
+            position: "absolute",
+            bottom: 0,
+        }} url={'/company'} />
+    </>
     constructor(props) {
         super(props, {
             Parent: Parent,
@@ -26,7 +33,7 @@ class index extends DPA.list {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "table", user_data: { key_company: this.$params.key_company } });
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver", user_data:{key_company:this.$params.key_company} });
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver", user_data: { key_company: this.$params.key_company } });
     }
     $filter(data) {
 

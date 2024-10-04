@@ -54,7 +54,8 @@ export default class invitationDetail extends React.Component {
                 </SView>
                 <SView col={'xs-6'} flex style={{ alignItems: "flex-end" }}>
                   <SView height={80} width={80} style={{ borderRadius: 50, }} center   >
-                    <SImage enablePreview src={SSocket.api.root + "company/" + obj?.company?.key} width={100} height={100} style={{ resizeMode: 'cover', borderRadius: 50 }} />
+                    <SImage enablePreview src={SSocket.api.root + "company/" + obj?.company?.key} width={100} height={100} style={{ resizeMode: 'cover', borderRadius: 50, zIndex: 9 }} />
+                    <SImage enablePreview src={require('../Assets/images/noImage.jpg')} width={100} height={100} style={{ resizeMode: 'cover', borderRadius: 50, position: "absolute" }} />
                   </SView>
                 </SView>
               </SView>
@@ -77,23 +78,71 @@ export default class invitationDetail extends React.Component {
                 <SView col={'xs-12'} row center>
                   <SView col={'xs-6'} flex style={{ alignItems: "flex-end" }} >
                     <SView width={80} height={80}>
-                      <SImage enablePreview src={SSocket.api.root + 'staff_tipo/' + obj?.staff_tipo?.key} width={100} height={100} style={{ resizeMode: 'contain', borderRadius: 10 }} />
+                      <SImage enablePreview src={SSocket.api.root + 'staff_tipo/' + obj?.staff_tipo?.key} width={80} height={80} style={{ resizeMode: 'cover', borderRadius: 10, right: 5, zIndex: 9 }} />
+                      <SImage src={require('../Assets/images/noImage.jpg')} width={80} height={80} style={{ resizeMode: 'cover', borderRadius: 10, position: "absolute", right: 10 }} />
                     </SView>
                   </SView>
-                  <SView col={'xs-6'} row>
-                    <SView width={20} />
-                    <SText fontSize={17} >{obj?.staff_tipo?.descripcion}</SText>
+                  <SView col={'xs-6'} flex>
+                    {/* <SView width={20} /> */}
+                    <SText fontSize={20} >{obj?.staff_tipo?.descripcion}</SText>
+                    <SText fontSize={15} color={STheme.color.lightGray}  >
+                      {obj?.staff_tipo?.observacion || "---"}
+                    </SText>
                   </SView>
 
                 </SView>
-                <SHr height={25} />
-                <SText fontSize={15} color={STheme.color.lightGray} center >
-                  {"'"}{obj?.staff_tipo?.observacion}{"'"}
-                </SText>
-                <SHr height={25} />
+                <SHr height={20} />
+                <SView
+                  row
+                  col={'xs-12'}
+                  center
+                  style={{
+                    borderBottomWidth: 1,
+                    borderBottomColor: STheme.color.card
+                  }}></SView>
+                <SHr height={20} />
+                <SText fontSize={18} language={{
+                  es: "Requerimientos:",
+                  en: "Requirements:"
+                }} />
+                <SHr height={20} />
+                <SView col={'xs-12'} row center>
+                  <SView col={'xs-12 sm-6'}  >
+                    <SText fontSize={15} color={STheme.color.lightGray}  >* {obj?.staff?.descripcion || "---"}</SText>
+                    <SHr height={15} />
+                  </SView>
+
+                  <SView col={'xs-12 sm-6'} row >
+                    <SText fontSize={15} color={STheme.color.lightGray} center language={{
+                      es: "* Nivel de inglés: ",
+                      en: "* English level: "
+                    }} />
+                    <SText fontSize={15} color={STheme.color.white} center >{obj?.cliente?.nivel_ingles}</SText>
+                    <SHr height={15} />
+                    <SText fontSize={15} color={STheme.color.lightGray} center language={{
+                      es: "* Autorización para trabajar en USA: ",
+                      en: " Authorization to work in USA: "
+                    }} />
+                    <SText fontSize={15} color={STheme.color.white} center >{(obj?.cliente?.papeles) ? "YES" : "NO"}</SText>
+                  </SView>
+                  <SHr height={15} />
+                  <SView col={'xs-12'}  >
+                    <SText fontSize={15} color={STheme.color.lightGray}  >* {obj?.cliente?.observacion || "---"}</SText>
+                  </SView>
+                </SView>
+                <SHr height={20} />
+                <SView
+                  row
+                  col={'xs-12'}
+                  center
+                  style={{
+                    borderBottomWidth: 1,
+                    borderBottomColor: STheme.color.card
+                  }}></SView>
+                <SHr height={20} />
                 <SView col={'xs-12'} row center>
                   <SView col={'xs-6'} row >
-                    <SIcon name={'eventi'} fill={STheme.color.primary} width={20} height={20} />
+                    {/* <SIcon name={'eventi'} fill={STheme.color.primary} width={20} height={20} /> */}
                     <SView width={8} />
                     <SText fontSize={20} language={{
                       es: "Evento:",
@@ -105,15 +154,27 @@ export default class invitationDetail extends React.Component {
                   </SView>
                   <SHr height={10} />
                   <SView col={'xs-6'} row >
-                    <SIcon name={'idate'} fill={STheme.color.primary} width={20} height={20} />
+                    {/* <SIcon name={'idate'} fill={STheme.color.primary} width={20} height={20} /> */}
                     <SView width={8} />
                     <SText fontSize={20} language={{
-                      es: "Fecha:",
-                      en: "Date:"
+                      es: "Ubicación:",
+                      en: "Location:"
                     }} />
                   </SView>
                   <SView col={'xs-6'} row>
-                    <SText fontSize={20} color={STheme.color.lightGray} >{new SDate(obj?.evento?.fecha).toString("yyyy-MM-dd")}</SText>
+                    <SText fontSize={20} color={STheme.color.lightGray} >{obj?.cliente?.direccion}</SText>
+                  </SView>
+                  <SHr height={10} />
+                  <SView col={'xs-6'} row >
+                    {/* <SIcon name={'idate'} fill={STheme.color.primary} width={20} height={20} /> */}
+                    <SView width={8} />
+                    <SText fontSize={20} language={{
+                      es: "Fecha - Hora:",
+                      en: "Date - Time:"
+                    }} />
+                  </SView>
+                  <SView col={'xs-6'} row>
+                    <SText fontSize={20} color={STheme.color.lightGray} >{new SDate(obj?.staff?.fecha_inicio).toString("MM-dd-yyyy hh:mm")}</SText>
                   </SView>
                   <SHr height={10} />
                   {/* <SView col={'xs-6'} row >

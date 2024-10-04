@@ -64,7 +64,7 @@ class index extends Component {
                     placeholder: 'Teléfono',
                     label: 'Teléfono',
                     defaultValue: this.data['Telefono'],
-                    type: 'phone',
+                    type: 'phone' ,
                     isRequired: true,
                     height: 54
                 },

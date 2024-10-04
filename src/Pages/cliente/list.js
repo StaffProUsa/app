@@ -4,8 +4,15 @@ import { Parent } from "."
 import Model from '../../Model';
 import { SHr, SIcon, SImage, SNavigation, SPopup, SText, STheme, SUtil, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 class index extends DPA.list {
+    static FOOTER = <>
+        <PBarraFooter style={{
+            position: "absolute",
+            bottom: 0,
+        }} url={'/company'} />
+    </>
     constructor(props) {
         super(props, {
             Parent: Parent,

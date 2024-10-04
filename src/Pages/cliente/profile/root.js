@@ -5,8 +5,15 @@ import { SHr, SIcon, SImage, SList, SNavigation, SNotification, SPopup, SText, S
 import Model from '../../../Model';
 import SSocket from 'servisofts-socket';
 import Eventos from '../eventos';
+import PBarraFooter from '../../../Components/PBarraFooter';
 
 class index extends DPA.profile {
+    static FOOTER = <>
+        <PBarraFooter style={{
+            position: "absolute",
+            bottom: 0,
+        }} url={'/company'} />
+    </>
     constructor(props) {
         super(props, { title: "Client", Parent: Parent, excludes: ["key", "key_servicio", "key_usuario", "fecha_on", "key_company", "estado", "latitude", "longitude"] });
     }

@@ -116,7 +116,7 @@ export default class trabajos extends Component {
                             <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
                         </SView>
                         <SView col={"xs-10"}  >
-                            <SText fontSize={12}>{new SDate(obj?.evento?.fecha).toString("yyyy-MM-dd")}</SText>
+                            <SText fontSize={12}>{new SDate(obj?.evento?.fecha).toString("MM-dd-yyyy")}</SText>
                         </SView>
                         {/* <SHr height={5} /> */}
                         <SView col={"xs-2"} row center>

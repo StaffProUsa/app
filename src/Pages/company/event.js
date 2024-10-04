@@ -7,6 +7,7 @@ import Reclutas from './Components/Reclutas';
 import Asistencias from './Components/Asistencias';
 import Model from '../../Model';
 import eventosPage from "../cliente/eventos"
+import PBarraFooter from '../../Components/PBarraFooter';
 export default class event extends Component {
     static INSTANCE: event;
     constructor(props) {
@@ -79,7 +80,7 @@ export default class event extends Component {
             <SHr />
             <SHr h={1} color={STheme.color.card} />
             <SHr h={24} />
-            <SText fontSize={10} col={"xs-12"} style={{ textAlign: "right" }} color={STheme.color.lightGray}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}</SText>
+            <SText fontSize={10} col={"xs-12"} style={{ textAlign: "right" }} color={STheme.color.lightGray}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}</SText>
             <SHr />
             <SText fontSize={18} bold>{descripcion}</SText>
             <SHr />
@@ -119,12 +120,15 @@ export default class event extends Component {
             // }}
             onRefresh={() => {
                 this.componentDidMount();
-            }}>
+            }}
+            footer={<PBarraFooter url={'/company'} />}
+            >
             <Container loading={!this.state.data || this.state.loading}>
                 {this.renderHeader()}
                 <SHr h={50} />
 
             </Container>
+            <SHr height={60} />
         </SPage>
     }
 }

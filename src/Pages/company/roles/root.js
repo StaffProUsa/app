@@ -7,9 +7,9 @@ import Container from '../../../Components/Container';
 import SSocket from 'servisofts-socket';
 import Model from '../../../Model';
 import PageTitle from '../../../Components/PageTitle';
+import PBarraFooter from '../../../Components/PBarraFooter';
 
 export default class root extends Component {
-
     static INSTANCE;
     static TOPBAR = <>
         {/* <TopBar type={"usuario_back"} /> */}
@@ -215,7 +215,7 @@ export default class root extends Component {
     }
     render() {
         // const restaurante = Model.restaurante.Action.getSelect();
-        return <SPage  >
+        return <SPage  footer={<PBarraFooter url={'/company'} />} >
             <Container>
                 <SHr />
                 {/* <PageTitle title='ADMINISTRADOR DE USUARIOS' /> */}
@@ -235,6 +235,7 @@ export default class root extends Component {
                 <SHr h={32} />
                 {this.renderList()}
             </Container>
+            <SHr height={90}/>
         </SPage>
     }
 }

@@ -97,8 +97,8 @@ export default class add extends Component {
             this._ref["cantidad"].setValue(e.data.cantidad)
             this._ref["fecha_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
             this._ref["hora_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
-            this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
-            this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
+            // this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
+            // this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
             console.log(e);
         }).catch(e => {
             console.error(e);
@@ -128,7 +128,7 @@ export default class add extends Component {
                     "descripcion": val.descripcion,
                     "observacion": val.observacion,
                     "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
-                    "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
+                    // "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
                     cantidad: val.cantidad
                 },
                 key_usuario: Model.usuario.Action.getKey(),
@@ -149,7 +149,7 @@ export default class add extends Component {
                     "key_evento": this.state.key_evento,
                     "key_staff_tipo": dataTipo.key,
                     "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
-                    "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
+                    // "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
                     cantidad: val.cantidad
                 },
                 key_usuario: Model.usuario.Action.getKey(),
@@ -223,7 +223,7 @@ export default class add extends Component {
                         }
                         // return this.filterHorario(e);
                     })} />
-                    <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
+                    {/* <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
                     <SInput ref={r => this._ref["hora_fin"] = r} col={"xs-5.5"} label={" "} defaultValue={"23:59"} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);
                         if (resp != e) {
@@ -231,13 +231,13 @@ export default class add extends Component {
                             this._ref["hora_fin"].setValue(resp);
                         }
                         // return this.filterHorario(e);
-                    })} />
+                    })} /> */}
                 </SView>
                 <SHr h={16} />
 
                 <SView row col={"xs-12"} center>
                     {this.state.pk ? <>
-                        <SButtom   onPress={() => {
+                        <SButtom onPress={() => {
                             SNavigation.navigate("/staff/profile", { pk: this.state.pk })
                         }} type='secondary'><SText>{"INVITAR"}</SText></SButtom>
                         <SView width={30} />
@@ -245,12 +245,12 @@ export default class add extends Component {
                         <SView width={30} />
                     </> : null}
 
-                    <SButtom  onPress={this.handlePress.bind(this)} type='secondary'><SText>{"GUARDAR"}</SText></SButtom>
+                    <SButtom onPress={this.handlePress.bind(this)} type='secondary'><SText>{"GUARDAR"}</SText></SButtom>
 
                 </SView>
 
             </Container>
-
+            <SHr h={30} />
         </SPage >
     }
 }

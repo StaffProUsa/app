@@ -136,7 +136,7 @@ export default class history extends Component {
                     <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
                 </SView>
                 <SView col={"xs-10"}  >
-                    <SText fontSize={12}>{new SDate(obj?.fecha).toString("yyyy-MM-dd")}</SText>
+                    <SText fontSize={12}>{new SDate(obj?.fecha).toString("MM-dd-yyyy")}</SText>
                 </SView>
             </SView>
         }} />

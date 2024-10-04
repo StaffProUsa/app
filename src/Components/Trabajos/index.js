@@ -50,15 +50,18 @@ class index extends Component {
           es: "Hora de inicio: ",
           en: "Start: "
         }} />
-        <SText fontSize={10}>{new SDate(obj?.staff?.fecha_inicio).toString("DAY dd de MON, hh:mm")}</SText>
+        {/* <SText fontSize={10}>{new SDate(obj?.staff?.fecha_inicio).toString("DAY dd de MON, hh:mm")}</SText>
+        <SHr/> */}
+        <SText fontSize={10}>{new SDate(obj?.staff?.fecha_inicio).toString('MM-dd-yyyy hh:mm')}</SText>
+        {/* toLocaleDateString */}
       </SView >
-      <SView row >
+      {/* <SView row >
         <SText fontSize={10} color={STheme.color.gray} language={{
           es: "Hora de salida: ",
           en: "Departure: "
         }} />
         <SText fontSize={10}>{new SDate(obj?.staff?.fecha_fin).toString("DAY dd de MON, hh:mm")}</SText>
-      </SView>
+      </SView> */}
     </SView>
   }
 
