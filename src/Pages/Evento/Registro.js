@@ -10,7 +10,8 @@ import {
   SPage,
   SText,
   STheme,
-  SView
+  SView,
+  SLanguage
 } from 'servisofts-component';
 import eventos from "../cliente/eventos"
 import SSocket from 'servisofts-socket';
@@ -35,8 +36,11 @@ export default class Registro extends React.Component {
     this._ref = {};
     this._ref2 = {};
   }
-
+  onChangeLanguage(language) {
+    this.setState({ ...this.state })
+  }
   componentDidMount() {
+    SLanguage.addListener(this.onChangeLanguage.bind(this))
     if (this.key) {
       // data = evento.Actions.getByKey(this.key, this.props);
       SSocket.sendPromise({
@@ -50,6 +54,9 @@ export default class Registro extends React.Component {
       })
     }
   }
+  componentWillUnmount() {
+    SLanguage.removeListener(this.onChangeLanguage)
+  }
   getregistro() {
     let data = {};
     if (this.key) {
@@ -61,8 +68,9 @@ export default class Registro extends React.Component {
       // this.key_company = data.key_company;
     }
 
-
+    lenguaje = SLanguage.language;
     return (
+
       <SForm
         center
         row
@@ -83,14 +91,14 @@ export default class Registro extends React.Component {
         inputs={{
           // foto_p: { type: "image", isRequired: false, defaultValue: `${SSocket.api.root}evento/${this.key}?time=${new Date().getTime()}`, col: "xs-4 sm-3.5 md-3 lg-2.5 xl-2.5", style: { borderRadius: 8, overflow: 'hidden', width: 130, height: 130, borderWidth: 0 } },
           fecha: {
-            label: 'Fecha del evento',
+            label: (lenguaje == "es") ? 'Fecha del evento' : 'Event date',
             type: 'date',
             isRequired: false,
             defaultValue: new SDate(data['fecha'], "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") ?? new SDate().toString("yyyy-MM-dd"),
             col: 'xs-7'
           },
           descripcion: {
-            label: 'Nombre del evento',
+            label: (lenguaje == "es") ? 'Nombre del evento' : 'Event name',
             type: 'text',
             isRequired: true,
             defaultValue: data['descripcion']
@@ -105,9 +113,9 @@ export default class Registro extends React.Component {
           //   col: 'xs-5.5'
           // },
           observacion: {
-            label: 'Informarcion sobre el evento',
+            label: (lenguaje == "es") ? 'Informarción sobre el evento' : 'Information about the event',
             type: 'textArea',
-            placeholder: "Informarcion sobre el evento",
+            placeholder: (lenguaje == "es") ? 'Informarción sobre el evento' : 'Information about the event',
             isRequired: false,
             defaultValue: data['observacion'],
             col: 'xs-12'
@@ -182,14 +190,18 @@ export default class Registro extends React.Component {
 
     return (
       <>
-        <SPage title={'Registro'}>
+        <SPage titleLanguage={{
+          es: "Registro",
+          en: "Register"
+        }}>
           <SView col={'xs-12'} backgroundColor={'transparent'} center row>
             <SView
               col={'xs-11 sm-10 md-8 lg-6 xl-4'}
               backgroundColor={'transparent'}>
-              <SText fontSize={18} font={'Roboto'} bold>
-                Detalle evento
-              </SText>
+              <SText fontSize={18} font={'Roboto'} bold language={{
+                en: "Event detail",
+                es: "Detalle evento"
+              }} />
               {this.getregistro()}
             </SView>
           </SView>
@@ -205,9 +217,10 @@ export default class Registro extends React.Component {
             onPress={() => {
               this.form.submit();
             }}>
-            <SText color={STheme.color.text} font={'Roboto'} fontSize={14} bold>
-              {this.key ? "EDITAR" : "REGISTRAR"}
-            </SText>
+            <SText color={STheme.color.text} font={'Roboto'} fontSize={14} bold language={{
+              en: this.key ? "EDIT" : "REGISTER",
+              es: this.key ? "EDITAR" : "REGISTRAR"
+            }} />
           </SView>
         </SView>
         <SHr height={25} />

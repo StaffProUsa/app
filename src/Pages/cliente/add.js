@@ -1,5 +1,5 @@
 import React from "react";
-import { SForm, SHr, SInput, SNavigation, SPage, SText, SThread } from "servisofts-component";
+import { SForm, SHr, SInput, SNavigation, SPage, SText, SThread, SLanguage } from "servisofts-component";
 import { Container } from "../../Components";
 import SSocket from "servisofts-socket";
 import Model from "../../Model";
@@ -8,7 +8,11 @@ export default class index extends React.Component {
     state = {}
     pk = SNavigation.getParam("pk");
     key_company = SNavigation.getParam("key_company");
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         if (this.pk) {
             SSocket.sendPromise({
                 component: "cliente",
@@ -30,8 +34,27 @@ export default class index extends React.Component {
             })
         }
     }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
     render() {
-        return <SPage title={"Nuevo cliente"}>
+        let lenguaje = SLanguage.language;
+        let descripcion = "Nombre del cliente *";
+        let nivel_ingles = "Nivel de inglés";
+        let papeles = "¿Requiere solo con papeles?";
+        let observacion = "Información y requerimientos del cliente";
+        let direccion = "Dirección";
+        if (lenguaje == "en") {
+            descripcion = "Client name *";
+            nivel_ingles = "English level";
+            papeles = "Requires only with papers?";
+            observacion = "Client information and requirements";
+            direccion = "Address";
+        }
+        return <SPage titleLanguage={{
+            es: "Nuevo cliente",
+            en: "New client"
+        }} >
             <Container loading={(this.pk && !this.state.data)}>
                 <SForm
                     row
@@ -45,13 +68,13 @@ export default class index extends React.Component {
                     style={{
                         justifyContent: "space-between"
                     }}
-                    inputs={{
+                    inputs={{ 
                         "foto_p": { type: "image", isRequired: false, defaultValue: `${SSocket.api.root}cliente/${this.pk}?time=${new Date().getTime()}`, col: "xs-12 sm-3.5 md-3 lg-2.5 xl-2.5", style: { borderRadius: 8, overflow: 'hidden', width: 130, height: 130, borderWidth: 0 } },
-                        "descripcion": { col: "xs-7", label: "Nombre del cliente *", required: true, defaultValue: this.state?.data?.descripcion },
-                        "nivel_ingles": { col: "xs-5.5", type: "text", label: "Nivel de ingles", defaultValue: this.state?.data?.nivel_ingles },
-                        "papeles": { col: "xs-5.5", type: "checkBox", label: "Requiere solo con papeles?", defaultValue: this.state?.data?.papeles },
+                        "descripcion": { col: "xs-7", label: descripcion, required: true, defaultValue: this.state?.data?.descripcion },
+                        "nivel_ingles": { col: "xs-5.5", type: "select", label: nivel_ingles, defaultValue: this.state?.data?.nivel_ingles,options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content:  (lenguaje == "en") ? "NONE" :"NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }], },
+                        "papeles": { col: "xs-5.5", type: "checkBox", label: papeles, defaultValue: this.state?.data?.papeles },
                         "observacion": {
-                            col: "xs-12", type: "textArea", height: 400, label: "Informacion y requerimientos del cliente", defaultValue: this.state?.data?.observacion,
+                            col: "xs-12", type: "textArea", height: 400, label: observacion, defaultValue: this.state?.data?.observacion,
                             placeholder: `
 En este espacio, podrás encontrar todos los requerimientos que el cliente ha solicitado para el proyecto. 📝 Es importante que revises cada detalle cuidadosamente, ya que aquí se plasman todas las necesidades y expectativas que debemos cumplir para garantizar un resultado óptimo. 🎯
 
@@ -63,7 +86,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                             `
                         },
                         "direccion": {
-                            col: "xs-12", type: "text", label: "Direccion", defaultValue: this.state?.data?.direccion,
+                            col: "xs-12", type: "text", label: direccion, defaultValue: this.state?.data?.direccion,
                             onPress: () => {
                                 SNavigation.navigate("/cliente/select", {
                                     latitude: this.direccion?.latitude ?? this.state?.data?.latitude,
@@ -136,7 +159,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                         }
 
                     }}
-                    onSubmitName={"GUARDAR"}
+                    onSubmitName={"SAVE"}
                 />
             </Container>
             <SHr height={25} />

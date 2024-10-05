@@ -1,6 +1,6 @@
 import React, { Component, version } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SIcon, SImage, SInput, SList, SNavigation, SNotification, SPage, SSwitch, STable, STable2, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SInput, SList, SNavigation, SNotification, SPage, SSwitch, STable, STable2, SText, STheme, SView, SLanguage } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import { Container } from '../../Components';
@@ -161,7 +161,10 @@ export default class users extends Component {
     render() {
 
         // console.log(this.data?.evento?.key_company)
-        return <SPage disableScroll title={"Armando mi STAFF"}>
+        return <SPage disableScroll titleLanguage={{
+            es: "Armando mi STAFF",
+            en: "Building my STAFF"
+        }}>
             <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8 }} >
                 {/* <SText fontSize={16} bold color={STheme.color.gray}>Evento: </SText> */}
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
@@ -177,9 +180,9 @@ export default class users extends Component {
                             borderWidth: 1,
                             borderColor: STheme.color.success,
                             borderRadius: 4,
-                            padding: 2,
+                            padding: 5,
                         }} center>
-                            <SText fontSize={12} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
+                            <SText fontSize={14} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
                         </SView>
                     </SView>
                     <SView flex />
@@ -191,12 +194,21 @@ export default class users extends Component {
                             <SIcon name='Add' />
                         </SView>
                         {/* <SView col={"xs-12 sm-0.3"} height={5} /> */}
-                        {/* <SView width={100} height={40} card center
+                        <SView width={15} />
+                        <SView width={100} height={40} center style={{
+                            backgroundColor: STheme.color.secondary,
+                            borderRadius: 4,
+                        }}
+
                             onPress={() => {
-                                SNavigation.navigate("/usuario/add", { key_company: this.state.data?.evento?.key_company })
+                                // SNavigation.navigate("/usuario/add", { key_company: this.state.data?.evento?.key_company })
+                                SNavigation.goBack();
                             }}>
-                            <SText fontSize={12}>CREAR USUARIO</SText>
-                        </SView> */}
+                            <SText center fontSize={12} language={{
+                                es: "GUARDAR CAMBIOS",
+                                en: "SAVE CHANGES"
+                            }} />
+                        </SView>
                     </SView>
                 </SView>
                 {/* {this.separator()} */}
@@ -211,8 +223,11 @@ export default class users extends Component {
                 /> */}
             <SView row col={"xs-12"} flex padding={4} >
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }}>
-                    <SHr h={4}/>
-                    <SText fontSize={12} center>{"Staff Disponibles"}</SText>
+                    <SHr h={4} />
+                    <SText fontSize={12} center language={{
+                        es: "Staff Disponibles",
+                        en: "Available Staff"
+                    }} />
                     {/* <SView width={30} height={30} style={{
                         position: "absolute",
                         right: 2,
@@ -312,8 +327,11 @@ export default class users extends Component {
                     }}>{"<"}</SText>
                 </SView>
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }} >
-                <SHr h={4}/>
-                    <SText  center fontSize={12} >{"Staff Seleccionado"}</SText>
+                    <SHr h={4} />
+                    <SText center fontSize={12} language={{
+                        es: "Staff Seleccionado",
+                        en: "Selected Staff"
+                    }} />
                     <STable2
                         key={"Algo1"}
                         data={this.state.data_disponibles}

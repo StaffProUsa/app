@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SHr, SNavigation, SPage, SText, SView, STheme, SForm, SPopup, SImage, SLoad, SStorage, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList, } from 'servisofts-component';
+import { SHr, SNavigation, SPage, SText, SView, SLanguage, STheme, SForm, SPopup, SImage, SLoad, SStorage, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList, } from 'servisofts-component';
 import { WebView } from 'react-native';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 // import { PButtom } from '../../Components';
 import PButtomDanger from '../../Components/PButtomDanger';
+import Degradado from '../../Components/Degradado';
 // import usuario_dato from '../../Model/tapeke/usuario_dato';
 
 
@@ -24,7 +25,13 @@ class eliminar extends Component {
         if (!this.load_data()) return <SLoad />
         return (
             <SView card col={"xs-11"} style={{ padding: 25 }}>
-                <SText center color={STheme.color.primary} fontSize={22} >Eliminar tu cuenta de Casa Grande</SText>
+                <Degradado />
+                <SText center color={STheme.color.text} fontSize={22} language={
+                    {
+                        es: "Eliminar tu cuenta en StaffProUsa",
+                        en: "Delete your account in StaffProUsa"
+                    }
+                } />
                 <SView height={15} />
                 <SView
                     row
@@ -35,11 +42,23 @@ class eliminar extends Component {
                         borderBottomColor: STheme.color.card
                     }}></SView>
                 <SView height={15} />
-                <SText fontSize={18} >¿Qué ocurre si elimino mi cuenta definitivamente?</SText>
+                <SText fontSize={18} language={{
+                    es: "¿Qué ocurre si elimino mi cuenta definitivamente?",
+                    en: "What happens if I delete my account permanently?"
+                }} />
                 <SView height={15} />
-                <SText fontSize={15} >No podrás iniciar sesión en la app.</SText>
-                <SText fontSize={15} >La eliminación de tu cuenta será definitiva.</SText>
-                <SText fontSize={15} >Al eliminar tu cuenta, perderás todos tus datos y no podrás recuperarlos.</SText>
+                <SText fontSize={15} language={{
+                    es: "No podrás iniciar sesión en la app.",
+                    en: "You will not be able to log in to the app."
+                }} />
+                <SText fontSize={15} language={{
+                    es: "La eliminación de tu cuenta será definitiva.",
+                    en: "The deletion of your account will be permanent."
+                }} />
+                <SText fontSize={15} language={{
+                    es: "Al eliminar tu cuenta, perderás todos tus datos y no podrás recuperarlos.",
+                    en: "By deleting your account, you will lose all your data and you will not be able to recover them."
+                }} />
                 <SView height={20} />
                 <SView center>
                     <SView width={130} center height={130} style={{ backgroundColor: STheme.color.white, borderRadius: 85 }}>
@@ -62,7 +81,12 @@ class eliminar extends Component {
                                 Model.usuario.Action.unlogin();
                             }
                         })
-                    }}>ELIMINAR CUENTA</PButtomDanger>
+                    }}>
+                        <SText language={{
+                            es: "ELIMINAR CUENTA",
+                            en: "DELETE ACCOUNT"
+                        }} />
+                    </PButtomDanger>
                 </SView>
                 <SView height={36} />
             </SView>
@@ -71,7 +95,10 @@ class eliminar extends Component {
     render() {
         return (
             <>
-                <SPage title={'Eliminar mi cuenta'} onRefresh={() => {
+                <SPage titleLanguage={{
+                    es: "Eliminar mi cuenta",
+                    en: "Delete my account"
+                }} onRefresh={() => {
                     Model.usuario.Action.CLEAR();
                 }}
                     center

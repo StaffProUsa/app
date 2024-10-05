@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SForm, SHr, SIcon, SNavigation, SPage, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SForm, SHr, SIcon, SNavigation, SPage, SPopup, SText, STheme, SView, SLanguage } from 'servisofts-component';
 import Container from '../../Components/Container';
 import Header from '../registro/components/Header';
 import CryptoJS from 'crypto-js';
@@ -15,6 +15,16 @@ class password extends Component {
         this.params = SNavigation.getAllParams();
 
         console.log(this.params.pk + "  pk");
+    }
+
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
+    componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
     }
 
     alertErrorPassword() {
@@ -87,22 +97,39 @@ class password extends Component {
     }
 
     render() {
+        // VALIDANDO IDIOMA FORMULARIO
+        let lenguaje = SLanguage.language;
+        let password = "Contraseña";
+        let repassword = "Repetir contraseña";
+        let title = "Cambia la contraseña de acceso";
+
+        if (lenguaje == "en") {
+            password = "Password";
+            repassword = "Repeat password";
+            title = "Change access password";
+
+        }
         return (
             <SPage  >
-                <Header title={"Cambia la contraseña de acceso"} />
+                <Header title={title} />
                 <Container>
                     <SForm
                         col={"xs-12"}
                         ref={(form) => { this.form = form; }}
                         inputProps={{ separation: 16 }}
                         inputs={{
-                            Password: { placeholder: "Password", isRequired: true, type: "password", icon: <SIcon name={'InputPassword'} width={20} height={20}  fill={STheme.color.text} /> },
-                            RepPassword: { placeholder: "Repetir password", type: "password", isRequired: true, icon: <SIcon name={'Repassword'} width={20} height={20}  fill={STheme.color.text} /> },
+                            Password: { placeholder: password, isRequired: true, type: "password", icon: <SIcon name={'InputPassword'} width={20} height={20} fill={STheme.color.text} /> },
+                            RepPassword: { placeholder: repassword, type: "password", isRequired: true, icon: <SIcon name={'Repassword'} width={20} height={20} fill={STheme.color.text} /> },
                         }}
                         onSubmit={this.onSubmit.bind(this)}
                     />
                     <SHr height={20} />
-                    <BtnSend onPress={() => this.form.submit()}>{"CONFIRMAR"}</BtnSend>
+                    <BtnSend onPress={() => this.form.submit()}>
+                        <SText language={{
+                            es: "CONFIRMAR",
+                            en: "CONFIRM"
+                        }} />
+                    </BtnSend>
                 </Container>
             </SPage>
         );

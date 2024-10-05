@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SDate, SHr, SIcon, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SButtom, SDate, SHr, SIcon, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView, SLanguage } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { Container } from '../../Components';
 import Reclutas from './Components/Reclutas';
@@ -18,7 +18,12 @@ export default class event extends Component {
         event.INSTANCE = this;
     }
 
+
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         this.setState({ loading: true })
         SSocket.sendPromise({
             component: "evento",
@@ -30,10 +35,14 @@ export default class event extends Component {
             this.setState({ loading: false })
         })
     }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
     handleEliminar() {
+        let lenguaje = SLanguage.language;
         SPopup.confirm({
-            title: 'Eliminar',
-            message: '¿Esta seguro de eliminar?',
+            title: (lenguaje == "es") ? 'Eliminar' : 'Delete',
+            message: (lenguaje == "es") ? '¿Está seguro de eliminar?' : 'Are you sure you want to delete?',
             onPress: () => {
                 // evento.Actions.eliminar(this.state.data, this.props);
                 SSocket.sendPromise({
@@ -122,7 +131,7 @@ export default class event extends Component {
                 this.componentDidMount();
             }}
             footer={<PBarraFooter url={'/company'} />}
-            >
+        >
             <Container loading={!this.state.data || this.state.loading}>
                 {this.renderHeader()}
                 <SHr h={50} />

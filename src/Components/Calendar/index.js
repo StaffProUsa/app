@@ -20,6 +20,9 @@ class index extends Component {
         };
     }
 
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
 
 
@@ -34,9 +37,13 @@ class index extends Component {
         // }).catch(e => {
 
         // })
-
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
 
     }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
+
 
     renderDias(data, i) {
 
@@ -50,7 +57,7 @@ class index extends Component {
                 borderWidth: 1, borderColor: STheme.color.gray,
                 // backgroundColor:  data.asistiendo ? "#D93444": STheme.color.card
                 backgroundColor: STheme.color.card
-            }} center 
+            }} center
             // onPress={() => {
             //     data?.evento ? SNavigation.navigate("/evento", { key: data?.evento?.key }) : null
             // }}
@@ -89,7 +96,7 @@ class index extends Component {
                             padding: 1.5,
                             marginTop: 4,
                             overflow: "hidden"
-                        }} onPress={()=>{
+                        }} onPress={() => {
                             SNavigation.navigate("/evento", { key: k?.key })
                         }}>
                             <Degradado />
@@ -133,15 +140,18 @@ class index extends Component {
     }
 
     getCabecera() {
+        // VALIDANDO IDIOMA FORMULARIO
+        let lenguaje = SLanguage.language;
+        // lenguaje == "es" ? "D" : "S";
         return <>
             <SView col={"xs-12"} row >
-                <Dia dia="DOM" />
-                <Dia dia="LUN" />
-                <Dia dia="MAR" />
-                <Dia dia="MIE" />
-                <Dia dia="JUE" />
-                <Dia dia="VIE" />
-                <Dia dia="SAB" />
+                <Dia dia={lenguaje == "en" ? "SUN" : "DOM"} />
+                <Dia dia={lenguaje == "en" ? "MON" : "LUN"} />
+                <Dia dia={lenguaje == "en" ? "TUE" : "MAR"} />
+                <Dia dia={lenguaje == "en" ? "WED" : "MIE"} />
+                <Dia dia={lenguaje == "en" ? "THU" : "JUE"} />
+                <Dia dia={lenguaje == "en" ? "FRI" : "VIE"} />
+                <Dia dia={lenguaje == "en" ? "SAT" : "SAB"} />
             </SView>
         </>
     }
@@ -262,7 +272,7 @@ class index extends Component {
             </SView>
             <SView col={"xs-12"} center  >
                 {this.getCabecera()}
-                <SView col={"xs-12"}  center>
+                <SView col={"xs-12"} center>
                     <SList2
                         horizontal
                         space={0}

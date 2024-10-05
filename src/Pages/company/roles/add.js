@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 // import TopBar from '../../../Components/TopBar';
-import { SHr, SIcon, SImage, SList, SLoad, SNavigation, SNotification, SPage, SPopup, SText, STheme, SThread, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SList, SLoad, SNavigation, SNotification, SPage, SPopup, SText, STheme, SThread, SView, SLanguage } from 'servisofts-component';
 // import PBarraFooter from '../../../Components/PBarraFooter';
 import Container from '../../../Components/Container';
 import SSocket from 'servisofts-socket';
@@ -35,8 +35,17 @@ export default class add extends Component {
 
     }
 
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
+
+
 
     componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         // ESTO ES PARA PROBAR EL POPUP SIN RECARGAR NO BORRAR
         // const exampleUsers = {
         //     "798994df-71c1-4850-b45d-6fc2642e6fb3": {
@@ -452,11 +461,15 @@ export default class add extends Component {
         if (this.key) {
             // if (!this.state.data) return <SLoad />
         }
+        let lenguaje = SLanguage.language;
         return <SPage  >
             <Container>
                 <SHr />
                 <SView col={"xs-12"}>
-                    <SText font='Montserrat-ExtraBold'>{this.key_usuario ? "EDITAR USUARIO" : "AGREGAR USUARIO"}</SText>
+                    <SText font='Montserrat-ExtraBold' language={{
+                        es: this.key_usuario ? "EDITAR USUARIO" : "AGREGAR USUARIO",
+                        en: this.key_usuario ? "EDIT USER" : "ADD USER"
+                    }} />
                     <SText font={"Montserrat-Medium"} color={STheme.color.primary}>{""}</SText>
                 </SView>
                 <SHr h={16} />
@@ -472,8 +485,8 @@ export default class add extends Component {
                         inputStyle={{
                             color: !!this.key ? "#999" : "#fff"
                         }}
-                        label={"Nombre *"}
-                        placeholder={"Nombre"}
+                        label={(lenguaje == "es") ? "Nombre *" : "Name *"}
+                        placeholder={(lenguaje == "es") ? "Nombre" : "Name"}
                         onSubmitEditing={() => {
                             if (this._inputs.apellido.focus) this._inputs.apellido.focus()
                         }}
@@ -486,8 +499,8 @@ export default class add extends Component {
                         inputStyle={{
                             color: !!this.key ? "#999" : "#fff"
                         }}
-                        label={"Apellido"}
-                        placeholder={"Apellido"}
+                        label={(lenguaje == "es") ? "Apellido" : "Last name"}
+                        placeholder={(lenguaje == "es") ? "Apellido" : "Last name"}
                         onSubmitEditing={() => {
                             if (this._inputs.telefono.focus) this._inputs.telefono.focus()
                         }}
@@ -505,7 +518,7 @@ export default class add extends Component {
                         }}
                         disabled={!!this.key}
                         // defaultValue={data.nombre}
-                        label={"Número de teléfono"}
+                        label={(lenguaje == "es") ? "Número de teléfono" : "Phone number"}
                         // info={"El número que ingreses debe estar registrado en la App"}
                         placeholder={"+591 0000000"}
                         onChangeText={(e) => {
@@ -527,7 +540,7 @@ export default class add extends Component {
                         }}
                         disabled={!!this.key}
                         // defaultValue={data.nombre}
-                        label={"Dirección de correo electrónico"}
+                        label={(lenguaje == "es") ? "Correo electrónico" : "Email address"}
                         // info={"El correo que ingreses debe estar registrado en la App"}
                         placeholder={"email@gmail.com"}
                         onChangeText={(e) => {
@@ -545,7 +558,7 @@ export default class add extends Component {
                         ref={ref => this._inputs["rol"] = ref}
                         col={"xs-12"}
                         // defaultValue={data.nombre}
-                        label={"Rol"}
+                        label={(lenguaje == "es") ? "Rol" : "Role"}
                         // info={""}
                         placeholder={"Selecciona un rol"}
                         onPress={this.hanlePress.bind(this)}
@@ -556,7 +569,10 @@ export default class add extends Component {
                 <SText padding={8} backgroundColor={STheme.color.secondary} color={STheme.color.text} borderRadius={4} onPress={() => {
                     this.hanldeGuardar()
 
-                }}>{"Guardar"}</SText>
+                }} language={{
+                    es: "GUARDAR",
+                    en: "SAVE"
+                }} />
 
             </Container>
         </SPage >

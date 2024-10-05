@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SDate, SHr, SInput, SNavigation, SPage, SPopup, SText, SView } from 'servisofts-component';
+import { SButtom, SDate, SHr, SInput, SNavigation, SPage, SPopup, SText, SView, SLanguage } from 'servisofts-component';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -84,7 +84,12 @@ export default class add extends Component {
             fecha: SNavigation.getParam("fecha"),
         };
     }
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+
         if (!this.state.pk) return;
         SSocket.sendPromise({
             component: "staff",
@@ -103,6 +108,9 @@ export default class add extends Component {
         }).catch(e => {
             console.error(e);
         })
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
     }
     handlePress() {
         const val = {}
@@ -164,8 +172,9 @@ export default class add extends Component {
 
     }
     handleEliminar() {
+        let lenguaje = SLanguage.language;
         SPopup.confirm({
-            title: "Seguro de eliminar?",
+            title: (lenguaje == "es") ? "¿Seguro de eliminar?" : "Are you sure to delete?",
             onPress: () => {
                 SSocket.sendPromise({
                     component: "staff",
@@ -187,6 +196,17 @@ export default class add extends Component {
     }
     _ref = {}
     render() {
+        let lenguaje = SLanguage.language;
+        let tipo_staff = "Seleccione Tipo de staff";
+        let descripcion = "Descripcion del staff";
+        let cantidad = "Cantidad";
+        let fecha_inicio = "Fecha de inicio";
+        if (lenguaje == "en") {
+            tipo_staff = "Select staff type";
+            descripcion = "Staff description";
+            cantidad = "Quantity";
+            fecha_inicio = "Start date";
+        }
         return <SPage titleLanguage={{ en: "Staff", es: "Staff" }
         } >
             <Container>
@@ -195,10 +215,10 @@ export default class add extends Component {
                 }}>
                     {this.state.pk ? null : <SInput
                         ref={r => this._ref["tipo"] = r}
-                        label={"Tipo de staff"}
+                        label={tipo_staff}
                         col={"xs-7"}
                         editable={false}
-                        placeholder={"Seleccione su tipo de staff"}
+                        placeholder={tipo_staff}
                         required
                         onPress={() => {
                             if (!this.state?.key_company) return;
@@ -212,9 +232,9 @@ export default class add extends Component {
                             })
                         }} />
                     }
-                    <SInput ref={r => this._ref["descripcion"] = r} label={"Descripcion"} required placeholder={"Descripcion del staff"} type='textArea' />
-                    <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={"Cantidad"} required placeholder={"0"} />
-                    <SInput ref={r => this._ref["fecha_inicio"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Inicio"} required placeholder={"yyyy-MM-dd"} />
+                    <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea' />
+                    <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={cantidad} required placeholder={"0"} />
+                    <SInput ref={r => this._ref["fecha_inicio"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={fecha_inicio} required placeholder={"yyyy-MM-dd"} />
                     <SInput ref={r => this._ref["hora_inicio"] = r} col={"xs-5.5"} defaultValue={"00:01"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);
                         if (resp != e) {
@@ -239,13 +259,23 @@ export default class add extends Component {
                     {this.state.pk ? <>
                         <SButtom onPress={() => {
                             SNavigation.navigate("/staff/profile", { pk: this.state.pk })
-                        }} type='secondary'><SText>{"INVITAR"}</SText></SButtom>
+                        }} type='secondary'><SText language={{
+                            es: "INVITAR",
+                            en: "INVITE"
+                        }} /></SButtom>
                         <SView width={30} />
-                        <SButtom onPress={this.handleEliminar.bind(this)} type='danger'>{"ELIMINAR"}</SButtom>
+                        <SButtom onPress={this.handleEliminar.bind(this)} type='danger'>
+                            <SText language={{
+                                es: "ELIMINAR",
+                                en: "DELETE"
+                            }} /></SButtom>
                         <SView width={30} />
                     </> : null}
 
-                    <SButtom onPress={this.handlePress.bind(this)} type='secondary'><SText>{"GUARDAR"}</SText></SButtom>
+                    <SButtom onPress={this.handlePress.bind(this)} type='secondary'><SText language={{
+                        es: "GUARDAR",
+                        en: "SAVE"
+                    }} /></SButtom>
 
                 </SView>
 

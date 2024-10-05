@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SHr, SNavigation, SPage, SText, SView, STheme, SForm, SPopup, SImage, SLoad, SStorage, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList, SLanguage } from 'servisofts-component';
+import { SHr, SNavigation, SPage, SText, SView, STheme, SForm, SPopup, SImage, SLoad, SStorage, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList, SLanguage, SThread } from 'servisofts-component';
 import { WebView } from 'react-native';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -15,6 +15,17 @@ class index extends Component {
         this.state = {};
     }
 
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
+    componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
+
+
     load_data() {
         this.data = Model.usuario.Action.getUsuarioLog();
         return this.data;
@@ -24,13 +35,36 @@ class index extends Component {
         if (!this.load_data()) return <SLoad />
         // var isApi = this.data.gmail_key || this.data.facebook_key
 
+        // VALIDANDO IDIOMA FORMULARIO
+        let lenguaje = SLanguage.language;
+        let nombres = "Nombres";
+        let apellidos = "Apellidos";
+        let correo = "Correo electrónico";
+        let telefono = "Teléfono";
+        let nivel_ingles = "Nivel de inglés";
+        let papeles = "¿Está autorizado para trabajar en los Estados Unidos?";
+        let mensaje1 = "Por favor completa toda la información solicitada en el formulario para que podamos enviarte las ofertas de trabajo. Si no proporciona esta información, es posible que no podamos compartir las oportunidades disponibles con usted (subir foto de perfil nítida en la que se vea claramente tu rostro)."
+
+        if (lenguaje == "en") {
+            nombres = "Names";
+            apellidos = "Last names";
+            telefono = "Phone";
+            nivel_ingles = "English level";
+            papeles = "Are you authorized to work in the United States?";
+            correo = "Email";
+            mensaje1 = "Please complete all the information requested in the form so that we can send you job offers. If you do not provide this information, we may not be able to share the available opportunities with you (upload a clear profile photo showing your face clearly)."
+
+        }
+
         //VERFICANDO SI FORMULARIO ESTÁ COMPLETO
         if (!this.data.Nombres || !this.data.Apellidos || !this.data.Correo || !this.data.Telefono || !this.data.nivel_ingles || !this.data.papeles) {
 
-            SPopup.alert("Por favor completa toda la información solicitada en el formulario para que podamos enviarte las ofertas de trabajo. Si no proporciona esta información, es posible que no podamos compartir las oportunidades disponibles con usted (subir foto de perfil nítida en la que se vea claramente tu rostro).")
+            SPopup.alert(mensaje1)
 
             // SNavigation.goBack();
         }
+
+
 
         console.log((SSocket.api.root + "usuario/" + this.data?.key) + " fff")
         return <SForm
@@ -45,32 +79,32 @@ class index extends Component {
             inputs={{
                 foto_p: { type: "image", placeholder: "Foto", isRequired: true, defaultValue: SSocket.api.root + "usuario/" + this.data?.key + "?date=" + new Date().getTime(), col: "xs-4", style: { borderRadius: 100, overflow: 'hidden', width: 140, height: 140, borderWidth: 1, borderColor: STheme.color.lightGray, alignItems: "center", } },
                 Nombres: {
-                    placeholder: 'Nombres',
-                    label: 'Nombres',
+                    placeholder: nombres,
+                    label: nombres,
                     isRequired: true,
                     defaultValue: this.data.Nombres,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
                 Apellidos: {
-                    placeholder: 'Apellidos',
-                    label: 'Apellidos',
+                    placeholder: apellidos,
+                    label: apellidos,
                     isRequired: true,
                     defaultValue: this.data.Apellidos,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
                 "Telefono": {
-                    placeholder: 'Teléfono',
-                    label: 'Teléfono',
+                    placeholder: telefono,
+                    label: telefono,
                     defaultValue: this.data['Telefono'],
-                    type: 'phone' ,
+                    type: 'phone',
                     isRequired: true,
                     height: 54
                 },
                 Correo: {
-                    placeholder: 'Correo',
-                    label: 'Correo electrónico',
+                    placeholder: correo,
+                    label: correo,
                     type: 'email',
                     isRequired: true,
                     defaultValue: this.data.Correo,
@@ -78,20 +112,20 @@ class index extends Component {
                     height: 54
                 },
                 nivel_ingles: {
-                    placeholder: 'Nivel de inglés',
-                    label: 'Nivel de inglés',
+                    placeholder: nivel_ingles,
+                    label: nivel_ingles,
                     type: 'select',
-                    options: [{ key: "", content: "SELECCIONAR" }, { key: "NINGUNO", content: "NINGUNO" }, { key: "BASICO", content: "BASICO" }, { key: "MEDIO", content: "MEDIO" }, { key: "AVANZADO", content: "AVANZADO" }],
+                    options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content:  (lenguaje == "en") ? "NONE" :"NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }],
                     isRequired: true,
                     defaultValue: this.data.nivel_ingles,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
                 papeles: {
-                    placeholder: '¿Está autorizado para trabajar en los Estados Unidos?',
-                    label: '¿Está autorizado para trabajar en los Estados Unidos?',
+                    placeholder: papeles,
+                    label: papeles,
                     type: 'select',
-                    options: [{ key: "", content: "SELECCIONAR" }, { key: "SI", content: "SI" }, { key: "NO", content: "NO" }],
+                    options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR"  }, { key: "YES", content:  (lenguaje == "en") ? "YES" :"SI" }, { key: "NO", content: "NO" }],
                     isRequired: true,
                     defaultValue: this.data.papeles,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,

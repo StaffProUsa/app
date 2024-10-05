@@ -10,6 +10,7 @@ import Carrito from '../Components/Carrito';
 import Actions from '../Actions';
 import Model from '../Model';
 import Calendar from '../Components/Calendar';
+import Degradado from '../Components/Degradado';
 
 const CANTIDAD_X_PAGE = 30;
 
@@ -32,7 +33,7 @@ export default class Inicio extends Component {
   }
 
   componentDidMount() {
-    
+
     // Actions.usuario_company.getAllCompanyUser().then(e => {
 
     // }).catch(e => {
@@ -267,44 +268,45 @@ export default class Inicio extends Component {
     // console.log(this.state.data)
     // console.log("invitaciones")
     // console.log(this.state.invitaciones)
-    if ((this.state.dataTipo.length == 1) && (this.state.data.length == 0) && (this.state.invitaciones == 0)) return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} center preventBack footer={<PBarraFooter url={'/'} />} disableScroll>
-      <SView col={'xs-12'} center>
-        <Container>
-          <SView col={'xs-12'} center
-            style={{
-              padding: 20,
-              borderRadius: 16,
-              borderWidth: 1,
-              borderColor: STheme.color.darkGray,
-              overflow: 'hidden',
-            }}>
-            <SGradient colors={["#0C0C10", "#040405"]} style={{ borderRadius: 16, }} />
-            <SHr height={25} />
-            <SText fontSize={28} center language={{
-              es: "Lo sentimos, actualmente no hay información disponible",
-              en: "Sorry, there is currently no information available"
-            }} />
-            <SHr height={35} />
-            <SView width={140} height={140} center style={{
-              borderRadius: 130,
-              backgroundColor: STheme.color.white,
-              overflow: 'hidden',
-              borderWidth: 1,
-              borderColor: STheme.color.primary,
-            }}>
-              <SIcon name={'noevent'} fill={STheme.color.primary} height={80} />
-            </SView>
-            <SHr height={35} />
-            <SText fontSize={20} center language={{
-              es: "No estás asignado(a) a ninguna empresa o no formas parte de una. Por favor, contacta al administrador para más detalles",
-              en: "You are not assigned to any company or you are not part of one. Please contact the administrator for more details"
-            }} />
-            <SHr height={25} />
-          </SView>
-        </Container>
-        <SHr height={50} />
-      </SView>
-    </SPage>
+
+    // if ((this.state.dataTipo.length == 1) && (this.state.data.length == 0) && (this.state.invitaciones == 0)) return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} center preventBack footer={<PBarraFooter url={'/'} />} disableScroll>
+    //   <SView col={'xs-12'} center>
+    //     <Container>
+    //       <SView col={'xs-12'} center
+    //         style={{
+    //           padding: 20,
+    //           borderRadius: 16,
+    //           borderWidth: 1,
+    //           borderColor: STheme.color.darkGray,
+    //           overflow: 'hidden',
+    //         }}>
+    //         <SGradient colors={["#0C0C10", "#040405"]} style={{ borderRadius: 16, }} />
+    //         <SHr height={25} />
+    //         <SText fontSize={28} center language={{
+    //           es: "Lo sentimos, actualmente no hay información disponible",
+    //           en: "Sorry, there is currently no information available"
+    //         }} />
+    //         <SHr height={35} />
+    //         <SView width={140} height={140} center style={{
+    //           borderRadius: 130,
+    //           backgroundColor: STheme.color.white,
+    //           overflow: 'hidden',
+    //           borderWidth: 1,
+    //           borderColor: STheme.color.primary,
+    //         }}>
+    //           <SIcon name={'noevent'} fill={STheme.color.primary} height={80} />
+    //         </SView>
+    //         <SHr height={35} />
+    //         <SText fontSize={20} center language={{
+    //           es: "No estás asignado(a) a ninguna empresa o no formas parte de una. Por favor, contacta al administrador para más detalles",
+    //           en: "You are not assigned to any company or you are not part of one. Please contact the administrator for more details"
+    //         }} />
+    //         <SHr height={25} />
+    //       </SView>
+    //     </Container>
+    //     <SHr height={50} />
+    //   </SView>
+    // </SPage>
 
     return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} preventBack footer={<PBarraFooter url={'/'} />} >
       <Container>
@@ -312,6 +314,19 @@ export default class Inicio extends Component {
           <SHr h={10} />
           {this.state.invitaciones && this.state.invitaciones.length > 0 && this.renderInvitaciones()}
           <SHr h={10} />
+          {((this.state.dataTipo.length == 1) && (this.state.data.length == 0) && (this.state.invitaciones == 0)) ?
+            <SView col={'xs-12'} center style={{
+              borderWidth: 2,
+              borderColor: STheme.color.warning,
+              borderRadius: 16,
+              overflow: 'hidden',
+            }} padding={10}>
+              <Degradado />
+              <SText fontSize={16} bold center language={{
+                es: "Lo sentimos, actualmente no hay información disponible.\nNo estás asignado(a) a ninguna empresa o no formas parte de una. Por favor, contacta al administrador para más detalles.",
+                en: "Sorry, there is currently no information available.\nYou are not assigned to any company or you are not part of one. Please contact the administrator for more details"
+              }} />
+            </SView> : null}
           {/* {this.getForm()}
           <SHr h={15} /> */}
 

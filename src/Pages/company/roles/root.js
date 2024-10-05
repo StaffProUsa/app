@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 // import TopBar from '../../../Components/TopBar';
-import { SHr, SImage, SList, SLoad, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SImage, SList, SLoad, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView, SLanguage } from 'servisofts-component';
 // import PBarraFooter from '../../../Components/PBarraFooter';
 import Container from '../../../Components/Container';
 import SSocket from 'servisofts-socket';
@@ -215,7 +215,7 @@ export default class root extends Component {
     }
     render() {
         // const restaurante = Model.restaurante.Action.getSelect();
-        return <SPage  footer={<PBarraFooter url={'/company'} />} >
+        return <SPage footer={<PBarraFooter url={'/company'} />} >
             <Container>
                 <SHr />
                 {/* <PageTitle title='ADMINISTRADOR DE USUARIOS' /> */}
@@ -228,14 +228,17 @@ export default class root extends Component {
                     {this.state.add ? <SView width={130} height={26} backgroundColor={STheme.color.card} borderRadius={4} center onPress={() => {
                         SNavigation.navigate("/company/roles/add", { key_company: this.key_company })
                     }}>
-                        <SText color={STheme.color.text} fontSize={12} >{"+ Agregar usuario"}</SText>
+                        <SText color={STheme.color.text} fontSize={12} language={{
+                            en: "+ Add user",
+                            es: "+ Agregar usuario"
+                        }} />
                     </SView> : null}
 
                 </SView>
                 <SHr h={32} />
                 {this.renderList()}
             </Container>
-            <SHr height={90}/>
+            <SHr height={90} />
         </SPage>
     }
 }

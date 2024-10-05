@@ -16,6 +16,16 @@ export default class root extends Component {
     };
   }
 
+  onChangeLanguage(language) {
+    this.setState({ ...this.state })
+  }
+  componentDidMount() {
+    SLanguage.addListener(this.onChangeLanguage.bind(this))
+  }
+  componentWillUnmount() {
+    SLanguage.removeListener(this.onChangeLanguage)
+  }
+
   handleGetCode() {
     SSocket.sendPromise({
       component: "asistencia",
@@ -106,6 +116,7 @@ export default class root extends Component {
     </>
   }
   render() {
+    let lenguaje = SLanguage.language;
     return <SPage titleLanguage={{ es: "Asistencia", en: "Assistance" }} footer={<PBarraFooter url={'/token'} />}>
       <Container>
         <SHr h={40} />
@@ -146,7 +157,7 @@ export default class root extends Component {
           if (code.length < 6) {
             SNotification.send({
               title: "Error",
-              body: "El codigo debe ser de 6 digitos",
+              body: (lenguaje == "es") ? "El código debe ser de 6 digitos" : "The code must be 6 digits",
               color: STheme.color.danger
             })
             return null;
@@ -159,13 +170,13 @@ export default class root extends Component {
           }).then(e => {
             SNotification.send({
               title: "Exito",
-              body: "Se realizo la asistenncia con exito"
+              body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful"
             })
             SNavigation.navigate("/token/exito")
           }).catch(e => {
             SNotification.send({
               title: "Error",
-              body: "No se pudo realizar la asistencia.",
+              body: (lenguaje == "es") ? "No se pudo realizar la asistencia." : "The assistance could not be carried out.",
               color: STheme.color.danger
             })
             console.error(e);
