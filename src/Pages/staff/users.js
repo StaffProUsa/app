@@ -275,6 +275,7 @@ export default class users extends Component {
                             },
                             { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                             { key: "participacion", label: "#P", width: 50, order: "desc" },
+                            { key: "rechazos", label: "#R", width: 50, order: "desc", component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
                             // { key: "usuario/Telefono", label: "Telefono", width: 100 },
                             {
                                 key: "usuario/Telefono", label: "Telefono", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>

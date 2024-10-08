@@ -193,6 +193,32 @@ export default class invitationDetail extends React.Component {
                 <SView col={'xs-12'} row center>
                   <Btn col={"xs-5"} onPress={() => {
                     // SNavigation.navigate("/registro")
+                    let data = {
+                      key: obj?.staff_usuario?.key,
+                      fecha_rechazo: new SDate().toString(),
+                      key_usuario: Model.usuario.Action.getKey(),
+                      descripcion_rechazo: "Rechazado por el usuario",
+                      estado: 0
+                    }
+                    SSocket.sendPromise({
+                      component: "staff_usuario",
+                      type: "editar",
+                      // fecha_rechazo: new SDate().toString(),
+                      // descripcion_rechazo: "Rechazado por el usuario",
+                      // key_usuario: Model.usuario.Action.getKey(),
+                      // key: obj.staff_usuario.key
+                      data: data
+                    }).then(e => {
+                      console.log(e);
+                      // SNavigation.navigate("/evento",{key:obj?.evento?.key});
+                      // SNavigation.navigate("/inicio");
+                      this.setState({ loading: false })
+                      SNavigation.reset("/inicio");
+                    }).catch(e => {
+                      console.error(e);
+                      this.setState({ loading: false, error: e.error })
+                    })
+
                   }} backgroundColor={STheme.color.darkGray} >
                     <SText fontSize={18} color={STheme.color.text} language={{
                       es: "NO, GRACIAS",

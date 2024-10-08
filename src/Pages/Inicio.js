@@ -314,7 +314,9 @@ export default class Inicio extends Component {
           <SHr h={10} />
           {this.state.invitaciones && this.state.invitaciones.length > 0 && this.renderInvitaciones()}
           <SHr h={10} />
-          {((this.state.dataTipo.length == 1) && (this.state.data.length == 0) && (this.state.invitaciones == 0)) ?
+
+          {/* no lo necesita */}
+          {/* {((this.state.dataTipo.length == 1) && (this.state.data.length == 0) && (this.state.invitaciones == 0)) ?
             <SView col={'xs-12'} center style={{
               borderWidth: 2,
               borderColor: STheme.color.warning,
@@ -326,7 +328,9 @@ export default class Inicio extends Component {
                 es: "Lo sentimos, actualmente no hay información disponible.\nNo estás asignado(a) a ninguna empresa o no formas parte de una. Por favor, contacta al administrador para más detalles.",
                 en: "Sorry, there is currently no information available.\nYou are not assigned to any company or you are not part of one. Please contact the administrator for more details"
               }} />
-            </SView> : null}
+            </SView> : null} */}
+
+
           {/* {this.getForm()}
           <SHr h={15} /> */}
 

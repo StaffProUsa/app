@@ -23,7 +23,12 @@ export default class invite extends Component {
         };
         this.key_company = SNavigation.getParam("key_company");
     }
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+        let lenguaje = SLanguage.language;
         let usuario = Model.usuario.Action.getUsuarioLog();
         // let empresa = Model.empresa.Action.getSelect();
         let empresa = Model.company.Action.getAll()[this.key_company];
@@ -34,8 +39,8 @@ export default class invite extends Component {
             key_usuario: Model.usuario.Action.getKey(),
             key_company: this.key_company,
             data: {
-                descripcion: `${empresa?.descripcion} te invita a formar parte de la empresa.`,
-                observacion: "Te invitamos a formar parte de la empresa. Acepta esta invitación.",
+                descripcion: (lenguaje == "es") ? `${empresa?.descripcion} te invita a formar parte de la empresa.` : `${empresa?.descripcion} invites you to join the company.`,
+                observacion: (lenguaje == "es") ? "Te invitamos a formar parte de la empresa. Acepta esta invitación." : "We invite you to join the company. Accept this invitation.",
                 fecha_inicio: new SDate().toString(),
                 fecha_fin: new SDate().addDay(1).toString(),
                 color: STheme.color.success,
@@ -47,12 +52,17 @@ export default class invite extends Component {
             // let page_link = 'http://192.168.3.3:3000';
             let page_link = 'https://staffprousa.servisofts.com';
             let invitation_link = `${page_link}/invitation?pk=${e.data.key}`
-            let message = `
+            let message = (lenguaje == "es") ? `
 Hola te invitamos a formar parte de nuesta empresa, Presiona el link para unirte.
 
 ${invitation_link}                
 
 Bienvenido a *${empresa?.descripcion}*
+    `: `Hi we invite you to join our company, Press the link to join.
+
+${invitation_link}                
+
+Welcome to *${empresa?.descripcion}*
     `
             this.setState({ link: invitation_link, message: message })
             // Linking.openURL("https://wa.me/?text=" + encodeURIComponent(message))
@@ -61,6 +71,9 @@ Bienvenido a *${empresa?.descripcion}*
         }).catch(e => {
             console.error(e);
         })
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
     }
 
 
@@ -88,7 +101,7 @@ Bienvenido a *${empresa?.descripcion}*
                         es: "Cualquier persona en la app puede usar este enlace para unirse a este empresa. Compártelo solo con personas en las que confíes.",
                         en: "Anyone in the app can use this link to join this company. Share it only with people you trust."
                     }
-                }/>
+                } />
                 <SHr h={40} />
                 <SView row col={"xs-12"} center>
                     <SView width={60} height={60} style={{
