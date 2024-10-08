@@ -18,6 +18,7 @@ import DeviceKey from './Firebase/DeviceKey';
 import Socket from './Socket';
 import ErrorBoundary from './Components/ErrorBoundary';
 
+SLanguage.language = "en";
 const versionToNumber = (v) => {
   const array = v.split("\.");
   const vl = 100;
