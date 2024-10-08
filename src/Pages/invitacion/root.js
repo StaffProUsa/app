@@ -233,7 +233,8 @@ export default class root extends React.Component {
         if (root.INSTANCE) {
           root.INSTANCE.reload()
         }
-        SNavigation.goBack();
+        // SNavigation.goBack();
+        SNavigation.navigate("/registro/categorias")
       }).catch(e => {
         if (e.error == "existe") {
           SNotification.send({

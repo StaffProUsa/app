@@ -129,10 +129,10 @@ class categorias extends Component {
             titleHeader = "Staff Registration";
         }
         return (
-            <SPage footer={<SView col={'xs-12'} row center>
+            <SPage footer={<SView col={'xs-12'} disabled row center>
                 <SView col={'xs-11'} row>
                     <SView col={'xs-6'} >
-                        <SView onPress={() => {
+                        {/* <SView onPress={() => {
                             SNavigation.goBack()
                         }}
                             style={{
@@ -143,7 +143,7 @@ class categorias extends Component {
                                 en: "Back",
                                 es: "Atrás",
                             }}></SText>
-                        </SView>
+                        </SView> */}
                     </SView>
                     <SView col={'xs-6'} style={{ alignItems: "flex-end" }}>
                         <SView onPress={() => SNavigation.navigate("/inicio")}>
