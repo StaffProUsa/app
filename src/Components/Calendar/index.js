@@ -23,9 +23,32 @@ class index extends Component {
     onChangeLanguage(language) {
         this.setState({ ...this.state })
     }
+
+    crearSemana = (semana, sdate) => {
+        return new Array(7).fill(0).map((obj, index) => {
+            sdate.addDay(1);
+            return {
+                fecha: sdate.toString("yyyy-MM-dd"),
+                sdate: sdate.clone(),
+                dia: index
+            }
+        })
+    }
+    crearMes = (yyyymm) => {
+        const mes = new SDate(yyyymm + "-01", "yyyy-MM-dd");
+        // mes.setDay(1)
+        mes.addDay(-mes.getDayOfWeek() - 1)
+        console.log("mes", mes.toString(), mes.getDayOfWeek())
+        let days = [];
+        new Array(6).fill(0).map((obj, index) => {
+            days = [...days, ...this.crearSemana(index, mes)]
+        })
+        return days;
+    }
     componentDidMount() {
-
-
+        const mes = this.crearMes(this.state.curDay.toString("yyyy-MM"));
+        // this.state.mesdata = mes;
+        this.setState({ mesdata: mes })
         // Model.asistencia.Action.getByKeyUsuario().then(resp => {
         //     this.setState({ data: resp.data })
         // }).catch(e => {
@@ -39,6 +62,22 @@ class index extends Component {
         // })
         SLanguage.addListener(this.onChangeLanguage.bind(this))
 
+        SSocket.sendPromise({
+            // component: "evento",
+            // type: "getInicio",
+            component: "evento",
+            type: "getInicio",
+            // limit: CANTIDAD_X_PAGE,
+            // offset: this.state.page * CANTIDAD_X_PAGE,
+            key_usuario: Model.usuario.Action.getKey(),
+            fecha_inicio: "1993-01-01",
+            fecha_fin: "2030-01-01"
+        }).then(e => {
+            this.setState({ data: e.data, })
+        }).catch(e => {
+            this.setState({ refreshing: false })
+        })
+
     }
     componentWillUnmount() {
         SLanguage.removeListener(this.onChangeLanguage)
@@ -50,43 +89,34 @@ class index extends Component {
         let hoy = new SDate(this.state.curDay).getDayOfWeek()
         let isSelect = false
         let color = isSelect ? STheme.color.white : STheme.color.text
-
+        
+        const isCurtMonth = this.state.curDay.toString("yyyy-MM") == data.sdate.toString("yyyy-MM")
+        let events = [];
+        if(this.state.data){
+            events = this.state.data.filter(a=> new SDate(a.fecha, "yyyy-MM-ddThh:mm:ss").equalDay(data.sdate))
+        }
         let datosArray = data?.dataAsis
         return <>
             <SView col={"xs-1.7"} height={100} style={{
                 borderWidth: 1, borderColor: STheme.color.gray,
+                opacity: isCurtMonth ? 1 : 0.4,
                 // backgroundColor:  data.asistiendo ? "#D93444": STheme.color.card
                 backgroundColor: STheme.color.card
             }} center
-            // onPress={() => {
-            //     data?.evento ? SNavigation.navigate("/evento", { key: data?.evento?.key }) : null
-            // }}
-            >
-                {data?.evento ? null : <Degradado />}
 
+            >
+                {/* {data?.evento ? null : <Degradado />}
                 {data?.isPaquete ? <SView style={{
                     position: "absolute",
                     bottom: 0,
                     width: "100%",
                     height: 10,
                     backgroundColor: "#D70201"
-                }}></SView> : null}
-                {/* {data?.evento ?
-                    <SView col={"xs-12"} flex style={{
-                        alignItems: "flex-end",
-                        position: "absolute",
-                        top: 0
-                    }}>
-                        <SView width={25} height={25} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth: 1, borderColor: STheme.color.darkGray }}>
-                            <SImage src={SSocket.api.root + "company/" + data?.evento?.key_company} style={{
-                                resizeMode: "cover",
-                            }} />
-                        </SView>
-                    </SView>
-                    : null
-                } */}
-                <SText font={"Roboto"} fontSize={14} color={color}>{data?.diaMes || ""}</SText>
-                {data?.dataAsis ? data.dataAsis.map((k) => {
+                }}></SView> : null} */}
+                <SText style={{
+                    position: "absolute", right: 4, top: 4
+                }} bold font={"Roboto"} fontSize={14} color={color}>{data.sdate.toString("dd")}</SText>
+                {events ? events.map((k) => {
                     let desCorto = k.descripcion.length > 10 ? k.descripcion.substring(0, 10) + "..." : k.descripcion
                     return (<>
                         <SView col={"xs-11.5"} row center style={{
@@ -112,29 +142,7 @@ class index extends Component {
                         </SView>
                     </>)
                 }) : null}
-
-
-                <SView col={"xs-12"} center>
-                    {data?.dataAsis ? data.dataAsis.map((k) => {
-                        return (<>
-                            {/* <SText font={"Roboto"} fontSize={10} color={color}>{k.company_descripcion || ""}</SText> */}
-                            {/* <SText font={"Roboto"} center underLine fontSize={10} color={color}>{k.descripcion || ""}</SText> */}
-
-                            {/* <SView style={{
-                                borderWidth: 1,
-                                borderRadius: 5,
-                                borderColor: "#D93444",
-                                padding: 2
-                            }} width={32} >
-                                <SText font={"Roboto"} fontSize={10} color={color}>{k.horario || ""}</SText>
-                            </SView> */}
-                        </>
-                        )
-                    })
-                        : null}
-                </SView>
                 <SHr />
-
             </SView>
         </>
     }
@@ -145,22 +153,24 @@ class index extends Component {
         // lenguaje == "es" ? "D" : "S";
         return <>
             <SView col={"xs-12"} row >
-                <Dia dia={lenguaje == "en" ? "SUN" : "DOM"} />
                 <Dia dia={lenguaje == "en" ? "MON" : "LUN"} />
                 <Dia dia={lenguaje == "en" ? "TUE" : "MAR"} />
                 <Dia dia={lenguaje == "en" ? "WED" : "MIE"} />
                 <Dia dia={lenguaje == "en" ? "THU" : "JUE"} />
                 <Dia dia={lenguaje == "en" ? "FRI" : "VIE"} />
                 <Dia dia={lenguaje == "en" ? "SAT" : "SAB"} />
+                <Dia dia={lenguaje == "en" ? "SUN" : "DOM"} />
+
             </SView>
         </>
     }
 
-    getCalendario(mes, ano) {
-
+    getCalendario() {
+        let mes = this.state.curDay.getMonth() - 1;
+        let ano = this.state.curDay.getYear();
         // if (!this.state?.paquetes) return <SLoad />
         this.state.paquetes = this.state.paquetes || {}
-        let dataEventos = this.props.eventos || {}
+        let dataEventos = this.state.data || []
         // console.log("dataEventos")
         // console.log(dataEventos)
 
@@ -182,65 +192,65 @@ class index extends Component {
         var dato;
         var dataMostrar = [];
 
-        for (let i = 0; i < 6; i++) {
-            for (let j = 0; j < 7; j++) {
-                index++;
-                if (i == 0 && j < primerDiaSemana) {
-                    //primer semana del mes
-                    calendario.push({ index, dia_semana: j, semana: i, fecha: null })
-                } else {
-                    if (diaMes < ultimoDiaMes) {
-                        diaMes++;
-                        //Aqui verificamos si asistio o no a entrenar
+        // for (let i = 0; i < 6; i++) {
+        //     for (let j = 0; j < 7; j++) {
+        //         index++;
+        //         if (i == 0 && j < primerDiaSemana) {
+        //             //primer semana del mes
+        //             calendario.push({ index, dia_semana: j, semana: i, fecha: null })
+        //         } else {
+        //             if (diaMes < ultimoDiaMes) {
+        //                 diaMes++;
+        //                 //Aqui verificamos si asistio o no a entrenar
 
-                        let fechaActual = new Date(ano, mes, diaMes)
-                        let asistido;
-                        // let asistio = Object.values(dataAsistencia).find(obj2 => obj2.fecha_on == fechaActual);
-                        let sdActual = new SDate(fechaActual);
-                        // Object.values(dataAsistencia).map((obj) => {
-                        Object.values(dataEventos).map((obj) => {
-                            // dato = Object.values(obj).find(obj2 => new SDate(obj2.fecha_on).toString("yyyy-MM-dd") == new SDate(fechaActual).toString("yyyy-MM-dd"));
-                            // if (!dato) return null
+        //                 let fechaActual = new Date(ano, mes, diaMes)
+        //                 let asistido;
+        //                 // let asistio = Object.values(dataAsistencia).find(obj2 => obj2.fecha_on == fechaActual);
+        //                 let sdActual = new SDate(fechaActual);
+        //                 // Object.values(dataAsistencia).map((obj) => {
+        //                 Object.values(dataEventos).map((obj) => {
+        //                     // dato = Object.values(obj).find(obj2 => new SDate(obj2.fecha_on).toString("yyyy-MM-dd") == new SDate(fechaActual).toString("yyyy-MM-dd"));
+        //                     // if (!dato) return null
 
-                            // let formatFecha = new Date(obj.fecha_on)
+        //                     // let formatFecha = new Date(obj.fecha_on)
 
-                            // asistido = Object.values(obj).filter((a) => new SDate(a.fecha_on).toString("yyyy-MM-dd") == new SDate(fechaActual).toString("yyyy-MM-dd"))
-                            if (new SDate(obj.fecha).toString("yyyy-MM-dd") == sdActual.toString("yyyy-MM-dd")) {
-                                console.log("yes")
-                                asisti = true
-                                data = obj;
-                                dataMostrar.push(obj)
+        //                     // asistido = Object.values(obj).filter((a) => new SDate(a.fecha_on).toString("yyyy-MM-dd") == new SDate(fechaActual).toString("yyyy-MM-dd"))
+        //                     if (new SDate(obj.fecha).toString("yyyy-MM-dd") == sdActual.toString("yyyy-MM-dd")) {
+        //                         console.log("yes")
+        //                         asisti = true
+        //                         data = obj;
+        //                         dataMostrar.push(obj)
 
-                            }
-                        })
+        //                     }
+        //                 })
 
-                        let isPaquete = false;
-                        // Object.values(this.state.paquetes).map((obj) => {
+        //                 let isPaquete = false;
+        //                 // Object.values(this.state.paquetes).map((obj) => {
 
-                        // Object.values(dataEventos).map((obj) => {
-                        //     if ((new SDate(obj.fecha_inicio, "yyyy-MM-dd").equalDay(sdActual) || new SDate(obj.fecha_fin, "yyyy-MM-dd").equalDay(sdActual)) || (
-                        //         sdActual.isAfter(new SDate(obj.fecha_inicio, "yyyy-MM-dd")) && sdActual.isBefore(new SDate(obj.fecha_fin, "yyyy-MM-dd"))
-                        //     )) {
-                        //         isPaquete = true;
+        //                 // Object.values(dataEventos).map((obj) => {
+        //                 //     if ((new SDate(obj.fecha_inicio, "yyyy-MM-dd").equalDay(sdActual) || new SDate(obj.fecha_fin, "yyyy-MM-dd").equalDay(sdActual)) || (
+        //                 //         sdActual.isAfter(new SDate(obj.fecha_inicio, "yyyy-MM-dd")) && sdActual.isBefore(new SDate(obj.fecha_fin, "yyyy-MM-dd"))
+        //                 //     )) {
+        //                 //         isPaquete = true;
 
-                        //     }
-                        // })
+        //                 //     }
+        //                 // })
 
 
-                        calendario.push({ isPaquete: isPaquete, diaMes, index, dia_semana: j, semana: i, fecha: "", asistiendo: asisti, dataAsis: dataMostrar, evento: dataMostrar[0] })
-                        asisti = false
-                        data = null;
-                        dataMostrar = []
-                    } else {
-                        asisti = false
-                        data = null;
-                        dataMostrar = []
-                        calendario.push({ index, dia_semana: j, semana: i, fecha: null })
-                    }
-                    // index++;
-                }
-            }
-        }
+        //                 calendario.push({ isPaquete: isPaquete, diaMes, index, dia_semana: j, semana: i, fecha: "", asistiendo: asisti, dataAsis: dataMostrar, evento: dataMostrar[0] })
+        //                 asisti = false
+        //                 data = null;
+        //                 dataMostrar = []
+        //             } else {
+        //                 asisti = false
+        //                 data = null;
+        //                 dataMostrar = []
+        //                 calendario.push({ index, dia_semana: j, semana: i, fecha: null })
+        //             }
+        //             // index++;
+        //         }
+        //     }
+        // }
 
         // console.log("calendario")
         // console.log(calendario)
@@ -255,7 +265,10 @@ class index extends Component {
                 }}
             >
                 <SView col={"xs-2"} onPress={() => {
-                    this.setState({ curDay: this.state.curDay.addMonth(-1) })
+                    this.state.curDay.addMonth(-1)
+                    const mes = this.crearMes(this.state.curDay.toString("yyyy-MM"));
+                    this.state.mesdata = mes;
+                    this.setState({ ...this.state })
                 }}>
                     <SIcon name='Iprevious' height={20} fill={STheme.color.secondary} />
                 </SView>
@@ -265,7 +278,11 @@ class index extends Component {
                     <SHr />
                 </SView>
                 <SView col={"xs-2"} onPress={() => {
-                    this.setState({ curDay: this.state.curDay.addMonth(1) })
+                    this.state.curDay.addMonth(1)
+                    const mes = this.crearMes(this.state.curDay.toString("yyyy-MM"));
+                    this.state.mesdata = mes;
+                    this.setState({ ...this.state })
+                    // this.setState({ curDay: this.state.curDay.addMonth(1) })
                 }}>
                     <SIcon name='Inext' height={20} fill={STheme.color.secondary} />
                 </SView>
@@ -277,7 +294,7 @@ class index extends Component {
                         horizontal
                         space={0}
                         // data={new Array(SDate.getDaysInMonth(this.state.curDay.getYear(), this.state.curDay.getMonth())).fill(0)}
-                        data={calendario}
+                        data={this.state.mesdata ?? []}
                         render={this.renderDias.bind(this)}
                     />
                 </SView>
@@ -286,28 +303,19 @@ class index extends Component {
     }
     getBody() {
         var usuario = Model.usuario.Action.getUsuarioLog();
-
         if (!usuario) return <SLoad />
-        //asistencia
-        //getByKeyUsuario
         return <SView col={"xs-12"} row>
             <SText bold fontSize={22} language={{
                 es: "¡Hola " + usuario.Nombres + "!",
                 en: "Hello " + usuario.Nombres + "!"
             }} />
             <SHr height={15} />
-            {/* <MiPlan data={usuario} onLoad={(data) => {
-                this.setState({ paquetes: data })
-            }} /> */}
-            <SHr height={15} />
-            {this.getCalendario(this.state.curDay.getMonth() - 1, this.state.curDay.getYear())}
+            {this.getCalendario()}
         </SView>
     }
     render() {
         return (<>
-            {/* <Container> */}
             {this.getBody()}
-            {/* </Container> */}
             <SHr height={40} />
         </>
         );
