@@ -118,7 +118,7 @@ export default class root extends Component {
                 alignItems: "center"
             }} row>
                 <SView width={40} height={40} card style={{ overflow: "hidden" }}>
-                    <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario} style={{ resizeMode: "cover" }} />
+                    <SImage enablePreview src={SSocket.api.root + "usuario/" + obj.key_usuario} style={{ resizeMode: "cover" }} />
                 </SView>
                 <SView width={8} />
                 <SView flex onPress={!this.onSelect ? null : () => {
