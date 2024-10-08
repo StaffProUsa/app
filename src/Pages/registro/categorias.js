@@ -124,9 +124,9 @@ class categorias extends Component {
         };
         console.log(this.state.selectedItems)
         let lenguaje = SLanguage.language;
-        let titleHeader = "Registro de Staff";
+        let titleHeader = "¿En qué soy bueno?";
         if (lenguaje == "en") {
-            titleHeader = "Staff Registration";
+            titleHeader = "What am I good at?";
         }
         return (
             <SPage footer={<SView col={'xs-12'} disabled row center>
