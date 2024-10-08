@@ -32,13 +32,7 @@ export default class Inicio extends Component {
 
   }
 
-  componentDidMount() {
-
-    // Actions.usuario_company.getAllCompanyUser().then(e => {
-
-    // }).catch(e => {
-
-    // })
+  loadDataInvitaciones() {
 
     SSocket.sendPromise({
       component: "staff_usuario",
@@ -49,35 +43,53 @@ export default class Inicio extends Component {
     }).catch(e => {
       console.error(e);
     })
+  }
+  componentDidMount() {
+
+    // Actions.usuario_company.getAllCompanyUser().then(e => {
+
+    // }).catch(e => {
+
+    // })
+    this.loadDataInvitaciones();
 
     this.state.data = []
     this.state.page = 0;
     this.state.endData = false;
-    this.getFiltros();
-    this.requestData();
+    // this.getFiltros();
+    // this.requestData();
+    SSocket.addEventListener("onMessage", this.handleSocketMessage.bind(this))
+  }
+  componentWillUnmount() {
+    SSocket.removeEventListener("onMessage", this.handleSocketMessage.bind(this));
+  }
+  handleSocketMessage(obj) {
+    if (obj.component == "staff_usuario" && obj.type == "invitarGrupoNotify") {
+      this.loadDataInvitaciones();
+    }
   }
   onChangeFavorito() {
     this.componentDidMount();
   }
   getFiltros() {
-    SSocket.sendPromise({
-      component: "evento",
-      type: "getInicioFiltros",
-      key_usuario: Model.usuario.Action.getKey()
-    }).then(e => {
-      let listTypes = [];
-      Object.values(e.data).map((company) => {
-        listTypes = [...listTypes, ...company.staff_tipos]
-      })
+    // SSocket.sendPromise({
+    //   component: "evento",
+    //   type: "getInicioFiltros",
+    //   key_usuario: Model.usuario.Action.getKey()
+    // }).then(e => {
+    //   let listTypes = [];
+    //   Object.values(e.data).map((company) => {
+    //     listTypes = [...listTypes, ...company.staff_tipos]
+    //   })
 
-      const favs = Object.values(e.favoritos);
-      listTypes = listTypes.filter(a => favs.find(b => b.key_staff_tipo == a.key))
+    //   const favs = Object.values(e.favoritos);
+    //   listTypes = listTypes.filter(a => favs.find(b => b.key_staff_tipo == a.key))
 
-      this.setState({ dataTipo: [{ key: "ADD" }, ...listTypes], refreshing: false })
-      console.log(e);
-    }).catch(e => {
-      console.error(e);
-    })
+    //   this.setState({ dataTipo: [{ key: "ADD" }, ...listTypes], refreshing: false })
+    //   console.log(e);
+    // }).catch(e => {
+    //   console.error(e);
+    // })
   }
 
   requestData() {
@@ -157,7 +169,7 @@ export default class Inicio extends Component {
     this.state.endData = false;
     this.setState({ data: [], refreshing: true })
     this.setState({ dataTipo: [], refreshing: true })
-    this.requestData();
+    // this.requestData();
   };
 
   getForm() {
@@ -379,7 +391,7 @@ export default class Inicio extends Component {
       </Container>
       <SView col={"xs-12"} center>
         <SView col={"xs-11.5"} center>
-          <Calendar eventos={this.state.data} />
+          <Calendar/>
         </SView>
         <SHr height={60} />
       </SView>
