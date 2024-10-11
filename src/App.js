@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native'
-import { SComponentContainer, SLanguage, SNavigation, SMapView } from 'servisofts-component';
+import { SComponentContainer, SLanguage, SNavigation, SMapView, SPage } from 'servisofts-component';
 import packageInfo from "../package.json";
 
 import Assets from './Assets';

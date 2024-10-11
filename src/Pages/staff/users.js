@@ -189,12 +189,29 @@ export default class users extends Component {
                 </SView>
             </SView>
             <SView row col={"xs-12"} flex padding={4} >
-                <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }}>
+                <SView flex={2} height backgroundColor='#232323' style={{ borderRadius: 4 }}>
                     <SHr h={4} />
                     <SText fontSize={12} center language={{
                         es: "Staff Disponibles",
                         en: "Available Staff"
                     }} />
+                    <SView onPress={() => {
+                        let keys_usuarios = this.state.data_disponibles.filter(a => !a.staff_usuario).map(a => {
+                            return a.key_usuario
+                        })
+                        SSocket.sendPromise({
+                            component: "staff_usuario",
+                            type: "invitarGrupo",
+                            key_usuarios_invitados: keys_usuarios,
+                            key_staff: this.pk,
+                            key_usuario: Model.usuario.Action.getKey(),
+                        }).then(e => {
+                            this.componentDidMount();
+                            console.log(e)
+                        }).catch(e => {
+                            console.error(e)
+                        })
+                    }}><SText>ALL</SText></SView>
                     <STable2
                         key={"Algo"}
                         data={this.state.data_disponibles}
@@ -245,24 +262,29 @@ export default class users extends Component {
                                 }} /></SView></SView>
                             },
                             {
-                                key: "key_usuario", label: "Foto", width: 30, component: (usr) => <SView card width={25} height={25} center
+                                key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
                                     style={{ borderRadius: 4, overflow: "hidden" }}>
                                     <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
                                         resizeMode: "cover",
                                     }} /></SView>
                             },
-                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
-                            { key: "participacion", label: "#P", width: 50, order: "desc" },
-                            { key: "rechazos", label: "#R", width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
+                            { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
+                            { key: "participacion", label: "Events", width: 50, order: "desc" },
+                            { key: "rechazos", label: "Rejects", width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
                             // { key: "usuario/Telefono", label: "Telefono", width: 100 },
                             {
-                                key: "usuario/Telefono", label: "Telefono", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
+                                key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number}
+                                    texto={this.state?.data?.evento?.observacion}
+                                    >
                                     <SText fontSize={11} color={STheme.color.text} underLine>
                                         {number}
                                     </SText>
                                 </BtnWhatsapp>
                             },
-                            { key: "tipos_staff", label: "Tipos", width: 200, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
+                            {
+                                key: "tipos_staff_favoritos", label: "Skills", width: 300,
+                                render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "",
+                            },
 
                         ]} />
                 </SView>
@@ -295,21 +317,21 @@ export default class users extends Component {
                             //     }} /></SView></SView>
                             // },
                             {
-                                key: "key_usuario", label: "Foto", width: 30, component: (usr) => <SView card width={25} height={25} center
+                                key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
                                     style={{ borderRadius: 4, overflow: "hidden" }}>
                                     <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
                                         resizeMode: "cover",
                                     }} /></SView>
                             },
-                            { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
+                            { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                             {
-                                key: "staff_usuario", label: "Estado", width: 140, component: (obj) => <SView col={"xs-12"} center>
+                                key: "staff_usuario", label: "Status", width: 140, component: (obj) => <SView col={"xs-12"} center>
                                     {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
                                     {this.renderStaffUsuario(obj)}
                                 </SView>
                             },
                             {
-                                key: "staff_usuario-2", label: "Jefe", width: 140, component: (obj) => {
+                                key: "staff_usuario-2", label: "Boss", width: 140, component: (obj) => {
                                     const user = this.usuarios[obj.key_usuario_atiende]?.usuario
                                     return <SView col={"xs-12"} flex onPress={() => {
                                         this.handleAsignarJefe(obj)
@@ -325,16 +347,16 @@ export default class users extends Component {
                             },
                             // { key: "usuario/Telefono", label: "Telefono", width: 100 },
                             {
-                                key: "usuario/Telefono", label: "Telefono", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
+                                key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
                                     <SText fontSize={11} color={STheme.color.text} underLine>
                                         {number}
                                     </SText>
                                 </BtnWhatsapp>
                             },
-                            {
-                                key: "tipos_staff", label: "Tipos", width: 200,
-                                render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : ""
-                            },
+                            // {
+                            //     key: "tipos_staff_favoritos", label: "Tipos", width: 200,
+                            //     render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : ""
+                            // },
                             // {
                             //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
                             //         tipo_staff

@@ -15,6 +15,9 @@ export default class index extends Component<BtnWhatsappPropsType> {
         this.state = {
         };
         this.telefono = this.props.telefono.replace(/[+\s]/g, '');
+        this.telefono = this.telefono.replace(/[(|)|-]/g, '');
+        // this.telefono = this.telefono.replace(/[\s]/g, '');
+        
     }
 
     _handle_ios() {
@@ -24,6 +27,7 @@ export default class index extends Component<BtnWhatsappPropsType> {
         Linking.openURL(`https://wa.me/${this.telefono}?text=${this.props.texto}`);
     }
     _handle_web() {
+        console.log(this.telefono)
         Linking.openURL(`https://wa.me/${this.telefono}?text=${this.props.texto}`);
         // Linking.openURL(`https://api.whatsapp.com/send?phone=${this.telefono}`);
     }

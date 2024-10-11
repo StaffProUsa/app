@@ -59,7 +59,8 @@ export default class root extends Component {
     getUsuarioRestaurante() {
         SSocket.sendPromise({
             component: "usuario_company",
-            type: "getAll",
+            // type: "getAllStaff",
+            type: "getAllStaff",
             key_company: this.key_company
         }).then(e => {
             let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))];
@@ -106,6 +107,21 @@ export default class root extends Component {
         })
     }
 
+    renderStaffTipo(staffTipo) {
+        return <Text style={{
+            padding: 0,
+            paddingLeft: 4,
+            paddingRight: 4,
+            borderWidth: 1,
+            height: 14,
+            borderColor: staffTipo?.color ?? STheme.color.success,
+            backgroundColor: (staffTipo?.color ?? STheme.color.success) + "44",
+            borderRadius: 100,
+            color: STheme.color.text,
+            fontSize: 10,
+            marginRight: 8,
+        }} >{staffTipo?.descripcion}</Text>
+    }
     renderItem(obj) {
         const rol = this.state.roles.find(a => a.key == obj.key_rol);
         return <SView col={"xs-12"} row center >
@@ -141,10 +157,16 @@ export default class root extends Component {
                             color: STheme.color.text,
                             fontSize: 10
                         }} >{rol?.descripcion ?? "Sin rol"}</Text>
+                        {/* <SView width={8} /> */}
                     </SView>
                     <SHr h={2} />
                     <SText fontSize={10} color={STheme.color.gray}>{obj?.usuario?.Telefono}</SText>
                     <SText fontSize={10} color={STheme.color.gray}>{obj?.usuario?.Correo}</SText>
+                    <SHr h={2} />
+                    <SView row>
+                        {(obj?.staff_tipo ?? []).map(o => this.renderStaffTipo(o))}
+                    </SView>
+
                 </SView>
                 {!this.state.edit ? null :
                     <SView center height={60}>
