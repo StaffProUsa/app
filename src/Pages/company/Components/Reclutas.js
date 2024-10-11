@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SIcon, SImage, SNavigation, SText, STheme, SUtil, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SNavigation, SText, STheme, SUtil, SView, SLanguage } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 const getColorFromPercentage = (percentage) => {
     // Asegurarse de que el valor esté entre 0 y 100
@@ -83,7 +83,7 @@ export default class Reclutas extends Component {
                         }} />
                 </SView>
             </SView>
-            <SView center padding={5} onPress={()=>{
+            <SView center padding={5} onPress={() => {
                 SNavigation.navigate("/staff/add", { key_evento: obj.key_evento, pk: obj.key, })
             }}>
                 <SIcon name={"Edit"} width={30} height={30} />
@@ -96,8 +96,14 @@ export default class Reclutas extends Component {
         const arr = Object.values(this.state.data) ?? [];
         return <SView col={"xs-12"}>
             {arr.length <= 0 ? <SView center col={"xs-12"} height={200}>
-                <SText color={STheme.color.lightGray}>{"NO TIENES RECLUTAS"}</SText>
-                <SText color={STheme.color.lightGray} fontSize={10}>{"Presiona en el botón + para agregar puestos."}</SText>
+                <SText color={STheme.color.lightGray} language={{
+                    es: "NO TIENES RECLUTAS",
+                    en: "YOU DON'T HAVE RECRUITS"
+                }} />
+                <SText color={STheme.color.lightGray} fontSize={10} language={{
+                    es: "Presiona en el botón + para agregar puestos.",
+                    en: "Press the + button to add positions."
+                }} />
             </SView> :
                 arr.map((obj) => {
                     return this.renderObj(obj);

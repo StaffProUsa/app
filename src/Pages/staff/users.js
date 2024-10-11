@@ -262,7 +262,7 @@ export default class users extends Component {
                                     </SText>
                                 </BtnWhatsapp>
                             },
-                            { key: "tipos_staff", label: "Tipos", width: 200, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
+                            { key: "tipos_staff", label: "Posición", width: 200, render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "" },
 
                         ]} />
                 </SView>
@@ -332,7 +332,7 @@ export default class users extends Component {
                                 </BtnWhatsapp>
                             },
                             {
-                                key: "tipos_staff", label: "Tipos", width: 200,
+                                key: "tipos_staff", label: "Posición", width: 200,
                                 render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : ""
                             },
                             // {
