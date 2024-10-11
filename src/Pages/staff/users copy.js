@@ -186,8 +186,41 @@ export default class users extends Component {
                         </SView>
                     </SView>
                     <SView flex />
+                    <SView row style={{ justifyContent: "flex-end" }}>
+                        <SView width={25} height={25} center
+                            onPress={() => {
+                                SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
+                            }}>
+                            <SIcon name='Add' />
+                        </SView>
+                        {/* <SView col={"xs-12 sm-0.3"} height={5} /> */}
+                        <SView width={15} />
+                        <SView width={100} height={40} center style={{
+                            backgroundColor: STheme.color.secondary,
+                            borderRadius: 4,
+                        }}
+
+                            onPress={() => {
+                                // SNavigation.navigate("/usuario/add", { key_company: this.state.data?.evento?.key_company })
+                                SNavigation.goBack();
+                            }}>
+                            <SText center fontSize={12} language={{
+                                es: "GUARDAR CAMBIOS",
+                                en: "SAVE CHANGES"
+                            }} />
+                        </SView>
+                    </SView>
                 </SView>
+                {/* {this.separator()} */}
+
+                {/* {this.separator()} */}
+                {/* <SText fontSize={10} color={STheme.color.lightGray}>{this.state?.data?.fecha_inicio} {this.state?.data?.fecha_fin}</SText> */}
             </SView>
+            {/* <SList
+                    buscador
+                    data={this.state?.data?.staff_usuario ?? []}
+                    render={this.item.bind(this)}
+                /> */}
             <SView row col={"xs-12"} flex padding={4} >
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }}>
                     <SHr h={4} />
@@ -195,10 +228,28 @@ export default class users extends Component {
                         es: "Staff Disponibles",
                         en: "Available Staff"
                     }} />
+                    {/* <SView width={30} height={30} style={{
+                        position: "absolute",
+                        right: 2,
+                        top: 4,
+                    }} onPress={() => {
+                        SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
+                    }}>
+                        <SIcon name='Add' />
+                    </SView> */}
+                    {/* <SView width={90} height={30} style={{
+                        position: "absolute",
+                        right: 2,
+                        top: 4,
+                    }} onPress={() => {
+                        SNavigation.navigate("/company/roles/add", { key_company: this.state.data?.evento?.key_company })
+                    }}>
+                        <SText fontSize={12}>ADD USUARIO</SText>
+                    </SView> */}
                     <STable2
                         key={"Algo"}
                         data={this.state.data_disponibles}
-                        filter={(a) => !a.staff_usuario || a?.staff_usuario?.estado == 2}
+                        filter={(a) => !a.staff_usuario}
                         rowHeight={25}
                         cellStyle={{
                             justifyContent: "center",
@@ -211,37 +262,8 @@ export default class users extends Component {
                         header={[
                             // { key: "index", label: "#", width: 30 },
                             {
-                                key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
+                                key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.invitar} onChangeText={e => {
                                     elm.invitar = !!e;
-                                    if (elm.invitar) {
-                                        SSocket.sendPromise({
-                                            component: "staff_usuario",
-                                            type: "invitarGrupo",
-                                            key_usuarios_invitados: [elm.key_usuario],
-                                            key_staff: this.pk,
-                                            key_usuario: Model.usuario.Action.getKey(),
-                                        }).then(e => {
-                                            this.componentDidMount();
-                                            console.log(e)
-                                        }).catch(e => {
-                                            console.error(e)
-                                        })
-                                    } else {
-                                        SSocket.sendPromise({
-                                            component: "staff_usuario",
-                                            type: "desinvitarGrupo",
-                                            key_usuarios_desinvitados: [elm.key_usuario],
-                                            key_staff: this.pk,
-                                            key_usuario: Model.usuario.Action.getKey(),
-                                        }).then(e => {
-                                            this.componentDidMount();
-                                            console.log(e)
-                                        }).catch(e => {
-                                            console.error(e)
-                                        })
-                                    }
-                                    // console.log(elm);
-
                                 }} /></SView></SView>
                             },
                             {
@@ -253,7 +275,7 @@ export default class users extends Component {
                             },
                             { key: "usuario", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                             { key: "participacion", label: "#P", width: 50, order: "desc" },
-                            { key: "rechazos", label: "#R", width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
+                            { key: "rechazos", label: "#R", width: 50, order: "desc", component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
                             // { key: "usuario/Telefono", label: "Telefono", width: 100 },
                             {
                                 key: "usuario/Telefono", label: "Telefono", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
@@ -268,7 +290,42 @@ export default class users extends Component {
                 </SView>
 
                 <SView width={25} height center>
+                    {/* <SText padding={8} card>{">"}</SText> */}
+                    {/* <SHr /> */}
+                    <SText padding={4} card onPress={() => {
 
+                        const key_usuarios_invitados = Object.values(this.state.data_disponibles).filter(a => !!a.invitar).map(a => a.key_usuario);
+                        if (key_usuarios_invitados.length <= 0) return;
+                        SSocket.sendPromise({
+                            component: "staff_usuario",
+                            type: "invitarGrupo",
+                            key_usuarios_invitados: key_usuarios_invitados,
+                            key_staff: this.pk,
+                            key_usuario: Model.usuario.Action.getKey(),
+                        }).then(e => {
+                            this.componentDidMount();
+                            console.log(e)
+                        }).catch(e => {
+                            console.error(e)
+                        })
+                    }}>{">"}</SText>
+                    <SHr h={50} />
+                    <SText padding={4} card onPress={() => {
+                        const key_usuarios_desinvitados = Object.values(this.state.data_disponibles).filter(a => !!a.desinvitar).map(a => a.key_usuario);
+                        if (key_usuarios_desinvitados.length <= 0) return;
+                        SSocket.sendPromise({
+                            component: "staff_usuario",
+                            type: "desinvitarGrupo",
+                            key_usuarios_desinvitados: key_usuarios_desinvitados,
+                            key_staff: this.pk,
+                            key_usuario: Model.usuario.Action.getKey(),
+                        }).then(e => {
+                            this.componentDidMount();
+                            console.log(e)
+                        }).catch(e => {
+                            console.error(e)
+                        })
+                    }}>{"<"}</SText>
                 </SView>
                 <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }} >
                     <SHr h={4} />
@@ -280,7 +337,7 @@ export default class users extends Component {
                         key={"Algo1"}
                         data={this.state.data_disponibles}
                         headerColor='#666666'
-                        filter={(a) => !!a.staff_usuario && a?.staff_usuario?.estado != 2}
+                        filter={(a) => !!a.staff_usuario}
                         rowHeight={25}
                         cellStyle={{
                             justifyContent: "center",
@@ -289,11 +346,11 @@ export default class users extends Component {
 
                         }}
                         header={[
-                            // {
-                            //     key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
-                            //         elm.desinvitar = !!e;
-                            //     }} /></SView></SView>
-                            // },
+                            {
+                                key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
+                                    elm.desinvitar = !!e;
+                                }} /></SView></SView>
+                            },
                             {
                                 key: "key_usuario", label: "Foto", width: 30, component: (usr) => <SView card width={25} height={25} center
                                     style={{ borderRadius: 4, overflow: "hidden" }}>
