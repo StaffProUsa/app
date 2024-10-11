@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SGeolocation, SHr, SInput, SMapView, SNavigation, SNotification, SPage, SText, STheme, SView } from 'servisofts-component';
+import { SButtom, SGeolocation, SHr, SInput, SMapView, SNavigation, SNotification, SPage, SText, STheme, SView, SLanguage } from 'servisofts-component';
 
 export default class select extends Component {
     map: SMapView;
@@ -13,12 +13,16 @@ export default class select extends Component {
         };
         this.onSelect = SNavigation.getParam("onSelect")
     }
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         if (this.state.latitude || this.state.longitude) {
             this.map.animateToRegion({ latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 })
         } else {
             SGeolocation.getCurrentPosition({
-                
+
             }).then(e => {
                 this.map.animateToRegion({ latitude: e.coords.latitude, longitude: e.coords.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 })
             }).catch(e => {
@@ -29,11 +33,13 @@ export default class select extends Component {
                 })
             })
         }
-
-
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
     }
 
     renderMenu() {
+        let lenguaje = SLanguage.language;
         return <SView col={"xs-11"} height={140} backgroundColor='#000000AA' style={{
             position: "absolute",
             bottom: 8,
@@ -44,18 +50,30 @@ export default class select extends Component {
                 ref={ref => this.input = ref}
                 col={"xs-11"}
                 type='text'
+                required={true}
                 defaultValue={this.state.direccion}
                 backgroundColor={"#00000000"}
                 // style={{
                 //     backgroundColor: STheme.color.card
                 // }}
-                placeholder={"Direccion, Ejemplo. Av Banzer, Santa Cruz"} />
-            <SHr />
-            <SButtom type='danger' onPress={() => {
+                placeholder={(lenguaje == "es") ? "Dirección, Ejemplo: Av Banzer, Santa Cruz" : "Address, Example: Store, Stockton Street, San Francisco,"} />
+            <SText height={25} color={STheme.color.danger}>{this.state.error}</SText>
+            {/* <SHr height={10} /> */}
+            <SButtom type='secondary' onPress={() => {
+                // this.input.submit()
                 this.state.direccion = this.input.getValue();
+                if (!this.state.direccion) {
+                    this.setState({ error: (lenguaje == "es") ? "Debes registrar una descripción de dirección." : "You must register a description of the address." });
+                    return;
+                }
+                this.setState({ loading: true, error: "" })
                 console.log(this.state)
                 if (this.onSelect) this.onSelect(this.state)
-            }}>SUBIR</SButtom>
+            }}><SText language={{
+                es: "REGISTRAR",
+                en: "REGISTER"
+            }} />
+            </SButtom>
         </SView>
     }
 
