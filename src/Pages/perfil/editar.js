@@ -222,6 +222,13 @@ class index extends Component {
                                 }}></SView>
                             <SHr height={30} />
                             <PButtom rojo fontSize={20} onPress={() => {
+                                SNavigation.navigate("/registro/categorias")
+                            }}><SText center fontSize={15} color={STheme.color.text} language={{
+                                es: "EDITAR MIS APTITUDES O EXPERIENCIAS",
+                                en: "EDIT MY SKILLS OR EXPERIENCES"
+                            }} /></PButtom>
+                            <SView height={15} />
+                            <PButtom rojo fontSize={20} onPress={() => {
                                 SNavigation.navigate("/perfil/changepass")
                             }}><SText fontSize={20} color={STheme.color.text} language={{
                                 es: "CAMBIAR CONTRASEÑA",

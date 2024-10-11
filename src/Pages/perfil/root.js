@@ -270,8 +270,8 @@ class Perfil extends Component {
             })}
              {this.opcion({
               url: '/registro/categorias',
-              titulo: 'Mis Aptitudes',
-              titulo_en: 'My Skills',
+              titulo: 'Mis Aptitudes o experiencias',
+              titulo_en: 'My Skills or experiences',
               icon: 'aptitud'
             })}
             {this.opcion({
