@@ -83,7 +83,7 @@ class recuperar extends Component {
                         <SView col={"xs-11"} row center>
                             <PButtom rojo onPress={() => {
                                 this.form.submit();
-                            }}><SText color={STheme.color.text} language={{
+                            }}><SText color={STheme.color.white} language={{
                                 es: "ENVIAR CÓDIGO",
                                 en: "SEND CODE"
                             }} /></PButtom>

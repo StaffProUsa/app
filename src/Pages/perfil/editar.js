@@ -205,7 +205,7 @@ class index extends Component {
                                 <PButtom rojo fontSize={20} onPress={() => {
                                     this.form.submit();
                                 }}>
-                                    <SText fontSize={20} color={STheme.color.text} language={{
+                                    <SText fontSize={20} color={STheme.color.white} language={{
                                         es: "CONFIRMAR",
                                         en: "CONFIRM"
                                     }} />
@@ -223,14 +223,14 @@ class index extends Component {
                             <SHr height={30} />
                             <PButtom rojo fontSize={20} onPress={() => {
                                 SNavigation.navigate("/registro/categorias")
-                            }}><SText center fontSize={15} color={STheme.color.text} language={{
+                            }}><SText center fontSize={15} color={STheme.color.white} language={{
                                 es: "EDITAR MIS APTITUDES O EXPERIENCIAS",
                                 en: "EDIT MY SKILLS OR EXPERIENCES"
                             }} /></PButtom>
                             <SView height={15} />
                             <PButtom rojo fontSize={20} onPress={() => {
                                 SNavigation.navigate("/perfil/changepass")
-                            }}><SText fontSize={20} color={STheme.color.text} language={{
+                            }}><SText fontSize={20} color={STheme.color.white} language={{
                                 es: "CAMBIAR CONTRASEÑA",
                                 en: "CHANGE PASSWORD"
                             }} /></PButtom>
@@ -251,7 +251,7 @@ class index extends Component {
                                 //     }
                                 // })
                                 SNavigation.navigate("/perfil/eliminar")
-                            }}><SText fontSize={20} color={STheme.color.secondary} language={{
+                            }}><SText fontSize={20} color={STheme.color.white} language={{
                                 es: "ELIMINAR CUENTA",
                                 en: "DELETE ACCOUNT"
                             }} /></PButtom>

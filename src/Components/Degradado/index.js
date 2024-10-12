@@ -25,7 +25,8 @@ class Degradado extends Component {
     return (
       <>
         {/* <SView col={'xs-12'} center> */}
-          <SGradient colors={["#0C0C10", "#040405"]} />
+          {/* <SGradient colors={["#0C0C10", "#040405"]} /> */}
+          <SGradient colors={[STheme.color.accent, STheme.color.accent]} />
         {/* </SView> */}
       </>
     );

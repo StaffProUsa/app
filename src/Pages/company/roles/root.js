@@ -131,6 +131,7 @@ export default class root extends Component {
                 // borderRightWidth:1,
                 // borderLeftWidth:1,
                 borderColor: STheme.color.card,
+                backgroundColor: STheme.color.card,
                 alignItems: "center"
             }} row>
                 <SView width={40} height={40} card style={{ overflow: "hidden" }}>
@@ -160,8 +161,8 @@ export default class root extends Component {
                         {/* <SView width={8} /> */}
                     </SView>
                     <SHr h={2} />
-                    <SText fontSize={10} color={STheme.color.gray}>{obj?.usuario?.Telefono}</SText>
-                    <SText fontSize={10} color={STheme.color.gray}>{obj?.usuario?.Correo}</SText>
+                    <SText fontSize={12} color={STheme.color.text}>{obj?.usuario?.Telefono}</SText>
+                    <SText fontSize={12} color={STheme.color.text}>{obj?.usuario?.Correo}</SText>
                     <SHr h={2} />
                     <SView row>
                         {(obj?.staff_tipo ?? []).map(o => this.renderStaffTipo(o))}

@@ -84,7 +84,7 @@ class index extends DPA.list {
             <SView flex style={{ justifyContent: "center" }} onPress={this.$onSelect.bind(this, obj)}>
                 <SText bold fontSize={16}>{obj.descripcion}</SText>
                 <SHr h={4} />
-                <SText color={STheme.color.lightGray} fontSize={8}>{SUtil.limitString(obj.observacion ?? "", 100)}</SText>
+                <SText color={STheme.color.gray} fontSize={12}>{SUtil.limitString(obj.observacion ?? "", 100)}</SText>
                 {/* <SText color={STheme.color.lightGray} fontSize={8}>{obj.latitude},{obj.longitude}</SText> */}
             </SView>
             <SView width={30} height={30} onPress={() => {

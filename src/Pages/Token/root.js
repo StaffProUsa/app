@@ -184,16 +184,16 @@ export default class root extends Component {
         }}
           loading={this.state.loading}
         >
-          <SText color={STheme.color.text} language={{
+          <SText color={STheme.color.white} language={{
             es: "INICIAR",
             en: "START"
           }} />
         </PButtom>
 
         <SHr h={30} />
-        <SText onPress={() => {
+        {/* <SText onPress={() => {
           SNavigation.navigate("/token/exito")
-        }}>{"TEST VENTANA EXITO"}</SText>
+        }}>{"TEST VENTANA EXITO"}</SText> */}
         <SHr h={20} />
         <SHr h={1} color={STheme.color.card} />
         <SHr h={20} />

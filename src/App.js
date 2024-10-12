@@ -84,7 +84,7 @@ const App = (props) => {
         // inputs={Config.inputs}
         inputs={Config.inputs}
         // background={<BackgroundImage />}
-        theme={{ initialTheme: 'dark', themes: Config.theme, }}
+        theme={{ initialTheme: 'default', themes: Config.theme, }}
 
       >
         <SNavigation

@@ -71,7 +71,8 @@ class root extends Component {
             <SPage  >
                 <SView col={"xs-12"} center>
                     <SView col={"xs-11"} >
-                        <SIcon name={"Logo"} fill={STheme.color.primary} width={80} height={43} />
+                        <SHr height={10} />
+                        <SIcon name={"Logo"} fill={STheme.color.text} width={80} height={43} />
                         <SHr height={10} />
                     </SView>
                     <Header title={titleHeader} />
@@ -246,7 +247,7 @@ class root extends Component {
                                         backgroundColor: STheme.color.secondary,
                                         borderRadius: 10,
                                     }} width={80} height={50} center>
-                                    <SText color={STheme.color.text} fontSize={16} language={{
+                                    <SText color={STheme.color.white} fontSize={16} language={{
                                         es: "Atrás",
                                         en: "Back"
                                     }} />
@@ -254,7 +255,7 @@ class root extends Component {
                             </SView>
                             <SView col={'xs-6'} style={{ alignItems: "flex-end" }}>
                                 <SView onPress={() => this.form.submit()}>
-                                    <SIcon name={'next2'} style={{ width: 50, height: 50 }} />
+                                    <SIcon name={'next2'} fill={STheme.color.text} style={{ width: 50, height: 50 }} />
                                 </SView>
                             </SView>
                         </SView>

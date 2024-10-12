@@ -104,7 +104,7 @@ class recuperar_codigo extends Component {
                             <PButtom rojo
                                 onPress={() => {
                                     this.form.submit();
-                                }}><SText color={STheme.color.text} language={{
+                                }}><SText color={STheme.color.white} language={{
                                     es: "VALIDAR",
                                     en: "VALIDATE"
                                 }} /></PButtom>
