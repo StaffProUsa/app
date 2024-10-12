@@ -115,7 +115,7 @@ class index extends Component {
                 }}></SView> : null} */}
                 <SText style={{
                     position: "absolute", right: 4, top: 4
-                }} bold font={"Roboto"} fontSize={14} color={color}>{data.sdate.toString("dd")}</SText>
+                }} bold font={"Roboto"} fontSize={14} color={STheme.color.text}>{data.sdate.toString("dd")}</SText>
                 {events ? events.map((k) => {
                     let desCorto = k.descripcion.length > 10 ? k.descripcion.substring(0, 10) + "..." : k.descripcion
                     return (<>
