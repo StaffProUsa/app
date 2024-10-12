@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from ".."
-import { SHr, SIcon, SImage, SList, SNavigation, SNotification, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SLanguage, SList, SNavigation, SNotification, SPopup, SText, STheme, SView } from 'servisofts-component';
 import Model from '../../../Model';
 import SSocket from 'servisofts-socket';
 import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
@@ -64,9 +64,9 @@ class index extends DPA.profile {
         return <SView col={"xs-12"}>
             <SHr />
             <MenuPages path='/company/' permiso='ver'>
-                <MenuButtom label='Clientes' url='/cliente' params={{ key_company: this.pk }} icon={<SIcon name='ubicacionesA' />} />
-                <MenuButtom label='Staff Tipo' url='/staff_tipo' params={{ key_company: this.pk }} icon={<SIcon name='staffTipoA' />} />
-                <MenuButtom label='Usuarios' url='/company/roles' params={{ key_company: this.pk }} icon={<SIcon name='usuariosA' />} />
+                <MenuButtom label={SLanguage.select({ en: "Client", es: "Cliente" })} url='/cliente' params={{ key_company: this.pk }} icon={<SIcon name='ubicacionesA' />} />
+                <MenuButtom label={SLanguage.select({ en: "Type Staff", es: "Staff Tipo" })} url='/company/profile/staff_tipo' params={{ pk: this.pk }} icon={<SIcon name='staffTipoA' />} />
+                <MenuButtom label={SLanguage.select({ en: "Users", es: "Usuarios" })} url='/company/roles' params={{ key_company: this.pk }} icon={<SIcon name='usuariosA' />} />
                 {/* <MenuButtom label='Eventos' url='/company/eventos' params={{ key_company: this.pk }} icon={<SIcon name='eventA' />} /> */}
 
             </MenuPages>

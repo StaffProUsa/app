@@ -170,90 +170,10 @@ class index extends Component {
         let ano = this.state.curDay.getYear();
         // if (!this.state?.paquetes) return <SLoad />
         this.state.paquetes = this.state.paquetes || {}
-        let dataEventos = this.state.data || []
-        // console.log("dataEventos")
-        // console.log(dataEventos)
 
-        let primerDiaSemana = new Date(ano, mes, 1).getDay();
         let fechaFin = new Date(ano, mes + 1, 1);
         fechaFin = fechaFin.setDate(fechaFin.getDate() - 1);
-        let ultimoDiaSemana = new Date(fechaFin).getDay();
-        let ultimoDiaMes = new Date(fechaFin).getDate()
-        var dataAsistencia = this.state.data;
-
-        // if (!dataAsistencia) return null;
-        dataAsistencia = dataAsistencia || {};
-
-        let calendario = [];
-        var index = 0;
-        var diaMes = 0;
-        var asisti = false;
-        var data;
-        var dato;
-        var dataMostrar = [];
-
-        // for (let i = 0; i < 6; i++) {
-        //     for (let j = 0; j < 7; j++) {
-        //         index++;
-        //         if (i == 0 && j < primerDiaSemana) {
-        //             //primer semana del mes
-        //             calendario.push({ index, dia_semana: j, semana: i, fecha: null })
-        //         } else {
-        //             if (diaMes < ultimoDiaMes) {
-        //                 diaMes++;
-        //                 //Aqui verificamos si asistio o no a entrenar
-
-        //                 let fechaActual = new Date(ano, mes, diaMes)
-        //                 let asistido;
-        //                 // let asistio = Object.values(dataAsistencia).find(obj2 => obj2.fecha_on == fechaActual);
-        //                 let sdActual = new SDate(fechaActual);
-        //                 // Object.values(dataAsistencia).map((obj) => {
-        //                 Object.values(dataEventos).map((obj) => {
-        //                     // dato = Object.values(obj).find(obj2 => new SDate(obj2.fecha_on).toString("yyyy-MM-dd") == new SDate(fechaActual).toString("yyyy-MM-dd"));
-        //                     // if (!dato) return null
-
-        //                     // let formatFecha = new Date(obj.fecha_on)
-
-        //                     // asistido = Object.values(obj).filter((a) => new SDate(a.fecha_on).toString("yyyy-MM-dd") == new SDate(fechaActual).toString("yyyy-MM-dd"))
-        //                     if (new SDate(obj.fecha).toString("yyyy-MM-dd") == sdActual.toString("yyyy-MM-dd")) {
-        //                         console.log("yes")
-        //                         asisti = true
-        //                         data = obj;
-        //                         dataMostrar.push(obj)
-
-        //                     }
-        //                 })
-
-        //                 let isPaquete = false;
-        //                 // Object.values(this.state.paquetes).map((obj) => {
-
-        //                 // Object.values(dataEventos).map((obj) => {
-        //                 //     if ((new SDate(obj.fecha_inicio, "yyyy-MM-dd").equalDay(sdActual) || new SDate(obj.fecha_fin, "yyyy-MM-dd").equalDay(sdActual)) || (
-        //                 //         sdActual.isAfter(new SDate(obj.fecha_inicio, "yyyy-MM-dd")) && sdActual.isBefore(new SDate(obj.fecha_fin, "yyyy-MM-dd"))
-        //                 //     )) {
-        //                 //         isPaquete = true;
-
-        //                 //     }
-        //                 // })
-
-
-        //                 calendario.push({ isPaquete: isPaquete, diaMes, index, dia_semana: j, semana: i, fecha: "", asistiendo: asisti, dataAsis: dataMostrar, evento: dataMostrar[0] })
-        //                 asisti = false
-        //                 data = null;
-        //                 dataMostrar = []
-        //             } else {
-        //                 asisti = false
-        //                 data = null;
-        //                 dataMostrar = []
-        //                 calendario.push({ index, dia_semana: j, semana: i, fecha: null })
-        //             }
-        //             // index++;
-        //         }
-        //     }
-        // }
-
-        // console.log("calendario")
-        // console.log(calendario)
+       
         console.log(this.state.curDay)
         return <>
             <SView col={"xs-12"} row

@@ -7,7 +7,7 @@ class index extends DPA.new {
     constructor(props) {
         super(props, {
             Parent: Parent,
-            params: ["onSelect?", "key_company"],
+            params: ["onSelect?"],
             excludes: ["key", "fecha_on", "key_usuario", "estado", "key_servicio", "key_company"]
         });
     }

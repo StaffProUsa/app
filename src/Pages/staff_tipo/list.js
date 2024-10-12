@@ -18,7 +18,7 @@ class index extends DPA.list {
             Parent: Parent,
             excludes: ["key", "fecha_on", "key_usuario", "estado", "key_company"],
             // itemType: "0",
-            params: ["key_company"],
+            // params: ["key_company"],
             onRefresh: (resolve) => {
                 Parent.model.Action.CLEAR();
                 if (resolve) resolve();
@@ -62,7 +62,7 @@ class index extends DPA.list {
         return [{ key: "descripcion", order: "asc", peso: 1 }]
     }
     $getData() {
-        return Parent.model.Action.getAll({ key_company: this.$params.key_company });
+        return Parent.model.Action.getAll();
     }
 }
 export default connect(index);

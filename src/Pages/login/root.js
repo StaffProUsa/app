@@ -75,14 +75,12 @@ class Login extends Component {
     }
 
     handleLogin(user, isNew = false) {
-        console.log(user);
-
-        SNavigation.goBack();
-        if (isNew) {
-            new SThread(1000, "ir_a_editar_perfil").start(() => {
-                SNavigation.navigate("/perfil/editar")
-            })
-        }
+        SNavigation.replace("/onLogin")
+        // if (isNew) {
+        //     new SThread(1000, "ir_a_editar_perfil").start(() => {
+        //         SNavigation.navigate("/perfil/editar")
+        //     })
+        // }
     }
 
     loginRedSocial(key_red_social: "gmail_key" | "apple_key" | "facebook_key", usuario) {
@@ -332,13 +330,14 @@ class Login extends Component {
                             console.log(data);
 
                             Model.usuario.Action.login(data).then((resp) => {
-                                if (this.ruta) {
-                                    SNavigation.navigate("carga", { ruta: this.ruta });
-                                } else if (this.key_invitacion) {
-                                    SNavigation.reset("/invitation", { pk: this.key_invitacion });
-                                } else {
-                                    SNavigation.goBack();
-                                }
+                                this.handleLogin(resp.data, false)
+                                // if (this.ruta) {
+                                //     SNavigation.navigate("carga", { ruta: this.ruta });
+                                // } else if (this.key_invitacion) {
+                                //     SNavigation.reset("/invitation", { pk: this.key_invitacion });
+                                // } else {
+                                //     SNavigation.goBack();
+                                // }
                                 console.log("exito");
                             }).catch(e => {
                                 // SPopup.alert("usuario no encontrado")

@@ -78,7 +78,7 @@ const App = (props) => {
   return <Redux>
     <ErrorBoundary>
       <SComponentContainer
-        // debug //para cambio de tema
+        debug //para cambio de tema
         socket={SSocket}
         assets={Assets}
         // inputs={Config.inputs}

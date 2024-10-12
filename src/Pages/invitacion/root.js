@@ -35,31 +35,31 @@ export default class root extends React.Component {
 
 
       if (!usuario_) {//verificar si el usuario esta logeado
-        SSocket.sendPromise({
-          component: "invitacion",
-          type: "getByKey",
-          key: this.key_invitacion
-        }).then(e => {
-          console.log("invitacion sin loguin")
-          console.log(e.data)
-          if (Object.keys(e.data).length === 0) {
-            return SNavigation.navigate("/")
-          }
-          SStorage.setItem("key_invitacion", JSON.stringify(e.data.key)) // Guardar la empresa en el storage
-          this.setState({ dataInvitacion: e.data })
-          // let invitacion = Object.values(e.data).filter(e => e.estado > 0 && e.key == this.key_invitacion);
-          // console.log(invitacion[0])
+        //   SSocket.sendPromise({
+        //     component: "invitacion",
+        //     type: "getByKey",
+        //     key: this.key_invitacion
+        //   }).then(e => {
+        //     console.log("invitacion sin loguin")
+        //     console.log(e.data)
+        //     if (Object.keys(e.data).length === 0) {
+        //       return SNavigation.navigate("/")
+        //     }
+        SStorage.setItem("key_invitacion", this.key_invitacion) // Guardar la empresa en el storage
+        //     this.setState({ dataInvitacion: e.data })
+        //     // let invitacion = Object.values(e.data).filter(e => e.estado > 0 && e.key == this.key_invitacion);
+        //     // console.log(invitacion[0])
 
-          // rol = roles_partner[0].key;
-          // this.setState({ roles: rol })
+        //     // rol = roles_partner[0].key;
+        //     // this.setState({ roles: rol })
 
 
 
-        }).catch(e => {
-          console.error(e);
+        //   }).catch(e => {
+        //     console.error(e);
 
-        })
-        // SStorage.setItem("key_company", JSON.stringify(this.state?.dataInvitacion?.key_company)) // Guardar la empresa en el storage
+        //   })
+        //   // SStorage.setItem("key_company", JSON.stringify(this.state?.dataInvitacion?.key_company)) // Guardar la empresa en el storage
         return SNavigation.replace('/login');
       }
       this.setState({ usuario: usuario_ })
@@ -234,7 +234,7 @@ export default class root extends React.Component {
           root.INSTANCE.reload()
         }
         // SNavigation.goBack();
-        SNavigation.navigate("/registro/categorias")
+        SNavigation.replace("/perfil/staff_tipo")
       }).catch(e => {
         if (e.error == "existe") {
           SNotification.send({

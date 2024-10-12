@@ -1,6 +1,7 @@
 import { SPage } from "servisofts-component";
 import Model from "../../../Model";
 import root from "./root";
+import staff_tipo from "./staff_tipo";
 // import invite from "./invite";
 
 // export const Parent = {
@@ -10,5 +11,6 @@ import root from "./root";
 // }
 export default SPage.combinePages("profile", {
     "": root,
+    staff_tipo
     // "invite": invite,
 })
