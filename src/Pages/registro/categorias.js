@@ -147,7 +147,7 @@ class categorias extends Component {
                     </SView>
                     <SView col={'xs-6'} style={{ alignItems: "flex-end" }}>
                         <SView onPress={() => SNavigation.navigate("/inicio")}>
-                            <SIcon name={'next2'} style={{ width: 50, height: 50 }} />
+                            <SIcon name={'next2'} fill={STheme.color.text} style={{ width: 50, height: 50 }} />
                         </SView>
                     </SView>
                 </SView>
@@ -156,7 +156,8 @@ class categorias extends Component {
             >
                 <SView col={"xs-12"} center>
                     <SView col={"xs-11"} >
-                        <SIcon name={"Logo"} fill={STheme.color.primary} width={80} height={43} />
+                        <SHr height={10} />
+                        <SIcon name={"Logo"} fill={STheme.color.text} width={80} height={43} />
                         <SHr height={10} />
                     </SView>
                     <Header title={titleHeader} />

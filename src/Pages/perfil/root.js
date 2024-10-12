@@ -153,7 +153,7 @@ class Perfil extends Component {
           col={'xs-11'}
           style={{
             borderBottomWidth: 1,
-            borderBottomColor: STheme.color.card
+            borderBottomColor: STheme.color.lightGray
             // borderBottomColor: STheme.color.darkGray
           }}
           onPress={() => {
@@ -207,8 +207,9 @@ class Perfil extends Component {
             borderWidth: 1,
             borderColor: STheme.color.card,
             overflow: 'hidden',
+            backgroundColor: STheme.color.card
           }}>
-            <Degradado />
+            {/* <Degradado /> */}
           <SHr />
           <SView row col={'xs-12'} center>
             <SHr height={10} />
@@ -225,7 +226,7 @@ class Perfil extends Component {
               center
               style={{
                 borderBottomWidth: 1,
-                borderBottomColor: STheme.color.card
+                borderBottomColor: STheme.color.lightGray
               }}></SView>
           </SView>
           <SView row col={'xs-12'} center>

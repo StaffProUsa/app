@@ -168,7 +168,7 @@ class Login extends Component {
                         console.log("onLogin", usuario)
                         this.loginRedSocial("gmail_key", usuario)
                     }}>
-                        <SView height={50} center row style={{ backgroundColor: '#08080B', borderRadius: 8, borderColor: STheme.color.darkGray, borderWidth: 2, padding: 8 }}>
+                        <SView height={50} center row style={{ backgroundColor: STheme.color.darkGray, borderRadius: 8, borderColor: STheme.color.darkGray, borderWidth: 2, padding: 8 }}>
                             <SIcon name={'IconGoogle'} width={30} />
                             <SView width={15} />
                             <SText color={STheme.color.white} fontSize={18} language={{
@@ -181,7 +181,7 @@ class Login extends Component {
                 <SView height={70} col={'xs-12'} onPress={() => {
                     SNavigation.navigate("/registro")
                 }}>
-                    <SView height={50} center row style={{ backgroundColor: '#08080B', borderRadius: 8, borderColor: STheme.color.darkGray, borderWidth: 2, padding: 8 }}>
+                    <SView height={50} center row style={{ backgroundColor: STheme.color.darkGray, borderRadius: 8, borderColor: STheme.color.darkGray, borderWidth: 2, padding: 8 }}>
                         <SIcon name={'Logosolo'} fill={STheme.color.white} width={30} />
                         <SView width={15} />
                         <SText color={STheme.color.white} fontSize={18} language={{
@@ -207,7 +207,7 @@ class Login extends Component {
         return <SView col={'xs-12'} center>
             <SHr height={20} />
             <SView col={'xs-11'} height={100} center>
-                <SIcon name={'Logo'} fill={STheme.color.primary} />
+                <SIcon name={'Logo'} fill={STheme.color.text} />
             </SView>
         </SView>
     }
@@ -256,7 +256,7 @@ class Login extends Component {
                 {this.renderHeader()}
                 <SHr height={30} />
                 <SView col={"xs-12"} height={35} center backgroundColor={STheme.color.secondary} padding={25}>
-                    <SText fontSize={23} language={{
+                    <SText fontSize={23} color={STheme.color.white} language={{
                         es: "Iniciar sesión",
                         en: "Access"
                     }} />

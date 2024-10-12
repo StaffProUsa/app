@@ -103,7 +103,7 @@ class recuperar_pass extends Component {
                                 onPress={() => {
                                     this.form.submit();
                                 }} >
-                                    <SText color={STheme.color.text} language={{
+                                    <SText color={STheme.color.white} language={{
                                         es: "RESTABLECER CONTRASEÑA",
                                         en: "RESET PASSWORD"
                                     }}/></PButtom>

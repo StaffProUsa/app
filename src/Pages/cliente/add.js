@@ -1,5 +1,5 @@
 import React from "react";
-import { SForm, SHr, SInput, SNavigation, SPage, SText, SThread, SLanguage } from "servisofts-component";
+import { SForm, SHr, SInput, SNavigation, SPage, SText, SThread, SLanguage, STheme } from "servisofts-component";
 import { Container } from "../../Components";
 import SSocket from "servisofts-socket";
 import Model from "../../Model";
@@ -66,7 +66,7 @@ export default class index extends React.Component {
                         })
                     }}
                     style={{
-                        justifyContent: "space-between"
+                        justifyContent: "space-between",
                     }}
                     inputs={{ 
                         "foto_p": { type: "image", isRequired: false, defaultValue: `${SSocket.api.root}cliente/${this.pk}?time=${new Date().getTime()}`, col: "xs-12 sm-3.5 md-3 lg-2.5 xl-2.5", style: { borderRadius: 8, overflow: 'hidden', width: 130, height: 130, borderWidth: 0 } },
@@ -159,6 +159,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                         }
 
                     }}
+                 
                     onSubmitName={"SAVE"}
                 />
             </Container>

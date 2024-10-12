@@ -88,7 +88,7 @@ class index extends Component {
 
         let hoy = new SDate(this.state.curDay).getDayOfWeek()
         let isSelect = false
-        let color = isSelect ? STheme.color.white : STheme.color.text
+        let color = isSelect ? STheme.color.white : STheme.color.white
         
         const isCurtMonth = this.state.curDay.toString("yyyy-MM") == data.sdate.toString("yyyy-MM")
         let events = [];
@@ -125,11 +125,12 @@ class index extends Component {
                             borderColor: STheme.color.success,
                             padding: 1.5,
                             marginTop: 4,
-                            overflow: "hidden"
+                            overflow: "hidden",
+                            backgroundColor: STheme.color.gray
                         }} onPress={() => {
                             SNavigation.navigate("/evento", { key: k?.key })
                         }}>
-                            <Degradado />
+                            {/* <Degradado /> */}
                             <SView width={20} height={20} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth: 1, borderColor: STheme.color.darkGray }}>
                                 <SImage src={SSocket.api.root + "company/" + k?.key_company} style={{
                                     resizeMode: "cover",

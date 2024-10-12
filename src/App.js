@@ -78,13 +78,13 @@ const App = (props) => {
   return <Redux>
     <ErrorBoundary>
       <SComponentContainer
-        // debug //para cambio de tema
+        debug //para cambio de tema
         socket={SSocket}
         assets={Assets}
         // inputs={Config.inputs}
         inputs={Config.inputs}
         // background={<BackgroundImage />}
-        theme={{ initialTheme: 'dark', themes: Config.theme, }}
+        theme={{ initialTheme: 'default', themes: Config.theme, }}
 
       >
         <SNavigation

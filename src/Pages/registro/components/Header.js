@@ -18,7 +18,7 @@ export default class Header extends Component {
                 </SView>
                 <SHr height={16} /> */}
                 <SView center col={"xs-10"}>
-                    <SText center fontSize={18} color={STheme.color.text}>{this.props?.title}</SText>
+                    <SText center fontSize={18} color={STheme.color.white}>{this.props?.title}</SText>
                 </SView>
                 {/* <SHr height={20} /> */}
                 {/* <SView col={"xs-12"} center

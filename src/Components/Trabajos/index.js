@@ -172,7 +172,7 @@ class index extends Component {
             }}>
               <SIcon name={"history"} fill={STheme.color.white} width={20} />
               <SView width={10} />
-              <SText fontSize={12} color={STheme.color.text} language={{
+              <SText fontSize={12} color={STheme.color.white} language={{
                 es: "VER HISTORIAL",
                 en: "SEE HISTORY "
               }} />

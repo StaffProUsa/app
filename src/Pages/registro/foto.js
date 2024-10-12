@@ -46,7 +46,7 @@ class foto extends Component {
                     </SView>
                     <SView col={'xs-6'} style={{ alignItems: "flex-end" }}>
                         <SView onPress={() => SNavigation.navigate("/registro/categorias")}>
-                            <SIcon name={'next2'} style={{ width: 50, height: 50 }} />
+                            <SIcon name={'next2'} fill={STheme.color.text} style={{ width: 50, height: 50 }} />
                         </SView>
                     </SView>
                 </SView>

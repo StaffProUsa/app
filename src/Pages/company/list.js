@@ -61,7 +61,7 @@ class index extends DPA.list {
             <SView width={8} />
             <SView flex>
                 <SText bold fontSize={16}>{obj.descripcion}</SText>
-                <SText color={STheme.color.lightGray}>{obj.observacion}</SText>
+                <SText fontSize={15} color={STheme.color.gray}>{obj.observacion}</SText>
             </SView>
         </SView>
     }

@@ -21,7 +21,7 @@ class PBarraFooter extends Component {
   }
 
   getItem({ key, title, title_en, icon, url, params }) {
-    var color = STheme.color.text;
+    var color = STheme.color.white;
     var isSelect = key == this.props.url;
 
     if (Model.usuario.Action.getKey()) {
@@ -45,11 +45,15 @@ class PBarraFooter extends Component {
           }}
           center>
           {isSelect && <SView height={55} width={55} center style={{ position: "absolute", top: -5 }}>
-            <SImage src={require('../../Assets/images/selectMenu.png')} />
+            <SImage src={require('../../Assets/images/selectMenu.png')} style={{
+              borderWidth: 1,
+              borderColor: STheme.color.white,
+              borderRadius: 100,
+            }} />
           </SView>}
           <SHr height={5}></SHr>
           <SView height={23} colSquare center>
-            <SIcon name={icon} fill={STheme.color.text} />
+            <SIcon name={icon} fill={STheme.color.white} />
           </SView>
           <SView height={2} />
           {/* <SText fontSize={8} center color={color}> 
