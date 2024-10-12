@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { SInput, SNavigation, SPage, SText, SView } from 'servisofts-component';
+import { SInput, SNavigation, SPage, SText, STheme, SView } from 'servisofts-component';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -10,7 +10,12 @@ import Model from '../../Model';
 const Item = ({ data, onChange }) => {
     return <SView padding={10} row center>
         <SView width={20} height={20} >
-            <SInput type='checkBox' defaultValue={!!data.staff_tipo_favorito} onChangeText={onChange} />
+            <SInput type='checkBox' defaultValue={!!data.staff_tipo_favorito} onChangeText={onChange} width={20} height={20} style={{
+                borderRadius: 5,
+                borderWidth: 1,
+                borderColor: STheme.color.gray,
+                overflow: 'hidden',
+            }} />
         </SView>
         <SView width={4} />
         <SText fontSize={16}>{data.descripcion}</SText>
