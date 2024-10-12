@@ -231,12 +231,12 @@ class Perfil extends Component {
           </SView>
           <SView row col={'xs-12'} center>
             <SHr height={50} />
-            {/* <SView
+            <SView
               row
               col={'xs-11'}
               style={{
                 borderBottomWidth: 1,
-                borderBottomColor: STheme.color.card
+                borderBottomColor: STheme.color.lightGray
               }}
               onPress={() => {
                 // SNavigation.navigate(url);
@@ -261,7 +261,7 @@ class Perfil extends Component {
                 />
               </SView>
               <SHr height={20} />
-            </SView> */}
+            </SView>
             <SHr height={20} />
             {this.opcion({
               url: '/perfil/editar',

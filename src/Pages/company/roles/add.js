@@ -483,7 +483,8 @@ export default class add extends Component {
                         }}
                         col={"xs-5.8"}
                         inputStyle={{
-                            color: !!this.key ? "#999" : "#fff"
+                            color: !!this.key ? STheme.color.text : "#fff",
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
                         }}
                         label={(lenguaje == "es") ? "Nombre *" : "Name *"}
                         placeholder={(lenguaje == "es") ? "Nombre" : "Name"}
@@ -497,7 +498,8 @@ export default class add extends Component {
                         ref={ref => this._inputs["apellido"] = ref}
                         col={"xs-5.8"}
                         inputStyle={{
-                            color: !!this.key ? "#999" : "#fff"
+                            color: !!this.key ? STheme.color.text : "#fff",
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
                         }}
                         label={(lenguaje == "es") ? "Apellido" : "Last name"}
                         placeholder={(lenguaje == "es") ? "Apellido" : "Last name"}
@@ -514,7 +516,8 @@ export default class add extends Component {
                         ref={ref => this._inputs["telefono"] = ref}
                         col={"xs-9"}
                         inputStyle={{
-                            color: !!this.key ? "#999" : "#fff"
+                            color: !!this.key ? STheme.color.text : "#fff",
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
                         }}
                         disabled={!!this.key}
                         // defaultValue={data.nombre}
@@ -536,7 +539,8 @@ export default class add extends Component {
                         ref={ref => this._inputs["correo"] = ref}
                         col={"xs-12"}
                         inputStyle={{
-                            color: !!this.key ? "#999" : "#fff"
+                            color: !!this.key ? STheme.color.text : "#fff",
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
                         }}
                         disabled={!!this.key}
                         // defaultValue={data.nombre}
@@ -562,11 +566,15 @@ export default class add extends Component {
                         // info={""}
                         placeholder={"Selecciona un rol"}
                         onPress={this.hanlePress.bind(this)}
-                    // onSubmitEditing={() => this._inputs["index"].focus()}
+                        // onSubmitEditing={() => this._inputs["index"].focus()}
+                        inputStyle={{
+                            color: !!this.key ? STheme.color.text : "#fff",
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
+                        }}
                     />
                 </SView>
                 <SHr h={64} />
-                <SText padding={8} backgroundColor={STheme.color.secondary} color={STheme.color.text} borderRadius={4} onPress={() => {
+                <SText padding={12} width={150} center backgroundColor={STheme.color.secondary} color={STheme.color.white} borderRadius={4} onPress={() => {
                     this.hanldeGuardar()
 
                 }} language={{

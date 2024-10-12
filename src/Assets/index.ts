@@ -26,6 +26,7 @@ import invite, { ReactComponent as inviteW } from './svg/invite.svg';
 import next, { ReactComponent as nextW } from './svg/next.svg';
 import next2, { ReactComponent as next2W } from './svg/next2.svg';
 import aptitud, { ReactComponent as aptitudW } from './svg/aptitud.svg';
+import checkAll, { ReactComponent as checkAllW } from './svg/checkAll.svg';
 
 
 import { Use } from 'react-native-svg';
@@ -43,6 +44,7 @@ const Assets: SAssets = {
         "next": { Native: next, Web: nextW },
         "next2": { Native: next2, Web: next2W },
         "aptitud": { Native: aptitud, Web: aptitudW },
+        "checkAll": { Native: checkAll, Web: checkAllW },
         ...Inicio,
         ...Camara,
         ...restaurante,

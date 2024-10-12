@@ -125,7 +125,7 @@ class password extends Component {
                     />
                     <SHr height={20} />
                     <BtnSend onPress={() => this.form.submit()}>
-                        <SText language={{
+                        <SText color={STheme.color.white} language={{
                             es: "CONFIRMAR",
                             en: "CONFIRM"
                         }} />

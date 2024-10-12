@@ -87,16 +87,18 @@ export default class event extends Component {
                 </SView>
             </SView>
             <SHr />
-            <SHr h={1} color={STheme.color.card} />
-            <SHr h={24} />
-            <SText fontSize={10} col={"xs-12"} style={{ textAlign: "right" }} color={STheme.color.lightGray}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}</SText>
-            <SHr />
-            <SText fontSize={18} bold>{descripcion}</SText>
-            <SHr />
-            <SText fontSize={12} color={STheme.color.lightGray}>{observacion}</SText>
-            <SHr />
-            <SHr h={25} />
-            <SHr h={1} color={STheme.color.card} />
+            <SView col={"xs-12"} row card center padding={10}>
+                <SHr h={1} color={STheme.color.card} />
+                <SHr h={10} />
+                <SText fontSize={10} col={"xs-12"} style={{ textAlign: "right" }} color={STheme.color.lightGray}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}</SText>
+                <SHr />
+                <SText fontSize={18} bold>{descripcion}</SText>
+                <SHr />
+                <SText fontSize={14} color={STheme.color.gray}>{observacion}</SText>
+                <SHr />
+                <SHr h={25} />
+                <SHr h={1} color={STheme.color.card} />
+            </SView>
             <SHr h={25} />
             <SView col={"xs-12"} >
                 <SView col={"xs-12"} row>

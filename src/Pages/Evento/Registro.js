@@ -212,12 +212,12 @@ export default class Registro extends React.Component {
             col={'xs-11 sm-10 md-8 lg-6 xl-4'}
             height={50}
             center
-            backgroundColor={STheme.color.card}
+            backgroundColor={STheme.color.secondary}
             style={{ borderRadius: 4 }}
             onPress={() => {
               this.form.submit();
             }}>
-            <SText color={STheme.color.text} font={'Roboto'} fontSize={14} bold language={{
+            <SText color={STheme.color.white} font={'Roboto'} fontSize={14} bold language={{
               en: this.key ? "EDIT" : "REGISTER",
               es: this.key ? "EDITAR" : "REGISTRAR"
             }} />

@@ -169,7 +169,7 @@ export default class users extends Component {
                 {/* <SText fontSize={16} bold color={STheme.color.gray}>Evento: </SText> */}
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
                 <SView width={6} />
-                <SText center color={STheme.color.lightGray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
+                <SText center fontSize={15} color={STheme.color.gray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
                 {/* {this.separator()} */}
                 <SHr />
                 <SView col={"xs-12"} row>
@@ -189,13 +189,19 @@ export default class users extends Component {
                 </SView>
             </SView>
             <SView row col={"xs-12"} flex padding={4} >
-                <SView flex={2} height backgroundColor='#232323' style={{ borderRadius: 4 }}>
+                <SView flex={2} height backgroundColor={STheme.color.darkGray} style={{ borderRadius: 4 }}>
                     <SHr h={4} />
-                    <SText fontSize={12} center language={{
+                    <SText fontSize={12} color={STheme.color.white} center language={{
                         es: "Staff Disponibles",
                         en: "Available Staff"
                     }} />
-                    <SView onPress={() => {
+                    <SView style={{
+                        position: "absolute",
+                        left:2,
+                        top: 2,
+                        // borderWidth : 1,
+                        // borderColor : STheme.color.white
+                    }} onPress={() => {
                         let keys_usuarios = this.state.data_disponibles.filter(a => !a.staff_usuario).map(a => {
                             return a.key_usuario
                         })
@@ -211,7 +217,10 @@ export default class users extends Component {
                         }).catch(e => {
                             console.error(e)
                         })
-                    }}><SText>ALL</SText></SView>
+                    }}>
+                        <SIcon name={"checkAll"} fill={STheme.color.white} width={20} height={20} />
+                        {/* <SText color={STheme.color.white} >ALL</SText> */}
+                    </SView>
                     <STable2
                         key={"Algo"}
                         data={this.state.data_disponibles}
@@ -220,11 +229,12 @@ export default class users extends Component {
                         cellStyle={{
                             justifyContent: "center",
                             paddingStart: 2,
-                            height: 30
+                            height: 30,
+                            color: STheme.color.white
 
                         }}
                         // filter={a => a.estado != 0}
-                        headerColor='#666666'
+                        headerColor={STheme.color.primary}
                         header={[
                             // { key: "index", label: "#", width: 30 },
                             {
@@ -275,8 +285,8 @@ export default class users extends Component {
                             {
                                 key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number}
                                     texto={this.state?.data?.evento?.observacion}
-                                    >
-                                    <SText fontSize={11} color={STheme.color.text} underLine>
+                                >
+                                    <SText fontSize={11} color={STheme.color.white} underLine>
                                         {number}
                                     </SText>
                                 </BtnWhatsapp>
@@ -292,22 +302,23 @@ export default class users extends Component {
                 <SView width={25} height center>
 
                 </SView>
-                <SView flex height backgroundColor='#232323' style={{ borderRadius: 4 }} >
+                <SView flex height backgroundColor={STheme.color.darkGray} style={{ borderRadius: 4 }} >
                     <SHr h={4} />
-                    <SText center fontSize={12} language={{
+                    <SText center fontSize={12} color={STheme.color.white} language={{
                         es: "Staff Seleccionado",
                         en: "Selected Staff"
                     }} />
                     <STable2
                         key={"Algo1"}
                         data={this.state.data_disponibles}
-                        headerColor='#666666'
+                        headerColor={STheme.color.primary}
                         filter={(a) => !!a.staff_usuario && a?.staff_usuario?.estado != 2}
                         rowHeight={25}
                         cellStyle={{
                             justifyContent: "center",
                             paddingStart: 2,
-                            height: 30
+                            height: 30,
+                            color: STheme.color.white
 
                         }}
                         header={[
@@ -348,7 +359,7 @@ export default class users extends Component {
                             // { key: "usuario/Telefono", label: "Telefono", width: 100 },
                             {
                                 key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
-                                    <SText fontSize={11} color={STheme.color.text} underLine>
+                                    <SText fontSize={11} color={STheme.color.white} underLine>
                                         {number}
                                     </SText>
                                 </BtnWhatsapp>
