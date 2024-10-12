@@ -41,7 +41,7 @@ export default class invitations extends Component {
                         borderColor: STheme.color.darkGray,
                         overflow: "hidden",
                     }} onPress={() => {
-                        SNavigation.navigate("/invitationDetail", { key: key });
+                        SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key });
                     }}>
                         <Degradado />
                         <SView col={"xs-2"} row center>

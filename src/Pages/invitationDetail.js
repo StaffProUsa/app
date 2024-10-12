@@ -28,7 +28,8 @@ export default class invitationDetail extends React.Component {
       type: "getInvitacionesPendientes",
       key_usuario: Model.usuario.Action.getKey()
     }).then(e => {
-      this.setState({ data: e.data[this.key] })
+      const d = e.data.find(a => a?.staff_usuario?.key == this.key);
+      this.setState({ data: d })
     }).catch(e => {
       console.error(e);
     })

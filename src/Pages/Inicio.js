@@ -62,6 +62,7 @@ export default class Inicio extends Component {
   handleSocketMessage(obj) {
     if (obj.component == "staff_usuario" && obj.type == "invitarGrupoNotify") {
       this.loadDataInvitaciones();
+      if (this.calendar) this.calendar.componentDidMount();
     }
   }
   onChangeFavorito() {
@@ -150,7 +151,7 @@ export default class Inicio extends Component {
         <SView col={"xs-11.5"} center>
           {/* <MisCompanys /> */}
           <MisStaffTipo />
-          <Calendar />
+          <Calendar ref={ref => this.calendar = ref} />
         </SView>
         <SHr height={60} />
       </SView>

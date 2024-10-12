@@ -1,6 +1,6 @@
 import React, { Component, version } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SIcon, SImage, SInput, SList, SNavigation, SNotification, SPage, SSwitch, STable, STable2, SText, STheme, SView, SLanguage } from 'servisofts-component';
+import { SHr, SIcon, SImage, SInput, SList, SNavigation, SNotification, SPage, SSwitch, STable, STable2, SText, STheme, SView, SLanguage, SPopup } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import { Container } from '../../Components';
@@ -18,6 +18,22 @@ export default class users extends Component {
     }
 
     componentDidMount() {
+
+        this.loadData();
+        SSocket.addEventListener("onMessage", this.handleSocketMessage.bind(this))
+    }
+    componentWillUnmount() {
+        SSocket.removeEventListener("onMessage", this.handleSocketMessage.bind(this));
+    }
+    handleSocketMessage(obj) {
+        if (obj.component == "staff_usuario" && obj.type == "invitarGrupoNotify") {
+            this.loadData();
+        }
+        // if (obj.component == "staff_usuario" && obj.type == "invitarGrupoNotify") {
+
+        // }
+    }
+    loadData() {
         SSocket.sendPromise({
             component: "staff",
             type: "getByKeyDetalle",
@@ -69,8 +85,8 @@ export default class users extends Component {
             console.error(e);
         })
 
-
     }
+
 
     handleAsignarJefe = (post) => {
         if (!this.state?.data?.evento?.key_company) {
@@ -170,6 +186,8 @@ export default class users extends Component {
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
                 <SView width={6} />
                 <SText center color={STheme.color.lightGray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
+                <SView width={6} />
+                <SText onPress={() => { this.loadData() }}>{"Reload"}</SText>
                 {/* {this.separator()} */}
                 <SHr />
                 <SView col={"xs-12"} row>
@@ -189,13 +207,13 @@ export default class users extends Component {
                 </SView>
             </SView>
             <SView row col={"xs-12"} flex padding={4} >
-                <SView flex={2} height backgroundColor='#232323' style={{ borderRadius: 4 }}>
+                <SView flex={1} height backgroundColor='#232323' style={{ borderRadius: 4 }}>
                     <SHr h={4} />
                     <SText fontSize={12} center language={{
                         es: "Staff Disponibles",
                         en: "Available Staff"
                     }} />
-                    <SView onPress={() => {
+                    {/* <SView onPress={() => {
                         let keys_usuarios = this.state.data_disponibles.filter(a => !a.staff_usuario).map(a => {
                             return a.key_usuario
                         })
@@ -211,7 +229,7 @@ export default class users extends Component {
                         }).catch(e => {
                             console.error(e)
                         })
-                    }}><SText>ALL</SText></SView>
+                    }}><SText>ALL</SText></SView> */}
                     <STable2
                         key={"Algo"}
                         data={this.state.data_disponibles}
@@ -238,7 +256,7 @@ export default class users extends Component {
                                             key_staff: this.pk,
                                             key_usuario: Model.usuario.Action.getKey(),
                                         }).then(e => {
-                                            this.componentDidMount();
+                                            this.loadData();
                                             console.log(e)
                                         }).catch(e => {
                                             console.error(e)
@@ -251,7 +269,7 @@ export default class users extends Component {
                                             key_staff: this.pk,
                                             key_usuario: Model.usuario.Action.getKey(),
                                         }).then(e => {
-                                            this.componentDidMount();
+                                            this.loadData();
                                             console.log(e)
                                         }).catch(e => {
                                             console.error(e)
@@ -275,7 +293,7 @@ export default class users extends Component {
                             {
                                 key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number}
                                     texto={this.state?.data?.evento?.observacion}
-                                    >
+                                >
                                     <SText fontSize={11} color={STheme.color.text} underLine>
                                         {number}
                                     </SText>
@@ -345,13 +363,37 @@ export default class users extends Component {
                                     </SView>
                                 }
                             },
-                            // { key: "usuario/Telefono", label: "Telefono", width: 100 },
+
                             {
                                 key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
                                     <SText fontSize={11} color={STheme.color.text} underLine>
                                         {number}
                                     </SText>
                                 </BtnWhatsapp>
+                            },
+                            {
+                                key: "-delete", label: "Delete", width: 100, component: (e) => {
+                                    return <SText onPress={() => {
+                                        // console.log(e);
+                                        SPopup.confirm({
+                                            title: "Seguro de eliminar?",
+                                            onPress: () => {
+                                                SSocket.send({
+                                                    component: "staff_usuario",
+                                                    type: "editar",
+                                                    data: {
+                                                        key: e.staff_usuario.key,
+                                                        estado: 0
+                                                    }
+                                                }).then(e => {
+                                                    this.loadData();
+                                                }).catch(e => {
+
+                                                })
+                                            }
+                                        })
+                                    }}>{"Delte"}</SText>
+                                }
                             },
                             // {
                             //     key: "tipos_staff_favoritos", label: "Tipos", width: 200,

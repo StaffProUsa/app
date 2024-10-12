@@ -12,7 +12,8 @@ import {
   SView,
   SLanguage,
   SList2,
-  SDate
+  SDate,
+  SLoad
 } from 'servisofts-component';
 import Model from '../../Model';
 import SSocket from 'servisofts-socket';
@@ -68,7 +69,7 @@ class index extends Component {
 
   renderItem(obj) {
     let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
-    console.log("userCoordinador", userCoordinador)
+    // console.log("userCoordinador", userCoordinador)
     return <SView col={"xs-12"} row padding={8} style={{
       borderRadius: 16,
       borderWidth: 1,
@@ -150,6 +151,8 @@ class index extends Component {
       <SView col={"xs-10"}  >
         <SText fontSize={12}>{obj?.asistencia_staff_usuario ? obj?.asistencia_staff_usuario.length : 0}</SText>
       </SView> */}
+      <SHr h={4} />
+      <SLoad type='bar'/>
     </SView>
   }
 
@@ -180,7 +183,7 @@ class index extends Component {
           </SView>
         </SView>
         <SHr height={10} />
-        <SList2 data={this.state.data} order={[{ key: "staff/fecha_inicio", order: "desc" }]} render={this.renderItem.bind(this)} />
+        <SList2 data={this.state.data} order={[{ key: "staff/fecha_inicio", order: "asc" }]} render={this.renderItem.bind(this)} />
       </>
     );
   }

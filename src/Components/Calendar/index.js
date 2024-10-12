@@ -89,11 +89,11 @@ class index extends Component {
         let hoy = new SDate(this.state.curDay).getDayOfWeek()
         let isSelect = false
         let color = isSelect ? STheme.color.white : STheme.color.white
-        
+
         const isCurtMonth = this.state.curDay.toString("yyyy-MM") == data.sdate.toString("yyyy-MM")
         let events = [];
-        if(this.state.data){
-            events = this.state.data.filter(a=> new SDate(a.fecha, "yyyy-MM-ddThh:mm:ss").equalDay(data.sdate))
+        if (this.state.data) {
+            events = this.state.data.filter(a => new SDate(a.fecha, "yyyy-MM-ddThh:mm:ss").equalDay(data.sdate))
         }
         let datosArray = data?.dataAsis
         return <>
@@ -101,8 +101,9 @@ class index extends Component {
                 borderWidth: 1, borderColor: STheme.color.gray,
                 opacity: isCurtMonth ? 1 : 0.4,
                 // backgroundColor:  data.asistiendo ? "#D93444": STheme.color.card
-                backgroundColor: STheme.color.card
-            }} center
+                backgroundColor: STheme.color.card,
+                justifyContent: "flex-end"
+            }}
 
             >
                 {/* {data?.evento ? null : <Degradado />}
@@ -117,33 +118,39 @@ class index extends Component {
                     position: "absolute", right: 4, top: 4
                 }} bold font={"Roboto"} fontSize={14} color={STheme.color.text}>{data.sdate.toString("dd")}</SText>
                 {events ? events.map((k) => {
-                    let desCorto = k.descripcion.length > 10 ? k.descripcion.substring(0, 10) + "..." : k.descripcion
+                    let desCorto = k.descripcion.length > 15 ? k.descripcion.substring(0, 15) + "..." : k.descripcion
+                    let isInvitation = (k?.staff_usuario?.estado == 2)
                     return (<>
-                        <SView col={"xs-11.5"} row center style={{
-                            borderWidth: 1,
-                            borderRadius: 5,
-                            borderColor: STheme.color.success,
-                            padding: 1.5,
-                            marginTop: 4,
+                        <SView col={"xs-10"} row center style={{
+                            borderWidth: 2,
+                            borderRadius: 4,
+                            borderColor: isInvitation ? STheme.color.warning : STheme.color.success,
+                            marginTop: 2,
+                            padding:1,
                             overflow: "hidden",
                             backgroundColor: STheme.color.gray
                         }} onPress={() => {
-                            SNavigation.navigate("/evento", { key: k?.key })
+                            if (isInvitation) {
+                                SNavigation.navigate("/invitationDetail", { key: k?.staff_usuario?.key })
+                            } else {
+                                SNavigation.navigate("/evento", { key: k?.key })
+                            }
+
                         }}>
                             {/* <Degradado /> */}
-                            <SView width={20} height={20} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth: 1, borderColor: STheme.color.darkGray }}>
+                            {/* <SView width={20} height={20} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth: 1, borderColor: STheme.color.darkGray }}>
                                 <SImage src={SSocket.api.root + "company/" + k?.key_company} style={{
                                     resizeMode: "cover",
                                 }} />
-                            </SView>
-                            <SView width={3} />
+                            </SView> */}
+                            {/* <SView width={3} /> */}
                             <SView >
-                                <SText font={"Roboto"} center fontSize={10} color={color}>{desCorto || ""}</SText>
+                                <SText bold font={"Roboto"} center fontSize={11} color={color}>{desCorto || ""}</SText>
                             </SView>
                         </SView>
                     </>)
                 }) : null}
-                <SHr />
+                <SHr h={2}/>
             </SView>
         </>
     }
@@ -174,7 +181,7 @@ class index extends Component {
 
         let fechaFin = new Date(ano, mes + 1, 1);
         fechaFin = fechaFin.setDate(fechaFin.getDate() - 1);
-       
+
         console.log(this.state.curDay)
         return <>
             <SView col={"xs-12"} row
@@ -246,7 +253,4 @@ class index extends Component {
         return <BottomNavigator url={"/perfil"} />
     }
 }
-const initStates = (state) => {
-    return { state }
-};
-export default connect(initStates)(index);
+export default index;
