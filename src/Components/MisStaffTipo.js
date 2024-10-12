@@ -45,12 +45,12 @@ export default class MisStaffTipo extends Component {
         </SView>
     }
     render() {
-        return <SView row col={"xs-12"} border={"#f00"} padding={8}>
+        return <SView row col={"xs-12"} >
             {Object.values(this.state.data).map(o => this.renderItem(o))}
             <SView padding={4} onPress={() => {
                 SNavigation.navigate("/perfil/staff_tipo")
             }}>
-                <SText underLine>{"more"}</SText>
+                <SText underLine>{"More staff"}</SText>
             </SView>
         </SView>
     }
