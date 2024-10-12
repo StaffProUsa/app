@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SDate, SHr, SInput, SNavigation, SPage, SPopup, SText, SView, SLanguage } from 'servisofts-component';
+import { SButtom, SDate, SHr, SInput, SNavigation, SPage, SPopup, SText, SView, SLanguage, STheme } from 'servisofts-component';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -235,7 +235,8 @@ export default class add extends Component {
                     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea' />
                     <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={cantidad} required placeholder={"0"} />
                     <SInput ref={r => this._ref["fecha_inicio"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={fecha_inicio} required placeholder={"yyyy-MM-dd"} />
-                    <SInput ref={r => this._ref["hora_inicio"] = r} col={"xs-5.5"} defaultValue={"00:01"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => {
+                    {/* <SInput ref={r => this._ref["hora_inicio"] = r} type='hour' col={"xs-5.5"} defaultValue={"00:01"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => { */}
+                    <SInput ref={r => this._ref["hora_inicio"] = r} type='hour' col={"xs-5.5"}  label={" "} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);
                         if (resp != e) {
 
@@ -257,22 +258,22 @@ export default class add extends Component {
 
                 <SView row col={"xs-12"} center>
                     {this.state.pk ? <>
-                        <SButtom onPress={() => {
+                        {/* <SButtom onPress={() => {
                             SNavigation.navigate("/staff/profile", { pk: this.state.pk })
                         }} type='secondary'><SText language={{
                             es: "INVITAR",
                             en: "INVITE"
-                        }} /></SButtom>
+                        }} /></SButtom> */}
                         <SView width={30} />
                         <SButtom onPress={this.handleEliminar.bind(this)} type='danger'>
                             <SText language={{
                                 es: "ELIMINAR",
                                 en: "DELETE"
-                            }} /></SButtom>
+                            }} color={STheme.color.white} /></SButtom>
                         <SView width={30} />
                     </> : null}
 
-                    <SButtom onPress={this.handlePress.bind(this)} type='secondary'><SText language={{
+                    <SButtom onPress={this.handlePress.bind(this)} type='secondary'><SText color={STheme.color.white} language={{
                         es: "GUARDAR",
                         en: "SAVE"
                     }} /></SButtom>

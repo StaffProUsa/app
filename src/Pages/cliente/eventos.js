@@ -75,7 +75,7 @@ export default class Eventos extends React.Component {
         return <SView col={"xs-12"} style={{
             borderWidth: 1,
             borderRadius: 8,
-            borderColor: STheme.color.card
+            borderColor: STheme.color.gray + "50",
         }} padding={8} onPress={() => {
             // SNavigation.navigate("admin/evento/perfil", { key: obj.key })
             SNavigation.navigate("/company/event", { key_evento: obj.key })
@@ -83,7 +83,7 @@ export default class Eventos extends React.Component {
             <SHr />
             <SText fontSize={14} bold>{obj.descripcion}</SText>
             <SHr h={4} />
-            <SText fontSize={12} color={STheme.color.lightGray}>{SUtil.limitString(obj.observacion, 200, "...").trim()}</SText>
+            <SText fontSize={12} color={STheme.color.gray}>{SUtil.limitString(obj.observacion, 200, "...").trim()}</SText>
             <SHr />
             <SText fontSize={12} color={STheme.color.gray}>{`Reclutas ${obj.actual ?? 0}/${obj.cantidad ?? 0}`}</SText>
             {this.renderBarra({ color: null, porcentaje: obj.porcentaje_reclutas, key: obj.key + "b" })}

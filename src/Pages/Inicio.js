@@ -124,7 +124,7 @@ export default class Inicio extends Component {
             SNavigation.navigate("/invitations")
           }}
             style={{ borderRadius: 6 }}>
-            <SText language={{
+            <SText color={STheme.color.white} language={{
               es: "VER",
               en: "SEE"
             }} />

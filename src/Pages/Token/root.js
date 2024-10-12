@@ -195,7 +195,7 @@ export default class root extends Component {
           SNavigation.navigate("/token/exito")
         }}>{"TEST VENTANA EXITO"}</SText> */}
         <SHr h={20} />
-        <SHr h={1} color={STheme.color.card} />
+        <SHr h={1} color={STheme.color.lightGray} />
         <SHr h={20} />
         <Trabajos />
       </Container>
