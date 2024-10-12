@@ -270,11 +270,17 @@ class Perfil extends Component {
               icon: 'Editar'
             })}
              {this.opcion({
-              url: '/registro/categorias',
+              url: '/perfil/staff_tipo',
               titulo: 'Mis Aptitudes o experiencias',
               titulo_en: 'My Skills or experiences',
               icon: 'aptitud'
             })}
+             {/* {this.opcion({
+              url: '/registro/categorias',
+              titulo: 'Mis Aptitudes o experiencias',
+              titulo_en: 'My Skills or experiences',
+              icon: 'aptitud'
+            })} */}
             {this.opcion({
               url: '/notification',
               titulo: 'Notificaciones',

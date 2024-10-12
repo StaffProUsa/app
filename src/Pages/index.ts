@@ -65,6 +65,7 @@ import history from './history';
 import Evento from './Evento';
 import clock from './clock';
 import invitacion from './invitacion';
+import onLogin from './onLogin';
 const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
@@ -92,6 +93,7 @@ const NewPages = SPage.combinePages("/", {
     ...intro,
     ...cliente,
     ...company,
+    onLogin,
     trabajos,
     history,
     "invitationDetail": invitationDetail,

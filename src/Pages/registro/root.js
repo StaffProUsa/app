@@ -41,7 +41,7 @@ class root extends Component {
     //     return 
     render() {
         var defaultData = {
-            Telefono:"+1 ",
+            Telefono: "+1 ",
             ...this.params,
         };
         let lenguaje = SLanguage.language;
@@ -97,11 +97,11 @@ class root extends Component {
                                 Apellidos: { label: apellidos, placeholder: apellidos, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
                                 // Fecha: { label:"Fecha de nacimiento",placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
                                 Telefono: {
-                                    label: telefono, placeholder: telefono, type:"phone" , defaultValue: defaultData.Telefono, 
+                                    label: telefono, placeholder: telefono, type: "phone", defaultValue: defaultData.Telefono,
                                 },
                                 Correo: { label: correo, placeholder: correo, type: "email", defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
-                                nivel_ingles: { label: "Nivel de inglés", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content:  (lenguaje == "en") ? "NONE" :"NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]},
-                                papeles: { label: "¿Está autorizado para trabajar en los Estados Unidos?", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options:  [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR"  }, { key: "YES", content:  (lenguaje == "en") ? "YES" :"SI" }, { key: "NO", content: "NO" }]},
+                                nivel_ingles: { label: "Nivel de inglés", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }] },
+                                papeles: { label: "¿Está autorizado para trabajar en los Estados Unidos?", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "YES", content: (lenguaje == "en") ? "YES" : "SI" }, { key: "NO", content: "NO" }] },
 
                                 // FechaNacimiento: {placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
                                 //telefono: {placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},
@@ -185,7 +185,8 @@ class root extends Component {
 
                                         }).then(resp => {
                                             // Model.empresa.Action.setEmpresa(null)
-                                            SNavigation.reset("/");
+                                            // SNavigation.reset("/");
+                                            SNavigation.replace("/onLogin")
                                         }).catch(e => {
                                             if (lenguaje == "en") {
                                                 SPopup.alert('Error starting with the new user');
