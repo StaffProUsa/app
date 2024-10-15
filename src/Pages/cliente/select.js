@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SGeolocation, SHr, SInput, SMapView, SNavigation, SNotification, SPage, SText, STheme, SView, SLanguage } from 'servisofts-component';
+import { SButtom, SGeolocation, SHr, SInput, SMapView, SNavigation, SNotification, SPage, SText, STheme, SView, SLanguage, SIcon } from 'servisofts-component';
 
 export default class select extends Component {
     map: SMapView;
@@ -28,7 +28,7 @@ export default class select extends Component {
             }).catch(e => {
                 SNotification.send({
                     title: "Error",
-                    body: "No pudimos optener tu ubicacion",
+                    body: "No pudimos optener tu ubicación",
                     color: STheme.color.danger
                 })
             })
@@ -84,7 +84,14 @@ export default class select extends Component {
                     onRegionChangeComplete={e => {
                         this.state.latitude = e.latitude
                         this.state.longitude = e.longitude
-                    }}>
+                    }}
+                    >
+                    {/* <SMapView.SMarker width={35} height={45} latitude={this.state.latitude} longitude={this.state.longitude} >
+                        <SView width={35} height={45} >
+                            <SIcon name={"iconMap"} width={35} height={45} />
+                        </SView>
+                    </SMapView.SMarker> */}
+
                 </SMapView>
                 <SView style={{
                     position: "absolute",

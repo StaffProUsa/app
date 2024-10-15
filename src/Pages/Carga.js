@@ -51,7 +51,7 @@ class Carga extends Component {
             position: "relative",
         }}
         >
-          <SIcon name={'Logo'} fill={STheme.color.primary} />
+          <SIcon name={'Logo'} fill={STheme.color.white} />
         </SView>
         <SHr height={32} />
         {/* <SView col={"xs-8 sm-6 md-4 lg-3 xl-2"} height={200}>
