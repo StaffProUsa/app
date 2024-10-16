@@ -9,7 +9,7 @@ const theme: SThemeThemes = {
     secondary: '#A61A1A',
     info: '#6E6F74',
     background: '#F3F3F3',
-    card: '#ffffff',
+    card: '#BBBBBB44',
     accent: '#C4C5C680',
     darkGray: '#333333'
 
