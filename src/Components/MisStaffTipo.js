@@ -38,7 +38,9 @@ export default class MisStaffTipo extends Component {
     }
     renderItem(obj) {
         return <SView row >
-            <SView card padding={4}>
+            <SView card padding={4} style={{
+                marginBottom: 6,
+            }}>
                 <SText>{obj.descripcion}</SText>
             </SView>
             <SView width={8} />

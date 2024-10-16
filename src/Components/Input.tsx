@@ -42,6 +42,19 @@ const Input = forwardRef((props: InputProps, ref) => {
         focus: () => {
             if (inputRef.current) inputRef.current.focus();
         },
+        verify: (noStateChange?: boolean) => {
+            if (props.required && !value) {
+                setInfo("Campo requerido");
+                setInfoStyle({ color: "red" });
+                return false;
+            }
+            if (!noStateChange) {
+                setInfo("");
+                setInfoStyle({});
+            }
+            return true;
+        },
+        // verify(noStateChange?: boolean): boolean;
         getValue: () => {
             return value;
         },
@@ -63,7 +76,7 @@ const Input = forwardRef((props: InputProps, ref) => {
         <SHr h={3} />
         <SView style={{
             width: "100%",
-            height: props.height ?? 34,
+            height: props.height ?? 38,
         }} onPress={props.onPress}>
             <TextInput
                 ref={inputRef}
