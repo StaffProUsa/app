@@ -324,6 +324,7 @@ export default class add extends Component {
         }
         const usuario = this._inputs["nombre"].getData() ?? {};
         if (!usuario.key) {
+            let lenguaje = SLanguage.language;
             const usuarioNuevo = {
                 Nombres: this._inputs["nombre"].getValue(),
                 Apellidos: this._inputs["apellido"].getValue(),
@@ -332,8 +333,8 @@ export default class add extends Component {
             }
             if (!usuarioNuevo.Nombres) {
                 SNotification.send({
-                    title: "Datos incompletos.",
-                    body: "Debe ingresar mínimamente el nombre",
+                    title: (lenguaje == "es") ?"Datos incompletos.": "Incomplete data.",
+                    body: (lenguaje == "es") ?"Debe ingresar mínimamente el nombre": "You must enter at least the name",
                     time: 5000,
                     color: STheme.color.warning,
                 })
@@ -388,6 +389,7 @@ export default class add extends Component {
     }
 
     handleGuardarStep2(usuario, rol) {
+        let lenguaje = SLanguage.language;
         if (!this.key) {
             SSocket.sendPromise({
                 component: "usuario_company",
@@ -400,8 +402,8 @@ export default class add extends Component {
                 }
             }).then(e => {
                 SNotification.send({
-                    title: "Nuevo usuario",
-                    body: "Usuario agregado con éxito",
+                    title: (lenguaje == "es") ? "Nuevo usuario": "New user",
+                    body: (lenguaje == "es") ?"Usuario agregado con éxito": "User added successfully",
                     time: 5000,
                     color: STheme.color.success,
                 })
@@ -412,16 +414,16 @@ export default class add extends Component {
             }).catch(e => {
                 if (e.error == "existe") {
                     SNotification.send({
-                        title: "El usuario ya se encuentra registrado.",
-                        body: "No puede registrar 2 veces a un mismo usuario.",
+                        title: (lenguaje == "es") ?"El usuario ya se encuentra registrado.": "The user is already registered.",
+                        body: (lenguaje == "es") ?"No puede registrar 2 veces a un mismo usuario.": "You cannot register the same user twice.",
                         time: 5000,
                         color: STheme.color.danger,
                     })
                     return;
                 }
                 SNotification.send({
-                    title: "No pudimos agregar al usuario.",
-                    body: "Ocurrio un error al agregar al usuario, intente nuevamente.",
+                    title: (lenguaje == "es") ?"No pudimos agregar al usuario.": "We couldn't add the user.",
+                    body: (lenguaje == "es") ?"Ocurrio un error al agregar al usuario, intente nuevamente.": "An error occurred while adding the user, try again.",
                     time: 5000,
                     color: STheme.color.danger,
                 })
@@ -437,8 +439,8 @@ export default class add extends Component {
                 }
             }).then(e => {
                 SNotification.send({
-                    title: "Editar usuario",
-                    body: "Usuario editado con éxito",
+                    title: (lenguaje == "es") ?"Editar usuario": "Edit user",
+                    body: (lenguaje == "es") ?"Usuario editado con éxito": "User edited successfully",
                     time: 5000,
                     color: STheme.color.success,
                 })
@@ -448,8 +450,8 @@ export default class add extends Component {
                 SNavigation.goBack();
             }).catch(e => {
                 SNotification.send({
-                    title: "No pudimos editar al usuario.",
-                    body: "Ocurrio un error al editar al usuario, intente nuevamente.",
+                    title: (lenguaje == "es") ?"No pudimos editar al usuario.": "We couldn't edit the user.",
+                    body: (lenguaje == "es") ?"Ocurrio un error al editar al usuario, intente nuevamente.": "An error occurred while editing the user, try again.",
                     time: 5000,
                     color: STheme.color.danger,
                 })
@@ -484,7 +486,7 @@ export default class add extends Component {
                         col={"xs-5.8"}
                         inputStyle={{
                             color: !!this.key ? STheme.color.text : "#fff",
-                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.card
                         }}
                         label={(lenguaje == "es") ? "Nombre *" : "Name *"}
                         placeholder={(lenguaje == "es") ? "Nombre" : "Name"}
@@ -499,7 +501,7 @@ export default class add extends Component {
                         col={"xs-5.8"}
                         inputStyle={{
                             color: !!this.key ? STheme.color.text : "#fff",
-                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.card
                         }}
                         label={(lenguaje == "es") ? "Apellido" : "Last name"}
                         placeholder={(lenguaje == "es") ? "Apellido" : "Last name"}
@@ -517,7 +519,7 @@ export default class add extends Component {
                         col={"xs-9"}
                         inputStyle={{
                             color: !!this.key ? STheme.color.text : "#fff",
-                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.card
                         }}
                         disabled={!!this.key}
                         // defaultValue={data.nombre}
@@ -540,7 +542,7 @@ export default class add extends Component {
                         col={"xs-12"}
                         inputStyle={{
                             color: !!this.key ? STheme.color.text : "#fff",
-                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.card
                         }}
                         disabled={!!this.key}
                         // defaultValue={data.nombre}
@@ -569,7 +571,7 @@ export default class add extends Component {
                         // onSubmitEditing={() => this._inputs["index"].focus()}
                         inputStyle={{
                             color: !!this.key ? STheme.color.text : "#fff",
-                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.secondary
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.card
                         }}
                     />
                 </SView>

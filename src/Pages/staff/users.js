@@ -174,8 +174,18 @@ export default class users extends Component {
             <SView width={4} />
         </>
     }
-    render() {
+    
+    formatearFecha(fecha, lenguaje) {
+        const opciones = { day: 'numeric', month: 'long', year: 'numeric'  , hour: 'numeric', 
+            minute: 'numeric', 
+            hour12: true // Esto es opcional, si quieres formato de 12 horas 
+            };
+        //  return fecha.toLocaleDateString('en-US', opciones);
+        return fecha.toLocaleDateString(lenguaje, opciones);
+    }
 
+    render() {
+        let lenguaje = SLanguage.language;
         // console.log(this.data?.evento?.key_company)
         return <SPage disableScroll titleLanguage={{
             es: "Armando mi STAFF",
@@ -185,11 +195,21 @@ export default class users extends Component {
                 {/* <SText fontSize={16} bold color={STheme.color.gray}>Evento: </SText> */}
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
                 <SView width={6} />
-                <SText center color={STheme.color.lightGray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
+                <SText center color={STheme.color.gray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
                 <SView width={6} />
                 <SText onPress={() => { this.loadData() }}>{"Reload"}</SText>
                 {/* <SText center fontSize={15} color={STheme.color.gray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText> */}
                 {/* {this.separator()} */}
+                <SHr />
+                <SText center color={STheme.color.gray} language={{
+                    es: "Inicio:",
+                    en: "Start:"
+                }} />
+                <SView width={6} />
+                <SText fontSize={14} language={{
+                    es: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "es"),
+                    en: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "en")
+                }} />
                 <SHr />
                 <SView col={"xs-12"} row>
                     <SView row>
@@ -234,8 +254,20 @@ export default class users extends Component {
                         }).then(e => {
                             this.componentDidMount();
                             console.log(e)
+                            SNotification.send({
+                                title: (lenguaje == "es") ? "Invitaciones enviadas" : "Invitations sent",
+                                body: (lenguaje == "es") ? "Se enviaron las invitaciones a los usuarios seleccionados" : "Invitations were sent to the selected users",
+                                color: STheme.color.success,
+                                time: 5000
+                            })
                         }).catch(e => {
                             console.error(e)
+                            SNotification.send({
+                                title: (lenguaje == "es") ? "Error al enviar invitaciones" : "Error sending invitations",
+                                body: (lenguaje == "es") ? "Ocurrio un error al enviar las invitaciones" : "An error occurred while sending the invitations",
+                                color: STheme.color.danger,
+                                time: 5000
+                            })
                         })
                     }}>
                         <SIcon name={"checkAll"} fill={STheme.color.white} width={20} height={20} />
@@ -269,8 +301,20 @@ export default class users extends Component {
                                         }).then(e => {
                                             this.loadData();
                                             console.log(e)
+                                            SNotification.send({
+                                                title: (lenguaje == "es") ? "Invitación enviada" : "Invitation sent",
+                                                body: (lenguaje == "es") ? "Se envió la invitación al usuario seleccionado" : "Invitation sent to the selected user",
+                                                color: STheme.color.success,
+                                                time: 5000
+                                            })
                                         }).catch(e => {
                                             console.error(e)
+                                            SNotification.send({
+                                                title: (lenguaje == "es") ? "Error al enviar invitación" : "Error sending invitation",
+                                                body: (lenguaje == "es") ? "Ocurrio un error al enviar la invitación" : "An error occurred while sending the invitation",
+                                                color: STheme.color.danger,
+                                                time: 5000
+                                            })
                                         })
                                     } else {
                                         SSocket.sendPromise({
@@ -282,8 +326,20 @@ export default class users extends Component {
                                         }).then(e => {
                                             this.loadData();
                                             console.log(e)
+                                            SNotification.send({
+                                                title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
+                                                body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
+                                                color: STheme.color.success,
+                                                time: 5000
+                                            })
                                         }).catch(e => {
                                             console.error(e)
+                                            SNotification.send({
+                                                title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
+                                                body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
+                                                color: STheme.color.danger,
+                                                time: 5000
+                                            })
                                         })
                                     }
                                     // console.log(elm);
@@ -305,7 +361,7 @@ export default class users extends Component {
                                 key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number}
                                     texto={this.state?.data?.evento?.observacion}
                                 >
-                                    <SText fontSize={11} color={STheme.color.text} underLine>
+                                    <SText fontSize={11} color={STheme.color.white} underLine>
                                         {number}
                                     </SText>
                                 </BtnWhatsapp>
@@ -368,7 +424,7 @@ export default class users extends Component {
                                     }} center>
                                         {user ? <SView row><SView width={20} height={20} card>
                                             <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario_atiende} />
-                                        </SView><SText flex fontSize={10}>{user.Nombres} {user.Apellidos}</SText></SView> : <SText fontSize={10}>{"Sin jefe"}</SText>}
+                                        </SView><SText color={STheme.color.white} flex fontSize={10}>{user.Nombres} {user.Apellidos}</SText></SView> : <SText color={STheme.color.white} fontSize={10}>{"Sin jefe"}</SText>}
 
                                         {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
                                         {/* {this.renderStaffUsuario(obj)} */}
@@ -385,7 +441,7 @@ export default class users extends Component {
                             },
                             {
                                 key: "-delete", label: "Delete", width: 100, component: (e) => {
-                                    return <SText onPress={() => {
+                                    return <SText color={STheme.color.white} onPress={() => {
                                         // console.log(e);
                                         SPopup.confirm({
                                             title: "Seguro de eliminar?",
@@ -404,7 +460,7 @@ export default class users extends Component {
                                                 })
                                             }
                                         })
-                                    }}>{"Delte"}</SText>
+                                    }}>{"Delete"}</SText>
                                 }
                             },
                             // {

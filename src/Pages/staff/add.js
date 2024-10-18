@@ -247,8 +247,13 @@ export default class add extends Component {
                     <Input col={"xs-5.5"} inputStyle={{
                         height: 40,
                         borderRadius: 4,
-                        backgroundColor: STheme.color.card
+                        backgroundColor: STheme.color.card,
+                        color: STheme.color.text,
                     }}
+                    // infoStyle={{
+                    //     color: STheme.color.text,
+                    //     fontSize: 12,
+                    // }}
                         required
                         ref={r => this._ref["hora_inicio"] = r}
                         keyboardType="numeric"

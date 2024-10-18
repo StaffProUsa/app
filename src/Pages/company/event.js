@@ -87,15 +87,25 @@ export default class event extends Component {
                 </SView>
             </SView>
             <SHr />
-            <SView col={"xs-12"} row card center padding={10}>
+            <SView col={"xs-12"} card center padding={10}>
                 <SHr h={1} color={STheme.color.card} />
                 <SHr h={10} />
-                <SText fontSize={10} col={"xs-12"} style={{ textAlign: "right" }} color={STheme.color.lightGray}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}</SText>
+                {/* <SText fontSize={10} col={"xs-12"} style={{ textAlign: "right" }} color={STheme.color.gray}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}</SText> */}
                 <SHr />
-                <SText fontSize={18} bold>{descripcion}</SText>
+                <SText fontSize={18} center bold>{descripcion}</SText>
                 <SHr />
                 <SText fontSize={14} color={STheme.color.gray}>{observacion}</SText>
                 <SHr />
+                <SView row>
+                    <SText language={{
+                        en: "Start date and time:",
+                        es: "Fecha y hora de inicio:"
+                    }} color={STheme.color.gray}
+                    />
+                    <SView width={10} />
+                    <SText fontSize={16}  center color={STheme.color.text}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}</SText>
+
+                </SView>
                 <SHr h={25} />
                 <SHr h={1} color={STheme.color.card} />
             </SView>

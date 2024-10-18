@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { SInput, SNavigation, SPage, SText, STheme, SView } from 'servisofts-component';
+import { SInput, SNavigation, SPage, SText, STheme, SView, SNotification, SLanguage, SHr } from 'servisofts-component';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -29,8 +29,11 @@ export default class staff_tipo extends Component {
             key_usuario: SNavigation.getParam("key_usuario", Model.usuario.Action.getKey())
         };
     }
-
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         SSocket.sendPromise({
             component: "staff_tipo",
             type: "getAll",
@@ -55,9 +58,14 @@ export default class staff_tipo extends Component {
 
         })
     }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
 
     render() {
+        let lenguaje = SLanguage.language;
         return <SPage title={"Staff Tipo"} disableScroll>
+            <SHr height={40} />
             <Container flex>
                 <FlatList data={Object.values(this.state.data ?? {}).sort((a, b) => a.descripcion.toUpperCase() > b.descripcion.toUpperCase() ? 1 : -1)}
                     contentContainerStyle={{
@@ -77,7 +85,19 @@ export default class staff_tipo extends Component {
                                 key_usuario: Model.usuario.Action.getKey()
                             }).then(e => {
                                 item.staff_tipo_favorito = e.data;
+                                SNotification.send({
+                                    title: (lenguaje == "es") ? "Éxito" : "Success",
+                                    body: (lenguaje == "es") ? "Se guardaron los cambios" : "Changes saved",
+                                    time: 5000,
+                                    color: STheme.color.success
+                                })
                             }).catch(e => {
+                                SNotification.send({
+                                    title: (lenguaje == "es") ? "Error" : "Error",
+                                    body: e.error ?? (lenguaje == "es") ? "Error desconocido" : "Unknown error",
+                                    time: 5000,
+                                    color: STheme.color.danger
+                                })
 
                             })
                         } else {
@@ -89,6 +109,22 @@ export default class staff_tipo extends Component {
                                     estado: 0,
                                 },
                                 key_usuario: Model.usuario.Action.getKey()
+                            }).then(e => {
+                                // item.staff_tipo_favorito = null;
+                                SNotification.send({
+                                    title: (lenguaje == "es") ? "Éxito" : "Success",
+                                    body: (lenguaje == "es") ? "Se guardaron los cambios" : "Changes saved",
+                                    time: 5000,
+                                    color: STheme.color.success
+                                })
+                            }).catch(e => {
+                                SNotification.send({
+                                    title: (lenguaje == "es") ? "Error" : "Error",
+                                    body: e.error ?? (lenguaje == "es") ? "Error desconocido" : "Unknown error",
+                                    time: 5000,
+                                    color: STheme.color.danger
+                                })
+
                             })
                         }
 
