@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 // import TopBar from '../../../Components/TopBar';
-import { SHr, SImage, SList, SLoad, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView, SLanguage } from 'servisofts-component';
+import { SHr, SImage, SList, SLoad, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView, SLanguage, SIcon } from 'servisofts-component';
 // import PBarraFooter from '../../../Components/PBarraFooter';
 import Container from '../../../Components/Container';
 import SSocket from 'servisofts-socket';
@@ -165,6 +165,13 @@ export default class root extends Component {
                     <SText fontSize={12} color={STheme.color.text}>{obj?.usuario?.Correo}</SText>
                     <SHr h={2} />
                     <SView row>
+                        <SView width={16} height={16} onPress={() => {
+                            SNavigation.navigate("/perfil/staff_tipo", { key_usuario: obj.key_usuario });
+                        }}>
+                            <SIcon name='Ajustes' />
+                        </SView>
+                        <SView width={4}/>
+
                         {(obj?.staff_tipo ?? []).map(o => this.renderStaffTipo(o))}
                     </SView>
 
