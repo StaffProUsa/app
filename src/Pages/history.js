@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
-import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate } from 'servisofts-component';
+import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate, SNavigation } from 'servisofts-component';
 import { Container } from '../Components';
 import Degradado from '../Components/Degradado';
 import PBarraFooter from '../Components/PBarraFooter';
@@ -23,7 +23,7 @@ export default class history extends Component {
         }).catch(e => {
             console.error(e);
         })
-      
+
         // SSocket.sendPromise({
         //     component: "staff_usuario",
         //     type: "getTrabajosProximos",
@@ -104,13 +104,21 @@ export default class history extends Component {
     }
     getList() {
         return <SList2 data={this.state.data} order={[{ key: "staff/fecha_inicio", order: "desc" }]} render={(obj) => {
+            let isInvitation = (obj?.staff_usuario?.estado == 2)
             let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
+            console.log("obj", obj)
             console.log("userCoordinador", userCoordinador)
             return <SView col={"xs-12"} row padding={15} style={{
                 borderRadius: 16,
                 borderWidth: 1,
                 borderColor: STheme.color.darkGray,
                 overflow: "hidden",
+            }} onPress={() => {
+                if (isInvitation) {
+                    SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key })
+                } else {
+                    SNavigation.navigate("/evento", { key: obj?.key })
+                }
             }}>
                 <Degradado />
                 <SView col={"xs-2"} row center>
@@ -298,7 +306,7 @@ export default class history extends Component {
     }
 
     render() {
-        return <SPage titleLanguage={{ es: "Mi historial", en: "My history" }}  footer={<PBarraFooter url={'/trabajos'} />}>
+        return <SPage titleLanguage={{ es: "Mi historial", en: "My history" }} footer={<PBarraFooter url={'/trabajos'} />}>
             <Container>
                 {this.getPerfil()}
                 <SHr height={25} />

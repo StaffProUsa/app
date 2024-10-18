@@ -69,12 +69,21 @@ class index extends Component {
 
   renderItem(obj) {
     let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
-    // console.log("userCoordinador", userCoordinador)
+    let isInvitation = (obj?.staff_usuario?.estado == 2)
+
+    console.log("obj", obj)
     return <SView col={"xs-12"} row padding={8} style={{
       borderRadius: 16,
       borderWidth: 1,
       borderColor: STheme.color.darkGray,
       overflow: "hidden",
+    }} onPress={() => {
+
+      if (isInvitation) {
+        SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key })
+      } else {
+        SNavigation.navigate("/evento", { key: obj?.evento?.key })
+      }
     }}>
       <Degradado />
       <SView col={"xs-2 sm-2"} row center>
@@ -152,7 +161,7 @@ class index extends Component {
         <SText fontSize={12}>{obj?.asistencia_staff_usuario ? obj?.asistencia_staff_usuario.length : 0}</SText>
       </SView> */}
       <SHr h={4} />
-      <SLoad type='bar'/>
+      <SLoad type='bar' />
     </SView>
   }
 

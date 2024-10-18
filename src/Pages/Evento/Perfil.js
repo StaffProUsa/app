@@ -405,9 +405,9 @@ class Perfil extends React.Component {
               <TextWithLink
                 // center
                 justify
-                color={STheme.color.lightGray}
+                color={STheme.color.gray}
                 font={'Roboto'}
-                fontSize={12}>
+                fontSize={14}>
                 {DATA.observacion}
               </TextWithLink>
             </SView>

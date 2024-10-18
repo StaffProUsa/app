@@ -63,7 +63,7 @@ export default class invitationDetail extends React.Component {
               <SHr height={15} />
             </Container>
             <SView col={'xs-12'} center backgroundColor={STheme.color.secondary} padding={15}>
-              <SText fontSize={22} color={STheme.color.text} language={{
+              <SText fontSize={22} color={STheme.color.white} language={{
                 es: "¡Te invitamos a ser parte de " + obj?.company?.descripcion + "!",
                 en: "We invite you to be part of " + obj?.company?.descripcion + "!"
               }} />
@@ -86,7 +86,7 @@ export default class invitationDetail extends React.Component {
                   <SView col={'xs-6'} flex>
                     {/* <SView width={20} /> */}
                     <SText fontSize={20} >{obj?.staff_tipo?.descripcion}</SText>
-                    <SText fontSize={15} color={STheme.color.lightGray}  >
+                    <SText fontSize={15} color={STheme.color.gray}  >
                       {obj?.staff_tipo?.observacion || "---"}
                     </SText>
                   </SView>
@@ -109,18 +109,18 @@ export default class invitationDetail extends React.Component {
                 <SHr height={20} />
                 <SView col={'xs-12'} row center>
                   <SView col={'xs-12 sm-6'}  >
-                    <SText fontSize={15} color={STheme.color.lightGray}  >* {obj?.staff?.descripcion || "---"}</SText>
+                    <SText fontSize={15} color={STheme.color.gray}  >* {obj?.staff?.descripcion || "---"}</SText>
                     <SHr height={15} />
                   </SView>
 
                   <SView col={'xs-12 sm-6'} row >
-                    <SText fontSize={15} color={STheme.color.lightGray} center language={{
+                    <SText fontSize={15} color={STheme.color.gray} center language={{
                       es: "* Nivel de inglés: ",
                       en: "* English level: "
                     }} />
                     <SText fontSize={15} color={STheme.color.white} center >{obj?.cliente?.nivel_ingles}</SText>
                     <SHr height={15} />
-                    <SText fontSize={15} color={STheme.color.lightGray} center language={{
+                    <SText fontSize={15} color={STheme.color.gray} center language={{
                       es: "* Autorización para trabajar en USA: ",
                       en: " Authorization to work in USA: "
                     }} />
@@ -128,7 +128,7 @@ export default class invitationDetail extends React.Component {
                   </SView>
                   <SHr height={15} />
                   <SView col={'xs-12'}  >
-                    <SText fontSize={15} color={STheme.color.lightGray}  >* {obj?.cliente?.observacion || "---"}</SText>
+                    <SText fontSize={15} color={STheme.color.gray}  >* {obj?.cliente?.observacion || "---"}</SText>
                   </SView>
                 </SView>
                 <SHr height={20} />
@@ -151,7 +151,7 @@ export default class invitationDetail extends React.Component {
                     }} />
                   </SView>
                   <SView col={'xs-6'} >
-                    <SText fontSize={20} color={STheme.color.lightGray} >{obj?.evento?.descripcion}</SText>
+                    <SText fontSize={20} color={STheme.color.gray} >{obj?.evento?.descripcion}</SText>
                   </SView>
                   <SHr height={10} />
                   <SView col={'xs-6'} row >
@@ -163,7 +163,7 @@ export default class invitationDetail extends React.Component {
                     }} />
                   </SView>
                   <SView col={'xs-6'} row>
-                    <SText fontSize={20} color={STheme.color.lightGray} >{obj?.cliente?.direccion}</SText>
+                    <SText fontSize={20} color={STheme.color.gray} >{obj?.cliente?.direccion}</SText>
                   </SView>
                   <SHr height={10} />
                   <SView col={'xs-6'} row >
@@ -175,7 +175,7 @@ export default class invitationDetail extends React.Component {
                     }} />
                   </SView>
                   <SView col={'xs-6'} row>
-                    <SText fontSize={20} color={STheme.color.lightGray} >{new SDate(obj?.staff?.fecha_inicio).toString("MM-dd-yyyy hh:mm")}</SText>
+                    <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_inicio).toString("MM-dd-yyyy hh:mm")}</SText>
                   </SView>
                   <SHr height={10} />
                   {/* <SView col={'xs-6'} row >
@@ -221,7 +221,7 @@ export default class invitationDetail extends React.Component {
                     })
 
                   }} backgroundColor={STheme.color.darkGray} >
-                    <SText fontSize={18} color={STheme.color.text} language={{
+                    <SText fontSize={18} color={STheme.color.white} language={{
                       es: "NO, GRACIAS",
                       en: "NO, THANKS"
                     }} />
@@ -248,7 +248,7 @@ export default class invitationDetail extends React.Component {
                     loading={this.state.loading}
 
                   >
-                    <SText fontSize={18} color={STheme.color.text} language={{
+                    <SText fontSize={18} color={STheme.color.white} language={{
                       es: "ACEPTAR",
                       en: "ACCEPT"
                     }} />

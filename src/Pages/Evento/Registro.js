@@ -35,7 +35,7 @@ export default class Registro extends React.Component {
     this.key_cliente = SNavigation.getParam('key_cliente');
     this._ref = {};
     this._ref2 = {};
-  }
+  } 
   onChangeLanguage(language) {
     this.setState({ ...this.state })
   }
@@ -195,6 +195,7 @@ export default class Registro extends React.Component {
           en: "Register"
         }}>
           <SView col={'xs-12'} backgroundColor={'transparent'} center row>
+            <SHr height={20} />
             <SView
               col={'xs-11 sm-10 md-8 lg-6 xl-4'}
               backgroundColor={'transparent'}>

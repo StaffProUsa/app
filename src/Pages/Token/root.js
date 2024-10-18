@@ -95,7 +95,9 @@ export default class root extends Component {
               right: 0,
               fontSize: 25,
               borderRadius: 12,
-              letterSpacing: 11
+              letterSpacing: 11,
+              backgroundColor: STheme.color.white,
+              color: STheme.color.black,
             }}
             // label={"CODIGO"}
             placeholder={"______"}
@@ -158,7 +160,8 @@ export default class root extends Component {
             SNotification.send({
               title: "Error",
               body: (lenguaje == "es") ? "El código debe ser de 6 digitos" : "The code must be 6 digits",
-              color: STheme.color.danger
+              color: STheme.color.danger,
+              time: 5000
             })
             return null;
           }
@@ -170,14 +173,16 @@ export default class root extends Component {
           }).then(e => {
             SNotification.send({
               title: "Exito",
-              body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful"
+              body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
+              time: 5000
             })
             SNavigation.navigate("/token/exito")
           }).catch(e => {
             SNotification.send({
               title: "Error",
               body: (lenguaje == "es") ? "No se pudo realizar la asistencia." : "The assistance could not be carried out.",
-              color: STheme.color.danger
+              color: STheme.color.danger,
+              time: 5000
             })
             console.error(e);
           })

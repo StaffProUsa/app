@@ -96,11 +96,11 @@ export default class Reclutas extends Component {
         const arr = Object.values(this.state.data) ?? [];
         return <SView col={"xs-12"}>
             {arr.length <= 0 ? <SView center col={"xs-12"} height={200}>
-                <SText color={STheme.color.lightGray} language={{
+                <SText color={STheme.color.gray} language={{
                     es: "NO TIENES RECLUTAS",
                     en: "YOU DON'T HAVE RECRUITS"
                 }} />
-                <SText color={STheme.color.lightGray} fontSize={10} language={{
+                <SText color={STheme.color.gray} fontSize={12} language={{
                     es: "Presiona en el botón + para agregar puestos.",
                     en: "Press the + button to add positions."
                 }} />

@@ -109,7 +109,7 @@ class Mapa extends Component<MapaPropsType> {
                             row
                         >
                             <SIcon name="googleMap" fill={STheme.color.text} width={25} height={17.45} />
-                            <SText color={STheme.color.text} center fontSize={16} language={{
+                            <SText color={STheme.color.white} center fontSize={16} language={{
                                 es: "Ir a Google Maps",
                                 en: "Go to Google Maps"
                             }} />
