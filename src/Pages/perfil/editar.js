@@ -115,7 +115,7 @@ class index extends Component {
                     placeholder: nivel_ingles,
                     label: nivel_ingles,
                     type: 'select',
-                    options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content:  (lenguaje == "en") ? "NONE" :"NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }],
+                    options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }],
                     isRequired: true,
                     defaultValue: this.data.nivel_ingles,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
@@ -125,7 +125,7 @@ class index extends Component {
                     placeholder: papeles,
                     label: papeles,
                     type: 'select',
-                    options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR"  }, { key: "YES", content:  (lenguaje == "en") ? "YES" :"SI" }, { key: "NO", content: "NO" }],
+                    options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "YES", content: (lenguaje == "en") ? "YES" : "SI" }, { key: "NO", content: "NO" }],
                     isRequired: true,
                     defaultValue: this.data.papeles,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
@@ -200,7 +200,20 @@ class index extends Component {
                             <SText color={"#DE5738"} fontSize={18} >MIS DATOS</SText>
                         </SView> */}
                             {this.getForm()}
-                            <SView height={16} />
+                            <SView height={5} />
+                            {/* aptitud */}
+                            <SView row style={{ alignItems: "flex-end", maxWidth:"350px" }}  card padding={15} onPress={() => {
+                                SNavigation.navigate("/perfil/staff_tipo")
+                            }}>
+                                <SIcon name={"aptitud"} fill={STheme.color.text} width={20} height={20} />
+                                <SView width={10} />
+                                <SText flex fontSize={15} color={STheme.color.text} language={{
+                                    es: "EDITAR MIS APTITUDES O EXPERIENCIAS",
+                                    en: "EDIT MY SKILLS OR EXPERIENCES"
+                                }} />
+                            </SView>
+                            <SView height={26} />
+
                             <SView col={"xs-12"} row center>
                                 <PButtom rojo fontSize={20} onPress={() => {
                                     this.form.submit();
@@ -221,13 +234,13 @@ class index extends Component {
                                     borderBottomColor: STheme.color.card
                                 }}></SView>
                             <SHr height={30} />
-                            <PButtom rojo fontSize={20} onPress={() => {
+                            {/* <PButtom rojo fontSize={20} onPress={() => {
                                 SNavigation.navigate("/perfil/staff_tipo")
                             }}><SText center fontSize={15} color={STheme.color.white} language={{
                                 es: "EDITAR MIS APTITUDES O EXPERIENCIAS",
                                 en: "EDIT MY SKILLS OR EXPERIENCES"
-                            }} /></PButtom>
-                            <SView height={15} />
+                            }} /></PButtom> */}
+                            {/* <SView height={15} /> */}
                             <PButtom rojo fontSize={20} onPress={() => {
                                 SNavigation.navigate("/perfil/changepass")
                             }}><SText fontSize={20} color={STheme.color.white} language={{
@@ -251,7 +264,7 @@ class index extends Component {
                                 //     }
                                 // })
                                 SNavigation.navigate("/perfil/eliminar")
-                            }}><SText fontSize={20} color={STheme.color.white} language={{
+                            }}><SText fontSize={20} color={STheme.color.text} language={{
                                 es: "ELIMINAR CUENTA",
                                 en: "DELETE ACCOUNT"
                             }} /></PButtom>

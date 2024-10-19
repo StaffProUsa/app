@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SIcon, SImage, SNavigation, SText, STheme, SUtil, SView, SLanguage } from 'servisofts-component';
+import { SHr, SIcon, SImage, SNavigation, SText, STheme, SUtil, SView, SLanguage, SDate } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 const getColorFromPercentage = (percentage) => {
     // Asegurarse de que el valor esté entre 0 y 100
@@ -59,7 +59,11 @@ export default class Reclutas extends Component {
                     <SView flex height style={{
                         justifyContent: "center",
                     }}>
-                        <SText fontSize={15}>{obj.tipo_staff}</SText>
+                        <SView row>
+                            <SText fontSize={15}>{obj.tipo_staff} </SText>
+                            <SText fontSize={14}>{"["}{new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}{"]"}</SText>
+
+                        </SView>
                         <SText fontSize={14} color={STheme.color.gray}>{obj.staff}</SText>
                     </SView>
                     <SView width={16} />

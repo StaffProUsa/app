@@ -18,6 +18,7 @@ export default class select extends Component {
     }
     componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
+        let lenguaje = SLanguage.language;
         if (this.state.latitude || this.state.longitude) {
             this.map.animateToRegion({ latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 })
         } else {
@@ -28,7 +29,7 @@ export default class select extends Component {
             }).catch(e => {
                 SNotification.send({
                     title: "Error",
-                    body: "No pudimos optener tu ubicación",
+                    body: (lenguaje == "es") ? "No pudimos optener tu ubicación" : "We couldn't get your location",
                     color: STheme.color.danger
                 })
             })
@@ -52,10 +53,12 @@ export default class select extends Component {
                 type='text'
                 required={true}
                 defaultValue={this.state.direccion}
-                backgroundColor={"#00000000"}
-                // style={{
-                //     backgroundColor: STheme.color.card
-                // }}
+                // backgroundColor={"#00000000"}
+                // backgroundColor={STheme.color.white}
+                style={{
+                    backgroundColor: STheme.color.primary,
+                    color: STheme.color.text,
+                }}
                 placeholder={(lenguaje == "es") ? "Dirección, Ejemplo: Av Banzer, Santa Cruz" : "Address, Example: Store, Stockton Street, San Francisco,"} />
             <SText height={25} color={STheme.color.danger}>{this.state.error}</SText>
             {/* <SHr height={10} /> */}
@@ -69,7 +72,7 @@ export default class select extends Component {
                 this.setState({ loading: true, error: "" })
                 console.log(this.state)
                 if (this.onSelect) this.onSelect(this.state)
-            }}><SText language={{
+            }}><SText color={STheme.color.white} language={{
                 es: "REGISTRAR",
                 en: "REGISTER"
             }} />
@@ -81,11 +84,14 @@ export default class select extends Component {
         return <SPage disableScroll>
             <SView col={"xs-12"} height center>
                 <SMapView ref={map => this.map = map}
+                    showsUserLocation={true}
+                    showsMyLocationButton={true}
                     onRegionChangeComplete={e => {
                         this.state.latitude = e.latitude
                         this.state.longitude = e.longitude
+                        console.log(e)
                     }}
-                    >
+                >
                     {/* <SMapView.SMarker width={35} height={45} latitude={this.state.latitude} longitude={this.state.longitude} >
                         <SView width={35} height={45} >
                             <SIcon name={"iconMap"} width={35} height={45} />

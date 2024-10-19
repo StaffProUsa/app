@@ -16,6 +16,7 @@ class index extends DPA.list {
     constructor(props) {
         super(props, {
             Parent: Parent,
+            title :"List client",
             excludes: ["key", "fecha_on", "key_usuario", "key_company", "estado"],
             params: ["key_company"],
             onRefresh: (resolve) => {
@@ -89,7 +90,7 @@ class index extends DPA.list {
             </SView>
             <SView width={30} height={30} onPress={() => {
                 SPopup.confirm({
-                    title: "Esta seguro que descea eliminar?",
+                    title: "Esta seguro que desea eliminar?",
                     message: "Eliminar",
                     onPress: () => {
                         Model.cliente.Action.editar({

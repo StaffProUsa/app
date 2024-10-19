@@ -174,14 +174,26 @@ export default class users extends Component {
             <SView width={4} />
         </>
     }
-    
+
     formatearFecha(fecha, lenguaje) {
-        const opciones = { day: 'numeric', month: 'long', year: 'numeric'  , hour: 'numeric', 
-            minute: 'numeric', 
+        const opciones = {
+            day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric',
+            minute: 'numeric',
             hour12: true // Esto es opcional, si quieres formato de 12 horas 
-            };
+        };
         //  return fecha.toLocaleDateString('en-US', opciones);
         return fecha.toLocaleDateString(lenguaje, opciones);
+    }
+
+    EsFechaMenorOIgual(fecha) {
+        // Convertir la fecha de cadena a objeto Date
+        const fechaObj = new Date(fecha);
+
+        // Obtener la fecha actual
+        const fechaActual = new Date();
+
+        // Comparar si la fecha es menor o igual a la fecha actual
+        return fechaObj <= fechaActual;
     }
 
     render() {
@@ -210,6 +222,12 @@ export default class users extends Component {
                     es: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "es"),
                     en: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "en")
                 }} />
+                <SView width={6} />
+                {(this.EsFechaMenorOIgual(new Date(this.state?.data?.fecha_inicio))) ? <SText fontSize={16} center color={STheme.color.danger} language={{
+                    en: "[ Past event ]",
+                    es: "[ Evento pasado ]"
+                }} /> : null}
+
                 <SHr />
                 <SView col={"xs-12"} row>
                     <SView row>
@@ -228,10 +246,10 @@ export default class users extends Component {
                 </SView>
             </SView>
             <SView row col={"xs-12"} flex padding={4} >
-                <SView flex={1} height backgroundColor={STheme.color.darkGray} style={{ borderRadius: 4 }}>
+                <SView flex={1} height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }}>
                     {/* <SView flex={2} height backgroundColor={STheme.color.darkGray} style={{ borderRadius: 4 }}> */}
                     <SHr h={4} />
-                    <SText fontSize={12} color={STheme.color.white} center language={{
+                    <SText fontSize={12} color={STheme.color.text} center language={{
                         es: "Staff Disponibles",
                         en: "Available Staff"
                     }} />
@@ -270,7 +288,7 @@ export default class users extends Component {
                             })
                         })
                     }}>
-                        <SIcon name={"checkAll"} fill={STheme.color.white} width={20} height={20} />
+                        <SIcon name={"checkAll"} fill={STheme.color.gray} width={20} height={20} />
                     </SView>
                     <STable2
                         key={"Algo"}
@@ -281,7 +299,7 @@ export default class users extends Component {
                             justifyContent: "center",
                             paddingStart: 2,
                             height: 30,
-                            color: STheme.color.white
+                            color: STheme.color.text
 
                         }}
                         // filter={a => a.estado != 0}
@@ -289,7 +307,11 @@ export default class users extends Component {
                         header={[
                             // { key: "index", label: "#", width: 30 },
                             {
-                                key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
+                                key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20} style={{
+                                    borderColor: STheme.color.gray,
+                                    borderWidth: 2,
+                                    borderRadius: 5
+                                }}><SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
                                     elm.invitar = !!e;
                                     if (elm.invitar) {
                                         SSocket.sendPromise({
@@ -361,7 +383,7 @@ export default class users extends Component {
                                 key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number}
                                     texto={this.state?.data?.evento?.observacion}
                                 >
-                                    <SText fontSize={11} color={STheme.color.white} underLine>
+                                    <SText fontSize={11} color={STheme.color.text} underLine>
                                         {number}
                                     </SText>
                                 </BtnWhatsapp>
@@ -377,11 +399,11 @@ export default class users extends Component {
                 <SView width={25} height center>
 
                 </SView>
-                <SView flex height backgroundColor={STheme.color.darkGray} style={{ borderRadius: 4 }} >
+                <SView flex height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }} >
                     <SHr h={4} />
-                    <SText center fontSize={12} color={STheme.color.white} language={{
-                        es: "Staff Seleccionado",
-                        en: "Selected Staff"
+                    <SText center fontSize={12} color={STheme.color.text} language={{
+                        es: "Staff Aceptado",
+                        en: "Staff Accepted"
                     }} />
                     <STable2
                         key={"Algo1"}
@@ -393,7 +415,7 @@ export default class users extends Component {
                             justifyContent: "center",
                             paddingStart: 2,
                             height: 30,
-                            color: STheme.color.white
+                            color: STheme.color.text
 
                         }}
                         header={[
@@ -424,7 +446,7 @@ export default class users extends Component {
                                     }} center>
                                         {user ? <SView row><SView width={20} height={20} card>
                                             <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario_atiende} />
-                                        </SView><SText color={STheme.color.white} flex fontSize={10}>{user.Nombres} {user.Apellidos}</SText></SView> : <SText color={STheme.color.white} fontSize={10}>{"Sin jefe"}</SText>}
+                                        </SView><SText color={STheme.color.text} flex fontSize={10}>{user.Nombres} {user.Apellidos}</SText></SView> : <SText color={STheme.color.text} fontSize={10}>{"Sin jefe"}</SText>}
 
                                         {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
                                         {/* {this.renderStaffUsuario(obj)} */}
@@ -434,14 +456,14 @@ export default class users extends Component {
 
                             {
                                 key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
-                                    <SText fontSize={11} color={STheme.color.white} underLine>
+                                    <SText fontSize={11} color={STheme.color.text} underLine>
                                         {number}
                                     </SText>
                                 </BtnWhatsapp>
                             },
                             {
                                 key: "-delete", label: "Delete", width: 100, component: (e) => {
-                                    return <SText color={STheme.color.white} onPress={() => {
+                                    return <SText color={STheme.color.text} onPress={() => {
                                         // console.log(e);
                                         SPopup.confirm({
                                             title: "Seguro de eliminar?",
