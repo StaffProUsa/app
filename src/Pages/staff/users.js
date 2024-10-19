@@ -174,14 +174,26 @@ export default class users extends Component {
             <SView width={4} />
         </>
     }
-    
+
     formatearFecha(fecha, lenguaje) {
-        const opciones = { day: 'numeric', month: 'long', year: 'numeric'  , hour: 'numeric', 
-            minute: 'numeric', 
+        const opciones = {
+            day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric',
+            minute: 'numeric',
             hour12: true // Esto es opcional, si quieres formato de 12 horas 
-            };
+        };
         //  return fecha.toLocaleDateString('en-US', opciones);
         return fecha.toLocaleDateString(lenguaje, opciones);
+    }
+
+    EsFechaMenorOIgual(fecha) {
+        // Convertir la fecha de cadena a objeto Date
+        const fechaObj = new Date(fecha);
+
+        // Obtener la fecha actual
+        const fechaActual = new Date();
+
+        // Comparar si la fecha es menor o igual a la fecha actual
+        return fechaObj <= fechaActual;
     }
 
     render() {
@@ -210,6 +222,12 @@ export default class users extends Component {
                     es: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "es"),
                     en: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "en")
                 }} />
+                <SView width={6} />
+                {(this.EsFechaMenorOIgual(new Date(this.state?.data?.fecha_inicio))) ? <SText fontSize={16} center color={STheme.color.danger} language={{
+                    en: "[ Past event ]",
+                    es: "[ Evento pasado ]"
+                }} /> : null}
+
                 <SHr />
                 <SView col={"xs-12"} row>
                     <SView row>
@@ -292,8 +310,8 @@ export default class users extends Component {
                                 key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20} style={{
                                     borderColor: STheme.color.gray,
                                     borderWidth: 2,
-                                    borderRadius:5
-                                }}><SInput type='checkBox'  defaultValue={elm?.staff_usuario} onChangeText={e => {
+                                    borderRadius: 5
+                                }}><SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
                                     elm.invitar = !!e;
                                     if (elm.invitar) {
                                         SSocket.sendPromise({

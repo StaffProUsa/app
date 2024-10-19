@@ -55,6 +55,7 @@ export default class index extends React.Component {
             es: "Nuevo cliente",
             en: "New client"
         }} >
+            <SHr height={20} />
             <Container loading={(this.pk && !this.state.data)}>
                 <SForm
                     row
@@ -74,8 +75,7 @@ export default class index extends React.Component {
                         // "nivel_ingles": { col: "xs-5.5", type: "select", label: nivel_ingles, defaultValue: this.state?.data?.nivel_ingles,options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content:  (lenguaje == "en") ? "NONE" :"NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }], },
                         "papeles": { col: "xs-5.5", type: "checkBox", label: papeles, defaultValue: this.state?.data?.papeles },
                         "observacion": {
-                            col: "xs-12", type: "textArea", height: 400, label: observacion, defaultValue: this.state?.data?.observacion,
-                            placeholder: `
+                            col: "xs-12", type: "textArea", height: 400, label: observacion, defaultValue: (this.state?.data?.observacion) ? this.state?.data?.observacion : `
 En este espacio, podrás encontrar todos los requerimientos que el cliente ha solicitado para el proyecto. 📝 Es importante que revises cada detalle cuidadosamente, ya que aquí se plasman todas las necesidades y expectativas que debemos cumplir para garantizar un resultado óptimo. 🎯
 
 Recuerda que cualquier modificación o actualización será comunicada a través de este mismo apartado, para que siempre estemos alineados con lo que el cliente espera. 🛠️
@@ -83,7 +83,16 @@ Recuerda que cualquier modificación o actualización será comunicada a través
 👉 Por favor, mantén este espacio siempre actualizado y asegúrate de verificar los requerimientos antes de iniciar cualquier tarea.
 
 ¡Gracias por tu colaboración! 😊
-                            `
+                            `,
+                            //                             placeholder: `
+                            // En este espacio, podrás encontrar todos los requerimientos que el cliente ha solicitado para el proyecto. 📝 Es importante que revises cada detalle cuidadosamente, ya que aquí se plasman todas las necesidades y expectativas que debemos cumplir para garantizar un resultado óptimo. 🎯
+
+                            // Recuerda que cualquier modificación o actualización será comunicada a través de este mismo apartado, para que siempre estemos alineados con lo que el cliente espera. 🛠️
+
+                            // 👉 Por favor, mantén este espacio siempre actualizado y asegúrate de verificar los requerimientos antes de iniciar cualquier tarea.
+
+                            // ¡Gracias por tu colaboración! 😊
+                            //                             `
                         },
                         "direccion": {
                             col: "xs-12", type: "text", label: direccion, defaultValue: this.state?.data?.direccion,

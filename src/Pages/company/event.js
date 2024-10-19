@@ -66,6 +66,18 @@ export default class event extends Component {
             }
         });
     }
+
+    EsFechaMenorOIgual(fecha) {
+        // Convertir la fecha de cadena a objeto Date
+        const fechaObj = new Date(fecha);
+      
+        // Obtener la fecha actual
+        const fechaActual = new Date();
+      
+        // Comparar si la fecha es menor o igual a la fecha actual
+        return fechaObj <= fechaActual;
+      }
+
     renderHeader() {
         if (!this.state.data) return null;
         const { descripcion, observacion, fecha } = this.state.data
@@ -103,8 +115,12 @@ export default class event extends Component {
                     }} color={STheme.color.gray}
                     />
                     <SView width={10} />
-                    <SText fontSize={16}  center color={STheme.color.text}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy")}</SText>
+                    <SText fontSize={16} center color={STheme.color.text}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy")}</SText>
                 </SView>
+                {(this.EsFechaMenorOIgual(new Date(fecha))) ? <SText fontSize={16} center color={STheme.color.danger} language={{
+                    en: "(Past event)",
+                    es: "(Evento pasado)"
+                }} /> : null}
                 <SHr h={25} />
                 <SHr h={1} color={STheme.color.card} />
             </SView>
