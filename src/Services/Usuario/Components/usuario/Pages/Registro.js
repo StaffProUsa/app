@@ -109,10 +109,10 @@ class Registro extends Component {
                 password: password
 
               }).then(resp => {
-                SNavigation.reset("/");
+                // SNavigation.reset("/");
               }).catch(e => {
                 SPopup.alert("Error al iniciar con el nuevo usuario");
-                SNavigation.reset("/");
+                // SNavigation.reset("/");
               })
               // SNavigation.replace('/');
 

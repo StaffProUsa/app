@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SForm, SHr, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon, SLanguage } from 'servisofts-component';
+import { SForm, SHr, SNavigation, SPage, SPopup, SText, STheme, SView, SIcon, SLanguage, SThread } from 'servisofts-component';
 import { AccentBar } from '../../Components';
 import Container from '../../Components/Container';
 import Model from '../../Model';
@@ -185,15 +185,18 @@ class root extends Component {
 
                                         }).then(resp => {
                                             // Model.empresa.Action.setEmpresa(null)
-                                            // SNavigation.reset("/");
-                                            SNavigation.replace("/onLogin")
+                                            SNavigation.reset("/");
+                                            new SThread(1000, "asdasd").start(() => {
+                                                SNavigation.replace("/onLogin")
+
+                                            })
                                         }).catch(e => {
                                             if (lenguaje == "en") {
                                                 SPopup.alert('Error starting with the new user');
                                             } else {
                                                 SPopup.alert("Error al iniciar con el nuevo usuario");
                                             }
-                                            SNavigation.reset("/");
+                                            // SNavigation.reset("/");
                                         })
                                         // SNavigation.replace('/');
 

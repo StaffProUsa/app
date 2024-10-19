@@ -27,12 +27,12 @@ export default class onLogin extends Component {
             key_usuario: Model.usuario.Action.getKey()
         }).then(e => {
             if (!this.state.pasar) return;
-                if (e.data) {
-                    if (Object.values(e.data).length <= 0) {
-                        SNavigation.replace("/perfil/staff_tipo")
-                        this.state.pasar = false;
-                    }
+            if (e.data) {
+                if (Object.values(e.data).length <= 0) {
+                    SNavigation.replace("/perfil/staff_tipo")
+                    this.state.pasar = false;
                 }
+            }
         }).catch(e => {
 
         })

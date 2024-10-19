@@ -7,6 +7,8 @@ import Model from '../../Model';
 import list from "./list"
 import event from '../company/event';
 import Input from '../../Components/Input';
+import InputFloat from '../../Components/NuevoInputs/InputFloat';
+import InputHora from '../../Components/NuevoInputs/InputHora';
 const formatTime = (time: any) => {
     // Eliminar caracteres no numéricos y no ':'
     let filtered = time.replace(/[^0-9:]/g, '');
@@ -250,10 +252,10 @@ export default class add extends Component {
                         backgroundColor: STheme.color.card,
                         color: STheme.color.text,
                     }}
-                    // infoStyle={{
-                    //     color: STheme.color.text,
-                    //     fontSize: 12,
-                    // }}
+                        // infoStyle={{
+                        //     color: STheme.color.text,
+                        //     fontSize: 12,
+                        // }}
                         required
                         ref={r => this._ref["hora_inicio"] = r}
                         keyboardType="numeric"
@@ -261,10 +263,29 @@ export default class add extends Component {
                         labelStyle={{ color: STheme.color.text, fontSize: 12, fontFamily: "roboto", marginTop: 10 }}
                         placeholder="HH:MM"
                         filter={this.filterHorario.bind(this)}
-                        onChangeText={e => {
-                            // this._ref["hora_inicio"].setValue(e);
-                            this.state.hora_fin = e
-                        }} />
+                        onPress={(e) => {
+                            InputFloat.open({
+                                e: e, width: 120, height: 160,
+                                style: {
+                                    backgroundColor: STheme.color.background,
+                                    borderRadius: 4
+                                },
+                                render: () => {
+                                    return <SView flex height card>
+                                        <InputHora defaultValue={this._ref["hora_inicio"].getValue()} onChange={val => {
+                                            if (this._ref["hora_inicio"]) {
+                                                this._ref["hora_inicio"].setValue(val)
+                                            }
+                                        }} />
+                                    </SView>
+                                }
+                            });
+                        }}
+                    // onChangeText={e => {
+                    //     // this._ref["hora_inicio"].setValue(e);
+                    //     this.state.hora_fin = e
+                    // }}
+                    />
                     {/* <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
                     <SInput ref={r => this._ref["hora_fin"] = r} col={"xs-5.5"} label={" "} defaultValue={"23:59"} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);

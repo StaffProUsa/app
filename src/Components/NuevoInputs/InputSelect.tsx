@@ -7,9 +7,9 @@ import { SText, STheme, SThread, SView } from 'servisofts-component';
 
 // Datos de ejemplo
 
-const ITEM_HEIGHT = 80; // Altura base del item
+// const ITEM_HEIGHT = 80; // Altura base del item
 
-const Item = ({ item, index, scrollY, onPress }) => {
+const Item = ({ item, index, scrollY, onPress, ITEM_HEIGHT = 50 }) => {
     // Estilo animado para cada ítem
     const animatedStyle = useAnimatedStyle(() => {
         // Calculamos la posición del ítem y cómo debería escalar
@@ -18,7 +18,7 @@ const Item = ({ item, index, scrollY, onPress }) => {
         const scale = interpolate(
             Math.abs(position),
             [0, ITEM_HEIGHT * 2], // Desde la posición central a los ítems lejanos
-            [1.8, 0.8], // Escala central (1.5x) a escala pequeña (0.8x)
+            [1.5, 0.8], // Escala central (1.5x) a escala pequeña (0.8x)
             'clamp'
         );
 
@@ -35,12 +35,14 @@ const Item = ({ item, index, scrollY, onPress }) => {
             <Animated.View style={[{
                 justifyContent: 'center', alignItems: 'center',
             }, animatedStyle]}>
-                <Text style={{ fontSize: 20 }}>{item}</Text>
+                <SText style={{ fontSize: 12 }}>{item}</SText>
             </Animated.View>
         </SView>
     );
 };
-const MyAnimatedFlatList = ({ data,  defaultValue = "", onChange }) => {
+const ocd = (e) => {
+}
+const MyAnimatedFlatList = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT }) => {
     const scrollY = useSharedValue(0);
     const flatListRef = useRef<FlatList>(null); // Referencia al FlatList
 
@@ -85,7 +87,7 @@ const MyAnimatedFlatList = ({ data,  defaultValue = "", onChange }) => {
                 return;
             }
 
-            onChange(state.value)
+            if (onChange) onChange(state.value)
 
         }
     }, []);
@@ -99,7 +101,7 @@ const MyAnimatedFlatList = ({ data,  defaultValue = "", onChange }) => {
                 ref={flatListRef}
                 data={data}
                 keyExtractor={(item) => item}
-                renderItem={({ index, item }) => <Item item={item} index={index} scrollY={scrollY} onPress={() => {
+                renderItem={({ index, item }) => <Item item={item} index={index} scrollY={scrollY} ITEM_HEIGHT={ITEM_HEIGHT} onPress={() => {
                     // Aqui pon el codigo
                     state.value = item
                     state.valueTo = item

@@ -32,6 +32,11 @@ class Login extends Component {
         this.setState({ ...this.state })
     }
     componentDidMount() {
+        if (Model.usuario.Action.getUsuarioLog()) {
+            SNavigation.goBack();
+            // SNavigation.navigate("/login");
+            return null;
+        }
         new SThread(100, "espera").start(() => {
             this.setState({ ready: true })
         })
@@ -231,11 +236,7 @@ class Login extends Component {
 
     render() {
         console.log(this.key_invitacion);
-        if (Model.usuario.Action.getUsuarioLog()) {
-            SNavigation.goBack();
-            // SNavigation.navigate("/login");
-            return null;
-        }
+
         let lenguaje = SLanguage.language;
         let correo = "Correo electrónico";
         let contrasena = "Contraseña";

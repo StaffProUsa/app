@@ -19,13 +19,15 @@ class Carga extends Component {
     super(props);
     this.state = {
       delay: 500,
+      end:false
     };
     this.ruta = SNavigation.getParam('ruta');
     console.log(this.ruta);
   }
 
   redirect() {
-    
+    if(this.state.end) return;
+    this.state.end = true;
     const key_usuario = Model.usuario.Action.getKey();
     if(!key_usuario){
       SNavigation.replace('/login');
@@ -63,7 +65,5 @@ class Carga extends Component {
     );
   }
 }
-const initStates = (state) => {
-  return { state };
-};
-export default connect(initStates)(Carga);
+
+export default (Carga);
