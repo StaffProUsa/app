@@ -235,7 +235,7 @@ export default class add extends Component {
                     }
                     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea' />
                     <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={cantidad} required placeholder={"0"} />
-                    <SInput ref={r => this._ref["fecha_inicio"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={fecha_inicio} required placeholder={"yyyy-MM-dd"} />
+                    <SInput ref={r => this._ref["fecha_inicio"] = r} disabled defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={fecha_inicio} required placeholder={"yyyy-MM-dd"} />
                     {/* <SInput ref={r => this._ref["hora_inicio"] = r} type='hour' col={"xs-5.5"} defaultValue={"00:01"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => { */}
                     {/* <SInput ref={r => this._ref["hora_inicio"] = r} type='hour' col={"xs-5.5"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);

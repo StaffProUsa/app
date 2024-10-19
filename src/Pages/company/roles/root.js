@@ -165,12 +165,12 @@ export default class root extends Component {
                     <SText fontSize={12} color={STheme.color.text}>{obj?.usuario?.Correo}</SText>
                     <SHr h={2} />
                     <SView row>
-                        <SView width={16} height={16} onPress={() => {
+                        {/* <SView width={16} height={16} onPress={() => {
                             SNavigation.navigate("/perfil/staff_tipo", { key_usuario: obj.key_usuario });
                         }}>
                             <SIcon name='Ajustes' />
                         </SView>
-                        <SView width={4}/>
+                        <SView width={4} /> */}
 
                         {(obj?.staff_tipo ?? []).map(o => this.renderStaffTipo(o))}
                     </SView>
@@ -178,13 +178,30 @@ export default class root extends Component {
                 </SView>
                 {!this.state.edit ? null :
                     <SView center height={60}>
-                        <SView width={30} height={30} onPress={() => {
+                        <SView width={35} height={35} center onPress={() => {
                             SNavigation.navigate("/company/roles/add", { key_company: this.key_company, key_usuario: obj.key_usuario, key: obj.key })
                         }} >
-                            <SImage src={require("../../../Assets/img/EDITAR2.png")} />
+                            {/* <SImage src={require("../../../Assets/img/EDITAR2.png")} /> */}
+                            <SIcon name='editar' height={20} width={20} fill={STheme.color.gray} />
+                            <SText fontSize={9} color={STheme.color.gray} language={{
+                                en: "Edit",
+                                es: "Editar"
+                            }} />
                         </SView>
                     </SView>
                 }
+                <SView width={4} />
+                <SView center height={60}>
+                    <SView width={35} height={35} center onPress={() => {
+                        SNavigation.navigate("/perfil/staff_tipo", { key_usuario: obj.key_usuario });
+                    }} >
+                        <SIcon name='posicion' height={20} width={20} fill={STheme.color.gray} />
+                        <SText fontSize={9} color={STheme.color.gray} language={{
+                            en: "Position",
+                            es: "Posición"
+                        }} />
+                    </SView>
+                </SView>
             </SView>
             {
                 !this.state.delete ? null :
