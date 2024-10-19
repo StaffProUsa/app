@@ -83,6 +83,7 @@ export default class Inicio extends Component {
 
   renderInvitaciones() {
     if (!this.state.invitaciones) return null
+    console.log("this.state.invitaciones", this.state.invitaciones);
     let txtInvitacion = "";
     let txtInvitacion_en = "";
     if (this.state.invitaciones.length == 1) {
@@ -121,7 +122,8 @@ export default class Inicio extends Component {
 
         <SView col={"xs-3"} row center>
           <SView col={"xs-12"} row center padding={10} backgroundColor={"#585858"} onPress={() => {
-            SNavigation.navigate("/invitations")
+            (this.state.invitaciones.length == 1) ? SNavigation.navigate("/invitationDetail", { key: this.state.invitaciones[0].staff_usuario?.key }) : SNavigation.navigate("/invitations")
+
           }}
             style={{ borderRadius: 6 }}>
             <SText color={STheme.color.white} language={{
@@ -150,9 +152,9 @@ export default class Inicio extends Component {
       <SView col={"xs-12"} center>
         <SView col={"xs-11.5"} center>
           {/* <MisCompanys /> */}
-          <SHr/>
+          <SHr />
           <MisStaffTipo />
-          <SHr/>
+          <SHr />
           <Calendar ref={ref => this.calendar = ref} />
         </SView>
         <SHr height={60} />
