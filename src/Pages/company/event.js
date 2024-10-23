@@ -70,13 +70,11 @@ export default class event extends Component {
     EsFechaMenorOIgual(fecha) {
         // Convertir la fecha de cadena a objeto Date
         const fechaObj = new Date(fecha);
-      
+
         // Obtener la fecha actual
         const fechaActual = new Date();
-      
-        // Comparar si la fecha es menor o igual a la fecha actual
-        return fechaObj <= fechaActual;
-      }
+        return fechaObj.getDate() < fechaActual.getDate()
+    }
 
     renderHeader() {
         if (!this.state.data) return null;
