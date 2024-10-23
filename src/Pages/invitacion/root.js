@@ -321,7 +321,7 @@ export default class root extends React.Component {
                 es: "¡Te invitamos a ser parte de " + company?.descripcion + "!",
                 en: "We invite you to be part of Staff Pro USA!"
               }} /> */}
-              <SText fontSize={22} color={STheme.color.text} >{this.state?.dataInvitacion?.descripcion}</SText>
+              <SText fontSize={22} color={STheme.color.white} >{this.state?.dataInvitacion?.descripcion}</SText>
             </SView>
             <SHr height={30} />
             <Container>
@@ -348,7 +348,7 @@ export default class root extends React.Component {
                   <Btn col={"xs-5"} onPress={() => {
                     // SNavigation.navigate("/registro")
                   }} backgroundColor={STheme.color.darkGray} >
-                    <SText fontSize={18} color={STheme.color.text} language={{
+                    <SText fontSize={18} color={STheme.color.white} language={{
                       es: "NO, GRACIAS",
                       en: "NO, THANKS"
                     }} />
@@ -362,7 +362,7 @@ export default class root extends React.Component {
                     loading={this.state.loading}
 
                   >
-                    <SText fontSize={18} color={STheme.color.text} language={{
+                    <SText fontSize={18} color={STheme.color.white} language={{
                       es: "ACEPTAR",
                       en: "ACCEPT"
                     }} />

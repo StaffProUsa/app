@@ -87,7 +87,7 @@ export default class TrabajosDelEvento extends Component {
         }}>
             <SIcon name={"mano1"} width={20} height={20} fill={STheme.color.primary} />
             <SView width={5} />
-            <SText language={{
+            <SText color={STheme.color.white} language={{
                 en: "APPLY",
                 es: "POSTULARME"
             }} /></SView>;
