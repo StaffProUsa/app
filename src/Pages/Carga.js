@@ -26,8 +26,6 @@ class Carga extends Component {
   }
 
   redirect() {
-    if(this.state.end) return;
-    this.state.end = true;
     const key_usuario = Model.usuario.Action.getKey();
     if(!key_usuario){
       SNavigation.replace('/login');

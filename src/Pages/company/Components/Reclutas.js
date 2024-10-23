@@ -61,7 +61,7 @@ export default class Reclutas extends Component {
                     }}>
                         <SView row>
                             <SText fontSize={15}>{obj.tipo_staff} </SText>
-                            <SText fontSize={14}>{"["}{new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy hh:mm")}{"]"}</SText>
+                            <SText fontSize={14}>{"["}{new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy HH")}{"]"}</SText>
 
                         </SView>
                         <SText fontSize={14} color={STheme.color.gray}>{obj.staff}</SText>

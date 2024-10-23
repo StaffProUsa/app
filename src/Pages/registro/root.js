@@ -9,7 +9,8 @@ import BtnSend from './components/BtnSend';
 import Header from './components/Header';
 import CryptoJS from 'crypto-js';
 import PButtom from '../../Components/PButtom';
-
+import InputFloat from '../../Components/NuevoInputs/InputFloat';
+import InputSelect from "../../Components/NuevoInputs/InputSelect"
 class root extends Component {
     constructor(props) {
         super(props);
@@ -100,8 +101,38 @@ class root extends Component {
                                     label: telefono, isRequired: true, placeholder: telefono, type: "phone", defaultValue: defaultData.Telefono,
                                 },
                                 Correo: { label: correo, isRequired: true, placeholder: correo, type: "email", defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
-                                nivel_ingles: { label: "Nivel de inglés", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }] },
-                                papeles: { label: "¿Está autorizado para trabajar en los Estados Unidos?", placeholder: correo, type: "select", isRequired: true, defaultValue: "", icon: this.icon("InputEmail"), options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "YES", content: (lenguaje == "en") ? "YES" : "SI" }, { key: "NO", content: "NO" }] },
+                                nivel_ingles: {
+                                    label: "Nivel de inglés",
+                                    placeholder: correo,
+                                    // type: "select",
+                                    isRequired: true,
+                                    defaultValue: "",
+                                    editable: false,
+                                    onPress: e => {
+                                        InputFloat.open({
+                                            e: e,
+                                            height: 180,
+                                            width: 150,
+                                            style: {
+                                                backgroundColor: STheme.color.background
+                                            },
+                                            render: () => {
+                                                return <SView col={"xs-12"} flex card>
+                                                    <InputSelect
+                                                        data={["NONE", "BASIC", "MEDIUM", "ADVANCED"]}
+                                                        onChange={val => {
+                                                            this.form.setValues({ "nivel_ingles": val })
+                                                        }}
+                                                        ITEM_HEIGHT={30} />
+                                                </SView>
+                                            }
+                                        })
+                                    }
+                                    // icon: this.icon("InputEmail"),
+                                    // options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" },
+                                    // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
+                                },
+                                papeles: { col:"xs-12", label: "¿Está autorizado para trabajar en los Estados Unidos?", type: "checkBox" },
 
                                 // FechaNacimiento: {placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
                                 //telefono: {placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},

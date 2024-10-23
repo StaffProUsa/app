@@ -6,8 +6,9 @@ import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 // import { PButtom } from '../../Components';
 import PButtom from '../../Components/PButtom';
+import InputFloat from '../../Components/NuevoInputs/InputFloat';
 // import usuario_dato from '../../Model/tapeke/usuario_dato';
-
+import InputSelect from "../../Components/NuevoInputs/InputSelect"
 
 class index extends Component {
     constructor(props) {
@@ -114,21 +115,40 @@ class index extends Component {
                 nivel_ingles: {
                     placeholder: nivel_ingles,
                     label: nivel_ingles,
-                    type: 'select',
-                    options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }],
+                    // type: "select",
                     isRequired: true,
                     defaultValue: this.data.nivel_ingles,
-                    icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
-                    height: 54
+                    editable: false,
+                    onPress: e => {
+                        InputFloat.open({
+                            e: e,
+                            height: 180,
+                            width: 150,
+                            style: {
+                                backgroundColor: STheme.color.background
+                            },
+                            render: () => {
+                                return <SView col={"xs-12"} flex card>
+                                    <InputSelect
+                                        defaultValue={this.data.nivel_ingles}
+                                        data={["NONE", "BASIC", "MEDIUM", "ADVANCED"]}
+                                        onChange={val => {
+                                            this.form.setValues({ "nivel_ingles": val })
+                                        }}
+                                        ITEM_HEIGHT={30} />
+                                </SView>
+                            }
+                        })
+                    }
                 },
                 papeles: {
                     placeholder: papeles,
                     label: papeles,
-                    type: 'select',
-                    options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "YES", content: (lenguaje == "en") ? "YES" : "SI" }, { key: "NO", content: "NO" }],
-                    isRequired: true,
-                    defaultValue: this.data.papeles,
-                    icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
+                    type: 'checkBox',
+                    // options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "YES", content: (lenguaje == "en") ? "YES" : "SI" }, { key: "NO", content: "NO" }],
+                    // isRequired: true,
+                    defaultValue: this.data.papeles ? this.data.papeles != "false" : false,
+                    // icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
 
@@ -202,7 +222,7 @@ class index extends Component {
                             {this.getForm()}
                             <SView height={5} />
                             {/* aptitud */}
-                            <SView row style={{ alignItems: "flex-end", maxWidth:"350px" }}  card padding={15} onPress={() => {
+                            <SView row style={{ alignItems: "flex-end", maxWidth: "350px" }} card padding={15} onPress={() => {
                                 SNavigation.navigate("/perfil/staff_tipo")
                             }}>
                                 <SIcon name={"aptitud"} fill={STheme.color.text} width={20} height={20} />

@@ -16,6 +16,8 @@ import {
 import eventos from "../cliente/eventos"
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
+import InputFecha from '../../Components/NuevoInputs/InputFecha';
+import event from '../company/event';
 const inputHandler = (text, nro) => {
   console.log(text.nativeEvent.text);
   var value = text.nativeEvent.text;
@@ -35,7 +37,7 @@ export default class Registro extends React.Component {
     this.key_cliente = SNavigation.getParam('key_cliente');
     this._ref = {};
     this._ref2 = {};
-  } 
+  }
   onChangeLanguage(language) {
     this.setState({ ...this.state })
   }
@@ -70,108 +72,119 @@ export default class Registro extends React.Component {
 
     lenguaje = SLanguage.language;
     return (
+      <>
+        <SHr h={16} />
+        <SText language={{ en: "Date", es: "Fecha" }} />
+        <SHr />
+        <InputFecha ref={ref => this.inpFecha = ref}
+          defaultValue={new SDate(data['fecha'], "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") ?? new SDate().toString("yyyy-MM-dd")}
+          onChange={(e) => {
+            console.log(e);
+          }} />
+        <SForm
+          center
+          row
+          ref={(form) => {
+            this.form = form;
+          }}
+          style={{
+            justifyContent: 'space-between',
+          }}
+          inputProps={{
+            customStyle: 'romeo',
+            separation: 16,
 
-      <SForm
-        center
-        row
-        ref={(form) => {
-          this.form = form;
-        }}
-        style={{
-          justifyContent: 'space-between',
-        }}
-        inputProps={{
-          customStyle: 'romeo',
-          separation: 16,
-
-          color: STheme.color.text
-          // fontSize: 16,
-          // font: "Roboto",
-        }}
-        inputs={{
-          // foto_p: { type: "image", isRequired: false, defaultValue: `${SSocket.api.root}evento/${this.key}?time=${new Date().getTime()}`, col: "xs-4 sm-3.5 md-3 lg-2.5 xl-2.5", style: { borderRadius: 8, overflow: 'hidden', width: 130, height: 130, borderWidth: 0 } },
-          fecha: {
-            label: (lenguaje == "es") ? 'Fecha del evento' : 'Event date',
-            type: 'date',
-            isRequired: false,
-            defaultValue: new SDate(data['fecha'], "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") ?? new SDate().toString("yyyy-MM-dd"),
-            col: 'xs-7'
-          },
-          descripcion: {
-            label: (lenguaje == "es") ? 'Nombre del evento' : 'Event name',
-            type: 'text',
-            isRequired: true,
-            defaultValue: data['descripcion']
-          },
+            color: STheme.color.text
+            // fontSize: 16,
+            // font: "Roboto",
+          }}
+          inputs={{
+            // foto_p: { type: "image", isRequired: false, defaultValue: `${SSocket.api.root}evento/${this.key}?time=${new Date().getTime()}`, col: "xs-4 sm-3.5 md-3 lg-2.5 xl-2.5", style: { borderRadius: 8, overflow: 'hidden', width: 130, height: 130, borderWidth: 0 } },
+            // fecha: {
+            //   label: (lenguaje == "es") ? 'Fecha del evento' : 'Event date',
+            //   type: 'date',
+            //   isRequired: false,
+            //   defaultValue: new SDate(data['fecha'], "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") ?? new SDate().toString("yyyy-MM-dd"),
+            //   col: 'xs-7'
+            // },
+            descripcion: {
+              label: (lenguaje == "es") ? 'Nombre del evento' : 'Event name',
+              type: 'text',
+              isRequired: true,
+              defaultValue: data['descripcion']
+            },
 
 
-          // cantidad: {
-          //   label: 'cantidad',
-          //   type: 'number',
-          //   isRequired: false,
-          //   defaultValue: data['cantidad'],
-          //   col: 'xs-5.5'
-          // },
-          observacion: {
-            label: (lenguaje == "es") ? 'Informarción sobre el evento' : 'Information about the event',
-            type: 'textArea',
-            placeholder: (lenguaje == "es") ? 'Informarción sobre el evento' : 'Information about the event',
-            isRequired: false,
-            defaultValue: data['observacion'],
-            col: 'xs-12'
-          },
-          // key_ubicacion: {
-          //   label: 'Ubicacion',
-          //   isRequired: false,
-          //   defaultValue: data['key_ubicacion'],
-          //   // data: {},
-          //   col: 'xs-12'
-          // },
-        }}
-        // onSubmitName={"Registrar"}
-        onSubmit={(values) => {
-          values.estado_venta = 0;
-          if (this.key_company) values.key_company = this.key_company;
-          if (this.key_cliente) values.key_cliente = this.key_cliente;
+            // cantidad: {
+            //   label: 'cantidad',
+            //   type: 'number',
+            //   isRequired: false,
+            //   defaultValue: data['cantidad'],
+            //   col: 'xs-5.5'
+            // },
+            observacion: {
+              label: (lenguaje == "es") ? 'Informarción sobre el evento' : 'Information about the event',
+              type: 'textArea',
+              placeholder: (lenguaje == "es") ? 'Informarción sobre el evento' : 'Information about the event',
+              isRequired: false,
+              defaultValue: data['observacion'],
+              col: 'xs-12'
+            },
+            // key_ubicacion: {
+            //   label: 'Ubicacion',
+            //   isRequired: false,
+            //   defaultValue: data['key_ubicacion'],
+            //   // data: {},
+            //   col: 'xs-12'
+            // },
+          }}
+          // onSubmitName={"Registrar"}
+          onSubmit={(values) => {
+            values.estado_venta = 0;
+            const fecha = this.inpFecha.getValue();
+            values.fecha = fecha;
+            if (this.key_company) values.key_company = this.key_company;
+            if (this.key_cliente) values.key_cliente = this.key_cliente;
 
-          if (this.key) {
-            SSocket.sendPromise({
-              component: "evento",
-              type: "editar",
-              data: { ...data, ...values },
-              key_usuario: Model.usuario.Action.getKey(),
-            }).then(e => {
-              if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount()
-              SNavigation.goBack();
-            }).catch(e => {
-              SNotification.send({
-                title: "Error",
-                body: e.error ?? "Error desconocido",
-                color: STheme.color.danger
+            if (this.key) {
+              SSocket.sendPromise({
+                component: "evento",
+                type: "editar",
+                data: { ...data, ...values },
+                key_usuario: Model.usuario.Action.getKey(),
+              }).then(e => {
+                if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount()
+                if (event.INSTANCE) event.INSTANCE.componentDidMount()
+                SNavigation.goBack();
+              }).catch(e => {
+                SNotification.send({
+                  title: "Error",
+                  body: e.error ?? "Error desconocido",
+                  color: STheme.color.danger
+                })
               })
-            })
-            // evento.Actions.editar({ ...data, ...values }, this.props);
-          } else {
-            SSocket.sendPromise({
-              component: "evento",
-              type: "registro",
-              data: { ...values },
-              key_usuario: Model.usuario.Action.getKey(),
-            }).then(e => {
-              if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount()
-              SNavigation.goBack();
-            }).catch(e => {
-              SNotification.send({
-                title: "Error",
-                body: e.error ?? "Error desconocido",
-                color: STheme.color.danger
+              // evento.Actions.editar({ ...data, ...values }, this.props);
+            } else {
+              SSocket.sendPromise({
+                component: "evento",
+                type: "registro",
+                data: { ...values },
+                key_usuario: Model.usuario.Action.getKey(),
+              }).then(e => {
+                if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount()
+                SNavigation.goBack();
+              }).catch(e => {
+                SNotification.send({
+                  title: "Error",
+                  body: e.error ?? "Error desconocido",
+                  color: STheme.color.danger
+                })
               })
-            })
-            // evento.Actions.registro(values, this.props);
-          }
-        }}
-      />
-    );
+              // evento.Actions.registro(values, this.props);
+            }
+          }}
+        />
+      </>);
   }
 
   render() {

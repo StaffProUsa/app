@@ -115,7 +115,7 @@ export default class event extends Component {
                     }} color={STheme.color.gray}
                     />
                     <SView width={10} />
-                    <SText fontSize={16} center color={STheme.color.text}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyy")}</SText>
+                    <SText fontSize={16} center color={STheme.color.text}>{new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy")}</SText>
                 </SView>
                 {(this.EsFechaMenorOIgual(new Date(fecha))) ? <SText fontSize={16} center color={STheme.color.danger} language={{
                     en: "(Past event)",
@@ -143,9 +143,9 @@ export default class event extends Component {
             </SView>
             {/* <SHr h={300} /> */}
             {/* <SHr h={1} color={STheme.color.card} /> */}
-            {/* <SHr h={25} />
+            <SHr h={25} />
             <Asistencias key_evento={this.key_evento} />
-            <SHr h={50} /> */}
+            <SHr h={50} />
         </SView >
     }
     render() {

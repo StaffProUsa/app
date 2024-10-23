@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { SInput, SNavigation, SPage, SText, STheme, SView, SNotification, SLanguage, SHr } from 'servisofts-component';
+import { SInput, SNavigation, SPage, SText, STheme, SView, SNotification, SLanguage, SHr, SIcon, SBuscador } from 'servisofts-component';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -64,10 +64,14 @@ export default class staff_tipo extends Component {
 
     render() {
         let lenguaje = SLanguage.language;
+        const datafilter = SBuscador.filter({ data: this.state.data ?? {}, txt: this.state.filter })
         return <SPage title={"Staff Tipo"} disableScroll>
             <SHr height={40} />
             <Container flex>
-                <FlatList data={Object.values(this.state.data ?? {}).sort((a, b) => a.descripcion.toUpperCase() > b.descripcion.toUpperCase() ? 1 : -1)}
+                <SBuscador onChange={(e) => {
+                    this.setState({ filter: e })
+                }} />
+                <FlatList data={Object.values(datafilter).sort((a, b) => a.descripcion.toUpperCase() > b.descripcion.toUpperCase() ? 1 : -1)}
                     contentContainerStyle={{
                         flexDirection: "row",
                         width: "100%",
@@ -129,6 +133,17 @@ export default class staff_tipo extends Component {
                         }
 
                     })} />} />
+
+                <SView style={{
+                    position: "absolute",
+                    right: 8,
+                    bottom: 8,
+                    height: 50
+                }} onPress={() => {
+                    SNavigation.goBack()
+                }}>
+                    <SIcon name={'next2'} fill={STheme.color.text} style={{ width: 50, height: 50 }} />
+                </SView>
             </Container>
         </SPage>
     }

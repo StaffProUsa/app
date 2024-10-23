@@ -9,6 +9,7 @@ import event from '../company/event';
 import Input from '../../Components/Input';
 import InputFloat from '../../Components/NuevoInputs/InputFloat';
 import InputHora from '../../Components/NuevoInputs/InputHora';
+import InputFecha from '../../Components/NuevoInputs/InputFecha';
 const formatTime = (time: any) => {
     // Eliminar caracteres no numéricos y no ':'
     let filtered = time.replace(/[^0-9:]/g, '');
@@ -103,6 +104,7 @@ export default class add extends Component {
             this.state.data = e.data;
             this._ref["descripcion"].setValue(e.data.descripcion)
             this._ref["cantidad"].setValue(e.data.cantidad)
+            // this.setState({ fecha: new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
             this._ref["fecha_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
             this._ref["hora_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
             // this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
@@ -120,11 +122,16 @@ export default class add extends Component {
         let valid = true;
         Object.keys(this._ref).map((k) => {
             const input: SInput = this._ref[k];
-            if (!input.verify()) {
-                valid = false;
+            if (input.verify) {
+                if (!input.verify()) {
+                    valid = false;
+                } else {
+                    val[k] = input.getValue()
+                }
             } else {
                 val[k] = input.getValue()
             }
+
         })
         if (!valid) {
             return;
@@ -237,7 +244,14 @@ export default class add extends Component {
                     }
                     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea' />
                     <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={cantidad} required placeholder={"0"} />
-                    <SInput ref={r => this._ref["fecha_inicio"] = r} disabled defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={fecha_inicio} required placeholder={"yyyy-MM-dd"} />
+                    {/* <SInput ref={r => this._ref["fecha_inicio"] = r} disabled defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={fecha_inicio} required placeholder={"yyyy-MM-dd"} /> */}
+                    <SView col={"xs-12 sm-7"} center>
+                        <SHr />
+                        <SHr />
+                        <SText col={"xs-12"} language={{ en: "Start date", es: "Fecha de inicio" }}></SText>
+                        <SHr />
+                        <InputFecha ref={r => this._ref["fecha_inicio"] = r} defaultValue={this.state.fecha} />
+                    </SView>
                     {/* <SInput ref={r => this._ref["hora_inicio"] = r} type='hour' col={"xs-5.5"} defaultValue={"00:01"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => { */}
                     {/* <SInput ref={r => this._ref["hora_inicio"] = r} type='hour' col={"xs-5.5"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);
@@ -246,7 +260,7 @@ export default class add extends Component {
                             this._ref["hora_inicio"].setValue(resp);
                         }
                     })} /> */}
-                    <Input col={"xs-5.5"} inputStyle={{
+                    <Input col={"xs-12 sm-5"} inputStyle={{
                         height: 40,
                         borderRadius: 4,
                         backgroundColor: STheme.color.card,
