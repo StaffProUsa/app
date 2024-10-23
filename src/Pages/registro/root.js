@@ -94,16 +94,19 @@ class root extends Component {
                                 alignItems: "center",
                             }}
                             inputs={{
-                                Nombres: { label: nombre, placeholder: nombre, isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser") },
-                                Apellidos: { label: apellidos, placeholder: apellidos, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
+                                Nombres: { label: SLanguage.select({
+                                    es: "Nombre",
+                                    en: "Name"
+                                }), placeholder: SLanguage.select({  es: "Nombre", en: "Name"}), isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser") },
+                                Apellidos: { label: SLanguage.select({  es: "Apellidos", en:"Last name" }), placeholder: apellidos, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
                                 // Fecha: { label:"Fecha de nacimiento",placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
                                 Telefono: {
-                                    label: telefono, isRequired: true, placeholder: telefono, type: "phone", defaultValue: defaultData.Telefono,
+                                    label: SLanguage.select({  es: "Teléfono", en:"Phone" }), isRequired: true, placeholder: SLanguage.select({  es: "Teléfono", en:"Phone" }), type: "phone", defaultValue: defaultData.Telefono,
                                 },
-                                Correo: { label: correo, isRequired: true, placeholder: correo, type: "email", defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
+                                Correo: { label: SLanguage.select({  es: "Correo", en:"Email" }), isRequired: true, placeholder: SLanguage.select({  es: "Correo", en:"Email" }), type: "email", defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
                                 nivel_ingles: {
-                                    label: "Nivel de inglés",
-                                    placeholder: correo,
+                                    label: SLanguage.select({  es: "Nivel de inglés", en:"English level" }),
+                                    placeholder: SLanguage.select({  es: "Nivel de inglés", en:"English level" }),
                                     // type: "select",
                                     isRequired: true,
                                     defaultValue: "",
@@ -132,7 +135,7 @@ class root extends Component {
                                     // options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" },
                                     // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
                                 },
-                                papeles: { col:"xs-12", label: "¿Está autorizado para trabajar en los Estados Unidos?", type: "checkBox" },
+                                papeles: { col:"xs-12", label: SLanguage.select({  es: "¿Está autorizado para trabajar en los Estados Unidos?", en:"Are you authorized to work in the United States?" }), type: "checkBox" },
 
                                 // FechaNacimiento: {placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
                                 //telefono: {placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},
