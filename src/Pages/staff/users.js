@@ -191,9 +191,7 @@ export default class users extends Component {
 
         // Obtener la fecha actual
         const fechaActual = new Date();
-
-        // Comparar si la fecha es menor o igual a la fecha actual
-        return fechaObj <= fechaActual;
+        return fechaObj.getDate() < fechaActual.getDate()
     }
 
     render() {
