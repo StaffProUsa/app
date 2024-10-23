@@ -66,6 +66,7 @@ import Evento from './Evento';
 import clock from './clock';
 import invitacion from './invitacion';
 import onLogin from './onLogin';
+import direccion from './direccion';
 const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
@@ -81,6 +82,7 @@ const NewPages = SPage.combinePages("/", {
     manilla,
     clock,
     ...Evento,
+    ...direccion,
     // 'evento': Perfil,
     ...reportes,
     ...usuario,

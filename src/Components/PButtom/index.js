@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {SLoad, SText, STheme, SView} from 'servisofts-component';
+import React, { Component } from 'react';
+import { SLoad, SText, STheme, SView } from 'servisofts-component';
 
 type PButtom_props = {
   primary?: boolean,
@@ -24,9 +24,9 @@ export default class PButtom extends Component<PButtom_props> {
     var bgColor = this.props.primary
       ? STheme.color.primary
       : this.props.secondary
-      ? STheme.color.info
-      : STheme.color.primary;
-    var colorText = STheme.color.secondary;
+        ? STheme.color.info
+        : STheme.color.primary;
+    var colorText = STheme.color.text;
     if (this.props.withe) {
       bgColor = STheme.color.white;
       colorText = STheme.color.white;
@@ -51,8 +51,8 @@ export default class PButtom extends Component<PButtom_props> {
           width: '100%',
           maxWidth: size.width,
           ...(this.props.outline
-            ? {borderWidth: 1, borderColor: bgColor}
-            : {backgroundColor: bgColor})
+            ? { borderWidth: 1, borderColor: bgColor }
+            : { backgroundColor: bgColor })
         }}
         center
         activeOpacity={this.props.loading ? 1 : 0.5}

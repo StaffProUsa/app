@@ -138,7 +138,9 @@ export default class root extends Component {
                     <SImage enablePreview src={SSocket.api.root + "usuario/" + obj.key_usuario} style={{ resizeMode: "cover" }} />
                 </SView>
                 <SView width={8} />
-                <SView flex onPress={!this.onSelect ? null : () => {
+                <SView flex onPress={!this.onSelect ? () => {
+                    SNavigation.navigate("/usuario/profile", { pk: obj.key_usuario })
+                } : () => {
                     this.onSelect(obj);
                     SNavigation.goBack();
                 }}>
