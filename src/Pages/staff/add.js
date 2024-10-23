@@ -9,7 +9,7 @@ import event from '../company/event';
 import Input from '../../Components/Input';
 import InputFloat from '../../Components/NuevoInputs/InputFloat';
 import InputHora from '../../Components/NuevoInputs/InputHora';
-import InputFecha from '../../Components/NuevoInputs/InputFecha';
+import InputSelect from '../../Components/NuevoInputs/InputSelect';
 const formatTime = (time: any) => {
     // Eliminar caracteres no numéricos y no ':'
     let filtered = time.replace(/[^0-9:]/g, '');
@@ -105,10 +105,15 @@ export default class add extends Component {
             this._ref["descripcion"].setValue(e.data.descripcion)
             this._ref["cantidad"].setValue(e.data.cantidad)
             // this.setState({ fecha: new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
-            this._ref["fecha_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
-            this._ref["hora_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
-            this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
-            this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
+            // this._ref["fecha_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
+            if (e.data.fecha_inicio) {
+                this._ref["hora_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
+            }
+            // this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
+            if (e.data.fecha_fin) {
+                this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
+            }
+            this._ref["nivel_ingles"].setValue(e.data.nivel_ingles)
             console.log(e);
         }).catch(e => {
             console.error(e);
@@ -156,15 +161,25 @@ export default class add extends Component {
             // }).catch(e => {
             //     console.error(e);
             // })
-            var datito = {
-                ...this.state.data,
-                "descripcion": val.descripcion,
-                "observacion": val.observacion,
-                "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
-                "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
-                cantidad: val.cantidad
-            }
-            console.log(datito)
+            SSocket.sendPromise({
+                component: "staff",
+                type: "editar",
+                data: {
+                    ...this.state.data,
+                    "descripcion": val.descripcion,
+                    "observacion": val.observacion,
+                    "fecha_inicio": !val.hora_inicio ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? ""),
+                    "fecha_fin": !val.hora_fin ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? ""),
+                    cantidad: val.cantidad,
+                    nivel_ingles: val.nivel_ingles
+                },
+                key_usuario: Model.usuario.Action.getKey(),
+            }).then(e => {
+                if (event.INSTANCE) event.INSTANCE.componentDidMount();
+                SNavigation.goBack();
+            }).catch(e => {
+                console.error(e);
+            })
         } else {
             const dataTipo = this._ref["tipo"].getData();
             SSocket.sendPromise({
@@ -175,9 +190,10 @@ export default class add extends Component {
                     "observacion": val.observacion,
                     "key_evento": this.state.key_evento,
                     "key_staff_tipo": dataTipo.key,
-                    "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
-                    "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
-                    cantidad: val.cantidad
+                    "fecha_inicio": !val.hora_inicio ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? ""),
+                    "fecha_fin": !val.hora_fin ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? ""),
+                    cantidad: val.cantidad,
+                    nivel_ingles: val.nivel_ingles
                 },
                 key_usuario: Model.usuario.Action.getKey(),
             }).then(e => {
@@ -222,6 +238,7 @@ export default class add extends Component {
         let fecha_inicio = "Fecha de inicio";
         let hora_inicio = "Hora de inicio";
         let hora_fin = "Hora de fin";
+
         if (lenguaje == "en") {
             tipo_staff = "Select staff type";
             descripcion = "Staff description";
@@ -257,7 +274,7 @@ export default class add extends Component {
                     }
                     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea' />
                     <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={cantidad} required placeholder={"0"} />
-                    
+
                     {/* <SInput ref={r => this._ref["fecha_inicio"] = r} disabled defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={fecha_inicio} required placeholder={"yyyy-MM-dd"} /> */}
 
                     {/* <SView col={"xs-12 sm-7"} center>
@@ -351,13 +368,48 @@ export default class add extends Component {
                                 }
                             });
                         }}
-                    // onChangeText={e => {
-                    //     // this._ref["hora_inicio"].setValue(e);
-                    //     this.state.hora_fin = e
-                    // }}
                     />
-                    <SInput ref={r => this._ref["fecha_inicio"] = r} style={{display:"none"}} />
-                    <SInput ref={r => this._ref["fecha_fin"] = r} style={{display:"none"}} />
+                    <Input col={"xs-12 sm-5"} inputStyle={{
+                        height: 40,
+                        borderRadius: 4,
+                        backgroundColor: STheme.color.card,
+                        color: STheme.color.text,
+                    }}
+                        // infoStyle={{
+                        //     color: STheme.color.text,
+                        //     fontSize: 12,
+                        // }}
+                        ref={r => this._ref["nivel_ingles"] = r}
+
+                        label={SLanguage.select({ en: "English level", es: "Nivel de ingles" })}
+                        labelStyle={{ color: STheme.color.text, fontSize: 12, fontFamily: "roboto", marginTop: 10 }}
+                        placeholder={SLanguage.select({ en: "English level", es: "Nivel de ingles" })}
+                        // filter={this.filterHorario.bind(this)}
+                        onPress={(e) => {
+                            InputFloat.open({
+                                e: e,
+                                height: 180,
+                                width: 150,
+                                style: {
+                                    backgroundColor: STheme.color.background
+                                },
+                                render: () => {
+                                    return <SView col={"xs-12"} flex card>
+                                        <InputSelect
+                                            data={["NONE", "BASIC", "MEDIUM", "ADVANCED"]}
+                                            onChange={val => {
+                                                if (this._ref["hora_fin"]) {
+                                                    this._ref["nivel_ingles"].setValue(val)
+                                                }
+                                            }}
+                                            ITEM_HEIGHT={30} />
+                                    </SView>
+                                }
+                            })
+                        }}
+                    />
+                    {/* <SInput ref={r => this._ref["fecha_inicio"] = r} style={{display:"none"}} /> */}
+                    {/* <SInput ref={r => this._ref["fecha_fin"] = r} style={{display:"none"}} /> */}
 
 
                     {/* <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
