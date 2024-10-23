@@ -11,7 +11,8 @@ const theme: SThemeThemes = {
     background: '#F3F3F3',
     card: '#BBBBBB44',
     accent: '#C4C5C680',
-    darkGray: '#333333'
+    darkGray: '#333333',
+    gray: "#454545",
 
  
 
@@ -48,7 +49,8 @@ const theme: SThemeThemes = {
     background: '#090A0C',
     card: '#ffffff28',
     accent: '#08080B',
-    darkGray: '#333333'
+    darkGray: '#333333',
+    gray: "#E2E0E0",
   }
 }
 export default theme;

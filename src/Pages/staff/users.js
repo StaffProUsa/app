@@ -16,13 +16,17 @@ export default class users extends Component {
         this.pk = SNavigation.getParam("pk");
         this.usuarios = {}
     }
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
 
     componentDidMount() {
-
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         this.loadData();
         SSocket.addEventListener("onMessage", this.handleSocketMessage.bind(this))
     }
     componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
         SSocket.removeEventListener("onMessage", this.handleSocketMessage.bind(this));
     }
     handleSocketMessage(obj) {
@@ -196,7 +200,7 @@ export default class users extends Component {
 
     render() {
         let lenguaje = SLanguage.language;
-        // console.log(this.data?.evento?.key_company)
+        // console.log(this.state.data_disponibles)
         return <SPage disableScroll titleLanguage={{
             es: "Armando mi STAFF",
             en: "Building my STAFF"
@@ -238,6 +242,19 @@ export default class users extends Component {
                             padding: 5,
                         }} center>
                             <SText fontSize={14} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
+                        </SView>
+                    </SView>
+                    <SView width={7} />
+                    <SView row>
+                        {/* <SText fontSize={12} bold color={STheme.color.gray}>Se requiere:</SText> */}
+                        {/* <SView width={6} /> */}
+                        <SView style={{
+                            borderWidth: 1,
+                            borderColor: STheme.color.warning,
+                            borderRadius: 4,
+                            padding: 5,
+                        }} center>
+                            <SText fontSize={14} color={STheme.color.warning}> {SLanguage.select({ es: "Nivel de inglés: ", en: "English level: " })} {this.state?.data?.nivel_ingles}</SText>
                         </SView>
                     </SView>
                     <SView flex />
@@ -307,7 +324,7 @@ export default class users extends Component {
                             {
                                 key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20} style={{
                                     borderColor: STheme.color.gray,
-                                    borderWidth: 2,
+                                    borderWidth: 0,
                                     borderRadius: 5
                                 }}><SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
                                     elm.invitar = !!e;
@@ -386,6 +403,7 @@ export default class users extends Component {
                                     </SText>
                                 </BtnWhatsapp>
                             },
+                            { key: "usuario/nivel_ingles", label: "English level", width: 60, },
                             {
                                 key: "tipos_staff_favoritos", label: "Skills", width: 300,
                                 render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "",
