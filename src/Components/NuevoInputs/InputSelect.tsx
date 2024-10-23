@@ -42,7 +42,7 @@ const Item = ({ item, index, scrollY, onPress, ITEM_HEIGHT = 50 }) => {
 };
 const ocd = (e) => {
 }
-const MyAnimatedFlatList = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT }) => {
+const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT }) => {
     const scrollY = useSharedValue(0);
     const flatListRef = useRef<FlatList>(null); // Referencia al FlatList
 
@@ -133,4 +133,4 @@ const MyAnimatedFlatList = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIG
     );
 };
 
-export default MyAnimatedFlatList;
+export default InputSelect;
