@@ -118,10 +118,10 @@ class index extends Component {
                     position: "absolute", right: 4, top: 4
                 }} bold font={"Roboto"} fontSize={14} color={STheme.color.text}>{data.sdate.toString("dd")}</SText>
                 {events ? events.map((k) => {
-                    let desCorto = k.descripcion.length > 15 ? k.descripcion.substring(0, 15) + "..." : k.descripcion
+                    let desCorto = k?.cliente?.descripcion.length > 15 ? k?.cliente?.descripcion.substring(0, 15) + "..." : k?.cliente?.descripcion
                     let isInvitation = (k?.staff_usuario?.estado == 2)
                     return (<>
-                        <SView col={"xs-10"} row center style={{
+                        <SView col={"xs-10"} row  style={{
                             borderWidth: 2,
                             borderRadius: 4,
                             borderColor: isInvitation ? STheme.color.warning : STheme.color.success,
@@ -145,7 +145,7 @@ class index extends Component {
                             </SView> */}
                             {/* <SView width={3} /> */}
                             <SView >
-                                <SText bold font={"Roboto"} center fontSize={11} color={color}>{desCorto || ""}</SText>
+                                <SText bold font={"Roboto"} justify fontSize={11} color={color}>{desCorto || ""}</SText>
                             </SView>
                         </SView>
                     </>)

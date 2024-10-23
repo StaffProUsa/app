@@ -232,8 +232,8 @@ export default class Registro extends React.Component {
               this.form.submit();
             }}>
             <SText color={STheme.color.white} font={'Roboto'} fontSize={14} bold language={{
-              en: this.key ? "EDIT" : "REGISTER",
-              es: this.key ? "EDITAR" : "REGISTRAR"
+              en: this.key ? "SAVE" : "REGISTER",
+              es: this.key ? "GUARDAR" : "REGISTRAR"
             }} />
           </SView>
         </SView>

@@ -63,9 +63,12 @@ export default class invitationDetail extends React.Component {
               <SHr height={15} />
             </Container>
             <SView col={'xs-12'} center backgroundColor={STheme.color.secondary} padding={15}>
-              <SText fontSize={22} color={STheme.color.white} language={{
-                es: "¡Te invitamos a ser parte de " + obj?.company?.descripcion + "!",
-                en: "We invite you to be part of " + obj?.company?.descripcion + "!"
+              <SText fontSize={22} color={STheme.color.white} center language={{
+                // es: "¡Te invitamos a ser parte de " + obj?.company?.descripcion + "!",
+                // en: "We invite you to be part of " + obj?.company?.descripcion + "!"
+                es: "¡" + obj?.company?.descripcion + " te invita a ser parte de un nuevo evento!",
+                en: obj?.company?.descripcion + " invites you to be part of a new event!"
+
               }} />
             </SView>
             <SHr height={30} />

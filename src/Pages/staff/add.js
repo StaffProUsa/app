@@ -107,8 +107,8 @@ export default class add extends Component {
             // this.setState({ fecha: new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
             this._ref["fecha_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
             this._ref["hora_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
-            // this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
-            // this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
+            this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
+            this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
             console.log(e);
         }).catch(e => {
             console.error(e);
@@ -138,24 +138,33 @@ export default class add extends Component {
         }
 
         if (this.state.pk) {
-            SSocket.sendPromise({
-                component: "staff",
-                type: "editar",
-                data: {
-                    ...this.state.data,
-                    "descripcion": val.descripcion,
-                    "observacion": val.observacion,
-                    "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
-                    // "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
-                    cantidad: val.cantidad
-                },
-                key_usuario: Model.usuario.Action.getKey(),
-            }).then(e => {
-                if (event.INSTANCE) event.INSTANCE.componentDidMount();
-                SNavigation.goBack();
-            }).catch(e => {
-                console.error(e);
-            })
+            // SSocket.sendPromise({
+            //     component: "staff",
+            //     type: "editar",
+            //     data: {
+            //         ...this.state.data,
+            //         "descripcion": val.descripcion,
+            //         "observacion": val.observacion,
+            //         "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
+            //         "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
+            //         cantidad: val.cantidad
+            //     },
+            //     key_usuario: Model.usuario.Action.getKey(),
+            // }).then(e => {
+            //     if (event.INSTANCE) event.INSTANCE.componentDidMount();
+            //     SNavigation.goBack();
+            // }).catch(e => {
+            //     console.error(e);
+            // })
+            var datito = {
+                ...this.state.data,
+                "descripcion": val.descripcion,
+                "observacion": val.observacion,
+                "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
+                "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
+                cantidad: val.cantidad
+            }
+            console.log(datito)
         } else {
             const dataTipo = this._ref["tipo"].getData();
             SSocket.sendPromise({
@@ -167,7 +176,7 @@ export default class add extends Component {
                     "key_evento": this.state.key_evento,
                     "key_staff_tipo": dataTipo.key,
                     "fecha_inicio": val.fecha_inicio + " " + formatTime(val.hora_inicio ?? ""),
-                    // "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
+                    "fecha_fin": val.fecha_fin + " " + formatTime(val.hora_fin ?? ""),
                     cantidad: val.cantidad
                 },
                 key_usuario: Model.usuario.Action.getKey(),
@@ -211,11 +220,15 @@ export default class add extends Component {
         let descripcion = "Descripcion del staff";
         let cantidad = "Cantidad";
         let fecha_inicio = "Fecha de inicio";
+        let hora_inicio = "Hora de inicio";
+        let hora_fin = "Hora de fin";
         if (lenguaje == "en") {
             tipo_staff = "Select staff type";
             descripcion = "Staff description";
             cantidad = "Quantity";
             fecha_inicio = "Start date";
+            hora_inicio = "Start time";
+            hora_fin = "End time";
         }
         return <SPage titleLanguage={{ en: "Staff", es: "Staff" }
         } >
@@ -244,14 +257,17 @@ export default class add extends Component {
                     }
                     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea' />
                     <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={cantidad} required placeholder={"0"} />
+                    
                     {/* <SInput ref={r => this._ref["fecha_inicio"] = r} disabled defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={fecha_inicio} required placeholder={"yyyy-MM-dd"} /> */}
-                    <SView col={"xs-12 sm-7"} center>
+
+                    {/* <SView col={"xs-12 sm-7"} center>
                         <SHr />
                         <SHr />
                         <SText col={"xs-12"} language={{ en: "Start date", es: "Fecha de inicio" }}></SText>
                         <SHr />
-                        <InputFecha ref={r => this._ref["fecha_inicio"] = r} defaultValue={this.state.fecha} />
-                    </SView>
+                        <InputFecha ref={r => this._ref["fecha_inicio"] = r}  />
+                    </SView> */}
+
                     {/* <SInput ref={r => this._ref["hora_inicio"] = r} type='hour' col={"xs-5.5"} defaultValue={"00:01"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => { */}
                     {/* <SInput ref={r => this._ref["hora_inicio"] = r} type='hour' col={"xs-5.5"} label={" "} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);
@@ -260,7 +276,7 @@ export default class add extends Component {
                             this._ref["hora_inicio"].setValue(resp);
                         }
                     })} /> */}
-                    <Input col={"xs-12 sm-5"} inputStyle={{
+                    <Input col={"xs-12 sm-6"} inputStyle={{
                         height: 40,
                         borderRadius: 4,
                         backgroundColor: STheme.color.card,
@@ -273,7 +289,7 @@ export default class add extends Component {
                         required
                         ref={r => this._ref["hora_inicio"] = r}
                         keyboardType="numeric"
-                        label='Hora de inicio'
+                        label={hora_inicio}
                         labelStyle={{ color: STheme.color.text, fontSize: 12, fontFamily: "roboto", marginTop: 10 }}
                         placeholder="HH:MM"
                         filter={this.filterHorario.bind(this)}
@@ -300,6 +316,50 @@ export default class add extends Component {
                     //     this.state.hora_fin = e
                     // }}
                     />
+
+                    <Input col={"xs-12 sm-5"} inputStyle={{
+                        height: 40,
+                        borderRadius: 4,
+                        backgroundColor: STheme.color.card,
+                        color: STheme.color.text,
+                    }}
+                        // infoStyle={{
+                        //     color: STheme.color.text,
+                        //     fontSize: 12,
+                        // }}
+                        ref={r => this._ref["hora_fin"] = r}
+                        keyboardType="numeric"
+                        label={hora_fin}
+                        labelStyle={{ color: STheme.color.text, fontSize: 12, fontFamily: "roboto", marginTop: 10 }}
+                        placeholder="HH:MM"
+                        filter={this.filterHorario.bind(this)}
+                        onPress={(e) => {
+                            InputFloat.open({
+                                e: e, width: 120, height: 160,
+                                style: {
+                                    backgroundColor: STheme.color.background,
+                                    borderRadius: 4
+                                },
+                                render: () => {
+                                    return <SView flex height card>
+                                        <InputHora defaultValue={this._ref["hora_fin"].getValue()} onChange={val => {
+                                            if (this._ref["hora_fin"]) {
+                                                this._ref["hora_fin"].setValue(val)
+                                            }
+                                        }} />
+                                    </SView>
+                                }
+                            });
+                        }}
+                    // onChangeText={e => {
+                    //     // this._ref["hora_inicio"].setValue(e);
+                    //     this.state.hora_fin = e
+                    // }}
+                    />
+                    <SInput ref={r => this._ref["fecha_inicio"] = r} style={{display:"none"}} />
+                    <SInput ref={r => this._ref["fecha_fin"] = r} style={{display:"none"}} />
+
+
                     {/* <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
                     <SInput ref={r => this._ref["hora_fin"] = r} col={"xs-5.5"} label={" "} defaultValue={"23:59"} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);
