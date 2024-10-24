@@ -68,6 +68,7 @@ class index extends Component {
 
 
         console.log((SSocket.api.root + "usuario/" + this.data?.key) + " fff")
+        console.log(this.data)
         return <SForm
             ref={(ref) => { this.form = ref; }}
             style={{
@@ -80,20 +81,54 @@ class index extends Component {
             inputs={{
                 foto_p: { type: "image", placeholder: "Foto", isRequired: true, defaultValue: SSocket.api.root + "usuario/" + this.data?.key + "?date=" + new Date().getTime(), col: "xs-4", style: { borderRadius: 100, overflow: 'hidden', width: 140, height: 140, borderWidth: 1, borderColor: STheme.color.lightGray, alignItems: "center", } },
                 Nombres: {
-                    placeholder: nombres,
-                    label: nombres,
+                    placeholder: SLanguage.select({ es: "Nombres", en: "First Name" }),
+                    label: SLanguage.select({ es: "Nombres", en: "First Name" }),
                     isRequired: true,
                     defaultValue: this.data.Nombres,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
                 Apellidos: {
-                    placeholder: apellidos,
-                    label: apellidos,
+                    placeholder: SLanguage.select({ es: "Apellidos", en: "Last Name" }),
+                    label: SLanguage.select({ es: "Apellidos", en: "Last Name" }),
                     isRequired: true,
                     defaultValue: this.data.Apellidos,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
+                },
+                fecha_nacimiento: { label: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), placeholder: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), isRequired: false, defaultValue: this.data.fecha_nacimiento, type: "date", },
+                estado_civil: {
+                    label: SLanguage.select({ es: "Estado civil", en: "Marital Status" }),
+                    placeholder: SLanguage.select({ es: "Estado civil", en: "Marital Status" }),
+                    // type: "select",
+                    isRequired: true,
+                    defaultValue: "",
+                    editable: false,
+                    defaultValue: this.data.estado_civil,
+                    onPress: e => {
+                        InputFloat.open({
+                            e: e,
+                            height: 180,
+                            width: 150,
+                            style: {
+                                backgroundColor: STheme.color.background
+                            },
+                            render: () => {
+                                return <SView col={"xs-12"} flex card>
+                                    <InputSelect
+                                        data={["SINGLE", "MARRIED", "DIVORCED", "WIDOWED", "SEPARATED", "OTHER"]}
+                                        defaultValue={this.data.estado_civil}
+                                        onChange={val => {
+                                            this.form.setValues({ "estado_civil": val })
+                                        }}
+                                        ITEM_HEIGHT={30} />
+                                </SView>
+                            }
+                        })
+                    }
+                    // icon: this.icon("InputEmail"),
+                    // options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" },
+                    // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
                 },
                 "Telefono": {
                     placeholder: telefono,
@@ -111,6 +146,9 @@ class index extends Component {
                     defaultValue: this.data.Correo,
                     icon: <SIcon name={'InputEmail'} fill={STheme.color.text} width={20} height={30} />,
                     height: 54
+                },
+                direccion: {
+                    label: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), isRequired: true, placeholder: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), defaultValue: this.data.direccion,
                 },
                 nivel_ingles: {
                     placeholder: nivel_ingles,
@@ -140,6 +178,9 @@ class index extends Component {
                             }
                         })
                     }
+                },
+                otros_idiomas: {
+                    label: SLanguage.select({ es: "Idiomas que habla", en: "Languages Spoken" }), isRequired: true, placeholder: SLanguage.select({ es: "Idiomas que habla", en: "Languages Spoken" }), defaultValue: this.data.otros_idiomas,
                 },
                 papeles: {
                     placeholder: papeles,

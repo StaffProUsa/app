@@ -111,7 +111,7 @@ export default class history extends Component {
             return <SView col={"xs-12"} row padding={15} style={{
                 borderRadius: 16,
                 borderWidth: 1,
-                borderColor: STheme.color.darkGray,
+                borderColor: STheme.color.lightGray,
                 overflow: "hidden",
             }} onPress={() => {
                 if (isInvitation) {
@@ -127,7 +127,7 @@ export default class history extends Component {
                         height: 40,
                         borderRadius: 6,
                         borderWidth: 1,
-                        borderColor: STheme.color.darkGray,
+                        borderColor: STheme.color.lightGray,
                         overflow: "hidden",
                     }}>
                         <SImage src={SSocket.api.root + "staff_tipo/" + obj?.staff_tipo?.key} style={{
@@ -156,7 +156,7 @@ export default class history extends Component {
                 <SView col={"xs-6"} row style={{ paddingRight: 5 }}>
                     <SView col={"xs-12"} row style={{
                         borderWidth: 1,
-                        borderColor: STheme.color.darkGray,
+                        borderColor: STheme.color.lightGray,
                         borderRadius: 16,
                         overflow: "hidden",
                     }}>
@@ -184,7 +184,7 @@ export default class history extends Component {
                 <SView col={"xs-6"} row style={{ paddingLeft: 5 }}>
                     <SView col={"xs-12"} row style={{
                         borderWidth: 1,
-                        borderColor: STheme.color.darkGray,
+                        borderColor: STheme.color.lightGray,
                         borderRadius: 16,
                         overflow: "hidden",
                     }}>
@@ -220,7 +220,7 @@ export default class history extends Component {
             return <SView col={"xs-12"} row padding={15} style={{
                 borderRadius: 16,
                 borderWidth: 1,
-                borderColor: STheme.color.darkGray,
+                borderColor: STheme.color.lightGray,
                 overflow: "hidden",
             }}>
                 <Degradado />
@@ -230,7 +230,7 @@ export default class history extends Component {
                         height: 40,
                         borderRadius: 100,
                         borderWidth: 1,
-                        borderColor: STheme.color.darkGray,
+                        borderColor: STheme.color.lightGray,
                         overflow: "hidden",
                     }}>
                         <SImage src={SSocket.api.root + "company/" + obj?.company?.key} style={{

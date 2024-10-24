@@ -10,7 +10,7 @@ const theme: SThemeThemes = {
     info: '#C4C5C680',
     background: '#F3F3F3',
     card: '#BBBBBB44',
-    accent: '#C4C5C680',
+    accent: '#BBBBBB30',
     darkGray: '#333333',
     gray: "#454545",
 
