@@ -354,11 +354,40 @@ export default class users extends Component {
                                 </SView>
                             },
                             {
-                                key: "-", width: 50, component: (elm) => <SView col={"xs-12"} center>
-                                    {!elm.staff_usuario ? null : <SText color={STheme.color.danger} fontSize={12} underLine onPress={() => {
-                                    }}>{"Uninvite"}</SText>}
-
-                                </SView>
+                                key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20} style={{
+                                    borderColor: STheme.color.gray,
+                                    borderWidth: 0,
+                                    borderRadius: 5
+                                }}>
+                                    <SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
+                                        elm.invitar = !!e;
+                                        if (elm.invitar) {
+                                            SSocket.sendPromise({
+                                                component: "staff_usuario",
+                                                type: "invitarGrupo",
+                                                key_usuarios_invitados: [elm.key_usuario],
+                                                key_staff: this.pk,
+                                                key_usuario: Model.usuario.Action.getKey(),
+                                            }).then(e => {
+                                                this.loadData();
+                                                console.log(e)
+                                                SNotification.send({
+                                                    title: (lenguaje == "es") ? "Invitación enviada" : "Invitation sent",
+                                                    body: (lenguaje == "es") ? "Se envió la invitación al usuario seleccionado" : "Invitation sent to the selected user",
+                                                    color: STheme.color.success,
+                                                    time: 5000
+                                                })
+                                            }).catch(e => {
+                                                console.error(e)
+                                                SNotification.send({
+                                                    title: (lenguaje == "es") ? "Error al enviar invitación" : "Error sending invitation",
+                                                    body: (lenguaje == "es") ? "Ocurrio un error al enviar la invitación" : "An error occurred while sending the invitation",
+                                                    color: STheme.color.danger,
+                                                    time: 5000
+                                                })
+                                            })
+                                        }
+                                    }} /></SView></SView>
                             },
                             // {
                             //     key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20} ><SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
