@@ -358,231 +358,233 @@ export default class users extends Component {
                                     borderColor: STheme.color.gray,
                                     borderWidth: 0,
                                     borderRadius: 5
-                                }}><SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
-                                    elm.invitar = !!e;
-                                    if (elm.invitar) {
-                                        SSocket.sendPromise({
-                                            component: "staff_usuario",
-                                            type: "invitarGrupo",
-                                            key_usuarios_invitados: [elm.key_usuario],
-                                            key_staff: this.pk,
-                                            key_usuario: Model.usuario.Action.getKey(),
-                                        }).then(e => {
-                                            this.loadData();
-                                            console.log(e)
-                                            SNotification.send({
-                                                title: (lenguaje == "es") ? "Invitación enviada" : "Invitation sent",
-                                                body: (lenguaje == "es") ? "Se envió la invitación al usuario seleccionado" : "Invitation sent to the selected user",
-                                                color: STheme.color.success,
-                                                time: 5000
+                                }}>
+                                    <SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
+                                        elm.invitar = !!e;
+                                        if (elm.invitar) {
+                                            SSocket.sendPromise({
+                                                component: "staff_usuario",
+                                                type: "invitarGrupo",
+                                                key_usuarios_invitados: [elm.key_usuario],
+                                                key_staff: this.pk,
+                                                key_usuario: Model.usuario.Action.getKey(),
+                                            }).then(e => {
+                                                this.loadData();
+                                                console.log(e)
+                                                SNotification.send({
+                                                    title: (lenguaje == "es") ? "Invitación enviada" : "Invitation sent",
+                                                    body: (lenguaje == "es") ? "Se envió la invitación al usuario seleccionado" : "Invitation sent to the selected user",
+                                                    color: STheme.color.success,
+                                                    time: 5000
+                                                })
+                                            }).catch(e => {
+                                                console.error(e)
+                                                SNotification.send({
+                                                    title: (lenguaje == "es") ? "Error al enviar invitación" : "Error sending invitation",
+                                                    body: (lenguaje == "es") ? "Ocurrio un error al enviar la invitación" : "An error occurred while sending the invitation",
+                                                    color: STheme.color.danger,
+                                                    time: 5000
+                                                })
                                             })
-                                        }).catch(e => {
-                                            console.error(e)
-                                            SNotification.send({
-                                                title: (lenguaje == "es") ? "Error al enviar invitación" : "Error sending invitation",
-                                                body: (lenguaje == "es") ? "Ocurrio un error al enviar la invitación" : "An error occurred while sending the invitation",
-                                                color: STheme.color.danger,
-                                                time: 5000
-                                            })
-                                        })
-                                    }
-                                },
-                                // {
-                                //     key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20} ><SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
-                                //         elm.invitar = !!e;
-                                //         if (elm.invitar) {
-                                //             SSocket.sendPromise({
-                                //                 component: "staff_usuario",
-                                //                 type: "invitarGrupo",
-                                //                 key_usuarios_invitados: [elm.key_usuario],
-                                //                 key_staff: this.pk,
-                                //                 key_usuario: Model.usuario.Action.getKey(),
-                                //             }).then(e => {
-                                //                 this.loadData();
-                                //                 console.log(e)
-                                //                 SNotification.send({
-                                //                     title: (lenguaje == "es") ? "Invitación enviada" : "Invitation sent",
-                                //                     body: (lenguaje == "es") ? "Se envió la invitación al usuario seleccionado" : "Invitation sent to the selected user",
-                                //                     color: STheme.color.success,
-                                //                     time: 5000
-                                //                 })
-                                //             }).catch(e => {
-                                //                 console.error(e)
-                                //                 SNotification.send({
-                                //                     title: (lenguaje == "es") ? "Error al enviar invitación" : "Error sending invitation",
-                                //                     body: (lenguaje == "es") ? "Ocurrio un error al enviar la invitación" : "An error occurred while sending the invitation",
-                                //                     color: STheme.color.danger,
-                                //                     time: 5000
-                                //                 })
-                                //             })
-                                //         } else {
-                                //             SSocket.sendPromise({
-                                //                 component: "staff_usuario",
-                                //                 type: "desinvitarGrupo",
-                                //                 key_usuarios_desinvitados: [elm.key_usuario],
-                                //                 key_staff: this.pk,
-                                //                 key_usuario: Model.usuario.Action.getKey(),
-                                //             }).then(e => {
-                                //                 this.loadData();
-                                //                 console.log(e)
-                                //                 SNotification.send({
-                                //                     title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
-                                //                     body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
-                                //                     color: STheme.color.success,
-                                //                     time: 5000
-                                //                 })
-                                //             }).catch(e => {
-                                //                 console.error(e)
-                                //                 SNotification.send({
-                                //                     title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
-                                //                     body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
-                                //                     color: STheme.color.danger,
-                                //                     time: 5000
-                                //                 })
-                                //             })
-                                //         }
-                                //     }} /></SView></SView>
-                                // },
-                                {
-                                    key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
-                                        style={{ borderRadius: 4, overflow: "hidden" }}>
-                                        <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
-                                            resizeMode: "cover",
-                                        }} /></SView>
-                                },
-                                    { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
-                                    { key: "participacion", label: "Events", width: 50, order: "desc" },
-                                    { key: "rechazos", label: "Rejects", width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
-                                // {key: "usuario/Telefono", label: "Telefono", width: 100 },
-                                {
-                                    key: "usuario/Telefono", label: "Phone", width: 140, component: (number) => <BtnWhatsapp telefono={number}
-                                        texto={this.state?.data?.evento?.observacion}
-                                    >
-                                        <SText fontSize={11} color={STheme.color.text} underLine>
-                                            {number}
-                                        </SText>
-                                    </BtnWhatsapp>
-                                },
-                                    { key: "usuario/nivel_ingles", label: "English level", width: 60, },
-                                {
-                                    key: "tipos_staff_favoritos", label: "Skills", width: 300,
-                                    render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "",
-                                },
+                                        }
+                                    }} /></SView></SView>
+                            },
+                            // {
+                            //     key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20} ><SInput type='checkBox' defaultValue={elm?.staff_usuario} onChangeText={e => {
+                            //         elm.invitar = !!e;
+                            //         if (elm.invitar) {
+                            //             SSocket.sendPromise({
+                            //                 component: "staff_usuario",
+                            //                 type: "invitarGrupo",
+                            //                 key_usuarios_invitados: [elm.key_usuario],
+                            //                 key_staff: this.pk,
+                            //                 key_usuario: Model.usuario.Action.getKey(),
+                            //             }).then(e => {
+                            //                 this.loadData();
+                            //                 console.log(e)
+                            //                 SNotification.send({
+                            //                     title: (lenguaje == "es") ? "Invitación enviada" : "Invitation sent",
+                            //                     body: (lenguaje == "es") ? "Se envió la invitación al usuario seleccionado" : "Invitation sent to the selected user",
+                            //                     color: STheme.color.success,
+                            //                     time: 5000
+                            //                 })
+                            //             }).catch(e => {
+                            //                 console.error(e)
+                            //                 SNotification.send({
+                            //                     title: (lenguaje == "es") ? "Error al enviar invitación" : "Error sending invitation",
+                            //                     body: (lenguaje == "es") ? "Ocurrio un error al enviar la invitación" : "An error occurred while sending the invitation",
+                            //                     color: STheme.color.danger,
+                            //                     time: 5000
+                            //                 })
+                            //             })
+                            //         } else {
+                            //             SSocket.sendPromise({
+                            //                 component: "staff_usuario",
+                            //                 type: "desinvitarGrupo",
+                            //                 key_usuarios_desinvitados: [elm.key_usuario],
+                            //                 key_staff: this.pk,
+                            //                 key_usuario: Model.usuario.Action.getKey(),
+                            //             }).then(e => {
+                            //                 this.loadData();
+                            //                 console.log(e)
+                            //                 SNotification.send({
+                            //                     title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
+                            //                     body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
+                            //                     color: STheme.color.success,
+                            //                     time: 5000
+                            //                 })
+                            //             }).catch(e => {
+                            //                 console.error(e)
+                            //                 SNotification.send({
+                            //                     title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
+                            //                     body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
+                            //                     color: STheme.color.danger,
+                            //                     time: 5000
+                            //                 })
+                            //             })
+                            //         }
+                            //     }} /></SView></SView>
+                            // },
+                            {
+                                key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
+                                    style={{ borderRadius: 4, overflow: "hidden" }}>
+                                    <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
+                                        resizeMode: "cover",
+                                    }} /></SView>
+                            },
+                            { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
+                            { key: "participacion", label: "Events", width: 50, order: "desc" },
+                            { key: "rechazos", label: "Rejects", width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
+                            // {key: "usuario/Telefono", label: "Telefono", width: 100 },
+                            {
+                                key: "usuario/Telefono", label: "Phone", width: 140, component: (number) => <BtnWhatsapp telefono={number}
+                                    texto={this.state?.data?.evento?.observacion}
+                                >
+                                    <SText fontSize={11} color={STheme.color.text} underLine>
+                                        {number}
+                                    </SText>
+                                </BtnWhatsapp>
+                            },
+                            { key: "usuario/nivel_ingles", label: "English level", width: 60, },
+                            {
+                                key: "tipos_staff_favoritos", label: "Skills", width: 300,
+                                render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : "",
+                            },
 
                         ]} />
-                                </SView >
+                </SView >
 
-                                    <SView width={25} height center>
+                <SView width={25} height center>
 
+                </SView>
+                <SView flex height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }} >
+                    <SHr h={4} />
+                    <SText center fontSize={12} color={STheme.color.text} language={{
+                        es: "Staff Aceptado",
+                        en: "Staff Accepted"
+                    }} />
+                    <STable2
+                        key={"Algo1"}
+                        data={this.state.data_disponibles}
+                        headerColor={STheme.color.primary}
+                        filter={(a) => !!a.staff_usuario && a?.staff_usuario?.estado != 2}
+                        rowHeight={25}
+                        cellStyle={{
+                            justifyContent: "center",
+                            paddingStart: 2,
+                            height: 30,
+                            color: STheme.color.text
+
+                        }}
+                        header={[
+                            // {
+                            //     key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
+                            //         elm.desinvitar = !!e;
+                            //     }} /></SView></SView>
+                            // },
+                            {
+                                key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
+                                    style={{ borderRadius: 4, overflow: "hidden" }}>
+                                    <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
+                                        resizeMode: "cover",
+                                    }} /></SView>
+                            },
+                            { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
+                            {
+                                key: "staff_usuario", label: "Status", width: 140, component: (obj) => <SView col={"xs-12"} center>
+                                    {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
+                                    {this.renderStaffUsuario(obj)}
+                                </SView>
+                            },
+                            {
+                                key: "staff_usuario-2", label: "Boss", width: 140, component: (obj) => {
+                                    const user = this.usuarios[obj.key_usuario_atiende]?.usuario
+                                    return <SView col={"xs-12"} flex onPress={() => {
+                                        this.handleAsignarJefe(obj)
+                                    }} center>
+                                        {user ? <SView row><SView width={20} height={20} card>
+                                            <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario_atiende} />
+                                        </SView><SText color={STheme.color.text} flex fontSize={10}>{user.Nombres} {user.Apellidos}</SText></SView> : <SText color={STheme.color.text} fontSize={10}>{"Sin jefe"}</SText>}
+
+                                        {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
+                                        {/* {this.renderStaffUsuario(obj)} */}
                                     </SView>
-                                    <SView flex height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }} >
-                                        <SHr h={4} />
-                                        <SText center fontSize={12} color={STheme.color.text} language={{
-                                            es: "Staff Aceptado",
-                                            en: "Staff Accepted"
-                                        }} />
-                                        <STable2
-                                            key={"Algo1"}
-                                            data={this.state.data_disponibles}
-                                            headerColor={STheme.color.primary}
-                                            filter={(a) => !!a.staff_usuario && a?.staff_usuario?.estado != 2}
-                                            rowHeight={25}
-                                            cellStyle={{
-                                                justifyContent: "center",
-                                                paddingStart: 2,
-                                                height: 30,
-                                                color: STheme.color.text
+                                }
+                            },
 
-                                            }}
-                                            header={[
-                                                // {
-                                                //     key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
-                                                //         elm.desinvitar = !!e;
-                                                //     }} /></SView></SView>
-                                                // },
-                                                {
-                                                    key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
-                                                        style={{ borderRadius: 4, overflow: "hidden" }}>
-                                                        <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
-                                                            resizeMode: "cover",
-                                                        }} /></SView>
-                                                },
-                                                { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
-                                                {
-                                                    key: "staff_usuario", label: "Status", width: 140, component: (obj) => <SView col={"xs-12"} center>
-                                                        {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
-                                                        {this.renderStaffUsuario(obj)}
-                                                    </SView>
-                                                },
-                                                {
-                                                    key: "staff_usuario-2", label: "Boss", width: 140, component: (obj) => {
-                                                        const user = this.usuarios[obj.key_usuario_atiende]?.usuario
-                                                        return <SView col={"xs-12"} flex onPress={() => {
-                                                            this.handleAsignarJefe(obj)
-                                                        }} center>
-                                                            {user ? <SView row><SView width={20} height={20} card>
-                                                                <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario_atiende} />
-                                                            </SView><SText color={STheme.color.text} flex fontSize={10}>{user.Nombres} {user.Apellidos}</SText></SView> : <SText color={STheme.color.text} fontSize={10}>{"Sin jefe"}</SText>}
-
-                                                            {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
-                                                            {/* {this.renderStaffUsuario(obj)} */}
-                                                        </SView>
+                            {
+                                key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
+                                    <SText fontSize={11} color={STheme.color.text} underLine>
+                                        {number}
+                                    </SText>
+                                </BtnWhatsapp>
+                            },
+                            {
+                                key: "-delete", label: "Delete", width: 100, component: (e) => {
+                                    return <SText color={STheme.color.text} onPress={() => {
+                                        // console.log(e);
+                                        SPopup.confirm({
+                                            title: "Seguro de eliminar?",
+                                            onPress: () => {
+                                                SSocket.send({
+                                                    component: "staff_usuario",
+                                                    type: "editar",
+                                                    data: {
+                                                        key: e.staff_usuario.key,
+                                                        estado: 0
                                                     }
-                                                },
+                                                }).then(e => {
+                                                    this.loadData();
+                                                }).catch(e => {
 
-                                                {
-                                                    key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
-                                                        <SText fontSize={11} color={STheme.color.text} underLine>
-                                                            {number}
-                                                        </SText>
-                                                    </BtnWhatsapp>
-                                                },
-                                                {
-                                                    key: "-delete", label: "Delete", width: 100, component: (e) => {
-                                                        return <SText color={STheme.color.text} onPress={() => {
-                                                            // console.log(e);
-                                                            SPopup.confirm({
-                                                                title: "Seguro de eliminar?",
-                                                                onPress: () => {
-                                                                    SSocket.send({
-                                                                        component: "staff_usuario",
-                                                                        type: "editar",
-                                                                        data: {
-                                                                            key: e.staff_usuario.key,
-                                                                            estado: 0
-                                                                        }
-                                                                    }).then(e => {
-                                                                        this.loadData();
-                                                                    }).catch(e => {
-
-                                                                    })
-                                                                }
-                                                            })
-                                                        }}>{"Delete"}</SText>
-                                                    }
-                                                },
-                                                // {
-                                                //     key: "tipos_staff_favoritos", label: "Tipos", width: 200,
-                                                //     render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : ""
-                                                // },
-                                                // {
-                                                //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
-                                                //         tipo_staff
-                                                //             ? tipo_staff.map((a, index) => (
-                                                //                 <SText row key={index} style={{ color: a.descripcion === "cocinero" ? "green" : "white" }}>
-                                                //                     {a.descripcion}
-                                                //                 </SText>
-                                                //             ))
-                                                //             // .reduce((prev, curr) => [prev, ', ', curr]) // Para añadir coma entre los elementos
-                                                //             : ""
-                                                //     }</SView>
-                                                // },
+                                                })
+                                            }
+                                        })
+                                    }}>{"Delete"}</SText>
+                                }
+                            },
+                            // {
+                            //     key: "tipos_staff_favoritos", label: "Tipos", width: 200,
+                            //     render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : ""
+                            // },
+                            // {
+                            //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
+                            //         tipo_staff
+                            //             ? tipo_staff.map((a, index) => (
+                            //                 <SText row key={index} style={{ color: a.descripcion === "cocinero" ? "green" : "white" }}>
+                            //                     {a.descripcion}
+                            //                 </SText>
+                            //             ))
+                            //             // .reduce((prev, curr) => [prev, ', ', curr]) // Para añadir coma entre los elementos
+                            //             : ""
+                            //     }</SView>
+                            // },
 
 
 
-                                            ]} />
-                                    </SView>
-                                </SView >
+                        ]} />
+                </SView>
+            </SView >
         </SPage >
     }
 }
