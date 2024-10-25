@@ -44,6 +44,7 @@ class index extends DPA.new {
 
         })
     }
+    
 }
 
 export default connect(index);

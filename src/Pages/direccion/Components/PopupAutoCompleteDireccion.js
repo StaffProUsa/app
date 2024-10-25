@@ -55,7 +55,7 @@ class PopupAutoCompleteDireccion extends Component {
                 padding: 8,
             }} withoutFeedback>
             <SHr />
-            <SInput col={"xs-12"} placeholder={"Write direcction..."} style={{ borderWidth: 0, height: "100%" }}
+            <SInput col={"xs-12"} placeholder={"Write address..."} style={{ borderWidth: 0, height: "100%" }}
                 color={STheme.color.text} placeholderTextColor={STheme.color.gray} height={40} fontSize={12}
                 onChangeText={(text) => {
                     // this.setState({ find: text })
