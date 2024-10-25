@@ -75,7 +75,7 @@ class index extends Component {
     return <SView col={"xs-12"} row padding={8} style={{
       borderRadius: 16,
       borderWidth: 1,
-      borderColor: STheme.color.darkGray,
+      borderColor: STheme.color.lightGray,
       overflow: "hidden",
     }} onPress={() => {
 
@@ -123,7 +123,7 @@ class index extends Component {
         </SView>
       </SView> : null}
       <SHr height={10} />
-      <SHr h={1} color={STheme.color.card} />
+      <SHr h={1} color={STheme.color.lightGray+"65"} />
       <SHr height={10} />
       <SView col={"xs-2 sm-2"} row >
         {/* <SIcon name={"eventi"} fill={STheme.color.gray} width={12} /> */}
@@ -148,7 +148,7 @@ class index extends Component {
         <SText fontSize={12}>{obj?.staff_tipo?.descripcion}</SText>
       </SView>
       <SHr height={10} />
-      <SHr h={1} color={STheme.color.card} />
+      <SHr h={1} color={STheme.color.lightGray+"65"} />
       <SHr height={10} />
 
 

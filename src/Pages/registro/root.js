@@ -94,16 +94,65 @@ class root extends Component {
                                 alignItems: "center",
                             }}
                             inputs={{
-                                Nombres: { label: nombre, placeholder: nombre, isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser") },
-                                Apellidos: { label: apellidos, placeholder: apellidos, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
-                                // Fecha: { label:"Fecha de nacimiento",placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha, type: "date", icon: this.icon("InputPhone") },
-                                Telefono: {
-                                    label: telefono, isRequired: true, placeholder: telefono, type: "phone", defaultValue: defaultData.Telefono,
+                                Nombres: {
+                                    label: SLanguage.select({
+                                        es: "Nombre",
+                                        en: "Name"
+                                    }), placeholder: SLanguage.select({ es: "Nombre", en: "First Name" }), isRequired: true, defaultValue: defaultData.Nombres, icon: this.icon("InputUser")
                                 },
-                                Correo: { label: correo, isRequired: true, placeholder: correo, type: "email", defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
+                                Apellidos: { label: SLanguage.select({ es: "Apellidos", en: "Last name" }), isRequired: true, placeholder: apellidos, defaultValue: defaultData.Apellidos, icon: this.icon("InputUser") },
+                                fecha_nacimiento: { label: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), placeholder: fecha, isRequired: false, defaultValue: defaultData.fecha_nacimiento, type: "date", icon: this.icon("cumple") },
+                                estado_civil: {
+                                    label: SLanguage.select({ es: "Estado civil", en: "Marital Status" }),
+                                    placeholder: SLanguage.select({ es: "Estado civil", en: "Marital Status" }),
+                                    // type: "select",
+                                    isRequired: true,
+                                    defaultValue: "",
+                                    editable: false,
+                                    onPress: e => {
+                                        InputFloat.open({
+                                            e: e,
+                                            height: 180,
+                                            width: 150,
+                                            style: {
+                                                backgroundColor: STheme.color.background
+                                            },
+                                            render: () => {
+                                                return <SView col={"xs-12"} flex card>
+                                                    <InputSelect
+                                                        data={["SINGLE", "MARRIED", "DIVORCED", "WIDOWED", "SEPARATED", "OTHER"]}
+                                                        onChange={val => {
+                                                            this.form.setValues({ "estado_civil": val })
+                                                        }}
+                                                        ITEM_HEIGHT={30} />
+                                                </SView>
+                                            }
+                                        })
+                                    },
+                                    icon: this.icon("estadoCivil")
+                                    // icon: this.icon("InputEmail"),
+                                    // options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" },
+                                    // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
+                                },
+                                "employee_number": {
+                                    placeholder: SLanguage.select({ es: "Número de empleado", en: "Employee number" }),
+                                    label: SLanguage.select({ es: "Número de empleado", en: "Employee number" }),
+                                    defaultValue: defaultData.employee_number,
+                                    icon: this.icon("empleado")
+                                    //type: 'phone',
+                                    //isRequired: true,
+                                },
+                                Telefono: {
+                                    label: SLanguage.select({ es: "Número de teléfono", en: "Phone Number" }), isRequired: true, placeholder: SLanguage.select({ es: "Número de teléfono", en: "Phone Number" }), type: "phone", defaultValue: defaultData.Telefono,
+                                },
+
+                                Correo: { label: SLanguage.select({ es: "Correo", en: "Email" }), isRequired: true, placeholder: SLanguage.select({ es: "Correo", en: "Email" }), type: "email", defaultValue: defaultData.Correo, icon: this.icon("InputEmail") },
+                                direccion: {
+                                    label: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), isRequired: true, placeholder: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), defaultValue: defaultData.direccion, icon: this.icon("direccion")
+                                },
                                 nivel_ingles: {
-                                    label: "Nivel de inglés",
-                                    placeholder: correo,
+                                    label: SLanguage.select({ es: "Nivel de inglés", en: "English level" }),
+                                    placeholder: SLanguage.select({ es: "Nivel de inglés", en: "English level" }),
                                     // type: "select",
                                     isRequired: true,
                                     defaultValue: "",
@@ -127,12 +176,15 @@ class root extends Component {
                                                 </SView>
                                             }
                                         })
-                                    }
-                                    // icon: this.icon("InputEmail"),
+                                    },
+                                    icon: this.icon("lenguaje"),
                                     // options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" },
                                     // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
                                 },
-                                papeles: { col:"xs-12", label: "¿Está autorizado para trabajar en los Estados Unidos?", type: "checkBox" },
+                                otros_idiomas: {
+                                    label: SLanguage.select({ es: "Idiomas que habla", en: "Languages Spoken" }), isRequired: true, placeholder: SLanguage.select({ es: "Idiomas que habla", en: "Languages Spoken" }), defaultValue: defaultData.otros_idiomas, icon: this.icon("lenguaje"),
+                                },
+                                papeles: { col: "xs-12", label: SLanguage.select({ es: "¿Está autorizado legalmente para trabajar en los Estados Unidos?", en: "Are you legally authorized to work in the United State?" }), type: "checkBox" },
 
                                 // FechaNacimiento: {placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
                                 //telefono: {placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},

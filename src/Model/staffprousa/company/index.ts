@@ -14,6 +14,12 @@ export default new SModel<Action, Reducer>({
         "estado": { type: "integer" },
         "descripcion": { type: "text", editable: true, label: "Name" },
         "observacion": { type: "text", editable: true, label: "Detail" },
+        "contacto": { type: "text", editable: true, label: "Contact name" },
+        "telefono": { type: "text", editable: true, label: "Phone number" },
+        "email": { type: "text", editable: true, label: "Email" },
+        "direccion": { type: "text", editable: true, label: "Address" },
+        // "latitude": { type: "double", editable: false },
+        // "longitude": { type: "double", editable: false },
     },
     image: {
         name: "company",

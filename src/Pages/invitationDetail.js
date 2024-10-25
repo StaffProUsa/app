@@ -121,13 +121,13 @@ export default class invitationDetail extends React.Component {
                       es: "* Nivel de inglés: ",
                       en: "* English level: "
                     }} />
-                    <SText fontSize={15} color={STheme.color.white} center >{obj?.cliente?.nivel_ingles}</SText>
+                    <SText fontSize={15} color={STheme.color.gray} center >{obj?.staff?.nivel_ingles}</SText>
                     <SHr height={15} />
                     <SText fontSize={15} color={STheme.color.gray} center language={{
                       es: "* Autorización para trabajar en USA: ",
                       en: " Authorization to work in USA: "
                     }} />
-                    <SText fontSize={15} color={STheme.color.white} center >{(obj?.cliente?.papeles) ? "YES" : "NO"}</SText>
+                    <SText fontSize={15} color={STheme.color.gray} center >{(obj?.cliente?.papeles) ? "YES" : "NO"}</SText>
                   </SView>
                   <SHr height={15} />
                   <SView col={'xs-12'}  >
@@ -173,12 +173,24 @@ export default class invitationDetail extends React.Component {
                     {/* <SIcon name={'idate'} fill={STheme.color.primary} width={20} height={20} /> */}
                     <SView width={8} />
                     <SText fontSize={20} language={{
-                      es: "Fecha - Hora:",
-                      en: "Date - Time:"
+                      es: "Fecha:",
+                      en: "Date:"
                     }} />
                   </SView>
                   <SView col={'xs-6'} row>
-                    <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_inicio).toString("MM-dd-yyyy hh:mm")}</SText>
+                    <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_inicio).toString("MM-dd-yyyy")}</SText>
+                  </SView>
+                  <SHr height={10} />
+                  <SView col={'xs-6'} row >
+                    {/* <SIcon name={'idate'} fill={STheme.color.primary} width={20} height={20} /> */}
+                    <SView width={8} />
+                    <SText fontSize={20} language={{
+                      es: "Hora:",
+                      en: "Time:"
+                    }} />
+                  </SView>
+                  <SView col={'xs-6'} row>
+                    <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_inicio).toString("hh:mm")}</SText>
                   </SView>
                   <SHr height={10} />
                   {/* <SView col={'xs-6'} row >

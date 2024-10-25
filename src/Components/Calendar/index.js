@@ -88,7 +88,7 @@ class index extends Component {
 
         let hoy = new SDate(this.state.curDay).getDayOfWeek()
         let isSelect = false
-        let color = isSelect ? STheme.color.white : STheme.color.white
+        let color = isSelect ? STheme.color.primary : STheme.color.primary
 
         const isCurtMonth = this.state.curDay.toString("yyyy-MM") == data.sdate.toString("yyyy-MM")
         let events = [];
