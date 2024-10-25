@@ -39,7 +39,8 @@ const inputs = (): SInputsCofig => {
                 // borderRadius: 16,
                 borderWidth: 1,
                 borderColor: STheme.color.danger
-            }
+            },
+            
         },
         dark: {
             LabelStyle: {

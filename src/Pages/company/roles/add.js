@@ -333,8 +333,8 @@ export default class add extends Component {
             }
             if (!usuarioNuevo.Nombres) {
                 SNotification.send({
-                    title: (lenguaje == "es") ?"Datos incompletos.": "Incomplete data.",
-                    body: (lenguaje == "es") ?"Debe ingresar mínimamente el nombre": "You must enter at least the name",
+                    title: (lenguaje == "es") ? "Datos incompletos." : "Incomplete data.",
+                    body: (lenguaje == "es") ? "Debe ingresar mínimamente el nombre" : "You must enter at least the name",
                     time: 5000,
                     color: STheme.color.warning,
                 })
@@ -402,8 +402,8 @@ export default class add extends Component {
                 }
             }).then(e => {
                 SNotification.send({
-                    title: (lenguaje == "es") ? "Nuevo usuario": "New user",
-                    body: (lenguaje == "es") ?"Usuario agregado con éxito": "User added successfully",
+                    title: (lenguaje == "es") ? "Nuevo usuario" : "New user",
+                    body: (lenguaje == "es") ? "Usuario agregado con éxito" : "User added successfully",
                     time: 5000,
                     color: STheme.color.success,
                 })
@@ -414,16 +414,16 @@ export default class add extends Component {
             }).catch(e => {
                 if (e.error == "existe") {
                     SNotification.send({
-                        title: (lenguaje == "es") ?"El usuario ya se encuentra registrado.": "The user is already registered.",
-                        body: (lenguaje == "es") ?"No puede registrar 2 veces a un mismo usuario.": "You cannot register the same user twice.",
+                        title: (lenguaje == "es") ? "El usuario ya se encuentra registrado." : "The user is already registered.",
+                        body: (lenguaje == "es") ? "No puede registrar 2 veces a un mismo usuario." : "You cannot register the same user twice.",
                         time: 5000,
                         color: STheme.color.danger,
                     })
                     return;
                 }
                 SNotification.send({
-                    title: (lenguaje == "es") ?"No pudimos agregar al usuario.": "We couldn't add the user.",
-                    body: (lenguaje == "es") ?"Ocurrio un error al agregar al usuario, intente nuevamente.": "An error occurred while adding the user, try again.",
+                    title: (lenguaje == "es") ? "No pudimos agregar al usuario." : "We couldn't add the user.",
+                    body: (lenguaje == "es") ? "Ocurrio un error al agregar al usuario, intente nuevamente." : "An error occurred while adding the user, try again.",
                     time: 5000,
                     color: STheme.color.danger,
                 })
@@ -439,8 +439,8 @@ export default class add extends Component {
                 }
             }).then(e => {
                 SNotification.send({
-                    title: (lenguaje == "es") ?"Editar usuario": "Edit user",
-                    body: (lenguaje == "es") ?"Usuario editado con éxito": "User edited successfully",
+                    title: (lenguaje == "es") ? "Editar usuario" : "Edit user",
+                    body: (lenguaje == "es") ? "Usuario editado con éxito" : "User edited successfully",
                     time: 5000,
                     color: STheme.color.success,
                 })
@@ -450,8 +450,8 @@ export default class add extends Component {
                 SNavigation.goBack();
             }).catch(e => {
                 SNotification.send({
-                    title: (lenguaje == "es") ?"No pudimos editar al usuario.": "We couldn't edit the user.",
-                    body: (lenguaje == "es") ?"Ocurrio un error al editar al usuario, intente nuevamente.": "An error occurred while editing the user, try again.",
+                    title: (lenguaje == "es") ? "No pudimos editar al usuario." : "We couldn't edit the user.",
+                    body: (lenguaje == "es") ? "Ocurrio un error al editar al usuario, intente nuevamente." : "An error occurred while editing the user, try again.",
                     time: 5000,
                     color: STheme.color.danger,
                 })
@@ -514,6 +514,29 @@ export default class add extends Component {
                 <SHr h={16} />
                 {/* <SHr h={16} /> */}
                 <SView col={"xs-12"}>
+                    {/* <Input
+                        ref={ref => this._inputs["fecha_nacimiento"] = ref}
+                        col={"xs-5.8"}
+                        inputStyle={{
+                            color: !!this.key ? STheme.color.text : "#fff",
+                            backgroundColor: !!this.key ? STheme.color.card : STheme.color.card
+                        }}
+                        disabled={!!this.key}
+                        // defaultValue={data.nombre}
+                        label={(lenguaje == "es") ? "Fecha de nacimiento" : "Date of Birth"}
+                        // info={"El número que ingreses debe estar registrado en la App"}
+                        // placeholder={"+591 0000000"}
+                        onChangeText={(e) => {
+                            if (e.length > 6) {
+                                this.buscar_usuario(e, "telefono")
+                            }
+                        }}
+                        onSubmitEditing={() => {
+                            if (this._inputs.correo.focus) this._inputs.correo.focus()
+                        }}
+                    // onSubmitEditing={() => this._inputs["index"].focus()}
+                    /> */}
+                    <SHr h={16} />
                     <Input
                         ref={ref => this._inputs["telefono"] = ref}
                         col={"xs-9"}
