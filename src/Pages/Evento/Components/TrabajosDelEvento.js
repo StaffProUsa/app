@@ -135,8 +135,9 @@ export default class TrabajosDelEvento extends Component {
 
         let fecha_ini = new Date(obj.fecha_inicio);
         let fecha_fi = new Date(obj.fecha_fin);
-
-        const { key_staff_tipo, staff_tipo, descripcion, fecha_inicio, fecha_fin, asistencia, staff_usuario } = obj
+        console.log("ESTE LOG ES", obj)
+        const { key_staff_tipo, staff_tipo, descripcion, fecha_inicio, fecha_fin, asistencia, fecha_evento, staff_usuario } = obj
+        const fecha_start_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")
         return <SView col={"xs-12"} row padding={10} >
             <SView col={"xs-1.5"} row>
                 <SView width={60} height={60} style={{ borderRadius: 4, overflow: "hidden", backgroundColor: STheme.color.card }}>
@@ -148,20 +149,18 @@ export default class TrabajosDelEvento extends Component {
                     <SText fontSize={16}>{staff_tipo}</SText>
                     <SText fontSize={14} color={STheme.color.text}>{descripcion}</SText>
                 </SView>
-                <SView col={"xs-5 sm-4"} style={{alignItems:"flex-end"}}>
+                <SView col={"xs-5 sm-4"} style={{ alignItems: "flex-end" }}>
                     {this.renderStaffUsuario(obj)}
                     {!asistencia ? null : <SText fontSize={12} color={STheme.color.success} language={{ en: "Marked Assistance", es: "Asistencia Marcada" }} />}
                 </SView>
                 <SHr h={4} />
                 <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={11} color={STheme.color.text} language={{
-                    // en: `Start ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} to ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`,
-                    // es: `Desde ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")} hasta ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd hh:mm")}`
-                    en: `Start ${this.formatearFecha(fecha_ini,'en-US')} | ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`,
-                    es: `Desde ${this.formatearFecha(fecha_ini,'es-ES')} | ${new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`
+                    en: `Start ${fecha_start_str}`,
+                    es: `Desde ${fecha_start_str}`
                 }} />
                 <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={11} color={STheme.color.text} language={{
-                    en: `End ${this.formatearFecha(fecha_fi,'en-US')} | ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`,
-                    es: `Hasta ${this.formatearFecha(fecha_fi,'es-ES')} | ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`
+                    en: `End ${fecha_start_str}`,
+                    es: `Hasta ${fecha_start_str}`
                 }} />
                 <SHr h={8} />
                 <SHr h={1} color={STheme.color.lightGray} />
@@ -187,7 +186,7 @@ export default class TrabajosDelEvento extends Component {
                     <SList
                         space={16}
                         data={this.state.data}
-                        filter={a=>a.staff_usuario != null}
+                        filter={a => a.staff_usuario != null}
                         render={this.item.bind(this)}
                     />
                     <SText padding={10} language={{

@@ -53,7 +53,9 @@ class index extends Component {
         }} />
         {/* <SText fontSize={10}>{new SDate(obj?.staff?.fecha_inicio).toString("DAY dd de MON, hh:mm")}</SText>
         <SHr/> */}
-        <SText fontSize={10}>{new SDate(obj?.staff?.fecha_inicio).toString('MM-dd-yyyy hh:mm')}</SText>
+        <SText fontSize={10}>{new SDate(obj?.evento?.fecha, "yyyy-MM-dd").toString('MONTH dd, yyyy')}</SText>
+        <SView width={8}/>
+        <SText fontSize={10}>{new SDate(obj?.staff?.fecha_inicio,"yyyy-MM-ddThh:mm:ss").toString('HH')}</SText>
         {/* toLocaleDateString */}
       </SView >
       {/* <SView row >
@@ -123,7 +125,7 @@ class index extends Component {
         </SView>
       </SView> : null}
       <SHr height={10} />
-      <SHr h={1} color={STheme.color.lightGray+"65"} />
+      <SHr h={1} color={STheme.color.lightGray + "65"} />
       <SHr height={10} />
       <SView col={"xs-2 sm-2"} row >
         {/* <SIcon name={"eventi"} fill={STheme.color.gray} width={12} /> */}
@@ -148,7 +150,7 @@ class index extends Component {
         <SText fontSize={12}>{obj?.staff_tipo?.descripcion}</SText>
       </SView>
       <SHr height={10} />
-      <SHr h={1} color={STheme.color.lightGray+"65"} />
+      <SHr h={1} color={STheme.color.lightGray + "65"} />
       <SHr height={10} />
 
 
@@ -192,7 +194,7 @@ class index extends Component {
           </SView>
         </SView>
         <SHr height={10} />
-        <SList2 data={this.state.data} order={[{ key: "staff/fecha_inicio", order: "asc" }]} render={this.renderItem.bind(this)} />
+        <SList2 data={this.state.data} order={[{ key: "evento/fecha", order: "asc" }]} render={this.renderItem.bind(this)} />
       </>
     );
   }

@@ -42,7 +42,7 @@ class PopupAutoCompleteDireccion extends Component {
                             })
                             // var aux = this.setState({ place_id: obj.place_id, direccion: obj.direccion });
                         }} >
-                        <SText fontSize={12}   color={STheme.color.text} >{obj.direccion}</SText>
+                        <SText fontSize={12} color={STheme.color.text} >{obj.direccion}</SText>
                     </SView>
                 </SView>
             }} />
@@ -69,6 +69,7 @@ class PopupAutoCompleteDireccion extends Component {
                         Model.locationGoogle.Action.autocomplete({
                             ...this.props.region,
                             direccion: text,
+                            radius: 10000000
                         }).then(resp => {
                             this.state.locations = resp.data;
                             this.setState({ loading: false })

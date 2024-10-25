@@ -356,8 +356,30 @@ export default class users extends Component {
                             {
                                 key: "-", width: 50, component: (elm) => <SView col={"xs-12"} center>
                                     {!elm.staff_usuario ? null : <SText color={STheme.color.danger} fontSize={12} underLine onPress={() => {
+                                        SSocket.sendPromise({
+                                            component: "staff_usuario",
+                                            type: "desinvitarGrupo",
+                                            key_usuarios_desinvitados: [elm.key_usuario],
+                                            key_staff: this.pk,
+                                            key_usuario: Model.usuario.Action.getKey(),
+                                        }).then(e => {
+                                            this.loadData();
+                                            SNotification.send({
+                                                title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
+                                                body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
+                                                color: STheme.color.success,
+                                                time: 5000
+                                            })
+                                        }).catch(e => {
+                                            console.error(e)
+                                            SNotification.send({
+                                                title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
+                                                body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
+                                                color: STheme.color.danger,
+                                                time: 5000
+                                            })
+                                        })
                                     }}>{"Uninvite"}</SText>}
-
                                 </SView>
                             },
                             // {
