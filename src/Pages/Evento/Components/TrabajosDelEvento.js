@@ -164,7 +164,7 @@ export default class TrabajosDelEvento extends Component {
                     es: `Hasta ${this.formatearFecha(fecha_fi,'es-ES')} | ${new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm")}`
                 }} />
                 <SHr h={8} />
-                <SHr h={1} color={STheme.color.gray} />
+                <SHr h={1} color={STheme.color.lightGray} />
             </SView>
         </SView>
     }
@@ -177,7 +177,7 @@ export default class TrabajosDelEvento extends Component {
             <SView col={'xs-12'} >
                 <SText language={{ en: "Works", es: "Trabajos" }} fontSize={16} bold />
                 <SHr />
-                <SView card col={'xs-12'} style={{ borderRadius: 8, overflow: "hidden", borderWidth: 1, borderColor: STheme.color.gray }} center>
+                <SView card col={'xs-12'} style={{ borderRadius: 8, overflow: "hidden", borderWidth: 1, borderColor: STheme.color.lightGray }} center>
                     {/* <SGradient
                         colors={['#040405', '#0C0C10']}
                         start={{ x: 0, y: 1 }}
@@ -187,6 +187,7 @@ export default class TrabajosDelEvento extends Component {
                     <SList
                         space={16}
                         data={this.state.data}
+                        filter={a=>a.staff_usuario != null}
                         render={this.item.bind(this)}
                     />
                     <SText padding={10} language={{

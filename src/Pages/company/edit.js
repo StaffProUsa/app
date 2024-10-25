@@ -13,6 +13,23 @@ class index extends DPA.edit {
     $allowAccess() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit", user_data: { key_company: this.pk } })
     }
+
+    $inputs() {
+        const inp = super.$inputs();
+
+        inp["descripcion"].required = true;
+        // inp["email"].required = true;
+        // inp["contacto"].required = true;
+        // inp["telefono"].required = true;
+
+
+        inp["email"].type = "email";
+        inp["telefono"].type = "phone";
+        inp["contacto"].col = "xs-7"
+        inp["telefono"].col = "xs-4.5"
+        return inp;
+    }
+
     $getData() {
         return Parent.model.Action.getByKey(this.pk);
     }
