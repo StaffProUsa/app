@@ -130,17 +130,25 @@ class index extends Component {
                     // options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" },
                     // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
                 },
+                "employee_number": {
+                    placeholder: SLanguage.select({ es: "Número de empleado", en: "Employee number" }),
+                    label: SLanguage.select({ es: "Número de empleado", en: "Employee number" }),
+                    defaultValue: this.data['employee_number'],
+                    //type: 'phone',
+                    //isRequired: true,
+                    height: 54
+                },
                 "Telefono": {
-                    placeholder: telefono,
-                    label: telefono,
+                    placeholder: SLanguage.select({ es: "Teléfono", en: "Phone" }),
+                    label: SLanguage.select({ es: "Teléfono", en: "Phone" }),
                     defaultValue: this.data['Telefono'],
                     type: 'phone',
                     isRequired: true,
                     height: 54
                 },
                 Correo: {
-                    placeholder: correo,
-                    label: correo,
+                    placeholder: SLanguage.select({ es: "Correo electrónico", en: "Email" }),
+                    label: SLanguage.select({ es: "Correo electrónico", en: "Email" }),
                     type: 'email',
                     isRequired: true,
                     defaultValue: this.data.Correo,
@@ -151,7 +159,7 @@ class index extends Component {
                     label: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), isRequired: true, placeholder: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), defaultValue: this.data.direccion,
                 },
                 nivel_ingles: {
-                    placeholder: nivel_ingles,
+                    placeholder: SLanguage.select({ es: "Nivel de inglés", en: "English level" }),
                     label: nivel_ingles,
                     // type: "select",
                     isRequired: true,
