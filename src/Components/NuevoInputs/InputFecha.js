@@ -90,13 +90,7 @@ export default class InputFecha extends Component {
             }} >{monthArray[this.state.mes - 1]}</SText>
             <SView width={4} />
             <SText padding={6} card onPress={(e) => {
-                let mes = "";
-                if (this.state.mes < 10) {
-                    mes = "0" + this.state.mes
-                } else {
-                    mes = this.state.mes
-                }
-                const date = new SDate(this.state.ano + "-" + (this.state.mes) + "-01", "yyyy-MM-dd");
+                const date = new SDate(this.state.ano + "-" + (mes) + "-01", "yyyy-MM-dd");
                 date.addDay(-1);
                 const startYear = 1
                 const endYear = date.getDay();

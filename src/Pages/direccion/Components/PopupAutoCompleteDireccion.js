@@ -42,7 +42,7 @@ class PopupAutoCompleteDireccion extends Component {
                             })
                             // var aux = this.setState({ place_id: obj.place_id, direccion: obj.direccion });
                         }} >
-                        <SText fontSize={12}   color={STheme.color.gray} >{obj.direccion}</SText>
+                        <SText fontSize={12}   color={STheme.color.text} >{obj.direccion}</SText>
                     </SView>
                 </SView>
             }} />

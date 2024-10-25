@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SGeolocation, SHr, SInput, SMapView, SNavigation, SNotification, SPage, SText, STheme, SView, SLanguage, SIcon, SPopup } from 'servisofts-component';
-import PopupAutoCompleteDireccion from '../direccion/Components/PopupAutoCompleteDireccion';
-import Model from '../../Model';
-import SSocket from 'servisofts-socket';
+import { SButtom, SGeolocation, SHr, SInput, SMapView, SNavigation, SNotification, SPage, SText, STheme, SView, SLanguage, SIcon } from 'servisofts-component';
 
 export default class select extends Component {
     map: SMapView;
@@ -12,8 +9,7 @@ export default class select extends Component {
         this.state = {
             latitude: SNavigation.getParam("latitude"),
             longitude: SNavigation.getParam("longitude"),
-            direccion: SNavigation.getParam("direccion"),
-            ready_to_geocode: false,
+            direccion: SNavigation.getParam("direccion")
         };
         this.onSelect = SNavigation.getParam("onSelect")
     }
@@ -24,10 +20,8 @@ export default class select extends Component {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
         let lenguaje = SLanguage.language;
         if (this.state.latitude || this.state.longitude) {
-
             this.map.animateToRegion({ latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 })
         } else {
-            this.ready_to_geocode = true;
             SGeolocation.getCurrentPosition({
 
             }).then(e => {
@@ -57,38 +51,8 @@ export default class select extends Component {
                 ref={ref => this.input = ref}
                 col={"xs-11"}
                 type='text'
-                // editable={false}
                 required={true}
                 defaultValue={this.state.direccion}
-                iconR={<SView width={30} center><SIcon name='Search' fill='#fff' width={20} height={20} /></SView>}
-                onPress={() => {
-                    SPopup.open({
-                        key: "autocomplete", content:
-                            <PopupAutoCompleteDireccion region={{
-                                latitude: -17.783327600000007,
-                                longitude: -63.182140799999985,
-                                // direccion: "Coronel Ignacio Warnes, Calle 24 de Septiembre, Bartos, Municipio Santa Cruz de la Sierra, Provincia Andrés Ibáñez, Santa Cruz, 3212, Bolivia",
-                            }} callback={(resp) => {
-                                SPopup.close("autocomplete");
-                                this.state.data = resp;
-                                console.log(resp)
-                                if (this.input) {
-                                    this.input.setValue(resp.direccion)
-                                }
-                                this.state.ready_to_geocode = false;
-                                // this.state.region = resp;
-                                this.map.animateToRegion({
-                                    ...resp,
-                                    latitudeDelta: 0.005,
-                                    longitudeDelta: 0.005
-                                }, 1000);
-
-                                // this.state.dirType = "autoComplete"
-                                // this.state.nombre = resp.direccion;
-                                this.setState({ ...this.state });
-                            }} />
-                    });
-                }}
                 // backgroundColor={"#00000000"}
                 // backgroundColor={STheme.color.white}
                 style={{
@@ -116,19 +80,6 @@ export default class select extends Component {
         </SView>
     }
 
-    geocode({ latitude, longitude }) {
-        return SSocket.sendPromise({
-            "version": "1.0",
-            "service": "geolocation",
-            "component": "locationGoogle",
-            "type": "geocode",
-            "estado": "cargando",
-            "data": {
-                "latitude": latitude,
-                "longitude": longitude
-            },
-        })
-    }
     render() {
         return <SPage disableScroll>
             <SView col={"xs-12"} height center>
@@ -136,16 +87,6 @@ export default class select extends Component {
                     showsUserLocation={true}
                     showsMyLocationButton={true}
                     onRegionChangeComplete={e => {
-                        // Model.locationGoogle.Action.geocode({ latitude: e.latitude, longitude: e.longitude })
-                        if (this.state.ready_to_geocode) {
-                            this.geocode({ latitude: e.latitude, longitude: e.longitude }).then(e => {
-                                const { direccion } = e.data
-                                this.input.setValue(direccion);
-                            })
-                        } else {
-                            this.state.ready_to_geocode = true;
-                        }
-
                         this.state.latitude = e.latitude
                         this.state.longitude = e.longitude
                         console.log(e)
