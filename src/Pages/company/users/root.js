@@ -81,15 +81,17 @@ export default class root extends Component {
             padding: 0,
             paddingLeft: 4,
             paddingRight: 4,
-            borderWidth: 1,
-            height: 14,
+            // borderWidth: 1,
+            height: 12,
             borderColor: staffTipo?.color ?? STheme.color.success,
             backgroundColor: (staffTipo?.color ?? STheme.color.success) + "44",
             borderRadius: 100,
             color: STheme.color.text,
             fontSize: 10,
-            marginRight: 8,
-        }} >{staffTipo?.descripcion}</Text>
+            marginRight: 4,
+            marginBottom: 2,
+            paddingBottom:1,
+        }} bold>{staffTipo?.descripcion}</Text>
     }
 
     render() {
@@ -116,7 +118,7 @@ export default class root extends Component {
                         if (!this.state.show_enabled && a.estado == 2) return false;
                         return true;
                     })}
-                    rowHeight={80}
+                    rowHeight={30}
                     header={[
                         { key: "index", label: "#", width: 20, component: (a) => <SView card padding={4}><SText fontSize={8}>{a}</SText></SView> },
                         {
@@ -135,9 +137,12 @@ export default class root extends Component {
                         { key: "usuario/employee_number", label: "Employee Number", width: 100 },
                         { key: "usuario/direccion", label: "Affress", width: 150 },
                         { key: "usuario/otros_idiomas", label: "Other Languages", width: 150 },
-                        { key: "fecha_on", label: "Fecha de registro", width: 150, cellStyle: { textAlign: "right", paddingRight: 4 }, render: (a) => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
+                        { key: "fecha_on", label: "Date added", width: 150, cellStyle: { textAlign: "right", paddingRight: 4 }, render: (a) => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
                         {
-                            key: "staff_tipo", label: "Position", width: 200,  component: (a) => <SView row> {(a ?? []).map(o => this.renderStaffTipo(o))} </SView>
+                            key: "staff_tipo", label: "Position", width: 600, component: (a) => {
+                                if (!a) return <SText>{""}</SText>;
+                                return <SView row col={"xs-12"}>{a.map(o => this.renderStaffTipo(o))}</SView>
+                            }
                         },
                     ]}
 
