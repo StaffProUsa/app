@@ -90,7 +90,7 @@ export default class root extends Component {
             fontSize: 10,
             marginRight: 4,
             marginBottom: 2,
-            paddingBottom:1,
+            paddingBottom: 1,
         }} bold>{staffTipo?.descripcion}</Text>
     }
 
@@ -139,9 +139,14 @@ export default class root extends Component {
                         { key: "usuario/otros_idiomas", label: "Other Languages", width: 150 },
                         { key: "fecha_on", label: "Date added", width: 150, cellStyle: { textAlign: "right", paddingRight: 4 }, render: (a) => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
                         {
-                            key: "staff_tipo", label: "Position", width: 600, component: (a) => {
+                            key: "staff_tipo", label: "Position", width: 600,
+                            component: (a) => {
                                 if (!a) return <SText>{""}</SText>;
                                 return <SView row col={"xs-12"}>{a.map(o => this.renderStaffTipo(o))}</SView>
+                            },
+                            renderExcel: (a) => {
+                                if (!a) return "";
+                                return a.map(b => b.descripcion)
                             }
                         },
                     ]}
