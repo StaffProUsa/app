@@ -29,8 +29,8 @@ export default class root extends Component {
         super(props);
         this.state = {
             key_company: SNavigation.getParam("key_company"),
-            show_disabled:true,
-            show_enabled:true,
+            show_disabled: true,
+            show_enabled: true,
             data: {}
         };
     }
@@ -84,7 +84,7 @@ export default class root extends Component {
                     this.state.show_disabled = !this.state.show_disabled
                     this.setState({ ...this.state })
                 }}>{"Show Disabled"}</SText>
-                <SView width={8}/>
+                <SView width={8} />
                 <SText card style={{
                     opacity: this.state.show_enabled ? 1 : 0.6,
                 }} fontSize={10} center padding={2} onPress={() => {
@@ -95,17 +95,18 @@ export default class root extends Component {
             <SView col={"xs-12"} flex>
                 <STable2
                     data={Object.values(this.state.data).filter(a => {
-                        if(!this.state.show_disabled && a.estado != 2) return false;
-                        if(!this.state.show_enabled && a.estado == 2) return false;
+                        if (!this.state.show_disabled && a.estado != 2) return false;
+                        if (!this.state.show_enabled && a.estado == 2) return false;
                         return true;
                     })}
                     rowHeight={30}
                     header={[
                         { key: "index", label: "#", width: 20, component: (a) => <SView card padding={4}><SText fontSize={8}>{a}</SText></SView> },
                         {
-                            key: "-estado", label: "Status", width: 40, component: (a) => this.renderEstado(a.estado), onPress: (a, b, c) => {
+                            key: "-estado", label: "Status", width: 40,
+                            component: (a) => this.renderEstado(a.estado), onPress: (a, b, c) => {
                                 this.handleChangeStatus(a)
-                            }
+                            }, renderExcel: (e) => e.estado == 2 ? "enabled" : "disabled"
                         },
                         { key: "usuario-name", label: "Full Name", order: "asc", width: 160, render: (a) => `${a.Nombres} ${a.Apellidos}` },
                         { key: "usuario/Telefono", label: "Phone Number", width: 100 },
