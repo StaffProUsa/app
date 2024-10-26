@@ -67,6 +67,7 @@ class index extends DPA.profile {
                 <MenuButtom label={SLanguage.select({ en: "Client", es: "Cliente" })} url='/cliente' params={{ key_company: this.pk }} icon={<SIcon name='ubicacionesA' />} />
                 <MenuButtom label={SLanguage.select({ en: "Type Staff", es: "Staff Tipo" })} url='/company/profile/staff_tipo' params={{ pk: this.pk }} icon={<SIcon name='staffTipoA' />} />
                 <MenuButtom label={SLanguage.select({ en: "Users", es: "Usuarios" })} url='/company/roles' params={{ key_company: this.pk }} icon={<SIcon name='usuariosA' />} />
+                <MenuButtom label={SLanguage.select({ en: "Users Table", es: "Usuarios tabla" })} url='/company/users' params={{ key_company: this.pk }} icon={<SIcon name='Excel' />} />
                 {/* <MenuButtom label='Eventos' url='/company/eventos' params={{ key_company: this.pk }} icon={<SIcon name='eventA' />} /> */}
 
             </MenuPages>
