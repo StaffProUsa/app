@@ -297,7 +297,17 @@ class Perfil extends React.Component {
       <>
         <SView col={'xs-12'} border={this.bgborder} center row>
           <SView col={"xs-12"} center>
+            <SView width={40} height={40} style={{
+              borderRadius: 8,
+              overflow: "hidden"
+            }}>
+              <SImage src={SSocket.api.root + "cliente/" + DATA?.cliente?.key} style={{ resizeMode:"cover"}} />
+            </SView>
             <SText col={"xs-8"} center color={STheme.color.text} bold font={'Roboto'} fontSize={24}>
+              {DATA?.cliente?.descripcion}
+            </SText>
+            <SHr h={4} />
+            <SText col={"xs-8"} center color={STheme.color.text} bold font={'Roboto'} fontSize={20}>
               {DATA.descripcion}
             </SText>
             <SHr height={15} />

@@ -73,6 +73,10 @@ class index extends Component {
     let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
     let isInvitation = (obj?.staff_usuario?.estado == 2)
 
+    const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
+    const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss");
+    const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
+    const timerun = sdate.isBefore(new SDate())
     console.log("obj", obj)
     return <SView col={"xs-12"} padding={8} style={{
       borderRadius: 16,
@@ -132,6 +136,21 @@ class index extends Component {
         <SView col={"xs-2 sm-2"} row >
           {/* <SIcon name={"eventi"} fill={STheme.color.gray} width={12} /> */}
           <SText fontSize={12} color={STheme.color.gray} language={{
+            es: "Cliente: ",
+            en: "Client: "
+          }} />
+        </SView>
+        <SView col={"xs-10 sm-4.5"}  >
+          <SText fontSize={12}>{obj?.cliente?.descripcion}</SText>
+        </SView>
+        {/* <SHr height={5} /> */}
+        <SView col={"xs-12 sm-0.5"} height={10} />
+      </SView>
+      <SHr h={4} />
+      <SView row col={"xs-12"}>
+        <SView col={"xs-2 sm-2"} row >
+          {/* <SIcon name={"eventi"} fill={STheme.color.gray} width={12} /> */}
+          <SText fontSize={12} color={STheme.color.gray} language={{
             es: "Evento: ",
             en: "Event: "
           }} />
@@ -166,7 +185,8 @@ class index extends Component {
         <SText fontSize={12}>{obj?.asistencia_staff_usuario ? obj?.asistencia_staff_usuario.length : 0}</SText>
       </SView> */}
       <SHr h={4} />
-      <SLoad type='bar' />
+      {timerun ? <SLoad type='bar' /> : null}
+
       <SHr h={4} />
       <SView withoutFeedback>
         <SText onPress={() => {

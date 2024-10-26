@@ -189,10 +189,10 @@ export default class TrabajosDelEvento extends Component {
                         filter={a => a.staff_usuario != null}
                         render={this.item.bind(this)}
                     />
-                    <SText padding={10} language={{
+                    {/* <SText padding={10} language={{
                         es: "Puede seleccionar los trabajos en los que desea participar en el evento desde la lista superior. Su selección nos permitirá asignarle las tareas que más le interesen.",
                         en: "You can select the jobs you wish to participate in for the event from the list above. Your selection will allow us to assign you the tasks that interest you the most."
-                    }} color={STheme.color.warning} fontSize={10} />
+                    }} color={STheme.color.warning} fontSize={10} /> */}
                     <SHr height={8} />
                 </SView>
             </SView>

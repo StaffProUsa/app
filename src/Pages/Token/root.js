@@ -165,6 +165,18 @@ export default class root extends Component {
             })
             return null;
           }
+          SNotification.send({
+            key: "asistencia",
+            title: SLanguage.select({
+              en: "Performing Attendance",
+              es: "Realizando asistencia"
+            }),
+            body: SLanguage.select({
+              en: "Please wait a moment",
+              es: "Espere un momento"
+            }),
+            type: "loading",
+          })
           SSocket.sendPromise({
             component: "asistencia",
             type: "asistir",
@@ -172,6 +184,7 @@ export default class root extends Component {
             key_usuario: Model.usuario.Action.getKey(),
           }).then(e => {
             SNotification.send({
+              key: "asistencia",
               title: "Exito",
               body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
               time: 5000
@@ -179,6 +192,7 @@ export default class root extends Component {
             SNavigation.navigate("/token/exito")
           }).catch(e => {
             SNotification.send({
+              key: "asistencia",
               title: "Error",
               body: (lenguaje == "es") ? "No se pudo realizar la asistencia." : "The assistance could not be carried out.",
               color: STheme.color.danger,
