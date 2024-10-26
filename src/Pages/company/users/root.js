@@ -75,6 +75,23 @@ export default class root extends Component {
 
         })
     }
+
+    renderStaffTipo(staffTipo) {
+        return <Text style={{
+            padding: 0,
+            paddingLeft: 4,
+            paddingRight: 4,
+            borderWidth: 1,
+            height: 14,
+            borderColor: staffTipo?.color ?? STheme.color.success,
+            backgroundColor: (staffTipo?.color ?? STheme.color.success) + "44",
+            borderRadius: 100,
+            color: STheme.color.text,
+            fontSize: 10,
+            marginRight: 8,
+        }} >{staffTipo?.descripcion}</Text>
+    }
+
     render() {
         return <SPage title={"Users"} disableScroll>
             <SView col={"xs-12"} height={20} row>
@@ -99,7 +116,7 @@ export default class root extends Component {
                         if (!this.state.show_enabled && a.estado == 2) return false;
                         return true;
                     })}
-                    rowHeight={30}
+                    rowHeight={80}
                     header={[
                         { key: "index", label: "#", width: 20, component: (a) => <SView card padding={4}><SText fontSize={8}>{a}</SText></SView> },
                         {
@@ -119,6 +136,9 @@ export default class root extends Component {
                         { key: "usuario/direccion", label: "Affress", width: 150 },
                         { key: "usuario/otros_idiomas", label: "Other Languages", width: 150 },
                         { key: "fecha_on", label: "Fecha de registro", width: 150, cellStyle: { textAlign: "right", paddingRight: 4 }, render: (a) => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
+                        {
+                            key: "staff_tipo", label: "Position", width: 200,  component: (a) => <SView row> {(a ?? []).map(o => this.renderStaffTipo(o))} </SView>
+                        },
                     ]}
 
                 />
