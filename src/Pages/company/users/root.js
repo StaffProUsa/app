@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SInput, SNavigation, SPage, STable, STable2, SText, STheme, SView } from 'servisofts-component';
+import { SDate, SIcon, SInput, SNavigation, SPage, STable, STable2, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../../../Model';
 
@@ -121,6 +121,7 @@ export default class root extends Component {
                     rowHeight={30}
                     header={[
                         { key: "index", label: "#", width: 20, component: (a) => <SView card padding={4}><SText fontSize={8}>{a}</SText></SView> },
+                        { key: "usuario/key", label: "Edit", width: 40, component: (a) => <SView card padding={4} onPress={()=>{SNavigation.navigate("/usuario/edit",{pk:a})}}><SIcon name='Edit' width={20} height={20}/></SView> },
                         {
                             key: "-estado", label: "Status", width: 40,
                             component: (a) => this.renderEstado(a.estado), onPress: (a, b, c) => {
