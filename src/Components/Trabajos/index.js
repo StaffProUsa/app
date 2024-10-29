@@ -191,6 +191,30 @@ class index extends Component {
       <SView withoutFeedback>
         <SText onPress={() => {
           console.log("aho ksa kas ")
+          // SSocket.sendPromise({
+          //   component: "asistencia",
+          //   type: "asistir",
+          //   // codigo: code,
+          //   key_usuario: Model.usuario.Action.getKey(),
+          //   key_evento: obj?.evento?.key,
+          // }).then(e => {
+          //   SNotification.send({
+          //     key: "asistencia",
+          //     title: "Exito",
+          //     body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
+          //     time: 5000
+          //   })
+          //   SNavigation.navigate("/token/exito")
+          // }).catch(e => {
+          //   SNotification.send({
+          //     key: "asistencia",
+          //     title: "Error",
+          //     body: (lenguaje == "es") ? "No se pudo realizar la asistencia." : "The assistance could not be carried out.",
+          //     color: STheme.color.danger,
+          //     time: 5000
+          //   })
+          //   console.error(e);
+          // })
         }} underLine>{"Clock in"}</SText>
       </SView>
     </SView>
