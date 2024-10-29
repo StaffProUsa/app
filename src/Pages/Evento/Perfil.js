@@ -168,6 +168,7 @@ class Perfil extends React.Component {
   getFecha() {
     var DATA = this.state.data;
     if (!DATA) return <SLoad />;
+    console.log("data fecha", DATA.fecha);
     return (
       <>
         {/* <SView width={70} center height={125} style={{ top: 40, right: 0, position: "absolute", }} border={"transparent"} >
@@ -179,7 +180,7 @@ class Perfil extends React.Component {
       </SView> */}
         <PFecha
           dia={new SDate(DATA.fecha).toString('dd')}
-          mes={new SDate(DATA.fecha).toString('MONTH')}
+          mes={new SDate(DATA.fecha).getMonth()}
           backgroundColor={STheme.color.secondary}
           position='top'
           spacing={10}

@@ -138,6 +138,10 @@ export default class TrabajosDelEvento extends Component {
         console.log("ESTE LOG ES", obj)
         const { key_staff_tipo, staff_tipo, descripcion, fecha_inicio, fecha_fin, asistencia, fecha_evento, staff_usuario } = obj
         const fecha_start_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")
+        let fecha_end_str = null;
+        if (fecha_fin != null) {
+             fecha_end_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")
+        }
         return <SView col={"xs-12"} row padding={10} >
             <SView col={"xs-1.5"} row>
                 <SView width={60} height={60} style={{ borderRadius: 4, overflow: "hidden", backgroundColor: STheme.color.card }}>
@@ -158,10 +162,10 @@ export default class TrabajosDelEvento extends Component {
                     en: `Start ${fecha_start_str}`,
                     es: `Desde ${fecha_start_str}`
                 }} />
-                <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={11} color={STheme.color.text} language={{
-                    en: `End ${fecha_start_str}`,
-                    es: `Hasta ${fecha_start_str}`
-                }} />
+                {fecha_fin != null ? <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={11} color={STheme.color.text} language={{
+                    en: `End ${fecha_end_str}`,
+                    es: `Hasta ${fecha_end_str}`
+                }} /> : null}
                 <SHr h={8} />
                 <SHr h={1} color={STheme.color.lightGray} />
             </SView>

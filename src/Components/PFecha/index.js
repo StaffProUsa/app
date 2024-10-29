@@ -13,19 +13,19 @@ class PFecha extends Component {
   getMes() {
     var mes = this.props.mes
     switch (mes) {
-      case 'Enero': return 'Ene';
-      case 'Febrero': return 'Feb';
-      case 'Marzo': return 'Mar';
-      case 'Abril': return 'Abr';
-      case 'Mayo': return 'May';
-      case 'Junio': return 'Jun';
-      case 'Julio': return 'Jul';
-      case 'Agosto': return 'Ago';
-      case 'Septiembre': return 'Sep';
-      case 'Octubre': return 'Oct';
-      case 'Noviembre': return 'Nov';
-      case 'Diciembre': return 'Dic';
-      default: return 'Ene';
+      case 1: return 'Ene';
+      case 2: return 'Feb';
+      case 3: return 'Mar';
+      case 4: return 'Abr';
+      case 5: return 'May';
+      case 6: return 'Jun';
+      case 7: return 'Jul';
+      case 8: return 'Ago';
+      case 9: return 'Sep';
+      case 10: return 'Oct';
+      case 11: return 'Nov';
+      case 12: return 'Dic';
+      // default: return 'Ene';
     }
   }
 
