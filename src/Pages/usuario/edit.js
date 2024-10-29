@@ -26,7 +26,7 @@ class index extends DPA.edit {
         inputs["Correo"].type = "email"
         inputs["Telefono"].type = "phone"
         inputs["papeles"].type = "checkBox"
-        
+
         inputs["estado_civil"].onPress = (e) => {
             InputFloat.open({
                 e: e,
@@ -70,7 +70,9 @@ class index extends DPA.edit {
         return inputs;
     }
     $onSubmit(data) {
-        data["Password"] = CryptoJS.MD5(data["Password"]).toString();
+
+        if (data["Password"] != this.data["Password"]) data["Password"] = CryptoJS.MD5(data["Password"]).toString();
+
 
         Parent.model.Action.editar({
             data: {
