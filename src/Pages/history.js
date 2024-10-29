@@ -150,7 +150,10 @@ export default class history extends Component {
                         overflow: "hidden",
                     }}>
                         <SImage src={SSocket.api.root + "staff_tipo/" + obj?.staff_tipo?.key} style={{
-                            resizeMode: "cover",
+                            resizeMode: "cover", zIndex: 9
+                        }} />
+                        <SImage src={require('../Assets/images/noImage.jpg')} style={{
+                            resizeMode: "cover", position: "absolute"
                         }} />
                     </SView>
                 </SView>
@@ -210,62 +213,6 @@ export default class history extends Component {
                 <this.CardResumen title={SLanguage.select({ es: "Eventos completados", en: "Completed events" })} value={eventos_completados} color={"#33BE5B"} icon={"hisCompleted"} />
                 <this.CardResumen title={SLanguage.select({ es: "Eventos asistidos", en: "Events attended" })} value={eventos_asistidos} color={"#511B8D"} icon={"asistido"} />
                 <this.CardResumen title={SLanguage.select({ es: "Eventos no asistidos", en: "Unattended events" })} value={eventos_no_asistidos} color={"#566471"} icon={"noAsistido"} />
-                {/* <SView col={"xs-6"} row style={{ paddingRight: 5 }}>
-                    <SView col={"xs-12"} row style={{
-                        borderWidth: 1,
-                        borderColor: STheme.color.lightGray,
-                        borderRadius: 16,
-                        overflow: "hidden",
-                    }}>
-                        <Degradado />
-                        <SView col={"xs-12"} padding={10}>
-                            <SText fontSize={18} color={STheme.color.text}>
-                                Total events
-                            </SText>
-                        </SView>
-
-                        <SView col={"xs-8"} center padding={10}>
-                            <SText fontSize={30} center>
-                                15
-                            </SText>
-                        </SView>
-                        <SView col={"xs-4"} center style={{
-                            backgroundColor: "#C09C0C",
-                            borderBottomLeftRadius: 50,
-                            borderTopLeftRadius: 50,
-                        }}>
-                            <SIcon name={"hisEvent"} fill={STheme.color.white} width={30} />
-                        </SView>
-                    </SView>
-                </SView>
-                <SView col={"xs-6"} row style={{ paddingLeft: 5 }}>
-                    <SView col={"xs-12"} row style={{
-                        borderWidth: 1,
-                        borderColor: STheme.color.lightGray,
-                        borderRadius: 16,
-                        overflow: "hidden",
-                    }}>
-                        <Degradado />
-                        <SView col={"xs-12"} padding={10}>
-                            <SText fontSize={18} color={STheme.color.text}>
-                                Completed
-                            </SText>
-                        </SView>
-
-                        <SView col={"xs-8"} center padding={10}>
-                            <SText fontSize={30} center>
-                                12
-                            </SText>
-                        </SView>
-                        <SView col={"xs-4"} center style={{
-                            backgroundColor: "#33BE5B",
-                            borderBottomLeftRadius: 50,
-                            borderTopLeftRadius: 50,
-                        }}>
-                            <SIcon name={"hisCompleted"} fill={STheme.color.white} width={30} />
-                        </SView>
-                    </SView>
-                </SView> */}
             </SView>
         </>
     }
