@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
-import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate, SNavigation } from 'servisofts-component';
+import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate, SNavigation, SLoad } from 'servisofts-component';
 import { Container } from '../Components';
 import Degradado from '../Components/Degradado';
 import PBarraFooter from '../Components/PBarraFooter';
+import Card from 'servisofts-component/img/Card';
 
 export default class history extends Component {
     constructor(props) {
@@ -13,7 +14,12 @@ export default class history extends Component {
         this.state = {
         };
     }
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+    
         SSocket.sendPromise({
             component: "staff_usuario",
             type: "getMisTrabajos",
@@ -33,6 +39,19 @@ export default class history extends Component {
         // }).catch(e => {
         //     console.error(e);
         // })
+
+        SSocket.sendPromise({
+            component: "staff_usuario",
+            type: "getHistorico",
+            key_usuario: Model.usuario.Action.getKey()
+        }).then(e => {
+            this.setState({ dataResumen: e.data })
+        }).catch(e => {
+            console.error(e);
+        })
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
     }
 
     getPerfil() {
@@ -149,11 +168,49 @@ export default class history extends Component {
             </SView>
         }} />
     }
+    CardResumen({ title, value, color, icon }) {
+        return <SView col={"xs-6"} row style={{ paddingRight: 5, paddingBottom:5 }}>
+            <SView col={"xs-12"} row style={{
+                borderWidth: 1,
+                borderColor: STheme.color.lightGray,
+                borderRadius: 16,
+                overflow: "hidden",
+            }}>
+                <Degradado />
+                <SView col={"xs-12"} padding={10}>
+                    <SText fontSize={18} color={STheme.color.text}>
+                        {title}
+                    </SText>
+                </SView>
+
+                <SView col={"xs-8"} center padding={10}>
+                    <SText fontSize={30} center>
+                        {value}
+                    </SText>
+                </SView>
+                <SView col={"xs-4"} center style={{
+                    backgroundColor: color,
+                    borderBottomLeftRadius: 50,
+                    borderTopLeftRadius: 50,
+                }}>
+                    <SIcon name={icon} fill={STheme.color.white} width={30} />
+                </SView>
+            </SView>
+        </SView>
+    }
+
+
 
     getResumen() {
+        // if (!this.state.dataResumen) return <SLoad/>
+        const { eventos, eventos_asistidos, eventos_completados, eventos_no_asistidos } = this.state.dataResumen ?? {}
         return <>
             <SView col={"xs-12"} row>
-                <SView col={"xs-6"} row style={{ paddingRight: 5 }}>
+                <this.CardResumen title={SLanguage.select({ es: "Total eventos", en: "Total events" })} value={eventos} color={"#C09C0C"} icon={"hisEvent"} />
+                <this.CardResumen title={SLanguage.select({ es: "Eventos completados", en: "Completed events" })} value={eventos_completados} color={"#33BE5B"} icon={"hisCompleted"} />
+                <this.CardResumen title={SLanguage.select({ es: "Eventos asistidos", en: "Events attended" })} value={eventos_asistidos} color={"#511B8D"} icon={"asistido"} />
+                <this.CardResumen title={SLanguage.select({ es: "Eventos no asistidos", en: "Unattended events" })} value={eventos_no_asistidos} color={"#566471"} icon={"noAsistido"} />
+                {/* <SView col={"xs-6"} row style={{ paddingRight: 5 }}>
                     <SView col={"xs-12"} row style={{
                         borderWidth: 1,
                         borderColor: STheme.color.lightGray,
@@ -208,7 +265,7 @@ export default class history extends Component {
                             <SIcon name={"hisCompleted"} fill={STheme.color.white} width={30} />
                         </SView>
                     </SView>
-                </SView>
+                </SView> */}
             </SView>
         </>
     }

@@ -29,6 +29,9 @@ import aptitud, { ReactComponent as aptitudW } from './svg/aptitud.svg';
 import checkAll, { ReactComponent as checkAllW } from './svg/checkAll.svg';
 import posicion, { ReactComponent as posicionW } from './svg/posicion.svg';
 import editar, { ReactComponent as editarW } from './svg/editar.svg';
+import asistido, { ReactComponent as asistidoW } from './svg/asistido.svg';
+import noAsistido, { ReactComponent as noAsistidoW } from './svg/noAsistido.svg';
+
 
 
 import { Use } from 'react-native-svg';
@@ -49,6 +52,8 @@ const Assets: SAssets = {
         "checkAll": { Native: checkAll, Web: checkAllW },
         "posicion": { Native: posicion, Web: posicionW },
         "editar": { Native: editar, Web: editarW },
+        "asistido": { Native: asistido, Web: asistidoW },
+        "noAsistido": { Native: noAsistido, Web: noAsistidoW },
         ...Inicio,
         ...Camara,
         ...restaurante,

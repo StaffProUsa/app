@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from '.';
-import { SNavigation, SPopup } from 'servisofts-component';
+import { SNavigation, SPopup, STheme, SView } from 'servisofts-component';
 import Model from '../../Model';
 // import DatosDocumentosEditar from './Components/DatosDocumentosEditar';
 import CryptoJS from 'crypto-js';
+import InputSelect from '../../Components/NuevoInputs/InputSelect';
+import InputFloat from '../../Components/NuevoInputs/InputFloat';
 class index extends DPA.edit {
     constructor(props) {
         super(props, {
@@ -22,12 +24,54 @@ class index extends DPA.edit {
         var inputs = super.$inputs();
         inputs["Password"].type = "password"
         inputs["Correo"].type = "email"
-
-        // inputs["Telefono"].type = "phone"
+        inputs["Telefono"].type = "phone"
+        inputs["papeles"].type = "checkBox"
+        
+        inputs["estado_civil"].onPress = (e) => {
+            InputFloat.open({
+                e: e,
+                height: 180,
+                width: 150,
+                style: {
+                    backgroundColor: STheme.color.background
+                },
+                render: () => {
+                    return <SView col={"xs-12"} flex card>
+                        <InputSelect
+                            data={["SINGLE", "MARRIED", "DIVORCED", "WIDOWED", "SEPARATED", "OTHER"]}
+                            onChange={val => {
+                                this.form.setValues({ "estado_civil": val })
+                            }}
+                            ITEM_HEIGHT={30} />
+                    </SView>
+                }
+            })
+        }
+        inputs["nivel_ingles"].onPress = (e) => {
+            InputFloat.open({
+                e: e,
+                height: 180,
+                width: 150,
+                style: {
+                    backgroundColor: STheme.color.background
+                },
+                render: () => {
+                    return <SView col={"xs-12"} flex card>
+                        <InputSelect
+                            data={["NONE", "BASIC", "MEDIUM", "ADVANCED"]}
+                            onChange={val => {
+                                this.form.setValues({ "nivel_ingles": val })
+                            }}
+                            ITEM_HEIGHT={30} />
+                    </SView>
+                }
+            })
+        }
         return inputs;
     }
     $onSubmit(data) {
         data["Password"] = CryptoJS.MD5(data["Password"]).toString();
+
         Parent.model.Action.editar({
             data: {
                 ...this.data,
