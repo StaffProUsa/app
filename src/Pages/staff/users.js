@@ -229,7 +229,7 @@ export default class users extends Component {
         if (!this.state.data_disponibles) return;
         const selecteds = this.state.data_disponibles.filter(a => !!a._select).map(a => a.key_usuario)
         if (selecteds.length <= 0) return;
-        return <SView card padding={4} width={100} center
+        return <SView card padding={4} width={100} center row
             style={{
                 backgroundColor: STheme.color.warning,
                 position: "absolute",
@@ -237,7 +237,8 @@ export default class users extends Component {
             onPress={() => {
                 this.handleInvitarArray(selecteds)
             }}>
-            <SText bold>Invitar {selecteds.length}</SText>
+            <SText bold language={{es:"Invitar", en:"Invite"}}/> 
+            <SText bold > {selecteds.length}</SText>
         </SView>
     }
     render() {

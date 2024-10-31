@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { SGradient, SHr, SIcon, SPage, SText, STheme, SView } from 'servisofts-component';
 import PBarraFooter from '../../Components/PBarraFooter';
 import { Container } from '../../Components';
+import Degradado from '../../Components/Degradado';
 
 export default class exito extends Component {
     constructor(props) {
@@ -20,10 +21,11 @@ export default class exito extends Component {
                             padding: 20,
                             borderRadius: 16,
                             borderWidth: 1,
-                            borderColor: STheme.color.darkGray,
+                            borderColor: STheme.color.lightGray,
                             overflow: 'hidden',
                         }}>
-                        <SGradient colors={["#0C0C10", "#040405"]} style={{ borderRadius: 16, }} />
+                        {/* <SGradient colors={["#0C0C10", "#040405"]} style={{ borderRadius: 16, }} />  */}
+                        <Degradado />
                         <SHr height={25} />
                         <SText fontSize={28} center language={{
                             es: "¡Inicio de asistencia exitosa!",
@@ -56,7 +58,7 @@ export default class exito extends Component {
                         <SHr height={25} />
                     </SView>
                 </Container>
-                <SHr height={45} />
+                <SHr height={75} />
             </SView>
         </SPage>
     }

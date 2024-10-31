@@ -56,7 +56,7 @@ export default class root extends Component {
             style={{
                 borderRadius: 2
             }} >
-            <SText fontSize={6} bold>{val.text}</SText>
+            <SText fontSize={6} bold color={STheme.color.white}>{val.text}</SText>
         </SView>
     }
     handleChangeStatus(obj) {

@@ -548,7 +548,7 @@ export default class add extends Component {
                         // defaultValue={data.nombre}
                         label={(lenguaje == "es") ? "Número de teléfono" : "Phone number"}
                         // info={"El número que ingreses debe estar registrado en la App"}
-                        placeholder={"+591 0000000"}
+                        placeholder={"+1 (000) 000-0000"}
                         onChangeText={(e) => {
                             if (e.length > 6) {
                                 this.buscar_usuario(e, "telefono")

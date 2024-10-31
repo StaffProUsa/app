@@ -28,6 +28,8 @@ class index extends DPA.new {
         inp["telefono"].type = "phone";
         inp["contacto"].col = "xs-7"
         inp["telefono"].col = "xs-4.5"
+        //inp["telefono"].value = "+1 ";
+        inp["telefono"].defaultValue = "+1 ";
         return inp;
     }
     $onSubmit(data) {
