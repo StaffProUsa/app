@@ -295,6 +295,7 @@ class Perfil extends React.Component {
       currentActivity = arr.find(a => a.key == this.state.foto_id)
     }
     return (
+      console.log("dataaaaa ", DATA),
       <>
         <SView col={'xs-12'} border={this.bgborder} center row>
           <SView col={"xs-12"} center>
@@ -302,7 +303,7 @@ class Perfil extends React.Component {
               borderRadius: 8,
               overflow: "hidden"
             }}>
-              <SImage src={SSocket.api.root + "cliente/" + DATA?.cliente?.key} style={{ resizeMode:"cover"}} />
+              <SImage src={SSocket.api.root + "cliente/" + DATA?.cliente?.key} style={{ resizeMode: "cover" }} />
             </SView>
             <SText col={"xs-8"} center color={STheme.color.text} bold font={'Roboto'} fontSize={24}>
               {DATA?.cliente?.descripcion}
@@ -328,6 +329,7 @@ class Perfil extends React.Component {
             }} />
             <SHr height={15} />
           </SView>
+          <SHr h={1} color={STheme.color.lightGray} />
           {!currentActivity ? null : <>
             <SView col={"xs-11.5"} height={355}>
               {currentActivity?.tipo == "video" ?
@@ -411,7 +413,7 @@ class Perfil extends React.Component {
               // backgroundColor: STheme.color.card,
               borderRadius: 4,
             }}>
-            <SHr />
+            <SHr height={20} />
             <SView col={"xs-12"}>
               <TextWithLink
                 // center
@@ -422,8 +424,45 @@ class Perfil extends React.Component {
                 {DATA.observacion}
               </TextWithLink>
             </SView>
+            <SHr height={20} />
+            <SHr h={1} color={STheme.color.lightGray} />
+            <SHr height={20} />
+            <SView col={"xs-12"} row>
+              <SView col={"xs-6"}>
+                <SText fontSize={16} bold justify language={{
+                  es: "Fecha",
+                  en: "Date"
+                }} />
+                <SText fontSize={18} justify>{new SDate(DATA?.fecha).toString("MM-dd-yyyy")}</SText>
+              </SView>
 
-            <SHr />
+              <SView col={"xs-6"} style={{
+                borderLeftWidth: 1,
+                borderLeftColor: STheme.color.lightGray
+              }}>
+                <SText fontSize={16} center bold justify language={{
+                  es: "Autorización para trabajar en USA",
+                  en: "Work authorization in USA"
+                }} style={{
+                  paddingLeft: 5
+                }} />
+                <SText center fontSize={18} justify>{(DATA?.cliente?.papeles) ? SLanguage.select({ es: "SÍ", en: "YES" })  : "NO"}</SText>
+              </SView>
+            </SView>
+
+            <SHr height={20} />
+            <SHr h={1} color={STheme.color.lightGray} />
+            <SHr height={20} />
+
+            <SView col={"xs-12"}>
+              <SText fontSize={16} bold justify language={{
+                es: "Más información",
+                en: "More information"
+              }} />
+              <SText fontSize={16} justify>{(DATA?.cliente?.observacion)}</SText>
+            </SView>
+
+
             {/* MOSTRAR EN COMPANY */}
             {/* <SView row center col={"xs-12"}>
               <SView flex />
@@ -530,7 +569,7 @@ class Perfil extends React.Component {
 
   render() {
     // if (!this.state.ready) return <SLoad />
-    console.log("data ubicacion", this.state.data);
+    // console.log("data ubicacion", this.state.data);
     return (
       <>
         <SPage onRefresh={e => {
@@ -574,7 +613,8 @@ class Perfil extends React.Component {
                   <SHr height={15} />
                 </SView> */}
 
-                <SHr height={30} />
+                <SHr h={1} color={STheme.color.lightGray} />
+                <SHr height={20} />
 
                 {/* STAFF ASISTENCIA */}
                 {/* <SView col={'xs-11.5'}>

@@ -136,11 +136,11 @@ export default class TrabajosDelEvento extends Component {
         let fecha_ini = new Date(obj.fecha_inicio);
         let fecha_fi = new Date(obj.fecha_fin);
         console.log("ESTE LOG ES", obj)
-        const { key_staff_tipo, staff_tipo, descripcion, fecha_inicio, fecha_fin, asistencia, fecha_evento, staff_usuario } = obj
+        const { key_staff_tipo, staff_tipo, nivel_ingles, descripcion, fecha_inicio, fecha_fin, asistencia, fecha_evento, staff_usuario } = obj
         const fecha_start_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")
         let fecha_end_str = null;
         if (fecha_fin != null) {
-             fecha_end_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")
+            fecha_end_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")
         }
         return <SView col={"xs-12"} row padding={10} >
             <SView col={"xs-1.5"} row>
@@ -150,35 +150,102 @@ export default class TrabajosDelEvento extends Component {
             </SView>
             <SView col={"xs-12 sm-10.5"} row>
                 <SView col={"xs-7 sm-8"}>
-                    <SText fontSize={16}>{staff_tipo}</SText>
+                    <SText fontSize={16} bold>{staff_tipo}</SText>
                     <SText fontSize={14} color={STheme.color.text}>{descripcion}</SText>
                 </SView>
                 <SView col={"xs-5 sm-4"} style={{ alignItems: "flex-end" }}>
                     {this.renderStaffUsuario(obj)}
                     {!asistencia ? null : <SText fontSize={12} color={STheme.color.success} language={{ en: "Marked Assistance", es: "Asistencia Marcada" }} />}
                 </SView>
-                <SHr h={4} />
-                <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={11} color={STheme.color.text} language={{
+                <SHr h={10} />
+
+                {/* <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={11} color={STheme.color.text} language={{
                     en: `Start ${fecha_start_str}`,
                     es: `Desde ${fecha_start_str}`
                 }} />
                 {fecha_fin != null ? <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={11} color={STheme.color.text} language={{
                     en: `End ${fecha_end_str}`,
                     es: `Hasta ${fecha_end_str}`
-                }} /> : null}
-                <SHr h={8} />
-                <SHr h={1} color={STheme.color.lightGray} />
+                }} /> : null} */}
+                <SHr h={10} />
+                {/* <SHr h={1} color={STheme.color.lightGray} /> */}
             </SView>
+            <SHr h={10} />
+            <SView col={"xs-12"} >
+                <SHr h={1} color={STheme.color.lightGray} />
+                <SHr height={10} />
+                <SView col={"xs-12"} row>
+                    <SView col={"xs-4"} center style={{
+                        borderRightWidth: 1,
+                        borderColor: STheme.color.lightGray
+                    }}>
+                        <SText fontSize={12} language={{
+                            es: `Nivel de inglés`,
+                            en: `English level`
+                        }} />
+                        <SText fontSize={14} bold color={STheme.color.text}>{nivel_ingles}</SText>
+                    </SView>
+                    <SView col={"xs-4"} center>
+                        <SText fontSize={12} language={{
+                            es: `Hora Inicio`,
+                            en: `Start time`
+                        }} />
+                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                    </SView>
+                    {fecha_fin != null ? <SView col={"xs-4"} center style={{
+                        borderLeftWidth: 1,
+                        borderColor: STheme.color.lightGray
+                    }}>
+                        <SText fontSize={12} language={{
+                            es: `Hora Fin`,
+                            en: `End time`
+                        }} />
+                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                    </SView> : null}
+                </SView>
+            </SView>
+
+            {asistencia ? <SView col={"xs-12"} >
+                <SHr height={10} />
+                <SHr h={1} color={STheme.color.lightGray} />
+                <SHr height={10} />
+                <SText col={"xs-12"} bold fontSize={14} language={{
+                    es: `Información de asistencia:`,
+                    en: `Attendance information:`
+                }} />
+                <SHr height={10} />
+                <SView col={"xs-12"} row>
+                    <SView col={asistencia?.fecha_off != null ? "xs-6" : "xs-12"} center>
+                        <SText fontSize={12} language={{
+                            es: `Ingreso`,
+                            en: `Income`
+                        }} />
+                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(asistencia?.fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                    </SView>
+                    {asistencia?.fecha_off != null ? <SView col={"xs-6"} center style={{
+                        borderLeftWidth: 1,
+                        borderColor: STheme.color.lightGray
+                    }}>
+                        <SText fontSize={12} language={{
+                            es: `Salida`,
+                            en: `Exit`
+                        }} />
+                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(asistencia?.fecha_off, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                    </SView> : null}
+                </SView>
+            </SView> : null}
+
         </SView>
     }
 
     render() {
         if (!this.state.data) return null;
+        console.log("Trabajos", this.state.data)
         if (Object.values(this.state.data).length <= 0) return <SText>{"No hay trabajos para el evento"}</SText>
 
         return (
             <SView col={'xs-12'} >
-                <SText language={{ en: "Works", es: "Trabajos" }} fontSize={16} bold />
+                <SText col={'xs-12'} language={{ en: "Works", es: "Trabajos" }} fontSize={16} bold />
                 <SHr />
                 <SView card col={'xs-12'} style={{ borderRadius: 8, overflow: "hidden", borderWidth: 1, borderColor: STheme.color.lightGray }} center>
                     {/* <SGradient
@@ -197,7 +264,7 @@ export default class TrabajosDelEvento extends Component {
                         es: "Puede seleccionar los trabajos en los que desea participar en el evento desde la lista superior. Su selección nos permitirá asignarle las tareas que más le interesen.",
                         en: "You can select the jobs you wish to participate in for the event from the list above. Your selection will allow us to assign you the tasks that interest you the most."
                     }} color={STheme.color.warning} fontSize={10} /> */}
-                    <SHr height={8} />
+                    {/* <SHr height={8} /> */}
                 </SView>
             </SView>
         );

@@ -37,7 +37,7 @@ class index extends Component {
     })
   }
 
-  build_horario(obj) {
+  build_horario_(obj) {
     return <SView col={"xs-12"}>
       {/* <SView row >
         <SText fontSize={12} color={STheme.color.gray} language={{
@@ -65,6 +65,71 @@ class index extends Component {
         }} />
         <SText fontSize={10}>{new SDate(obj?.staff?.fecha_fin).toString("DAY dd de MON, hh:mm")}</SText>
       </SView> */}
+    </SView>
+  }
+
+  build_horario(obj) {
+    return <SView col={"xs-12"} row>
+      <SView col={"xs-4"} center >
+        <SText fontSize={12} color={STheme.color.gray} language={{
+          es: "Fecha",
+          en: "Date"
+        }} />
+        <SText bold fontSize={16}>{new SDate(obj?.evento?.fecha, "yyyy-MM-dd").toString('MM-dd-yyyy')}</SText>
+      </SView>
+      <SView col={"xs-4"} center style={{
+        borderLeftWidth: 1,
+        borderColor: STheme.color.lightGray
+      }}>
+        <SText fontSize={12} color={STheme.color.gray} language={{
+          es: "Hora Inicio",
+          en: "Start Time"
+        }} />
+        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+      </SView>
+      {(obj?.staff?.fecha_fin) ? <SView col={"xs-4"} center style={{
+        borderLeftWidth: 1,
+        borderColor: STheme.color.lightGray
+      }}>
+        <SText fontSize={12} color={STheme.color.gray} language={{
+          es: "Hora Fin",
+          en: "End Time"
+        }} />
+        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+      </SView> : null}
+
+    </SView>
+  }
+
+  build_asistencia(obj) {
+    if (!obj?.asistencia_staff_usuario) return null
+    return <SView col={"xs-12"} row>
+      <SHr height={1} color={STheme.color.lightGray} />
+      <SHr height={10} />
+      <SView col={"xs-4"} center >
+        <SText fontSize={14} bold color={STheme.color.success} language={{
+          es: `Información de asistencia:`,
+          en: `Attendance information:`
+        }} />
+      </SView>
+      <SView col={"xs-4"} center >
+        <SText fontSize={12} color={STheme.color.gray} language={{
+          es: `Ingreso`,
+          en: `Income`
+        }} />
+        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.asistencia_staff_usuario[0].fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+      </SView>
+      {(obj?.asistencia_staff_usuario[0].fecha_off) ? <SView col={"xs-4"} center style={{
+        borderLeftWidth: 1,
+        borderColor: STheme.color.lightGray
+      }}>
+        <SText fontSize={12} color={STheme.color.gray} language={{
+          es: `Salida`,
+          en: `Exit`
+        }} />
+        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.asistencia_staff_usuario[0].fecha_off, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+      </SView> : null}
+
     </SView>
   }
 
@@ -177,7 +242,8 @@ class index extends Component {
 
 
       {this.build_horario(obj)}
-      {/* <SHr height={5} /> */}
+      <SHr height={5} />
+      {this.build_asistencia(obj)}
       {/* <SView col={"xs-2"} row center>
         <SIcon name={"asistencia2"} fill={STheme.color.gray} height={12} />
       </SView>
@@ -188,35 +254,11 @@ class index extends Component {
       {timerun ? <SLoad type='bar' /> : null}
 
       <SHr h={4} />
-      <SView withoutFeedback>
+      {/* <SView withoutFeedback>
         <SText onPress={() => {
           console.log("aho ksa kas ")
-          // SSocket.sendPromise({
-          //   component: "asistencia",
-          //   type: "asistir",
-          //   // codigo: code,
-          //   key_usuario: Model.usuario.Action.getKey(),
-          //   key_evento: obj?.evento?.key,
-          // }).then(e => {
-          //   SNotification.send({
-          //     key: "asistencia",
-          //     title: "Exito",
-          //     body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
-          //     time: 5000
-          //   })
-          //   SNavigation.navigate("/token/exito")
-          // }).catch(e => {
-          //   SNotification.send({
-          //     key: "asistencia",
-          //     title: "Error",
-          //     body: (lenguaje == "es") ? "No se pudo realizar la asistencia." : "The assistance could not be carried out.",
-          //     color: STheme.color.danger,
-          //     time: 5000
-          //   })
-          //   console.error(e);
-          // })
         }} underLine>{"Clock in"}</SText>
-      </SView>
+      </SView> */}
     </SView>
   }
 

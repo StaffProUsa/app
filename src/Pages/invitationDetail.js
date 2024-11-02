@@ -73,7 +73,7 @@ export default class invitationDetail extends React.Component {
             </SView>
             <SHr height={30} />
             <Container>
-              <SView col={'xs-11'} >
+              <SView col={'xs-12'} >
                 <SText fontSize={18} language={{
                   es: "Necesitamos incorporar personas para el cargo de:",
                   en: "We need to incorporate people for the position of:"
@@ -131,7 +131,12 @@ export default class invitationDetail extends React.Component {
                   </SView>
                   <SHr height={15} />
                   <SView col={'xs-12'}  >
-                    <SText fontSize={15} color={STheme.color.gray}  >* {obj?.cliente?.observacion || "---"}</SText>
+                    <SHr height={20} />
+                    <SText fontSize={16} language={{
+                      es: "Más detalles:",
+                      en: "More details:"
+                    }} />
+                    <SText fontSize={15} color={STheme.color.gray}  >{obj?.cliente?.observacion || "---"}</SText>
                   </SView>
                 </SView>
                 <SHr height={20} />
@@ -165,7 +170,7 @@ export default class invitationDetail extends React.Component {
                       en: "Location:"
                     }} />
                   </SView>
-                  <SView col={'xs-6'} row>
+                  <SView col={'xs-6'} flex>
                     <SText fontSize={20} color={STheme.color.gray} >{obj?.cliente?.direccion}</SText>
                   </SView>
                   <SHr height={10} />
@@ -185,14 +190,28 @@ export default class invitationDetail extends React.Component {
                     {/* <SIcon name={'idate'} fill={STheme.color.primary} width={20} height={20} /> */}
                     <SView width={8} />
                     <SText fontSize={20} language={{
-                      es: "Hora:",
-                      en: "Time:"
+                      es: "Hora Inicio:",
+                      en: "Start time:"
                     }} />
                   </SView>
                   <SView col={'xs-6'} row>
                     <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_inicio).toString("hh:mm")}</SText>
                   </SView>
                   <SHr height={10} />
+                  {(obj?.staff?.fecha_fin) ? <>
+                    <SView col={'xs-6'} row >
+                      <SView width={8} />
+                      <SText fontSize={20} language={{
+                        es: "Hora fin:",
+                        en: "End time:"
+                      }} />
+                    </SView>
+                    <SView col={'xs-6'} row>
+                      <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_fin).toString("hh:mm")}</SText>
+                    </SView><SHr height={10} /></> : null}
+
+
+
                   {/* <SView col={'xs-6'} row >
                     <SIcon name={'time'} fill={STheme.color.primary} width={20} height={20} />
                     <SView width={8} />
