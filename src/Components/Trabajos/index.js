@@ -119,7 +119,7 @@ class index extends Component {
         }} />
         <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.asistencia_staff_usuario[0].fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
       </SView>
-      {(obj?.asistencia_staff_usuario[0].fecha_off) ? <SView col={"xs-4"} center style={{
+      {(obj?.asistencia_staff_usuario.length > 1) ? <SView col={"xs-4"} center style={{
         borderLeftWidth: 1,
         borderColor: STheme.color.lightGray
       }}>
@@ -127,7 +127,7 @@ class index extends Component {
           es: `Salida`,
           en: `Exit`
         }} />
-        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.asistencia_staff_usuario[0].fecha_off, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.asistencia_staff_usuario[obj?.asistencia_staff_usuario.length - 1].fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
       </SView> : null}
 
     </SView>
