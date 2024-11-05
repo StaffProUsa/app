@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SImage, SText, STheme, SUtil, SView } from 'servisofts-component';
+import { SHr, SImage, SNavigation, SText, STheme, SUtil, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 const getColorFromPercentage = (percentage) => {
     // Asegurarse de que el valor esté entre 0 y 100
@@ -42,7 +42,11 @@ export default class Asistencias extends Component {
         })
     }
     renderObj(obj) {
-        return <SView col={"xs-12"} row style={{ paddingTop: 8 }}>
+        console.log("ggg");
+        console.log(obj);
+        return <SView col={"xs-12"} row style={{ paddingTop: 8 }} onPress={() => {
+            SNavigation.navigate("/company/detalleAsistencia", { key_evento: this.props.key_evento, pk: obj.key, })
+        }}>
             <SView width={50} height={50} card>
                 <SImage src={SSocket.api.root + "staff_tipo/" + obj.key_tipo_staff} />
             </SView>
@@ -52,8 +56,9 @@ export default class Asistencias extends Component {
                     <SView flex height style={{
                         justifyContent: "center"
                     }}>
-                        <SText>{obj.tipo_staff}</SText>
+                        <SText bold>{obj.tipo_staff}</SText>
                         <SText fontSize={12} color={STheme.color.gray}>{obj.staff}</SText>
+                        <SHr />
                     </SView>
                     <SView width={16} />
                     <SView style={{ justifyContent: "center" }}>
@@ -68,7 +73,7 @@ export default class Asistencias extends Component {
                     overflow: 'hidden',
                 }} >
                     <SView
-                        width={(parseFloat(obj.porcentaje ?? 0))+"%"}
+                        width={(parseFloat(obj.porcentaje ?? 0)) + "%"}
                         style={{
                             // width:(obj.porcentaje ?? 0) + "%",
                             height: "100%",

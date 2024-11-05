@@ -221,8 +221,8 @@ export default class TrabajosDelEvento extends Component {
                             en: `Income`
                         }} />
                         <SText fontSize={14} bold color={STheme.color.text}>{new SDate(asistencia?.fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
-                    </SView>
-                    {asistencia?.fecha_off != null ? <SView col={"xs-6"} center style={{
+                    </SView> 
+                    {asistencia?.length > 1 ? <SView col={"xs-6"} center style={{
                         borderLeftWidth: 1,
                         borderColor: STheme.color.lightGray
                     }}>
@@ -230,7 +230,7 @@ export default class TrabajosDelEvento extends Component {
                             es: `Salida`,
                             en: `Exit`
                         }} />
-                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(asistencia?.fecha_off, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(asistencia[asistencia?.length - 1]?.fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
                     </SView> : null}
                 </SView>
             </SView> : null}

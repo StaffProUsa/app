@@ -66,6 +66,7 @@ export default class Reclutas extends Component {
 
                         </SView>
                         <SText fontSize={14} color={STheme.color.gray}>{obj.staff}</SText>
+                        <SHr />
                     </SView>
                     <SView width={16} />
                     <SView style={{ justifyContent: "center" }}>
