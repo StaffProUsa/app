@@ -135,14 +135,15 @@ class index extends Component {
 
 
   renderItem(obj) {
+    console.log("obj", obj?.staff_usuario?.key_usuario_atiende)
     let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
+    // if(!userCoordinador) return null
     let isInvitation = (obj?.staff_usuario?.estado == 2)
 
     const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
     const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss");
     const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
     const timerun = sdate.isBefore(new SDate())
-    console.log("obj", obj)
     return <SView col={"xs-12"} padding={8} style={{
       borderRadius: 16,
       borderWidth: 1,

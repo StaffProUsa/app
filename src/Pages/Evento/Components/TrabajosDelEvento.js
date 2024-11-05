@@ -131,6 +131,31 @@ export default class TrabajosDelEvento extends Component {
         return fecha.toLocaleDateString(lenguaje, opciones);
     }
 
+    renderCoordinador(obj) {
+        const { staff_usuario } = obj
+        if (staff_usuario?.key_usuario_atiende == null ) return null;
+        let userCoordinador = Model.usuario.Action.getByKey(staff_usuario?.key_usuario_atiende)
+        return <SView col={"xs-12"} row center style={{
+            borderBottomWidth: 1,
+            borderColor: STheme.color.lightGray,
+            paddingBottom: 10
+        }}>
+            <SView col={"xs-12"} row center>
+                <SView width={40} height={40} style={{ borderRadius: 5, overflow: "hidden" }} backgroundColor={STheme.color.darkGray}>
+                    <SImage src={SSocket.api.root + "usuario/" + staff_usuario?.key_usuario_atiende} width={40} height={40} style={{ resizeMode: 'cover', overflow: "hidden" }} />
+                </SView>
+            </SView>
+            <SView col={"xs-12"} center >
+                <SText>{userCoordinador?.Nombres} {userCoordinador?.Apellidos}</SText>
+                <SText fontSize={12} color={STheme.color.gray} language={{
+                    es: "Coordinador",
+                    en: "Coordinator"
+                }} />
+            </SView>
+        </SView>
+    }
+
+
     item(obj) {
 
         let fecha_ini = new Date(obj.fecha_inicio);
@@ -149,11 +174,17 @@ export default class TrabajosDelEvento extends Component {
                 </SView>
             </SView>
             <SView col={"xs-12 sm-10.5"} row>
-                <SView col={"xs-7 sm-8"}>
+                <SView col={"xs-7 sm-8"} style={{
+                    padding: 10,
+                    borderRightWidth: 1,
+                    borderColor: STheme.color.lightGray
+                }}>
                     <SText fontSize={16} bold>{staff_tipo}</SText>
                     <SText fontSize={14} color={STheme.color.text}>{descripcion}</SText>
                 </SView>
                 <SView col={"xs-5 sm-4"} style={{ alignItems: "flex-end" }}>
+                    {this.renderCoordinador(obj)}
+                    <SHr h={10} />
                     {this.renderStaffUsuario(obj)}
                     {!asistencia ? null : <SText fontSize={12} color={STheme.color.success} language={{ en: "Marked Assistance", es: "Asistencia Marcada" }} />}
                 </SView>
@@ -221,7 +252,7 @@ export default class TrabajosDelEvento extends Component {
                             en: `Income`
                         }} />
                         <SText fontSize={14} bold color={STheme.color.text}>{new SDate(asistencia?.fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
-                    </SView> 
+                    </SView>
                     {asistencia?.length > 1 ? <SView col={"xs-6"} center style={{
                         borderLeftWidth: 1,
                         borderColor: STheme.color.lightGray
