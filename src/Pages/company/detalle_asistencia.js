@@ -132,7 +132,7 @@ class detalle_asistencia extends Component {
         let dataUsuario = Model.usuario.Action.getByKey(obj?.key_usuario);
         if (!dataUsuario) return <SLoad />;
         console.log("usuario", dataUsuario)
-        return <SView col={"xs-12"}  padding={10} card >
+        return <SView col={"xs-12"} padding={10} card >
             <SText fontSize={14} bold>{dataUsuario.Nombres} {dataUsuario.Apellidos}</SText>
         </SView>
     }
@@ -153,8 +153,6 @@ class detalle_asistencia extends Component {
                     <SText justify fontSize={16} bold >{this.state.dataStaff?.staff_tipo?.descripcion}</SText>
                     <SHr />
                     <SList2
-                        // space={16}
-                        
                         data={this.state.dataStaff?.staff_usuario?.filter(e => e.fecha_atiende != null)}
                         // filter={a => a.map(e => e.fecha_atiende != null)}
                         render={this.item.bind(this)}
