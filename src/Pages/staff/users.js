@@ -152,7 +152,7 @@ export default class users extends Component {
         if (!staff_usuario) return
         if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.lightGray} language={{ en: "Pendiente de confirmar", es: "Pendiente de confirmar" }} />
         if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Esperando aprobacion", es: "Esperando aprobacion" }} />
-        if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "Sin jefe" }}
+        if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "No boss" }}
             onPress={this.handleAsignarJefe.bind(this, staff_usuario)} />
         if ((staff_usuario.fecha_ingreso != null) &&  (staff_usuario.fecha_salida == null)) return <SText fontSize={12} color={STheme.color.success} language={{ en: "Working...", es: "Trabajando..." }} />
         if ((staff_usuario.fecha_salida != null)) return <SText fontSize={12} color={STheme.color.success} language={{ en: "Finished", es: "Finalizado" }} />
