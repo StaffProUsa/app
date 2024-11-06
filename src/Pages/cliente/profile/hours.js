@@ -36,17 +36,16 @@ export default class hours extends Component {
       es: "Reporte de horas trabajadas"
     }} disableScroll>
       <STable2 data={this.state.data}
-        rowHeight={30}
+        rowHeight={25}
         header={[
-          { key: "index", width: 50 },
           {
-            key: "key_usuario", width: 150, render: ku => {
+            key: "key_usuario", cellStyle: { fontSize: 12 }, order: "asc", label: "User", width: 150, render: ku => {
               const user = users[ku]
               return `${user?.Nombres} ${user?.Apellidos}`
             }
           },
           {
-            key: "-horas", sumar: true, center: true, width: 50,
+            key: "-horas", label: "Hours", cellStyle: { fontSize: 14, fontWeight: "bold" }, sumar: true, center: true, width: 50,
             render: a => {
               if (!a.fecha_ingreso || !a.fecha_salida) {
                 return "";
@@ -59,22 +58,20 @@ export default class hours extends Component {
 
             },
           },
-          { key: "evento/fecha", width: 100, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
-          { key: "staff/fecha_inicio", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
-          { key: "staff/fecha_fin", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
+          { key: "evento/fecha", label: "Date", width: 100, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
+          { key: "staff/fecha_inicio", label: "Start", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
+          { key: "staff/fecha_fin", label: "end", center: true, width: 70, render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
           {
-            key: "fecha_ingreso", center: true,
+            key: "fecha_ingreso", label: "Clock In", center: true,
             width: 150,
-            render: a => !a ? "No Clock In" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH"),
+            render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH"),
           },
-          { key: "fecha_salida", center: true, width: 150, render: a => !a ? "No Clock Out" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH") },
+          { key: "fecha_salida", label: "Clock Out", center: true, width: 150, render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH") },
 
-
-          { key: "evento/descripcion", width: 150 },
-          { key: "evento/descripcion", width: 150 },
-          { key: "cliente/descripcion", width: 150 },
-          { key: "staff/descripcion", width: 150 },
-          { key: "staff_tipo/descripcion", width: 150 },
+          { key: "cliente/descripcion", label: "Client", width: 150 },
+          { key: "evento/descripcion", label: "Event", width: 150 },
+          { key: "staff/descripcion", label: "Staff", width: 150 },
+          { key: "staff_tipo/descripcion", label: "Position", width: 150 },
         ]}
       />
     </SPage>
