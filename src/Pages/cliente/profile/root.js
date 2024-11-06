@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from ".."
-import { SHr, SIcon, SImage, SList, SNavigation, SNotification, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SLanguage, SList, SNavigation, SNotification, SPopup, SText, STheme, SView } from 'servisofts-component';
 import Model from '../../../Model';
 import SSocket from 'servisofts-socket';
 import Eventos from '../eventos';
 import PBarraFooter from '../../../Components/PBarraFooter';
+import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
 
 class index extends DPA.profile {
     static FOOTER = <>
@@ -56,6 +57,15 @@ class index extends DPA.profile {
 
     $footer() {
         return <SView col={"xs-12"}>
+            <SHr />
+            <MenuPages path='/cliente/profile' permiso='ver'>
+                <MenuButtom
+                    icon={<SIcon name='Excel'/>}
+                    label={SLanguage.select({
+                        en: "Attendace Report",
+                        es: "Reporte de horas trabajadas"
+                    })} url='/cliente/profile/hours' params={{ pk: this.pk }} />
+            </MenuPages>
             <SHr />
             <SView row col={"xs-12"} center>
                 <SText language={{ en: "Events", es: "Eventos" }} fontSize={16} bold flex />

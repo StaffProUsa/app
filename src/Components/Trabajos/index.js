@@ -283,7 +283,7 @@ class index extends Component {
       </SView> */}
       <SHr h={4} />
       {allowLoading ? <SLoad type='bar' /> : null}
-
+      <SHr h={4} />
       <SText color={STheme.color.warning}>{estadoAsistencia}</SText>
       <SHr h={4} />
       {/* <SView withoutFeedback>
