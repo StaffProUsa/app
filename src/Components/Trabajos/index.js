@@ -82,7 +82,7 @@ class index extends Component {
           es: "Fecha",
           en: "Date"
         }} />
-        <SText bold fontSize={16}>{new SDate(obj?.evento?.fecha, "yyyy-MM-dd").toString('MM-dd-yyyy')}</SText>
+        <SText center bold fontSize={13}>{new SDate(obj?.evento?.fecha, "yyyy-MM-dd").toString('MONTH dd, yyyy')}</SText> 
       </SView>
       <SView col={"xs-4"} center style={{
         borderLeftWidth: 1,
