@@ -433,7 +433,7 @@ class Perfil extends React.Component {
                   es: "Fecha",
                   en: "Date"
                 }} />
-                <SText fontSize={18} justify>{new SDate(DATA?.fecha).toString("MM-dd-yyyy")}</SText>
+                <SText fontSize={18} justify>{new SDate(DATA?.fecha).toString("MONTH dd, yyyy")}</SText>
               </SView>
 
               <SView col={"xs-6"} style={{
