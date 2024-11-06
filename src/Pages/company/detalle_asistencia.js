@@ -191,7 +191,8 @@ class detalle_asistencia extends Component {
                 <SHr />
                 <SHr height={1} color={STheme.color.lightGray} />
                 <SHr />
-                <SView col={"xs-6"} center style={{
+
+                {(obj?.fecha_ingreso) ? <SView col={"xs-6"} center style={{
                     // borderLeftWidth: 1,
                     // borderColor: STheme.color.lightGray
                 }}>
@@ -201,7 +202,11 @@ class detalle_asistencia extends Component {
 
                     }} />
                     <SText fontSize={18} bold color={STheme.color.text}>{new SDate(obj?.fecha_ingreso, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
-                </SView>
+                </SView> : <SText center color={STheme.color.warning} language={{
+                    es: "No marcó asistencia",
+                    en: "Did not mark attendance"
+                }} />}
+
                 {(obj?.fecha_salida) ? <SView col={"xs-6"} center style={{
                     borderLeftWidth: 1,
                     borderColor: STheme.color.lightGray

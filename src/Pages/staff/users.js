@@ -154,6 +154,7 @@ export default class users extends Component {
         if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Esperando aprobacion", es: "Esperando aprobacion" }} />
         if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "Sin jefe" }}
             onPress={this.handleAsignarJefe.bind(this, staff_usuario)} />
+        if ((staff_usuario.fecha_ingreso != null) &&  (staff_usuario.fecha_salida == null)) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Working...", es: "Trabajando..." }} />
         return <>
             <SText fontSize={12} color={STheme.color.success} language={{ en: "Registrado en el puesto", es: "Registrado en el puesto" }} />
         </>
@@ -239,7 +240,7 @@ export default class users extends Component {
             onPress={() => {
                 this.handleInvitarArray(selecteds)
             }}>
-            <SText bold language={{es:"Invitar", en:"Invite"}}/> 
+            <SText bold language={{ es: "Invitar", en: "Invite" }} />
             <SText bold > {selecteds.length}</SText>
         </SView>
     }
