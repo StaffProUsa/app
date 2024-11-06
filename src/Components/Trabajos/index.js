@@ -31,6 +31,13 @@ class index extends Component {
       type: "getTrabajosProximos",
       key_usuario: Model.usuario.Action.getKey()
     }).then(e => {
+      e.data.map((obj) => {
+        const f = new SDate(obj.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd")
+        const hi = new SDate(obj.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")
+        const hf = new SDate(obj.staff.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")
+        obj.fecha_inicio = f + "T" + hi
+        obj.fecha_fin = f + "T" + hf
+      })
       this.setState({ data: e.data })
     }).catch(e => {
       console.error(e);
@@ -142,7 +149,25 @@ class index extends Component {
     const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss");
     const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
     const timerun = sdate.isBefore(new SDate())
-    console.log("obj", obj)
+    // console.log("obj", obj)
+
+    let allowLoading = false;
+    let estadoAsistencia = "";
+    if (sdate.isAfter(new SDate())) {
+      // Si la fecha inicio aun no paso
+      estadoAsistencia = "Esperando la hora de ingreso..."
+    } else if (!obj?.staff_usuario?.fecha_ingreso && !obj?.staff_usuario?.fecha_salida && new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ss").isBefore(new SDate())) {
+      estadoAsistencia = "EL evento ya finalizo y no marcaste ingreso ni salida"
+    } else if (!obj?.staff_usuario?.fecha_ingreso) {
+      allowLoading = true;
+      estadoAsistencia = "Debes marcar ingreso en el evento"
+    } else if (!obj?.staff_usuario?.fecha_salida) {
+      allowLoading = true;
+      estadoAsistencia = "Debes marcar la salida"
+    }
+
+
+
     return <SView col={"xs-12"} padding={8} style={{
       borderRadius: 16,
       borderWidth: 1,
@@ -251,8 +276,9 @@ class index extends Component {
         <SText fontSize={12}>{obj?.asistencia_staff_usuario ? obj?.asistencia_staff_usuario.length : 0}</SText>
       </SView> */}
       <SHr h={4} />
-      {timerun ? <SLoad type='bar' /> : null}
+      {allowLoading ? <SLoad type='bar' /> : null}
 
+      <SText color={STheme.color.warning}>{estadoAsistencia}</SText>
       <SHr h={4} />
       {/* <SView withoutFeedback>
         <SText onPress={() => {
@@ -289,7 +315,9 @@ class index extends Component {
           </SView>
         </SView>
         <SHr height={10} />
-        <SList2 data={this.state.data} order={[{ key: "evento/fecha", order: "asc" }]} render={this.renderItem.bind(this)} />
+        <SList2 data={this.state.data}
+          order={[{ key: "fecha_inicio", order: "asc" }]}
+          render={this.renderItem.bind(this)} />
       </>
     );
   }

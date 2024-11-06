@@ -63,7 +63,6 @@ import invitations from './invitations';
 import trabajos from './trabajos';
 import history from './history';
 import Evento from './Evento';
-import clock from './clock';
 import invitacion from './invitacion';
 import onLogin from './onLogin';
 import direccion from './direccion';
@@ -80,7 +79,6 @@ const NewPages = SPage.combinePages("/", {
     "test": Test,
     t2,
     manilla,
-    clock,
     ...Evento,
     ...direccion,
     // 'evento': Perfil,
