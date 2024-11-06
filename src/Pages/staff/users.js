@@ -56,6 +56,8 @@ export default class users extends Component {
         }).then(e => {
 
             let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))];
+            // e = e.data.filter(item => item.estado === 2);
+            e.data = e.data.filter(item => item.estado === 2);
             SSocket.sendPromise({
                 version: "2.0",
                 service: "usuario",

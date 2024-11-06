@@ -142,7 +142,9 @@ class index extends Component {
 
 
   renderItem(obj) {
+    console.log("obj", obj?.staff_usuario?.key_usuario_atiende)
     let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
+    // if(!userCoordinador) return null
     let isInvitation = (obj?.staff_usuario?.estado == 2)
 
     const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
@@ -267,8 +269,12 @@ class index extends Component {
 
 
       {this.build_horario(obj)}
+      
       <SHr height={5} />
+      
       {this.build_asistencia(obj)}
+
+
       {/* <SView col={"xs-2"} row center>
         <SIcon name={"asistencia2"} fill={STheme.color.gray} height={12} />
       </SView>
