@@ -225,8 +225,8 @@ class detalle_asistencia extends Component {
                 }}>
                     <SHr />
                     <SText fontSize={14} color={STheme.color.gray} language={{
-                        es: "Horas Trabajadas",
-                        en: "Hours Worked"
+                        es: "Tiempo de trabajo",
+                        en: "Working time"
                     }} />
                     <SText fontSize={18} bold color={STheme.color.text}>{diferencia}</SText>
                 </SView> : null}

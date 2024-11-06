@@ -1,6 +1,6 @@
 import React, { Component, version } from 'react';
 import { View, Text } from 'react-native';
-import { SHr, SIcon, SImage, SInput, SList, SNavigation, SNotification, SPage, SSwitch, STable, STable2, SText, STheme, SView, SLanguage, SPopup } from 'servisofts-component';
+import { SHr, SIcon, SImage, SInput, SList, SNavigation, SNotification, SPage, SSwitch, STable, STable2, SText, STheme, SView, SLanguage, SPopup, SDate } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import { Container } from '../../Components';
@@ -149,13 +149,17 @@ export default class users extends Component {
     }
 
     renderStaffUsuario(staff_usuario) {
+        const fi = new SDate(staff_usuario.fecha_ingreso, "yyyy-MM-ddThh:mm:ss")
+        const fs = new SDate(staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ss")
+        const disf = fi.diffTime(fs);
+        // return ((disf / 1000) / 60 / 60).toFixed(2);
         if (!staff_usuario) return
         if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.lightGray} language={{ en: "Pendiente de confirmar", es: "Pendiente de confirmar" }} />
         if (!staff_usuario.key_usuario_aprueba) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Esperando aprobacion", es: "Esperando aprobacion" }} />
-        if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "Sin jefe" }}
+        if (!staff_usuario.key_usuario_atiende) return <SText fontSize={12} color={STheme.color.warning} language={{ en: "Sin jefe", es: "No boss" }}
             onPress={this.handleAsignarJefe.bind(this, staff_usuario)} />
-        if ((staff_usuario.fecha_ingreso != null) &&  (staff_usuario.fecha_salida == null)) return <SText fontSize={12} color={STheme.color.success} language={{ en: "Working...", es: "Trabajando..." }} />
-        if ((staff_usuario.fecha_salida != null)) return <SText fontSize={12} color={STheme.color.success} language={{ en: "Finished", es: "Finalizado" }} />
+        if ((staff_usuario.fecha_ingreso != null) && (staff_usuario.fecha_salida == null)) return <SText fontSize={12} color={STheme.color.success} language={{ en: "Working...", es: "Trabajando..." }} />
+        if ((staff_usuario.fecha_salida != null)) return <SView row><SText fontSize={12} color={STheme.color.success} language={{ en: "Finished", es: "Finalizado" }} /><SText fontSize={12}> {"("} {((disf / 1000) / 60 / 60).toFixed(2)} {")"}</SText></SView>
         return <>
             <SText fontSize={12} color={STheme.color.success} language={{ en: "Registrado en el puesto", es: "Registrado en el puesto" }} />
         </>
