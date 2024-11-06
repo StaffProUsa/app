@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
-import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate, SNavigation, SLoad } from 'servisofts-component';
+import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate, SNavigation, SLoad, SUtil } from 'servisofts-component';
 import { Container } from '../Components';
 import Degradado from '../Components/Degradado';
 import PBarraFooter from '../Components/PBarraFooter';
@@ -19,12 +19,22 @@ export default class history extends Component {
     }
     componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
-    
+
         SSocket.sendPromise({
             component: "staff_usuario",
             type: "getMisTrabajos",
             key_usuario: Model.usuario.Action.getKey()
         }).then(e => {
+            Object.values(e.data).map((obj) => {
+                const f = new SDate(obj.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd")
+                const hi = new SDate(obj.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")
+                const hf = new SDate(obj.staff.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")
+                obj._fecha_inicio = f + "T" + hi
+                if(obj.staff.fecha_fin){
+                    obj._fecha_fin = f + "T" + hf
+                }
+
+            })
             this.setState({ data: e.data })
         }).catch(e => {
             console.error(e);
@@ -122,11 +132,12 @@ export default class history extends Component {
         );
     }
     getList() {
-        return <SList2 data={this.state.data} order={[{ key: "staff/fecha_inicio", order: "desc" }]} render={(obj) => {
+        return <SList2 data={this.state.data} order={[{ key: "_fecha_inicio", order: "desc" }]} render={(obj) => {
             let isInvitation = (obj?.staff_usuario?.estado == 2)
             let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
             console.log("obj", obj)
             console.log("userCoordinador", userCoordinador)
+
             return <SView col={"xs-12"} row padding={15} style={{
                 borderRadius: 16,
                 borderWidth: 1,
@@ -139,7 +150,6 @@ export default class history extends Component {
                     SNavigation.navigate("/evento", { key: obj?.key })
                 }
             }}>
-                <Degradado />
                 <SView col={"xs-2"} row center>
                     <SView style={{
                         width: 40,
@@ -149,30 +159,37 @@ export default class history extends Component {
                         borderColor: STheme.color.lightGray,
                         overflow: "hidden",
                     }}>
-                        <SImage src={SSocket.api.root + "staff_tipo/" + obj?.staff_tipo?.key} style={{
-                            resizeMode: "cover", zIndex: 9
-                        }} />
                         <SImage src={require('../Assets/images/noImage.jpg')} style={{
                             resizeMode: "cover", position: "absolute"
                         }} />
+                        <SImage src={SSocket.api.root + "company/" + obj?.cliente?.key_company} style={{
+                            resizeMode: "cover", zIndex: 9
+                        }} />
+
                     </SView>
                 </SView>
                 <SView col={"xs-10"} >
-                    <SText fontSize={14}>{obj?.descripcion}</SText>
+                    <SText fontSize={14}>{obj?.cliente?.descripcion}</SText>
                     <SText fontSize={12} color={STheme.color.gray}>{obj?.staff_tipo?.descripcion}</SText>
+                    <SText fontSize={10} color={STheme.color.gray}>{SUtil.limitString(obj?.staff?.descripcion, 120)}</SText>
                 </SView>
                 <SHr height={15} />
                 <SView col={"xs-2"} row center>
                     <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
                 </SView>
                 <SView col={"xs-10"}  >
-                    <SText fontSize={12}>{new SDate(obj?.fecha).toString("MM-dd-yyyy")}</SText>
+                    <SText fontSize={12}>{new SDate(obj?._fecha_inicio).toString("yyyy MONTH dd, HH")}</SText>
+                </SView>
+                <SHr />
+                <SView>
+                    <SText fontSize={10}>Clock In : {!obj.fecha_ingreso ? "No" : new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH")}</SText>
+                    <SText fontSize={10}>Clock Out: {!obj.fecha_salida ? "No" : new SDate(obj.fecha_salida, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH")}</SText>
                 </SView>
             </SView>
         }} />
     }
     CardResumen({ title, value, color, icon }) {
-        return <SView col={"xs-6"} row style={{ paddingRight: 5, paddingBottom:5 }}>
+        return <SView col={"xs-6"} row style={{ paddingRight: 5, paddingBottom: 5 }}>
             <SView col={"xs-12"} row style={{
                 borderWidth: 1,
                 borderColor: STheme.color.lightGray,
@@ -217,97 +234,6 @@ export default class history extends Component {
         </>
     }
 
-    getTrabajos() {
-        return <SList2 data={this.state.data} order={[{ key: "staff/fecha_inicio", order: "desc" }]} render={(obj) => {
-            let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
-            console.log("userCoordinador", userCoordinador)
-            return <SView col={"xs-12"} row padding={15} style={{
-                borderRadius: 16,
-                borderWidth: 1,
-                borderColor: STheme.color.lightGray,
-                overflow: "hidden",
-            }}>
-                <Degradado />
-                <SView col={"xs-2 sm-2"} row center>
-                    <SView style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 100,
-                        borderWidth: 1,
-                        borderColor: STheme.color.lightGray,
-                        overflow: "hidden",
-                    }}>
-                        <SImage src={SSocket.api.root + "company/" + obj?.company?.key} style={{
-                            resizeMode: "cover",
-                        }} />
-                    </SView>
-                </SView>
-                <SView col={"xs-10 sm-3.5"} >
-                    <SText fontSize={16}>{obj?.company?.descripcion}</SText>
-                    <SText fontSize={12} color={STheme.color.gray} language={{
-                        es: "Empresa",
-                        en: "Company"
-                    }} />
-                </SView>
-                <SView col={"xs-12 sm-0.5"} height={10} />
-                {(obj?.staff_usuario?.key_usuario_atiende) ? <SView col={"xs-12 sm-6"} row >
-                    <SView col={"xs-2 sm-4"} row center>
-                        <SView width={40} height={40} style={{ borderRadius: 5, overflow: "hidden" }} backgroundColor={STheme.color.darkGray}>
-                            <SImage src={SSocket.api.root + "usuario/" + obj?.staff_usuario?.key_usuario_atiende} width={40} height={40} style={{ resizeMode: 'cover', overflow: "hidden" }} />
-                        </SView>
-                    </SView>
-                    <SView col={"xs-8 sm-8"}  >
-                        <SText>{userCoordinador?.Nombres} {userCoordinador?.Apellidos}</SText>
-                        <SText fontSize={12} color={STheme.color.gray} language={{
-                            es: "Coordinador",
-                            en: "Coordinator"
-                        }} />
-                    </SView>
-                </SView> : null}
-                <SHr height={10} />
-                <SView col={"xs-2"} row center>
-                    <SIcon name={"eventi"} fill={STheme.color.gray} width={12} />
-                </SView>
-                <SView col={"xs-10"}  >
-                    <SText fontSize={12}>{obj?.evento?.descripcion}</SText>
-                </SView>
-                {/* <SHr height={5} /> */}
-                <SView col={"xs-2"} row center>
-                    <SIcon name={"worki"} fill={STheme.color.gray} width={12} />
-                </SView>
-                <SView col={"xs-10"}  >
-                    <SText fontSize={12}>{obj?.staff_tipo?.descripcion}</SText>
-                </SView>
-                {/* <SHr height={5} /> */}
-                <SView col={"xs-2"} row center>
-                    <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
-                </SView>
-                <SView col={"xs-10"}  >
-                    <SText fontSize={12}>{new SDate(obj?.evento?.fecha).toString("yyyy-MM-dd")}</SText>
-                </SView>
-                {/* <SHr height={5} /> */}
-                <SView col={"xs-2"} row center>
-                    <SIcon name={"timeIni"} fill={STheme.color.gray} height={12} />
-                </SView>
-                <SView col={"xs-4"}  >
-                    <SText fontSize={12}>{new SDate(obj?.staff?.fecha_inicio).toString("hh:mm:ss")}</SText>
-                </SView>
-                <SView col={"xs-2"} row center>
-                    <SIcon name={"timeFinish"} fill={STheme.color.gray} width={12} />
-                </SView>
-                <SView col={"xs-4"}  >
-                    <SText fontSize={12}>{new SDate(obj?.staff?.fecha_fin).toString("hh:mm:ss")}</SText>
-                </SView>
-                {/* <SHr height={5} /> */}
-                <SView col={"xs-2"} row center>
-                    <SIcon name={"asistencia2"} fill={STheme.color.gray} height={12} />
-                </SView>
-                <SView col={"xs-10"}  >
-                    <SText fontSize={12}>{obj?.asistencia_staff_usuario ? obj?.asistencia_staff_usuario.length : 0}</SText>
-                </SView>
-            </SView>
-        }} />
-    }
 
     render() {
         return <SPage titleLanguage={{ es: "Mi historial", en: "My history" }} footer={<PBarraFooter url={'/trabajos'} />}>

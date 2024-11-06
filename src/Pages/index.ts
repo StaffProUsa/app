@@ -66,6 +66,7 @@ import Evento from './Evento';
 import invitacion from './invitacion';
 import onLogin from './onLogin';
 import direccion from './direccion';
+import boss from './boss';
 const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
@@ -75,6 +76,7 @@ const NewPages = SPage.combinePages("/", {
     ...venta,
     ...Carrito,
     ...rol,
+    boss,
     version_required,
     "test": Test,
     t2,
