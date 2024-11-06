@@ -243,8 +243,12 @@ class index extends Component {
 
 
       {this.build_horario(obj)}
+      
       <SHr height={5} />
+      
       {this.build_asistencia(obj)}
+
+
       {/* <SView col={"xs-2"} row center>
         <SIcon name={"asistencia2"} fill={STheme.color.gray} height={12} />
       </SView>
