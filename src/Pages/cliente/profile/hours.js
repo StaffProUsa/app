@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SIcon, SNavigation, SPage, STable2, SView } from 'servisofts-component';
+import { SDate, SIcon, SNavigation, SPage, STable2, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../../../Model';
 
@@ -42,6 +42,46 @@ export default class hours extends Component {
             key: "key_usuario", cellStyle: { fontSize: 12 }, order: "asc", label: "User", width: 150, render: ku => {
               const user = users[ku]
               return `${user?.Nombres} ${user?.Apellidos}`
+            }
+          }
+          ,
+          {
+            key: "-status", label: "Status", width: 150, renderExcel: a => "-", component: (obj) => {
+              let CONT = <SText color={STheme.color.gray} fontSize={10}>{"--"}</SText>
+
+              const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
+              const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss");
+              const horaf = new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ss");
+              const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
+              const sdatef = new SDate(fecha.toString("yyyy-MM-dd") + "T" + horaf.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
+              const timerun = sdate.isBefore(new SDate())
+              // console.log("obj", obj)
+              let allowLoading = false;
+              let estadoAsistencia = "";
+              if (sdate.isAfter(new SDate())) {
+                // Si la fecha inicio aun no paso
+                CONT = <SText center color={STheme.color.gray} fontSize={10}>{"Esperando la hora de ingreso..."}</SText>
+                // estadoAsistencia = "Esperando la hora de ingreso..."
+              } else if (!obj?.fecha_ingreso && !obj?.fecha_salida && sdatef.isBefore(new SDate())) {
+                CONT = <SText center color={STheme.color.danger} fontSize={10}>{"EL evento ya finalizo y no marcaste ingreso ni salida"}</SText>
+                // estadoAsistencia = "EL evento ya finalizo y no marcaste ingreso ni salida"
+              } else if (!obj?.fecha_ingreso) {
+                allowLoading = true;
+                CONT = <SText center color={STheme.color.warning} fontSize={10}>{"Debes marcar ingreso en el evento"}</SText>
+                // estadoAsistencia = "Debes marcar ingreso en el evento"
+              } else if (!obj?.fecha_salida) {
+                allowLoading = true;
+                CONT = <SText center color={STheme.color.warning} fontSize={10}>{"Debes marcar la salida"}</SText>
+                // estadoAsistencia = "Debes marcar la salida"
+              } else if (sdatef.isBefore(new SDate())) {
+                CONT = <SText center color={STheme.color.success} fontSize={10}>{"Completado."}</SText>
+              } else {
+                CONT = <SText center color={STheme.color.warning} fontSize={10}>{"Debe marcar entrada"}</SText>
+              }
+
+              return <SView col={"xs-12"} flex center>
+                {CONT}
+              </SView>
             }
           },
           {

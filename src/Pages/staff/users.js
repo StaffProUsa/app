@@ -249,6 +249,41 @@ export default class users extends Component {
             <SText bold > {selecteds.length}</SText>
         </SView>
     }
+    renderAsignarJefe() {
+        if (!this.state.data_disponibles) return;
+        const selecteds = this.state.data_disponibles.filter(a => !!a.select_derecha).map(a => a?.staff_usuario?.key)
+        if (selecteds.length <= 0) return;
+
+
+        return <SView card padding={4} width={100} center row
+            style={{
+                backgroundColor: STheme.color.warning,
+                position: "absolute",
+            }}
+            onPress={() => {
+                SNavigation.navigate("/company/roles", {
+                    key_company: this.state.data.evento.key_company,
+                    onSelect: (usuario) => {
+                        SSocket.sendPromise({
+                            component: "staff_usuario",
+                            type: "asignarJefeMultiple",
+                            key_usuario: Model.usuario.Action.getKey(),
+                            key_staff_usuario: selecteds,
+                            key_usuario_atiende: usuario.key_usuario,
+                        }).then(e=>{
+                            this.componentDidMount();
+                        }).catch(e=>{
+                            
+                        })
+                    }
+                })
+
+                // this.handleInvitarArray(selecteds)
+            }}>
+            <SText bold language={{ es: "Change Boss", en: "Change Boss" }} />
+            <SText bold > {selecteds.length}</SText>
+        </SView>
+    }
     render() {
         let lenguaje = SLanguage.language;
         // console.log(this.state.data_disponibles)
@@ -485,6 +520,8 @@ export default class users extends Component {
                         es: "Staff Aceptado",
                         en: "Staff Accepted"
                     }} />
+                    {this.renderAsignarJefe()}
+
                     <STable2
                         key={"Algo1"}
                         data={this.state.data_disponibles}
@@ -499,11 +536,13 @@ export default class users extends Component {
 
                         }}
                         header={[
-                            // {
-                            //     key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}><SInput type='checkBox' defaultValue={elm.desinvitar} onChangeText={e => {
-                            //         elm.desinvitar = !!e;
-                            //     }} /></SView></SView>
-                            // },
+                            {
+                                key: "-", width: 25, component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}>
+                                    <SInput type='checkBox' defaultValue={elm.select_derecha} onChangeText={e => {
+                                        elm.select_derecha = !!e;
+                                        this.setState({ ...this.state })
+                                    }} /></SView></SView>
+                            },
                             {
                                 key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
                                     style={{ borderRadius: 4, overflow: "hidden" }}>

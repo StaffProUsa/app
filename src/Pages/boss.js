@@ -113,20 +113,30 @@ class boss extends Component {
     render() {
         const users = Model.usuario.Action.getAll() ?? {};
         return <SPage titleLanguage={{ en: "Boss", es: "Jefe" }} disableScroll
-            header={<SText onPress={() => {
-                this.setState({ data: {} })
-                this.loadData()
-            }}>{"RELOAD"}</SText>}>
+            header={<SView col={"xs-12"} height={24} style={{
+                justifyContent: "center"
+            }}>
+                <SView width={80} height={20} card center row onPress={() => {
+                    this.setState({ data: {} })
+                    this.loadData()
+                }}>
+                    <SView height={20} width={20}>
+                        <SIcon name='Reload' fill={STheme.color.text} />
+                    </SView>
+                    <SView width={4} />
+                    <SText>{"Refresh"}</SText>
+                </SView>
+            </SView>}>
             <STable2 data={this.state.data}
                 rowHeight={30}
+
                 header={[
-                    { key: "index", width: 50 },
                     {
-                        key: "-options", width: 150, renderExcel: a => "-", component: (obj) => {
+                        key: "-options", label: "Actions", width: 80, renderExcel: a => "-", component: (obj) => {
 
                             return <SView col={"xs-12"} flex row >
-                                <SView width={8} />
-                                <SView width={20} height={20} onPress={this.handlePressEdit.bind(this, obj)}><SIcon name='Edit' /></SView>
+                                {/* <SView width={8} /> */}
+                                {/* <SView width={20} height={20} onPress={this.handlePressEdit.bind(this, obj)}><SIcon name='Edit' /></SView> */}
                                 <SView width={8} />
                                 {!!obj.fecha_ingreso ? null : <SView width={20} height={20} onPress={this.handleOpen.bind(this, obj)}><SIcon name='Add' /></SView>}
                                 <SView width={8} />
@@ -135,41 +145,77 @@ class boss extends Component {
                         }
                     },
                     {
-                        key: "key_usuario", width: 150, render: ku => {
+                        key: "-status", label: "Status", width: 150, renderExcel: a => "-", component: (obj) => {
+                            let CONT = <SText color={STheme.color.gray} fontSize={10}>{"--"}</SText>
+
+                            const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
+                            const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss");
+                            const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
+                            const timerun = sdate.isBefore(new SDate())
+                            // console.log("obj", obj)
+                            let allowLoading = false;
+                            let estadoAsistencia = "";
+                            if (sdate.isAfter(new SDate())) {
+                                // Si la fecha inicio aun no paso
+                                CONT = <SText color={STheme.color.gray} fontSize={10}>{"Esperando la hora de ingreso..."}</SText>
+                                // estadoAsistencia = "Esperando la hora de ingreso..."
+                            } else if (!obj?.fecha_ingreso && !obj?.fecha_salida && new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ss").isBefore(new SDate())) {
+                                CONT = <SText color={STheme.color.danger} fontSize={10}>{"EL evento ya finalizo y no marcaste ingreso ni salida"}</SText>
+                                // estadoAsistencia = "EL evento ya finalizo y no marcaste ingreso ni salida"
+                            } else if (!obj?.fecha_ingreso) {
+                                allowLoading = true;
+                                CONT = <SText color={STheme.color.warning} fontSize={10}>{"Debes marcar ingreso en el evento"}</SText>
+                                // estadoAsistencia = "Debes marcar ingreso en el evento"
+                            } else if (!obj?.fecha_salida) {
+                                allowLoading = true;
+                                CONT = <SText color={STheme.color.warning} fontSize={10}>{"Debes marcar la salida"}</SText>
+                                // estadoAsistencia = "Debes marcar la salida"
+                            }else{
+                                CONT = <SText color={STheme.color.success} fontSize={10}>{"El evento finalizo"}</SText>
+                            }
+
+                            return <SView col={"xs-12"} flex center>
+                                {CONT}
+                            </SView>
+                        }
+                    },
+                    {
+                        key: "key_usuario", label: "Name", width: 150, render: ku => {
                             const user = users[ku]
                             return `${user?.Nombres} ${user?.Apellidos}`
                         }
                     },
 
-                    { key: "evento/fecha", width: 100, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
-                    { key: "staff/fecha_inicio", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
-                    { key: "staff/fecha_fin", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
+                    { key: "evento/fecha", label: "Date", width: 100, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
+                    { key: "staff/fecha_inicio", label: "Start", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
+                    { key: "staff/fecha_fin", label: "End", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
                     {
-                        key: "fecha_ingreso", center: true,
+                        key: "fecha_ingreso", label: "Clock In", center: true,
                         width: 150,
-                        render: a => !a ? "No Clock In" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH"),
+                        render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH"),
                     },
-                    { key: "fecha_salida", center: true, width: 150, render: a => !a ? "No Clock Out" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH") },
+                    { key: "fecha_salida", label: "Clock Out", center: true, width: 150, render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH") },
                     {
-                        key: "-horas", center: true, width: 50,
+                        key: "-horas", label: "Hours", center: true, width: 50,
+                        cellStyle: { fontSize: 14, fontWeight: "bold" },
                         render: a => {
-                            if (!a.fecha_ingreso || !a.fecha_salida) {
+                            if (!a.fecha_ingreso) {
                                 return "";
                             }
 
                             const fi = new SDate(a.fecha_ingreso, "yyyy-MM-ddThh:mm:ss")
-                            const fs = new SDate(a.fecha_salida, "yyyy-MM-ddThh:mm:ss")
-                            const disf = fi.diff(fs);
-                            return disf;
+                            const fs = a.fecha_salida ? new SDate(a.fecha_salida, "yyyy-MM-ddThh:mm:ss") : new SDate()
+                            const disf = fi.diffTime(fs);
+                            return ((disf / 1000) / 60 / 60).toFixed(2);
 
                         },
                     },
 
-                    { key: "evento/descripcion", width: 150 },
-                    { key: "evento/descripcion", width: 150 },
-                    { key: "cliente/descripcion", width: 150 },
-                    { key: "staff/descripcion", width: 150 },
-                    { key: "staff_tipo/descripcion", width: 150 },
+                    { key: "cliente/descripcion", label: "Client", width: 150 },
+                    { key: "evento/descripcion", label: "Event", width: 150 },
+                    { key: "staff_tipo/descripcion", label: "Position", width: 150 },
+                    { key: "staff/descripcion", label: "Description", width: 300 },
+
                 ]}
             />
         </SPage>

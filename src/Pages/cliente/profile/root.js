@@ -16,7 +16,12 @@ class index extends DPA.profile {
         }} url={'/company'} />
     </>
     constructor(props) {
-        super(props, { title: "Client", Parent: Parent, excludes: ["key", "key_servicio", "key_usuario", "fecha_on", "key_company", "estado", "latitude", "longitude"] });
+        super(props, {
+            title: "Client",
+            Parent: Parent,
+            itemType:"2",
+            excludes: ["key", "key_servicio", "key_usuario", "fecha_on", "key_company", "estado", "latitude", "longitude"]
+        });
     }
     $allowEdit() {
         this.data = this.$getData();
@@ -60,7 +65,7 @@ class index extends DPA.profile {
             <SHr />
             <MenuPages path='/cliente/profile' permiso='ver'>
                 <MenuButtom
-                    icon={<SIcon name='Excel'/>}
+                    icon={<SIcon name='Excel' />}
                     label={SLanguage.select({
                         en: "Attendace Report",
                         es: "Reporte de horas trabajadas"

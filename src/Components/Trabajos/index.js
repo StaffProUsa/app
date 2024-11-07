@@ -82,7 +82,7 @@ class index extends Component {
           es: "Fecha",
           en: "Date"
         }} />
-        <SText center bold fontSize={13}>{new SDate(obj?.evento?.fecha, "yyyy-MM-dd").toString('MONTH dd, yyyy')}</SText> 
+        <SText center bold fontSize={13}>{new SDate(obj?.evento?.fecha, "yyyy-MM-dd").toString('MONTH dd, yyyy')}</SText>
       </SView>
       <SView col={"xs-4"} center style={{
         borderLeftWidth: 1,
@@ -103,6 +103,47 @@ class index extends Component {
           en: "End Time"
         }} />
         <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+      </SView> : null}
+
+    </SView>
+  }
+  build_horario_asistencia(obj) {
+    return <SView col={"xs-12"} row>
+      <SView col={"xs-4"} center height={40}>
+        <SText fontSize={12} color={STheme.color.gray} language={{
+          es: "Asistencia",
+          en: "Attendance"
+        }} />
+        {/* <SText center bold fontSize={13}>{new SDate(obj?.evento?.fecha, "yyyy-MM-dd").toString('MONTH dd, yyyy')}</SText>  */}
+      </SView>
+      <SView col={"xs-4"} center style={{
+        borderLeftWidth: 1,
+        borderColor: STheme.color.lightGray
+      }}>
+
+        {!obj?.staff_usuario?.fecha_ingreso ? null :
+          <>
+            <SText fontSize={12} color={STheme.color.gray} language={{
+              es: "Ingreso",
+              en: "Clock In"
+            }} />
+            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff_usuario?.fecha_ingreso, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+          </>
+        }
+      </SView>
+      {(obj?.staff?.fecha_fin) ? <SView col={"xs-4"} center style={{
+        borderLeftWidth: 1,
+        borderColor: STheme.color.lightGray
+      }}>
+        {!obj?.staff_usuario?.fecha_salida ? null :
+          <>
+            <SText fontSize={12} color={STheme.color.gray} language={{
+              es: "Salida",
+              en: "Clock Out"
+            }} />
+            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff_usuario?.fecha_salida, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+          </>
+        }
       </SView> : null}
 
     </SView>
@@ -269,9 +310,10 @@ class index extends Component {
 
 
       {this.build_horario(obj)}
-      
       <SHr height={5} />
-      
+      {this.build_horario_asistencia(obj)}
+      <SHr height={5} />
+
       {this.build_asistencia(obj)}
 
 

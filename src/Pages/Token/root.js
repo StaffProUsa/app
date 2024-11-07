@@ -154,6 +154,7 @@ export default class root extends Component {
           })
         }}>MARCAR</SButtom> */}
         <SHr h={40} />
+        
         <PButtom rojo onPress={() => {
           const code = this.input.getValue() ?? "";
           if (code.length < 6) {
@@ -210,6 +211,9 @@ export default class root extends Component {
         </PButtom>
 
         <SHr h={30} />
+        <SText onPress={()=>SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText>
+        <SHr h={30} />
+
         {/* <SText onPress={() => {
           SNavigation.navigate("/token/exito")
         }}>{"TEST VENTANA EXITO"}</SText> */}

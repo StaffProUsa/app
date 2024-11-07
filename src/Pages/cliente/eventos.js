@@ -1,5 +1,5 @@
 import React from "react";
-import { SDate, SHr, SList, SNavigation, SPage, SText, STheme, SUtil, SView } from "servisofts-component";
+import { SDate, SHr, SLanguage, SList, SNavigation, SPage, SText, STheme, SUtil, SView } from "servisofts-component";
 import SSocket from "servisofts-socket";
 import { Container } from "../../Components";
 import FloatButtom from "../../Components/FloatButtom";
@@ -25,7 +25,7 @@ const getColorFromPercentage = (percentage) => {
 }
 
 export default class Eventos extends React.Component {
-    static INSTANCE = null; 
+    static INSTANCE = null;
 
     key_cliente = this.props.key_cliente ?? SNavigation.getParam("key_cliente")
     state = {
@@ -85,10 +85,16 @@ export default class Eventos extends React.Component {
             <SHr h={4} />
             <SText fontSize={12} color={STheme.color.gray}>{SUtil.limitString(obj.observacion, 200, "...").trim()}</SText>
             <SHr />
-            <SText fontSize={12} color={STheme.color.gray}>{`Reclutas ${obj.actual ?? 0}/${obj.cantidad ?? 0}`}</SText>
+            <SText fontSize={12} color={STheme.color.gray}>{`${SLanguage.select({
+                en: "Recruitment",
+                es: "Reclutas"
+            })} ${obj.actual ?? 0}/${obj.cantidad ?? 0}`}</SText>
             {this.renderBarra({ color: null, porcentaje: obj.porcentaje_reclutas, key: obj.key + "b" })}
             <SHr />
-            <SText fontSize={12} color={STheme.color.gray}>{`Asistencias ${obj.asistencias ?? 0}/${obj.actual ?? 0}`}</SText>
+            <SText fontSize={12} color={STheme.color.gray}>{`${SLanguage.select({
+                en: "Attendance",
+                es: "Asistencias"
+            })} ${obj.asistencias ?? 0}/${obj.actual ?? 0}`}</SText>
             {this.renderBarra({ color: null, porcentaje: obj.porcentaje_asistencia, key: obj.key + "a" })}
             <SHr />
             {/* <SText col={"xs-12"} style={{ textAlign: "right" }} fontSize={10} color={STheme.color.gray}>{new SDate(obj.fecha).toString("MONTH dd, yyyy,  HH")}</SText> */}
