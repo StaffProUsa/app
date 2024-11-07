@@ -147,7 +147,7 @@ export default class history extends Component {
                 if (isInvitation) {
                     SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key })
                 } else {
-                    SNavigation.navigate("/evento", { key: obj?.key })
+                    SNavigation.navigate("/evento", { key: obj?.evento?.key }) 
                 }
             }}>
                 <SView col={"xs-2"} row center>
