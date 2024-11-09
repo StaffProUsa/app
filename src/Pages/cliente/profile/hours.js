@@ -39,6 +39,12 @@ export default class hours extends Component {
         rowHeight={25}
         header={[
           {
+            key: "key_usuario-employee_number", label: "Employee Number", width: 120, render: ku => {
+              const user = users[ku]
+              return `${user?.employee_number}`
+            }
+          },
+          {
             key: "key_usuario", cellStyle: { fontSize: 12 }, order: "asc", label: "User", width: 150, render: ku => {
               const user = users[ku]
               return `${user?.Nombres} ${user?.Apellidos}`

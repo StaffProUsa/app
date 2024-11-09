@@ -13,7 +13,7 @@ export default ({ store }) => {
     return <SSocket
         store={store}
         identificarse={(props) => {
-            
+
             let tags = {
                 platform: Platform.OS,
                 user_type: "undefined",
@@ -35,6 +35,7 @@ export default ({ store }) => {
             return {
                 data: usuario ? usuario : {},
                 deviceKey: DeviceKey.getKey(),
+                timeZone: -1 * 60,
                 firebase: {
                     tags: tags,
                     platform: Platform.OS,

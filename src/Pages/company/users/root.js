@@ -128,6 +128,7 @@ export default class root extends Component {
                                 this.handleChangeStatus(a)
                             }, renderExcel: (e) => e.estado == 2 ? "enabled" : "disabled"
                         },
+                        { key: "usuario/employee_number", label: "Employee Number", width: 100 },
                         { key: "usuario-name", label: "Full Name", order: "asc", width: 160, render: (a) => `${a.Nombres} ${a.Apellidos}` },
                         { key: "usuario/Telefono", label: "Phone Number", width: 100 },
                         { key: "usuario/Correo", label: "Email", width: 170, },
@@ -135,7 +136,6 @@ export default class root extends Component {
                         { key: "usuario/papeles", label: "Has Papers?", width: 70, cellStyle: { textAlign: "center" } },
                         { key: "usuario/estado_civil", label: "Marital Status", width: 70 },
                         { key: "usuario/fecha_nacimiento", label: "Dae of Birth", width: 70, cellStyle: { textAlign: "center" } },
-                        { key: "usuario/employee_number", label: "Employee Number", width: 100 },
                         { key: "usuario/direccion", label: "Affress", width: 150 },
                         { key: "usuario/otros_idiomas", label: "Other Languages", width: 150 },
                         { key: "fecha_on", label: "Date added", width: 150, cellStyle: { textAlign: "right", paddingRight: 4 }, render: (a) => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },

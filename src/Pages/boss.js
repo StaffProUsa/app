@@ -170,13 +170,19 @@ class boss extends Component {
                                 allowLoading = true;
                                 CONT = <SText color={STheme.color.warning} fontSize={10}>{"Debes marcar la salida"}</SText>
                                 // estadoAsistencia = "Debes marcar la salida"
-                            }else{
+                            } else {
                                 CONT = <SText color={STheme.color.success} fontSize={10}>{"El evento finalizo"}</SText>
                             }
 
                             return <SView col={"xs-12"} flex center>
                                 {CONT}
                             </SView>
+                        }
+                    },
+                    {
+                        key: "key_usuario-employee_number", label: "Employee Number", width: 120, render: ku => {
+                            const user = users[ku]
+                            return `${user?.employee_number}`
                         }
                     },
                     {

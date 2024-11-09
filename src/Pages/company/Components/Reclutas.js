@@ -47,7 +47,6 @@ export default class Reclutas extends Component {
             console.log(obj);
             // SNavigation.navigate("/staff/add", { key_evento: obj.key_evento, pk: obj.key, })
             SNavigation.navigate("/staff/users", { key_evento: obj.key_evento, pk: obj.key, })
-
             // SNavigation.navigate("/staff/profile", { pk: obj.key })
         }}>
             <SView width={50} height={50} card>
@@ -62,7 +61,7 @@ export default class Reclutas extends Component {
                         <SView row>
                             <SText bold fontSize={15}>{obj.tipo_staff} </SText>
                             <SView width={16}/>
-                            <SText fontSize={13}>start {new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                            <SText fontSize={13}>start {new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
 
                         </SView>
                         <SText fontSize={14} color={STheme.color.gray}>{obj.staff}</SText>

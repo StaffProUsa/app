@@ -189,7 +189,7 @@ class index extends Component {
     let isInvitation = (obj?.staff_usuario?.estado == 2)
 
     const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
-    const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss");
+    const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD");
     const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
     const timerun = sdate.isBefore(new SDate())
     // console.log("obj", obj)

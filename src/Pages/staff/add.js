@@ -107,11 +107,13 @@ export default class add extends Component {
             // this.setState({ fecha: new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
             // this._ref["fecha_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
             if (e.data.fecha_inicio) {
-                this._ref["hora_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
+                const hi = new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD")
+                this._ref["hora_inicio"].setValue(hi.toString("hh:mm"))
+                console.log(hi);
             }
             // this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
             if (e.data.fecha_fin) {
-                this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm"))
+                this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm"))
             }
             this._ref["nivel_ingles"].setValue(e.data.nivel_ingles)
             console.log(e);
@@ -141,6 +143,7 @@ export default class add extends Component {
         if (!valid) {
             return;
         }
+        const tz = new SDate().getTimezone();
 
         if (this.state.pk) {
             // SSocket.sendPromise({
@@ -168,8 +171,8 @@ export default class add extends Component {
                     ...this.state.data,
                     "descripcion": val.descripcion,
                     "observacion": val.observacion,
-                    "fecha_inicio": !val.hora_inicio ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? ""),
-                    "fecha_fin": !val.hora_fin ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? ""),
+                    "fecha_inicio": !val.hora_inicio ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? "") + tz,
+                    "fecha_fin": !val.hora_fin ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? "") + tz,
                     cantidad: val.cantidad,
                     nivel_ingles: val.nivel_ingles
                 },
@@ -190,8 +193,8 @@ export default class add extends Component {
                     "observacion": val.observacion,
                     "key_evento": this.state.key_evento,
                     "key_staff_tipo": dataTipo.key,
-                    "fecha_inicio": !val.hora_inicio ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? ""),
-                    "fecha_fin": !val.hora_fin ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? ""),
+                    "fecha_inicio": !val.hora_inicio ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? "") + tz,
+                    "fecha_fin": !val.hora_fin ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? "") + tz,
                     cantidad: val.cantidad,
                     nivel_ingles: val.nivel_ingles
                 },
