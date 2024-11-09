@@ -60,8 +60,17 @@ export default class Reclutas extends Component {
                     }}>
                         <SView row>
                             <SText bold fontSize={15}>{obj.tipo_staff} </SText>
-                            <SView width={16}/>
-                            <SText fontSize={13}>start {new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
+                            <SView width={16} />
+                            <SText fontSize={13} language={{
+                                en: "Start " + new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
+                                es: "Inicio " + new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
+                            }} />
+
+                            {(obj.fecha_fin != null) ?<SText fontSize={13} language={{
+                                en: " | End " + new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
+                                es: " | Fin " + new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
+                            }} /> : null}
+                            
 
                         </SView>
                         <SText fontSize={14} color={STheme.color.gray}>{obj.staff}</SText>

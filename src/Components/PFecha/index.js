@@ -49,7 +49,7 @@ class PFecha extends Component {
           />
           <SView
             col={'xs-12'}
-            style={{ position: 'absolute', alignItems: 'flex-end', top: 17 }}>
+            style={{ position: 'absolute', alignItems: 'flex-end', top: 17, right: 3 }}>
             <SText fontSize={32} font={'Roboto'} color={STheme.color.white}>
               {this.props.dia}
             </SText>

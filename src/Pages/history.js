@@ -173,12 +173,15 @@ export default class history extends Component {
                     <SText fontSize={12} color={STheme.color.gray}>{obj?.staff_tipo?.descripcion}</SText>
                     <SText fontSize={10} color={STheme.color.gray}>{SUtil.limitString(obj?.staff?.descripcion, 120)}</SText>
                 </SView>
-                <SHr height={15} />
+                <SHr height={10} />
+                <SHr height={1} color={STheme.color.lightGray} />
+                <SHr height={10} />
                 <SView col={"xs-2"} row center>
                     <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
                 </SView>
-                <SView col={"xs-10"}  >
-                    <SText fontSize={12}>{new SDate(obj?._fecha_inicio).toString("yyyy MONTH dd, HH")}</SText>
+                <SView col={"xs-10"} row >
+                    <SText col={"xs-4"} fontSize={12}>{new SDate(obj?.staff?.fecha_inicio).toString("yyyy MONTH dd")}</SText>
+                    <SText col={"xs-4"} fontSize={12}>{new SDate(obj?.evento?.fecha).toString("yyyy MONTH dd")}</SText>
                 </SView>
                 <SHr />
                 <SView>
