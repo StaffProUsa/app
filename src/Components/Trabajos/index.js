@@ -218,7 +218,7 @@ class index extends Component {
       overflow: "hidden",
     }} >
       <Degradado />
-      <SView row col={"xs-12"} onPress={() => {
+      <SView row col={"xs-12"}  onPress={() => {
         if (isInvitation) {
           SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key })
         } else {
@@ -239,7 +239,7 @@ class index extends Component {
             }} />
           </SView>
         </SView>
-        <SView col={"xs-10 sm-3.5"} >
+        <SView col={"xs-10 sm-3.5"} style={{paddingBottom:10}}>
           <SText fontSize={16}>{obj?.company?.descripcion}</SText>
           <SText fontSize={12} color={STheme.color.gray} language={{
             es: "Empresa",

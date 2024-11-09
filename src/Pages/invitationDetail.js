@@ -195,7 +195,7 @@ export default class invitationDetail extends React.Component {
                     }} />
                   </SView>
                   <SView col={'xs-6'} row>
-                    <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_inicio).toString("hh:mm")}</SText>
+                    <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
                   </SView>
                   <SHr height={10} />
                   {(obj?.staff?.fecha_fin) ? <>
@@ -207,7 +207,7 @@ export default class invitationDetail extends React.Component {
                       }} />
                     </SView>
                     <SView col={'xs-6'} row>
-                      <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_fin).toString("hh:mm")}</SText>
+                      <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
                     </SView><SHr height={10} /></> : null}
 
 

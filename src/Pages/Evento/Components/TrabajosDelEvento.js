@@ -133,7 +133,7 @@ export default class TrabajosDelEvento extends Component {
 
     renderCoordinador(obj) {
         const { staff_usuario } = obj
-        if (staff_usuario?.key_usuario_atiende == null ) return null;
+        if (staff_usuario?.key_usuario_atiende == null) return null;
         let userCoordinador = Model.usuario.Action.getByKey(staff_usuario?.key_usuario_atiende)
         return <SView col={"xs-12"} row center style={{
             borderBottomWidth: 1,
@@ -234,40 +234,42 @@ export default class TrabajosDelEvento extends Component {
                         <SText fontSize={14} bold color={STheme.color.text}>{new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
                     </SView> : null}
                 </SView>
-            </SView>
-
-            {asistencia ? <SView col={"xs-12"} >
-                <SHr height={10} />
-                <SHr h={1} color={STheme.color.lightGray} />
-                <SHr height={10} />
-                <SText col={"xs-12"} bold fontSize={14} language={{
-                    es: `Información de asistencia:`,
-                    en: `Attendance information:`
-                }} />
-                <SHr height={10} />
-                <SView col={"xs-12"} row>
-                    <SView col={asistencia?.fecha_off != null ? "xs-6" : "xs-12"} center>
-                        <SText fontSize={12} language={{
-                            es: `Ingreso`,
-                            en: `Income`
-                        }} />
-                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(asistencia?.fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
-                    </SView>
-                    {asistencia?.length > 1 ? <SView col={"xs-6"} center style={{
-                        borderLeftWidth: 1,
-                        borderColor: STheme.color.lightGray
-                    }}>
-                        <SText fontSize={12} language={{
-                            es: `Salida`,
-                            en: `Exit`
-                        }} />
-                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(asistencia[asistencia?.length - 1]?.fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
-                    </SView> : null}
                 </SView>
-            </SView> : null}
 
+
+                {(staff_usuario?.fecha_ingreso != null) ? <SView col={"xs-12"} >
+                    <SHr height={10} />
+                    <SHr h={1} color={STheme.color.lightGray} />
+                    <SHr height={10} />
+                    <SText col={"xs-12"} bold fontSize={14} language={{
+                        es: `Información de asistencia:`,
+                        en: `Attendance information:`
+                    }} />
+                    <SHr height={10} />
+                    <SView col={"xs-12"} row>
+                        <SView col={"xs-6"}  center>
+                            <SText fontSize={12} language={{
+                                es: `Ingreso`,
+                                en: `Income`
+                            }} />
+                            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(staff_usuario?.fecha_ingreso, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                        </SView>
+                        {(staff_usuario?.fecha_salida != null) ? <SView col={"xs-6"} center style={{
+                            borderLeftWidth: 1,
+                            borderColor: STheme.color.lightGray
+                        }}>
+                            <SText fontSize={12} language={{
+                                es: `Salida`,
+                                en: `Exit`
+                            }} />
+                            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(staff_usuario?.fecha_salida, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                        </SView> : null}
+                    </SView>
+                </SView> : null}
+           
         </SView>
     }
+
 
     render() {
         if (!this.state.data) return null;

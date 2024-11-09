@@ -197,6 +197,17 @@ export default class users extends Component {
         return fecha.toLocaleDateString(lenguaje, opciones);
     }
 
+    formatearFechaHora(fecha, lenguaje) {
+        const opciones = {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true // Esto es opcional, si quieres formato de 12 horas 
+        };
+        //  return fecha.toLocaleDateString('en-US', opciones);
+        return fecha.toLocaleDateString(lenguaje, opciones);
+    }
+
+
     EsFechaMenorOIgual(fecha) {
         // Convertir la fecha de cadena a objeto Date
         const fechaObj = new Date(fecha);
@@ -270,10 +281,10 @@ export default class users extends Component {
                             key_usuario: Model.usuario.Action.getKey(),
                             key_staff_usuario: selecteds,
                             key_usuario_atiende: usuario.key_usuario,
-                        }).then(e=>{
+                        }).then(e => {
                             this.componentDidMount();
-                        }).catch(e=>{
-                            
+                        }).catch(e => {
+
                         })
                     }
                 })
@@ -306,10 +317,25 @@ export default class users extends Component {
                     en: "Start:"
                 }} />
                 <SView width={6} />
-                <SText fontSize={14} language={{
+                {/* <SText fontSize={14} language={{
                     es: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "es"),
                     en: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "en")
+                }} /> */}
+                <SText fontSize={14} language={{
+                    es: new SDate(this.state?.data?.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy,  HH"),
+                    en: new SDate(this.state?.data?.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy,  HH")
                 }} />
+                {(this.state?.data?.fecha_fin) ? <>
+                    <SText center color={STheme.color.gray} language={{
+                        es: " | Fin:",
+                        en: " | End:"
+                    }} />
+                    <SView width={6} />
+                    <SText fontSize={14} language={{
+                       es: new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH"),
+                       en: new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")
+                    }} />
+                </> : null}
                 <SView width={6} />
                 {(this.EsFechaMenorOIgual(new Date(this.state?.data?.fecha_inicio))) ? <SText fontSize={16} center color={STheme.color.danger} language={{
                     en: "[ Past event ]",
