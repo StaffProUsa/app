@@ -10,7 +10,44 @@ import Input from '../../Components/Input';
 import InputFloat from '../../Components/NuevoInputs/InputFloat';
 import InputHora from '../../Components/NuevoInputs/InputHora';
 import InputSelect from '../../Components/NuevoInputs/InputSelect';
-const formatTime = (time: any) => {
+
+const formatTime = (time) => {
+    // Eliminar caracteres no numéricos, no ':' y no 'am/pm'
+    let filtered = time.toLowerCase().replace(/[^0-9:apm]/g, '');
+
+    // Verificar si tiene "am" o "pm" y eliminarlo temporalmente
+    const isPM = filtered.includes('pm');
+    const isAM = filtered.includes('am');
+    filtered = filtered.replace(/am|pm/g, '').trim();
+
+    // Separar en partes
+    const parts = filtered.split(':');
+    let hh = parts[0] || '';
+    let mm = parts[1] || '';
+
+    // Agregar ceros a la izquierda si es necesario
+    hh = hh.padStart(2, '0');
+    mm = mm.padStart(2, '0');
+
+    // Convertir a formato de 24 horas si es necesario
+    if (isPM && hh !== '12') {
+        hh = String(parseInt(hh, 10) + 12).padStart(2, '0');
+    } else if (isAM && hh === '12') {
+        hh = '00';
+    }
+
+    // Limitar los valores de las horas y minutos
+    if (parseInt(hh, 10) > 23) hh = '23';
+    if (parseInt(mm, 10) > 59) mm = '59';
+
+    // Unir de nuevo si no tiene minutos
+    if (filtered.includes(':')) {
+        return `${hh}:${mm}`;
+    }
+    return `${hh}:00`; // Si no incluye ':', asumir minutos '00'
+};
+
+const formatTime2 = (time: any) => {
     // Eliminar caracteres no numéricos y no ':'
     let filtered = time.replace(/[^0-9:]/g, '');
 
@@ -108,12 +145,12 @@ export default class add extends Component {
             // this._ref["fecha_inicio"].setValue(new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
             if (e.data.fecha_inicio) {
                 const hi = new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD")
-                this._ref["hora_inicio"].setValue(hi.toString("hh:mm"))
+                this._ref["hora_inicio"].setValue(hi.toString("HH"))
                 console.log(hi);
             }
             // this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
             if (e.data.fecha_fin) {
-                this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm"))
+                this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"))
             }
             this._ref["nivel_ingles"].setValue(e.data.nivel_ingles)
             console.log(e);
@@ -312,7 +349,7 @@ export default class add extends Component {
                         label={hora_inicio}
                         labelStyle={{ color: STheme.color.text, fontSize: 12, fontFamily: "roboto", marginTop: 10 }}
                         placeholder="HH:MM"
-                        filter={this.filterHorario.bind(this)}
+                        // filter={this.filterHorario.bind(this)}
                         onPress={(e) => {
                             InputFloat.open({
                                 e: e, width: 120, height: 160,
@@ -322,9 +359,9 @@ export default class add extends Component {
                                 },
                                 render: () => {
                                     return <SView flex height card>
-                                        <InputHora defaultValue={this._ref["hora_inicio"].getValue()} onChange={val => {
+                                        <InputHora defaultValue={formatTime(this._ref["hora_inicio"].getValue())} onChange={val => {
                                             if (this._ref["hora_inicio"]) {
-                                                this._ref["hora_inicio"].setValue(val)
+                                                this._ref["hora_inicio"].setValue(new SDate(val, "hh:mm").toString("HH"))
                                             }
                                         }} />
                                     </SView>
@@ -362,9 +399,10 @@ export default class add extends Component {
                                 },
                                 render: () => {
                                     return <SView flex height card>
-                                        <InputHora defaultValue={this._ref["hora_fin"].getValue()} onChange={val => {
+                                        <InputHora defaultValue={formatTime(this._ref["hora_fin"].getValue())} onChange={val => {
                                             if (this._ref["hora_fin"]) {
-                                                this._ref["hora_fin"].setValue(val)
+                                                this._ref["hora_fin"].setValue(new SDate(val, "hh:mm").toString("HH"))
+                                                // this._ref["hora_fin"].setValue(val)
                                             }
                                         }} />
                                     </SView>

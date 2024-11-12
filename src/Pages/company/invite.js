@@ -5,6 +5,7 @@ import { Container } from '../../Components';
 // import Share from 'react-native-share'
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
+import select from '../cliente/select';
 
 let RNShare;
 
@@ -139,14 +140,14 @@ Welcome to *${empresa?.descripcion}*
                 <SHr h={1} color={STheme.color.gray} />
                 <SHr h={16} />
                 {this.btn({
-                    icon: <SIcon name={"out"} fill={STheme.color.gray} width={25} />, label: "Enviar enlace por WhatsApp",
+                    icon: <SIcon name={"out"} fill={STheme.color.gray} width={25} />, label: SLanguage.select({ es:"Enviar enlace por Whatsapp", en:"Send link with Whatsapp"}) ,
                     onPress: () => {
                         Linking.openURL("https://wa.me/?text=" + encodeURIComponent(this.state.message))
                     }
                 })}
                 <SHr h={16} />
                 {this.btn({
-                    icon: <SIcon name={"share"} fill={STheme.color.gray} width={25} />, label: "Copiar enlace",
+                    icon: <SIcon name={"share"} fill={STheme.color.gray} width={25} />, label: SLanguage.select({es:"Copiar enlace", en:"Copy link"}),
                     onPress: () => {
                         if (Platform.OS == "web") {
                             navigator.clipboard.writeText(this.state.link).then(() => {
