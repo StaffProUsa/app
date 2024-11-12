@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SHr, SNavigation, SPage, SText, SView, STheme, SImage, SInput, SLoad, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList2, SScrollView2, SLanguage } from 'servisofts-component';
+import { SHr, SNavigation, SPage, SText, SView, STheme, SImage, SInput, SLoad, SButtom, SIcon, SWebView, STable2, SMath, SDate, SList2, SScrollView2, SLanguage, ScrollView } from 'servisofts-component';
 import { WebView } from 'react-native';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -106,6 +106,7 @@ class index extends Component {
             }}
 
             >
+
                 {/* {data?.evento ? null : <Degradado />}
                 {data?.isPaquete ? <SView style={{
                     position: "absolute",
@@ -114,43 +115,46 @@ class index extends Component {
                     height: 10,
                     backgroundColor: "#D70201"
                 }}></SView> : null} */}
+
                 <SText style={{
                     position: "absolute", right: 4, top: 4
                 }} bold font={"Roboto"} fontSize={14} color={STheme.color.text}>{data.sdate.toString("dd")}</SText>
-                {events ? events.map((k) => {
-                    let desCorto = k?.cliente?.descripcion.length > 15 ? k?.cliente?.descripcion.substring(0, 15) + "..." : k?.cliente?.descripcion
-                    let isInvitation = (k?.staff_usuario?.estado == 2)
-                    return (<>
-                        <SView col={"xs-10"} row  style={{
-                            borderWidth: 2,
-                            borderRadius: 4,
-                            borderColor: isInvitation ? STheme.color.warning : STheme.color.success,
-                            marginTop: 2,
-                            padding:1,
-                            overflow: "hidden",
-                            backgroundColor: STheme.color.gray
-                        }} onPress={() => {
-                            if (isInvitation) {
-                                SNavigation.navigate("/invitationDetail", { key: k?.staff_usuario?.key })
-                            } else {
-                                SNavigation.navigate("/evento", { key: k?.key })
-                            }
+                <SScrollView2  >
+                    {events ? events.map((k) => {
+                        let desCorto = k?.cliente?.descripcion.length > 15 ? k?.cliente?.descripcion.substring(0, 15) + "..." : k?.cliente?.descripcion
+                        let isInvitation = (k?.staff_usuario?.estado == 2)
+                        return (<>
+                            <SView col={"xs-10"} row style={{
+                                borderWidth: 2,
+                                borderRadius: 4,
+                                borderColor: isInvitation ? STheme.color.warning : STheme.color.success,
+                                marginTop: 2,
+                                padding: 1,
+                                overflow: "hidden",
+                                backgroundColor: STheme.color.gray
+                            }} onPress={() => {
+                                if (isInvitation) {
+                                    SNavigation.navigate("/invitationDetail", { key: k?.staff_usuario?.key })
+                                } else {
+                                    SNavigation.navigate("/evento", { key: k?.key })
+                                }
 
-                        }}>
-                            {/* <Degradado /> */}
-                            {/* <SView width={20} height={20} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth: 1, borderColor: STheme.color.darkGray }}>
+                            }}>
+                                {/* <Degradado /> */}
+                                {/* <SView width={20} height={20} card style={{ borderRadius: 45, overflow: 'hidden', borderWidth: 1, borderColor: STheme.color.darkGray }}>
                                 <SImage src={SSocket.api.root + "company/" + k?.key_company} style={{
                                     resizeMode: "cover",
                                 }} />
                             </SView> */}
-                            {/* <SView width={3} /> */}
-                            <SView >
-                                <SText bold font={"Roboto"} justify fontSize={11} color={color}>{desCorto || ""}</SText>
+                                {/* <SView width={3} /> */}
+                                <SView >
+                                    <SText bold font={"Roboto"} justify fontSize={11} color={color}>{desCorto || ""}</SText>
+                                </SView>
                             </SView>
-                        </SView>
-                    </>)
-                }) : null}
-                <SHr h={2}/>
+                        </>)
+                    }) : null}
+                </SScrollView2>
+                <SHr h={2} />
             </SView>
         </>
     }
