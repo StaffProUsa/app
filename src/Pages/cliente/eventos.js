@@ -86,7 +86,7 @@ export default class Eventos extends React.Component {
             <SText fontSize={12} color={STheme.color.gray}>{SUtil.limitString(obj.observacion, 200, "...").trim()}</SText>
             <SHr />
             <SText fontSize={12} color={STheme.color.gray}>{`${SLanguage.select({
-                en: "Recruitment",
+                en: "Booking",
                 es: "Reclutas"
             })} ${obj.actual ?? 0}/${obj.cantidad ?? 0}`}</SText>
             {this.renderBarra({ color: null, porcentaje: obj.porcentaje_reclutas, key: obj.key + "b" })}
