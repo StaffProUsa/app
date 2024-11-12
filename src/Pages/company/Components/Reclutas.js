@@ -112,7 +112,7 @@ export default class Reclutas extends Component {
             {arr.length <= 0 ? <SView center col={"xs-12"} height={200}>
                 <SText color={STheme.color.gray} language={{
                     es: "NO TIENES RECLUTAS",
-                    en: "YOU DON'T HAVE RECRUITS"
+                    en: "YOUR BOOKING LIST IS EMPTY"
                 }} />
                 <SText color={STheme.color.gray} fontSize={12} language={{
                     es: "Presiona en el botón + para agregar puestos.",
