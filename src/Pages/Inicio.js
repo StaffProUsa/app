@@ -153,7 +153,7 @@ export default class Inicio extends Component {
         <SView col={"xs-11.5"} center>
           {/* <MisCompanys /> */}
           <SHr />
-          <MisStaffTipo />
+          {/* <MisStaffTipo /> */}
           <SHr />
           <Calendar ref={ref => this.calendar = ref} />
         </SView>

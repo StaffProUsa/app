@@ -318,25 +318,12 @@ class index extends Component {
                             }} /></PButtom>
                             <SView height={15} />
 
-                            <PButtom secondary fontSize={20} onPress={() => {
-                                // SPopup.confirm({
-                                //     title: "Eliminar cuenta", message: "¿Estás seguro de eliminar la cuenta?", onPress: () => {
-                                //         Model.usuario.Action.editar({
-                                //             data: {
-                                //                 ...this.data,
-                                //                 estado: 0
-                                //             },
-                                //         }
-                                //         );
-                                //         Model.usuario.Action.CLEAR() //Limpiar caché
-                                //         Model.usuario.Action.unlogin();
-                                //     }
-                                // })
+                            {/* <PButtom secondary fontSize={20} onPress={() => {
                                 SNavigation.navigate("/perfil/eliminar")
                             }}><SText fontSize={20} color={STheme.color.text} language={{
                                 es: "ELIMINAR CUENTA",
                                 en: "DELETE ACCOUNT"
-                            }} /></PButtom>
+                            }} /></PButtom> */}
                             <SView height={36} />
 
                         </SView>

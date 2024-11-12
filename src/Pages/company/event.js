@@ -126,7 +126,7 @@ export default class event extends Component {
             <SView col={"xs-12"} >
                 <SView col={"xs-12"} row>
                     <SText fontSize={18} language={{
-                        en: "Recruitment",
+                        en: "Booking",
                         es: "Reclutas"
                     }} />
                     <SView flex />
