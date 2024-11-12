@@ -12,6 +12,7 @@ import InputHora from '../../Components/NuevoInputs/InputHora';
 import InputSelect from '../../Components/NuevoInputs/InputSelect';
 
 const formatTime = (time) => {
+    if(!time) return ;
     // Eliminar caracteres no numéricos, no ':' y no 'am/pm'
     let filtered = time.toLowerCase().replace(/[^0-9:apm]/g, '');
 

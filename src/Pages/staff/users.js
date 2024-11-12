@@ -520,7 +520,8 @@ export default class users extends Component {
                                     }} /></SView>
                             },
                             { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
-                            { key: "participacion", label: "Events", width: 50, order: "desc" },
+                            { key: "horas_trabajadas", label: "H.", width: 50, order: "desc" },
+                            { key: "participacion", label: "Events", width: 50, },
                             { key: "rechazos", label: "Rejects", width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
                             // {key: "usuario/Telefono", label: "Telefono", width: 100 },
                             {
