@@ -198,15 +198,16 @@ class index extends Component {
     let estadoAsistencia = "";
     if (sdate.isAfter(new SDate())) {
       // Si la fecha inicio aun no paso
-      estadoAsistencia = "Esperando la hora de ingreso..."
+      //estadoAsistencia = "Esperando la hora de inicio para registrar tu ingreso..."
+      estadoAsistencia = SLanguage.select({es:"Esperando la hora de inicio para registrar tu ingreso...",en:"Waiting for the start time to record your check-in..."})
     } else if (!obj?.staff_usuario?.fecha_ingreso && !obj?.staff_usuario?.fecha_salida && new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ss").isBefore(new SDate())) {
-      estadoAsistencia = "EL evento ya finalizo y no marcaste ingreso ni salida"
+      estadoAsistencia = "El evento ha finalizado y no registraste tu ingreso ni salida"
     } else if (!obj?.staff_usuario?.fecha_ingreso) {
       allowLoading = true;
-      estadoAsistencia = "Debes marcar ingreso en el evento"
+      estadoAsistencia = "Es necesario que registres tu ingreso en el evento."
     } else if (!obj?.staff_usuario?.fecha_salida) {
       allowLoading = true;
-      estadoAsistencia = "Debes marcar la salida"
+      estadoAsistencia = "Por favor, recuerda registrar tu salida."
     }
 
 
