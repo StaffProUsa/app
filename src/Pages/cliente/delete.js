@@ -5,7 +5,7 @@ import Model from '../../Model';
 
 class index extends DPA.delete {
     constructor(props) {
-        super(props, { Parent: Parent, });
+        super(props, { Parent: Parent, title:"Delete client" });
     }
     componentDidMount() {
         this.data = this.$getData();

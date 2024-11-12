@@ -1,5 +1,5 @@
 import React from "react";
-import { SForm, SHr, SInput, SNavigation, SPage, SText, SThread, SLanguage, STheme, SButtom } from "servisofts-component";
+import { SForm, SHr, SInput, SNavigation, SPage, SText, SThread, SLanguage, STheme, SButtom, SNotification } from "servisofts-component";
 import { Container } from "../../Components";
 import SSocket from "servisofts-socket";
 import Model from "../../Model";
@@ -71,9 +71,9 @@ export default class index extends React.Component {
                     }}
                     inputs={{
                         "foto_p": { type: "image", isRequired: false, defaultValue: `${SSocket.api.root}cliente/${this.pk}?time=${new Date().getTime()}`, col: "xs-12 sm-3.5 md-3 lg-2.5 xl-2.5", style: { borderRadius: 8, overflow: 'hidden', width: 130, height: 130, borderWidth: 0 } },
-                        "descripcion": { col: "xs-12 sm-7", label: SLanguage.select({es:"Nombre de cliente", en:"Client name"}), required: true, defaultValue: this.state?.data?.descripcion },
-                        "contacto": { col: "xs-12 sm-7", label: SLanguage.select({es:"Nombre de contacto", en:"Contact name"}), required: false, defaultValue: this.state?.data?.contacto },
-                        "telefono": { col: "xs-12 sm-4.5", label: SLanguage.select({es:"Número de teléfono", en:"Phone Number"}), type:"phone", required: false, defaultValue: (this.state?.data?.telefono) ? this.state?.data?.telefono : "+1 " },
+                        "descripcion": { col: "xs-12 sm-7", label: SLanguage.select({ es: "Nombre de cliente", en: "Client name" }), required: true, defaultValue: this.state?.data?.descripcion },
+                        "contacto": { col: "xs-12 sm-7", label: SLanguage.select({ es: "Nombre de contacto", en: "Contact name" }), required: false, defaultValue: this.state?.data?.contacto },
+                        "telefono": { col: "xs-12 sm-4.5", label: SLanguage.select({ es: "Número de teléfono", en: "Phone Number" }), type: "phone", required: false, defaultValue: (this.state?.data?.telefono) ? this.state?.data?.telefono : "+1 " },
                         // "direccion": { col: "xs-7", label: SLanguage.select({es:"Dirección", en:"Address"}), required: true, defaultValue: this.state?.data?.direccion },
 
                         // "nivel_ingles": { col: "xs-5.5", type: "select", label: nivel_ingles, defaultValue: this.state?.data?.nivel_ingles,options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content:  (lenguaje == "en") ? "NONE" :"NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }], },
@@ -99,7 +99,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                             //                             `
                         },
                         "direccion": {
-                            col: "xs-12", type: "text", label: SLanguage.select({es:"Dirección", en:"Address"}), defaultValue: this.state?.data?.direccion,
+                            col: "xs-12", type: "text", label: SLanguage.select({ es: "Dirección", en: "Address" }), defaultValue: this.state?.data?.direccion,
                             onPress: () => {
                                 SNavigation.navigate("/cliente/select", {
                                     latitude: this.direccion?.latitude ?? this.state?.data?.latitude,
@@ -125,7 +125,14 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                             val.latitude = this.direccion.latitude
                             val.longitude = this.direccion.longitude
                         }
+                        SNotification.send({
+                            key: "loading",
+                            title: "Please wait.",
+                            body: "...",
+                            type: "loading"
+                        })
                         if (this.pk) {
+
                             this.form.uploadFiles(Model.cliente._get_image_upload_path(SSocket.api, this.state.data.key), "foto_p");
                             SSocket.sendPromise({
                                 component: "cliente",
@@ -138,11 +145,13 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                                 },
                                 key_usuario: Model.usuario.Action.getKey(),
                             }).then(e => {
+                                SNotification.remove("loading")
                                 Model.cliente.Action._dispatch(e);
                                 // SNavigation.goBack();
                                 SNavigation.replace("/cliente/profile", { pk: e?.data?.key })
                                 console.log(e);
                             }).catch(e => {
+                                SNotification.remove("loading")
                                 console.log(e);
                             })
                         } else {
@@ -161,12 +170,14 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                                 },
                                 key_usuario: Model.usuario.Action.getKey(),
                             }).then(e => {
+                                SNotification.remove("loading")
                                 this.form.uploadFiles(Model.cliente._get_image_upload_path(SSocket.api, e?.data?.key), "foto_p");
                                 Model.cliente.Action._dispatch(e);
                                 // SNavigation.goBack();
                                 SNavigation.replace("/cliente/profile", { pk: e?.data?.key })
                                 console.log(e);
                             }).catch(e => {
+                                SNotification.remove("loading")
                                 console.log(e);
                             })
                         }
