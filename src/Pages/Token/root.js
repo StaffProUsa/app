@@ -25,7 +25,7 @@ export default class root extends Component {
   componentWillUnmount() {
     SLanguage.removeListener(this.onChangeLanguage)
   }
-
+  input: SInput
   handleGetCode() {
     SSocket.sendPromise({
       component: "asistencia",
@@ -33,20 +33,22 @@ export default class root extends Component {
       data: {
         descripcion: "ASITENCIA TEST",
         key_usuario: Model.usuario.Action.getKey(),
-        fecha: new SDate().addSecond(this.state.secondDuration).toString()
+        // fecha: new SDate().addSecond(this.state.secondDuration).toString()
       },
       key_usuario: Model.usuario.Action.getKey(),
     }).then(e => {
+
       // this.setState({ time })
       this.input.setValue(e?.data?.codigo)
+      // this.input.setValue("")
       // this.setState({ asistencia: e.data })
-      new SThread(this.state.secondDuration * 1000, "asdasd",).start(() => {
-        SNotification.send({
-          title: "Codigo caducado",
-          body: "El codigo caduco"
-        })
-        this.input.setValue("")
-      })
+      // new SThread(this.state.secondDuration * 1000, "asdasd",).start(() => {
+      //   SNotification.send({
+      //     title: "Codigo caducado",
+      //     body: "El codigo caduco"
+      //   })
+      //   this.input.setValue("")
+      // })
     })
   }
   getToken() {
@@ -154,7 +156,7 @@ export default class root extends Component {
           })
         }}>MARCAR</SButtom> */}
         <SHr h={40} />
-        
+
         <PButtom rojo onPress={() => {
           const code = this.input.getValue() ?? "";
           if (code.length < 6) {
@@ -211,7 +213,7 @@ export default class root extends Component {
         </PButtom>
 
         <SHr h={30} />
-        <SText onPress={()=>SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText>
+        <SText onPress={() => SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText>
         <SHr h={30} />
 
         {/* <SText onPress={() => {

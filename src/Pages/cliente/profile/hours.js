@@ -56,8 +56,8 @@ export default class hours extends Component {
               let CONT = <SText color={STheme.color.gray} fontSize={10}>{"--"}</SText>
 
               const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
-              const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss");
-              const horaf = new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ss");
+              const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD");
+              const horaf = new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD");
               const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
               const sdatef = new SDate(fecha.toString("yyyy-MM-dd") + "T" + horaf.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
               const timerun = sdate.isBefore(new SDate())
@@ -97,22 +97,22 @@ export default class hours extends Component {
                 return "";
               }
 
-              const fi = new SDate(a.fecha_ingreso, "yyyy-MM-ddThh:mm:ss")
-              const fs = new SDate(a.fecha_salida, "yyyy-MM-ddThh:mm:ss")
+              const fi = new SDate(a.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD")
+              const fs = new SDate(a.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD")
               const disf = fi.diffTime(fs);
               return ((disf / 1000) / 60 / 60).toFixed(2);
 
             },
           },
           { key: "evento/fecha", label: "Date", width: 100, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
-          { key: "staff/fecha_inicio", label: "Start", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
-          { key: "staff/fecha_fin", label: "end", center: true, width: 70, render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
+          { key: "staff/fecha_inicio", label: "Start", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") },
+          { key: "staff/fecha_fin", label: "end", center: true, width: 70, render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") },
           {
             key: "fecha_ingreso", label: "Clock In", center: true,
             width: 150,
-            render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH"),
+            render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH"),
           },
-          { key: "fecha_salida", label: "Clock Out", center: true, width: 150, render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH") },
+          { key: "fecha_salida", label: "Clock Out", center: true, width: 150, render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH") },
 
           { key: "cliente/descripcion", label: "Client", width: 150 },
           { key: "evento/descripcion", label: "Event", width: 150 },

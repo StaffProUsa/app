@@ -30,7 +30,7 @@ export default class history extends Component {
                 const hi = new SDate(obj.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")
                 const hf = new SDate(obj.staff.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")
                 obj._fecha_inicio = f + "T" + hi
-                if(obj.staff.fecha_fin){
+                if (obj.staff.fecha_fin) {
                     obj._fecha_fin = f + "T" + hf
                 }
 
@@ -137,6 +137,16 @@ export default class history extends Component {
             let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
             console.log("obj", obj)
             console.log("userCoordinador", userCoordinador)
+            let timeWork;
+
+            if ((obj.fecha_ingreso != null) && (obj.fecha_salida != null)) {
+                console.log("fecha_ingreso", obj.fecha_ingreso)
+                let fi = new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ss.sssTZD")
+                let fs = obj.fecha_salida ? new SDate(obj.fecha_salida, "yyyy-MM-ddThh:mm:ss.sssTZD") : new SDate()
+                let disf = fi.diffTime(fs);
+                console.log("disf", disf)
+                timeWork = ((disf / 1000) / 60 / 60).toFixed(2);
+            }
 
             return <SView col={"xs-12"} row padding={15} style={{
                 borderRadius: 16,
@@ -147,7 +157,7 @@ export default class history extends Component {
                 if (isInvitation) {
                     SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key })
                 } else {
-                    SNavigation.navigate("/evento", { key: obj?.evento?.key }) 
+                    SNavigation.navigate("/evento", { key: obj?.evento?.key })
                 }
             }}>
                 <SView col={"xs-2"} row center>
@@ -180,14 +190,34 @@ export default class history extends Component {
                     <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
                 </SView>
                 <SView col={"xs-10"} row >
-                    <SText col={"xs-4"} fontSize={12}>{new SDate(obj?.staff?.fecha_inicio).toString("yyyy MONTH dd")}</SText>
-                    <SText col={"xs-4"} fontSize={12}>{new SDate(obj?.evento?.fecha).toString("yyyy MONTH dd")}</SText>
+                    <SText col={"xs-4"} fontSize={12}>{new SDate(obj?.evento?.fecha).toString("MONTH dd, yyyy")}</SText>
+                    {(obj?.staff?.fecha_inicio != null) ? <SText col={"xs-4"} fontSize={12} language={{
+                        es: "Inicio: " + new SDate(obj?.staff?.fecha_inicio).toString("HH"),
+                        en: "Start: " + new SDate(obj?.staff?.fecha_inicio).toString("HH"),
+                    }} /> : null}
+                    {(obj?.staff?.fecha_fin != null) ? <SText col={"xs-4"} fontSize={12} language={{
+                        es: "Fin: " + new SDate(obj?.staff?.fecha_fin).toString("HH"),
+                        en: "End: " + new SDate(obj?.staff?.fecha_fin).toString("HH"),
+                    }} /> : null}
                 </SView>
-                <SHr />
-                <SView>
-                    <SText fontSize={10}>Clock In : {!obj.fecha_ingreso ? "No" : new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH")}</SText>
-                    <SText fontSize={10}>Clock Out: {!obj.fecha_salida ? "No" : new SDate(obj.fecha_salida, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH")}</SText>
+                <SHr height={10} />
+                <SHr height={1} color={STheme.color.lightGray} />
+                <SHr height={10} />
+                <SView col={"xs-12"} row>
+                    <SText col={"xs-6"} fontSize={10}>Clock In : {!obj.fecha_ingreso ? "No" : new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH")}</SText>
+                    <SText col={"xs-6"} fontSize={10}>Clock Out: {!obj.fecha_salida ? "No" : new SDate(obj.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH")}</SText>
                 </SView>
+                {((obj.fecha_ingreso != null) && (obj.fecha_salida != null)) ? <>
+                    <SHr height={10} />
+                    <SHr height={1} color={STheme.color.lightGray} />
+                    <SHr height={10} />
+                    <SView col={"xs-12"}  style={{alignItems:"flex-end"}}>
+                        <SText  fontSize={14} language={{
+                            es: "Tiempo de trabajo: " + timeWork,
+                            en: "Working time: " + timeWork
+                        }} />
+                    </SView>
+                </> : null}
             </SView>
         }} />
     }

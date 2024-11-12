@@ -321,9 +321,13 @@ export default class users extends Component {
                     es: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "es"),
                     en: this.formatearFecha(new Date(this.state?.data?.fecha_inicio), "en")
                 }} /> */}
+                {/* <SText fontSize={14} language={{
+                    es: new SDate(this.state?.data?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd, yyyy,  HH"),
+                    en: new SDate(this.state?.data?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd, yyyy,  HH")
+                }} /> */}
                 <SText fontSize={14} language={{
-                    es: new SDate(this.state?.data?.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy,  HH"),
-                    en: new SDate(this.state?.data?.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy,  HH")
+                    es: new SDate(this.state?.data?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
+                    en: new SDate(this.state?.data?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
                 }} />
                 {(this.state?.data?.fecha_fin) ? <>
                     <SText center color={STheme.color.gray} language={{
@@ -332,8 +336,8 @@ export default class users extends Component {
                     }} />
                     <SView width={6} />
                     <SText fontSize={14} language={{
-                       es: new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH"),
-                       en: new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")
+                       es: new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
+                       en: new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
                     }} />
                 </> : null}
                 <SView width={6} />

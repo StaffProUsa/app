@@ -31,7 +31,13 @@ export default class t2 extends Component {
     render() {
         return <SPage title={"Test"} disableScroll>
             <Container >
-                <SHr />
+                <SText onPress={() => {
+                    // const a = "2024-11-09T02:11:36.000204-04:00";
+                    const a = "2024-11-09T04:07:05.657-04:00";
+                    const data = new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD")
+                    console.log(data);
+                }}>TEST</SText>
+                {/* <SHr />
                 <InputFecha />
                 <SHr />
                 <SText onPress={(evt) => {
@@ -46,7 +52,7 @@ export default class t2 extends Component {
                             return <InputHora />
                         }
                     });
-                }}>{"Liceht"}</SText>
+                }}>{"Liceht"}</SText> */}
             </Container>
 
         </SPage>

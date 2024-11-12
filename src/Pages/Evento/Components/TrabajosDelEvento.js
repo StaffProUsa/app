@@ -162,11 +162,24 @@ export default class TrabajosDelEvento extends Component {
         let fecha_fi = new Date(obj.fecha_fin);
         console.log("ESTE LOG ES", obj)
         const { key_staff_tipo, staff_tipo, nivel_ingles, descripcion, fecha_inicio, fecha_fin, asistencia, fecha_evento, staff_usuario } = obj
-        const fecha_start_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")
+        const fecha_start_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
         let fecha_end_str = null;
         if (fecha_fin != null) {
-            fecha_end_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")
+            fecha_end_str = new SDate(fecha_evento, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd, yyyy") + "  " + new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
         }
+
+        let timeWork;
+
+        if ((staff_usuario?.fecha_ingreso != null) && (staff_usuario?.fecha_salida != null)) {
+            console.log("fecha_ingreso", staff_usuario?.fecha_ingreso)
+            let fi = new SDate(staff_usuario?.fecha_ingreso, "yyyy-MM-ddThh:mm:ss.sssTZD")
+            let fs = staff_usuario?.fecha_salida ? new SDate(staff_usuario?.fecha_salida, "yyyy-MM-ddThh:mm:ss.sssTZD") : new SDate()
+            let disf = fi.diffTime(fs);
+            console.log("disf", disf)
+            timeWork = ((disf / 1000) / 60 / 60).toFixed(2);
+        }
+
+
         return <SView col={"xs-12"} row padding={10} >
             <SView col={"xs-1.5"} row>
                 <SView width={60} height={60} style={{ borderRadius: 4, overflow: "hidden", backgroundColor: STheme.color.card }}>
@@ -221,7 +234,7 @@ export default class TrabajosDelEvento extends Component {
                             es: `Hora Inicio`,
                             en: `Start time`
                         }} />
-                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
                     </SView>
                     {fecha_fin != null ? <SView col={"xs-4"} center style={{
                         borderLeftWidth: 1,
@@ -231,7 +244,7 @@ export default class TrabajosDelEvento extends Component {
                             es: `Hora Fin`,
                             en: `End time`
                         }} />
-                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
                     </SView> : null}
                 </SView>
                 </SView>
@@ -252,7 +265,7 @@ export default class TrabajosDelEvento extends Component {
                                 es: `Ingreso`,
                                 en: `Income`
                             }} />
-                            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(staff_usuario?.fecha_ingreso, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(staff_usuario?.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
                         </SView>
                         {(staff_usuario?.fecha_salida != null) ? <SView col={"xs-6"} center style={{
                             borderLeftWidth: 1,
@@ -262,10 +275,23 @@ export default class TrabajosDelEvento extends Component {
                                 es: `Salida`,
                                 en: `Exit`
                             }} />
-                            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(staff_usuario?.fecha_salida, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(staff_usuario?.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
                         </SView> : null}
                     </SView>
+                    
                 </SView> : null}
+
+                {((staff_usuario?.fecha_ingreso != null) && (staff_usuario?.fecha_salida != null)) ? <>
+                    <SHr height={10} />
+                    <SHr height={1} color={STheme.color.lightGray} />
+                    <SHr height={10} />
+                    <SView col={"xs-12"}  center>
+                        <SText bold fontSize={14} language={{
+                            es: "Tiempo de trabajo: " + timeWork,
+                            en: "Working time: " + timeWork
+                        }} />
+                    </SView>
+                </> : null}
            
         </SView>
     }

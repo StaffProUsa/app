@@ -193,14 +193,17 @@ class boss extends Component {
                     },
 
                     { key: "evento/fecha", label: "Date", width: 100, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
-                    { key: "staff/fecha_inicio", label: "Start", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
-                    { key: "staff/fecha_fin", label: "End", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("HH") },
+                    { key: "staff/fecha_inicio", label: "Start", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") },
+                    { key: "staff/fecha_fin", label: "End", center: true, width: 70, render: a => new SDate(a, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") },
                     {
                         key: "fecha_ingreso", label: "Clock In", center: true,
                         width: 150,
-                        render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH"),
+                        render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("yyyy MONTH dd, HH"),
                     },
-                    { key: "fecha_salida", label: "Clock Out", center: true, width: 150, render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("yyyy MONTH dd, HH") },
+                    {
+                        key: "fecha_salida", label: "Clock Out", center: true, width: 150,
+                        render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("yyyy MONTH dd, HH")
+                    },
                     {
                         key: "-horas", label: "Hours", center: true, width: 50,
                         cellStyle: { fontSize: 14, fontWeight: "bold" },
@@ -209,8 +212,8 @@ class boss extends Component {
                                 return "";
                             }
 
-                            const fi = new SDate(a.fecha_ingreso, "yyyy-MM-ddThh:mm:ss")
-                            const fs = a.fecha_salida ? new SDate(a.fecha_salida, "yyyy-MM-ddThh:mm:ss") : new SDate()
+                            const fi = new SDate(a.fecha_ingreso, "yyyy-MM-ddThh:mm:ss.sssTZD")
+                            const fs = a.fecha_salida ? new SDate(a.fecha_salida, "yyyy-MM-ddThh:mm:ss.sssTZD") : new SDate()
                             const disf = fi.diffTime(fs);
                             return ((disf / 1000) / 60 / 60).toFixed(2);
 

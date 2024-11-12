@@ -92,7 +92,7 @@ class index extends Component {
           es: "Hora Inicio",
           en: "Start Time"
         }} />
-        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
       </SView>
       {(obj?.staff?.fecha_fin) ? <SView col={"xs-4"} center style={{
         borderLeftWidth: 1,
@@ -102,7 +102,7 @@ class index extends Component {
           es: "Hora Fin",
           en: "End Time"
         }} />
-        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
       </SView> : null}
 
     </SView>
