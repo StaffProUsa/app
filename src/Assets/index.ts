@@ -31,6 +31,7 @@ import posicion, { ReactComponent as posicionW } from './svg/posicion.svg';
 import editar, { ReactComponent as editarW } from './svg/editar.svg';
 import asistido, { ReactComponent as asistidoW } from './svg/asistido.svg';
 import noAsistido, { ReactComponent as noAsistidoW } from './svg/noAsistido.svg';
+import noUser, { ReactComponent as noUserW } from './svg/noUser.svg';
 
 
 
@@ -54,6 +55,7 @@ const Assets: SAssets = {
         "editar": { Native: editar, Web: editarW },
         "asistido": { Native: asistido, Web: asistidoW },
         "noAsistido": { Native: noAsistido, Web: noAsistidoW },
+        "noUser": { Native: noUser, Web: noUserW },
         ...Inicio,
         ...Camara,
         ...restaurante,

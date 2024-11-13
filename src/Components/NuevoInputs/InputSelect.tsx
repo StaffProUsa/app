@@ -46,7 +46,7 @@ const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT }) =
     const scrollY = useSharedValue(0);
     const flatListRef = useRef<FlatList>(null); // Referencia al FlatList
 
-    const [state, setState] = useState({ value: defaultValue, valueTo: undefined });
+    const [state, setState] = useState({ value: defaultValue, valueTo: undefined, ready: false });
     const [layout, setLayout] = useState({ width: 0, height: 0 });
     const initialOffset = ((layout.height - ITEM_HEIGHT) / 2);
     useEffect(() => {
@@ -57,6 +57,7 @@ const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT }) =
                     offset: defaultIndex * ITEM_HEIGHT, // Desplazarse al índice del ítem predeterminado
                     animated: false, // Animación desactivada al cargar por primera vez
                 });
+                state.ready = false;
             }
         }
     }, [defaultValue, data, layout.height]); // Dependencias: defaultValue, data y layout.height
@@ -79,6 +80,10 @@ const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT }) =
 
     const onViewableItemsChanged = useCallback(({ viewableItems }) => {
         if (viewableItems.length > 0) {
+            if (!state.ready) {
+                state.ready = true;
+                return;
+            }
             state.value = viewableItems[0].item;
             if (!!state.valueTo) {
                 if (state.value == state.valueTo) {
@@ -86,7 +91,6 @@ const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT }) =
                 }
                 return;
             }
-
             if (onChange) onChange(state.value)
 
         }

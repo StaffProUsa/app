@@ -40,23 +40,30 @@ export default class InputFecha extends Component {
             mes: cd.getMonth(),
             dia: cd.getDay(),
         };
-        this.setState({...this.state})
+        this.setState({ ...this.state })
     }
     render() {
         const monthArray = Object.values(SDate.getMonthsOfYear()).map(a => a.text)
-        console.log(this.state)
+        // console.log(this.state)
         let mes = "";
         if (this.state.mes < 10) {
             mes = "0" + this.state.mes
         } else {
             mes = this.state.mes
         }
-        const selectdate = new SDate(this.state.ano + "-" + (mes) + "-" + "01", "yyyy-MM-dd");
-        // console.log(selectdate.clone().addMonth(1).addDay(-1).getDay());
-        if (selectdate.clone().addMonth(1).addDay(-1).getDay() < (this.state.dia)) {
-            this.state.dia = parseFloat(selectdate.clone().addMonth(1).addDay(-1).getDay());
+        let dia = ""
+        if (this.state.dia < 10) {
+            dia = "0" + this.state.dia
+        } else {
+            dia = this.state.dia
         }
-        selectdate.addDay(this.state.dia - 1)
+        const selectdate = new SDate(this.state.ano + "-" + (mes) + "-" + dia, "yyyy-MM-dd");
+        // selectdate.addDay(-1)
+        // console.log(selectdate.clone().addMonth(1).addDay(-1).getDay());
+        // if (selectdate.clone().addMonth(1).addDay(-1).getDay() < (this.state.dia)) {
+        //     // this.state.dia = parseFloat(selectdate.clone().addMonth(1).addDay(-1).getDay());
+        // }
+
         return <SView row>
             <SText padding={6} card onPress={(e) => {
                 InputFloat.open({
@@ -74,6 +81,7 @@ export default class InputFecha extends Component {
                                 defaultValue={monthArray[this.state.mes - 1]}
                                 onChange={(e) => {
                                     const index = monthArray.findIndex(a => a == e)
+                                    // console.log("asdasd", index, e)
                                     this.state.mes = (index + 1);
                                     this.setState({ ...this.state })
                                 }}
@@ -94,7 +102,7 @@ export default class InputFecha extends Component {
                 date.addDay(-1);
                 const startYear = 1
                 const endYear = date.getDay();
-                console.log(date, startYear, endYear)
+                // console.log(date, startYear, endYear)
                 const array = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);
                 // const maxday = date.getDay();
                 InputFloat.open({
@@ -111,8 +119,10 @@ export default class InputFecha extends Component {
                                 ITEM_HEIGHT={25}
                                 defaultValue={this.state.dia}
                                 onChange={(e) => {
-                                    const index = array.findIndex(a => a == e)
-                                    this.state.dia = (index + 1);
+                                    // const index = array.findIndex(a => a == e)
+                                    // console.log("asaas", e, index)
+                                    // console.log(this.state.dia, e)
+                                    this.state.dia = e;
                                     this.setState({ ...this.state })
                                 }}
                             />
