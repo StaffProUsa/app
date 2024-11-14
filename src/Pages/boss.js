@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SIcon, SNotification, SPage, SPopup, STable2, SText, STheme, SView } from 'servisofts-component';
+import { SDate, SIcon, SNotification, SPage, SPopup, STable2, SText, STheme, SView, SLanguage } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
 import { connect } from 'react-redux';
@@ -148,30 +148,44 @@ class boss extends Component {
                         key: "-status", label: "Status", width: 150, renderExcel: a => "-", component: (obj) => {
                             let CONT = <SText color={STheme.color.gray} fontSize={10}>{"--"}</SText>
 
-                            const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
-                            const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss");
-                            const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
+                            // const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
+                            // const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss");
+                            const sdate = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD");
+                            // const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
                             const timerun = sdate.isBefore(new SDate())
                             // console.log("obj", obj)
                             let allowLoading = false;
                             let estadoAsistencia = "";
                             if (sdate.isAfter(new SDate())) {
                                 // Si la fecha inicio aun no paso
-                                CONT = <SText color={STheme.color.gray} fontSize={10}>{"Esperando la hora de ingreso..."}</SText>
+                                CONT = <SText center color={STheme.color.gray} fontSize={10} language={{ es: "Esperando la hora de ingreso...", en: "Waiting for check-in time..." }} />
                                 // estadoAsistencia = "Esperando la hora de ingreso..."
-                            } else if (!obj?.fecha_ingreso && !obj?.fecha_salida && new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ss").isBefore(new SDate())) {
-                                CONT = <SText color={STheme.color.danger} fontSize={10}>{"EL evento ya finalizo y no marcaste ingreso ni salida"}</SText>
+                            } else if ((!obj?.fecha_ingreso) && (!obj?.fecha_salida) && (new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").isBefore(new SDate()))) {
+                                console.log(obj, new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD"));
+                                CONT = <SText center color={STheme.color.danger} fontSize={10} language={{
+                                    es: "El evento ya finalizó y no se marcó ingreso ni salida",
+                                    en: "The event has already ended and no check-in or check-out was marked"
+                                }} />
                                 // estadoAsistencia = "EL evento ya finalizo y no marcaste ingreso ni salida"
                             } else if (!obj?.fecha_ingreso) {
                                 allowLoading = true;
-                                CONT = <SText color={STheme.color.warning} fontSize={10}>{"Debes marcar ingreso en el evento"}</SText>
+                                CONT = <SText center color={STheme.color.warning} fontSize={10} language={{
+                                    es: "Debes marcar ingreso en el evento",
+                                    en: "You must check-in at the event"
+                                }} />
                                 // estadoAsistencia = "Debes marcar ingreso en el evento"
                             } else if (!obj?.fecha_salida) {
                                 allowLoading = true;
-                                CONT = <SText color={STheme.color.warning} fontSize={10}>{"Debes marcar la salida"}</SText>
+                                CONT = <SText center color={STheme.color.warning} fontSize={10} language={{
+                                    es: "Debes marcar salida",
+                                    en: "You must check-out"
+                                }} />
                                 // estadoAsistencia = "Debes marcar la salida"
                             } else {
-                                CONT = <SText color={STheme.color.success} fontSize={10}>{"El evento finalizo"}</SText>
+                                CONT = <SText center color={STheme.color.success} fontSize={10} language={{
+                                    es: "Evento finalizado",
+                                    en: "Event finished"
+                                }} />
                             }
 
                             return <SView col={"xs-12"} flex center>

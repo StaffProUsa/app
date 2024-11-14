@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SDate, SHr, SIcon, SInput, SNavigation, SNotification, SPage, SText, STheme, SThread, SView, SLanguage, SImage } from 'servisofts-component';
+import { SButtom, SDate, SHr, SIcon, SInput, SNavigation, SNotification, SPage, SText, STheme, SThread, SView, SLanguage, SImage, SLoad } from 'servisofts-component';
 import PBarraFooter from '../../Components/PBarraFooter';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
@@ -186,6 +186,10 @@ export default class root extends Component {
             codigo: code,
             key_usuario: Model.usuario.Action.getKey(),
           }).then(e => {
+            this.setState({ reload: true })
+            new SThread(1000, "ASdas").start(()=>{
+              this.setState({ reload: false })
+            })
             SNotification.send({
               key: "asistencia",
               title: "Exito",
@@ -222,7 +226,7 @@ export default class root extends Component {
         <SHr h={20} />
         <SHr h={1} color={STheme.color.lightGray} />
         <SHr h={20} />
-        <Trabajos />
+        {this.state.reload ? <SLoad /> : <Trabajos />}
       </Container>
       <SHr h={90} />
     </SPage>

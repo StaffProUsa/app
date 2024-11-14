@@ -16,7 +16,7 @@ class index extends DPA.list {
     constructor(props) {
         super(props, {
             Parent: Parent,
-            title :"List client",
+            title: "List client",
             excludes: ["key", "fecha_on", "key_usuario", "key_company", "estado"],
             params: ["key_company"],
             onRefresh: (resolve) => {
@@ -26,6 +26,11 @@ class index extends DPA.list {
             }
         });
     }
+
+    componentDidMount() {
+        Parent.model.Action.CLEAR();
+    }
+
     $allowNew() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new", user_data: { key_company: this.$params.key_company } });
     }

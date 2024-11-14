@@ -25,7 +25,11 @@ class index extends Component {
     this.state = {};
     // this.page = SNavigation.getParam("page");
   }
+  onChangeLanguage(language) {
+    this.setState({ ...this.state })
+  }
   componentDidMount() {
+    SLanguage.addListener(this.onChangeLanguage.bind(this))
     SSocket.sendPromise({
       component: "staff_usuario",
       type: "getTrabajosProximos",
@@ -42,6 +46,10 @@ class index extends Component {
     }).catch(e => {
       console.error(e);
     })
+  }
+
+  componentWillUnmount() {
+    SLanguage.removeListener(this.onChangeLanguage)
   }
 
   build_horario_(obj) {
@@ -82,7 +90,7 @@ class index extends Component {
           es: "Fecha",
           en: "Date"
         }} />
-        <SText center bold fontSize={13}>{new SDate(obj?.evento?.fecha, "yyyy-MM-dd").toString('MONTH dd, yyyy')}</SText>
+        <SText center bold fontSize={13}>{new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString('MONTH dd, yyyy')}</SText>
       </SView>
       <SView col={"xs-4"} center style={{
         borderLeftWidth: 1,
@@ -190,7 +198,9 @@ class index extends Component {
 
     const fecha = new SDate(obj?.evento?.fecha, "yyyy-MM-ddThh:mm:ss");
     const hora = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD");
-    const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
+    const hora_fin = new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD");
+    // const sdate = new SDate(fecha.toString("yyyy-MM-dd") + "T" + hora.toString("hh:mm:ss"), "yyyy-MM-ddThh:mm:ss");
+    const sdate = hora
     const timerun = sdate.isBefore(new SDate())
     // console.log("obj", obj)
 
@@ -199,15 +209,32 @@ class index extends Component {
     if (sdate.isAfter(new SDate())) {
       // Si la fecha inicio aun no paso
       //estadoAsistencia = "Esperando la hora de inicio para registrar tu ingreso..."
-      estadoAsistencia = SLanguage.select({es:"Esperando la hora de inicio para registrar tu ingreso...",en:"Waiting for the start time to record your check-in..."})
-    } else if (!obj?.staff_usuario?.fecha_ingreso && !obj?.staff_usuario?.fecha_salida && new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ss").isBefore(new SDate())) {
-      estadoAsistencia = "El evento ha finalizado y no registraste tu ingreso ni salida"
+      estadoAsistencia = SLanguage.select({ es: "Esperando la hora de inicio para registrar tu ingreso...", en: "Waiting for the start time to record your check-in..." })
+    } else if (!obj?.staff_usuario?.fecha_ingreso && !obj?.staff_usuario?.fecha_salida && hora_fin.isBefore(new SDate())) {
+      estadoAsistencia = SLanguage.select({
+        es: "El evento ha finalizado y no registraste tu ingreso ni salida",
+        en: "The event has ended, and you did not register your check-in or check-out."
+      })
+      //estadoAsistencia = "El evento ha finalizado y no registraste tu ingreso ni salida"
+    } else if (!obj?.staff_usuario?.key_usuario_atiende) {
+      estadoAsistencia = SLanguage.select({
+        es: "No es posible registrar el ingreso al evento sin un supervisor.",
+        en: "It is not possible to register check-in for the event without a supervisor."
+      })
     } else if (!obj?.staff_usuario?.fecha_ingreso) {
       allowLoading = true;
-      estadoAsistencia = "Es necesario que registres tu ingreso en el evento."
+      estadoAsistencia = SLanguage.select({
+        es: "Es necesario que registres tu ingreso en el evento.",
+        en: "It is necessary for you to register your check-in for the event."
+      })
+      //estadoAsistencia = "Es necesario que registres tu ingreso en el evento."
     } else if (!obj?.staff_usuario?.fecha_salida) {
       allowLoading = true;
-      estadoAsistencia = "Por favor, recuerda registrar tu salida."
+      estadoAsistencia = SLanguage.select({
+        es: "Por favor, recuerda registrar tu salida.",
+        en: "Please remember to register your check-out."
+      })
+      //estadoAsistencia = "Por favor, recuerda registrar tu salida."
     }
 
 
@@ -219,7 +246,7 @@ class index extends Component {
       overflow: "hidden",
     }} >
       <Degradado />
-      <SView row col={"xs-12"}  onPress={() => {
+      <SView row col={"xs-12"} onPress={() => {
         if (isInvitation) {
           SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key })
         } else {
@@ -240,7 +267,7 @@ class index extends Component {
             }} />
           </SView>
         </SView>
-        <SView col={"xs-10 sm-3.5"} style={{paddingBottom:10}}>
+        <SView col={"xs-10 sm-3.5"} style={{ paddingBottom: 10 }}>
           <SText fontSize={16}>{obj?.company?.descripcion}</SText>
           <SText fontSize={12} color={STheme.color.gray} language={{
             es: "Empresa",

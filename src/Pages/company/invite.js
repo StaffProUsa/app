@@ -40,7 +40,8 @@ export default class invite extends Component {
             key_usuario: Model.usuario.Action.getKey(),
             key_company: this.key_company,
             data: {
-                descripcion: (lenguaje == "es") ? `${empresa?.descripcion} te invita a formar parte de la empresa.` : `${empresa?.descripcion} invites you to join the company.`,
+                // descripcion: (lenguaje == "es") ? `${empresa?.descripcion} te invita a formar parte de la empresa.` : `${empresa?.descripcion} invites you to join the company.`,
+                descripcion: "",
                 observacion: (lenguaje == "es") ? "Te invitamos a formar parte de la empresa. Acepta esta invitación." : "We invite you to join the company. Accept this invitation.",
                 fecha_inicio: new SDate().toString(),
                 fecha_fin: new SDate().addDay(1).toString(),
@@ -140,14 +141,14 @@ Welcome to *${empresa?.descripcion}*
                 <SHr h={1} color={STheme.color.gray} />
                 <SHr h={16} />
                 {this.btn({
-                    icon: <SIcon name={"out"} fill={STheme.color.gray} width={25} />, label: SLanguage.select({ es:"Enviar enlace por Whatsapp", en:"Send link with Whatsapp"}) ,
+                    icon: <SIcon name={"out"} fill={STheme.color.gray} width={25} />, label: SLanguage.select({ es: "Enviar enlace por Whatsapp", en: "Send link with Whatsapp" }),
                     onPress: () => {
                         Linking.openURL("https://wa.me/?text=" + encodeURIComponent(this.state.message))
                     }
                 })}
                 <SHr h={16} />
                 {this.btn({
-                    icon: <SIcon name={"share"} fill={STheme.color.gray} width={25} />, label: SLanguage.select({es:"Copiar enlace", en:"Copy link"}),
+                    icon: <SIcon name={"share"} fill={STheme.color.gray} width={25} />, label: SLanguage.select({ es: "Copiar enlace", en: "Copy link" }),
                     onPress: () => {
                         if (Platform.OS == "web") {
                             navigator.clipboard.writeText(this.state.link).then(() => {
