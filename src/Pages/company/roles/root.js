@@ -181,7 +181,8 @@ export default class root extends Component {
                 {!this.state.edit ? null :
                     <SView center height={60}>
                         <SView width={35} height={35} center onPress={() => {
-                            SNavigation.navigate("/company/roles/add", { key_company: this.key_company, key_usuario: obj.key_usuario, key: obj.key })
+                            // SNavigation.navigate("/company/roles/add", { key_company: this.key_company, key_usuario: obj.key_usuario, key: obj.key })
+                            SNavigation.navigate("/usuario/edit", { pk: obj.key_usuario })
                         }} >
                             {/* <SImage src={require("../../../Assets/img/EDITAR2.png")} /> */}
                             <SIcon name='editar' height={20} width={20} fill={STheme.color.gray} />
