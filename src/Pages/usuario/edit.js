@@ -95,7 +95,7 @@ class index extends DPA.edit {
     }
 
     $submitName() {
-        return "Editar"
+        return "SAVE"
     }
     $footer() {
         // return <DatosDocumentosEditar key_usuario={this.pk} onSubmit={() => {
