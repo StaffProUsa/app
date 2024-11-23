@@ -12,7 +12,7 @@ import InputHora from '../../Components/NuevoInputs/InputHora';
 import InputSelect from '../../Components/NuevoInputs/InputSelect';
 
 const formatTime = (time) => {
-    if(!time) return ;
+    if (!time) return;
     // Eliminar caracteres no numéricos, no ':' y no 'am/pm'
     let filtered = time.toLowerCase().replace(/[^0-9:apm]/g, '');
 
@@ -126,6 +126,16 @@ export default class add extends Component {
             fecha: SNavigation.getParam("fecha"),
         };
     }
+
+    backAlternative(o) {
+        if (this.state.pk) {
+            SNavigation.replace("/company/event", { key_evento: this.state?.data?.key_evento })
+        } else if (this.state.key_evento) {
+            SNavigation.replace("/company/event", { key_evento: this.state.key_evento })
+        } else {
+            SNavigation.goBack();
+        }
+    }
     onChangeLanguage(language) {
         this.setState({ ...this.state })
     }
@@ -217,7 +227,7 @@ export default class add extends Component {
                 key_usuario: Model.usuario.Action.getKey(),
             }).then(e => {
                 if (event.INSTANCE) event.INSTANCE.componentDidMount();
-                SNavigation.goBack();
+                SNavigation.goBack(this.backAlternative.bind(this));
             }).catch(e => {
                 console.error(e);
             })
@@ -239,7 +249,7 @@ export default class add extends Component {
                 key_usuario: Model.usuario.Action.getKey(),
             }).then(e => {
                 if (event.INSTANCE) event.INSTANCE.componentDidMount();
-                SNavigation.goBack();
+                SNavigation.goBack(this.backAlternative.bind(this));
             }).catch(e => {
                 console.error(e);
             })
@@ -256,13 +266,13 @@ export default class add extends Component {
                     component: "staff",
                     type: "editar",
                     data: {
-                        ...this.state.data,
+                        key: this.state.data.key,
                         estado: 0,
                     },
                     key_usuario: Model.usuario.Action.getKey(),
                 }).then(e => {
                     if (event.INSTANCE) event.INSTANCE.componentDidMount();
-                    SNavigation.goBack();
+                    SNavigation.goBack(this.backAlternative.bind(this));
                 }).catch(e => {
                     console.error(e);
                 })
@@ -270,6 +280,7 @@ export default class add extends Component {
         })
 
     }
+
     _ref = {}
     render() {
         let lenguaje = SLanguage.language;
@@ -288,8 +299,9 @@ export default class add extends Component {
             hora_inicio = "Start time";
             hora_fin = "End time";
         }
-        return <SPage titleLanguage={{ en: "Staff", es: "Staff" }
-        } >
+        return <SPage titleLanguage={{ en: "Staff", es: "Staff" }}
+            backAlternative={this.backAlternative.bind(this)}
+        >
             <Container>
                 <SView row col={"xs-12"} style={{
                     justifyContent: "space-between"

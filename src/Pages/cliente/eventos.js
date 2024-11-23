@@ -83,7 +83,7 @@ export default class Eventos extends React.Component {
             <SHr />
             <SText fontSize={14} bold>{obj.descripcion}</SText>
             <SHr h={4} />
-            <SText fontSize={12} color={STheme.color.gray}>{SUtil.limitString(obj.observacion, 200, "...").trim()}</SText>
+            <SText fontSize={12} color={STheme.color.gray}>{SUtil.limitString(obj?.observacion, 200, "...")?.trim()}</SText>
             <SHr />
             <SText fontSize={12} color={STheme.color.gray}>{`${SLanguage.select({
                 en: "Booking",

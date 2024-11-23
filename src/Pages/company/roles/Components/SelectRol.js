@@ -12,9 +12,14 @@ export default class SelectRol extends Component {
 
     renderItem(props) {
         // const { key, label, info } = props;
-        return <SView col={"xs-12"} padding={8} center flex onPress={() => {
-            if (this.props.onSelect) this.props.onSelect(props)
-        }}>
+        return <SView col={"xs-12"} padding={8} center flex
+            style={{
+                borderBottomWidth: 1,
+                borderColor:STheme.color.card
+            }}
+            onPress={() => {
+                if (this.props.onSelect) this.props.onSelect(props)
+            }}>
 
             <SText col={"xs-12"} font='Montserrat-Medium' fontSize={14}>{props.descripcion}</SText>
             <SText col={"xs-12"} color={"#999"} fontSize={9}>{props.observacion}</SText>
@@ -49,10 +54,10 @@ export default class SelectRol extends Component {
                     alignItems: "center",
                     position: "absolute",
                     top: 0,
-                    backgroundColor:STheme.color.background,
+                    backgroundColor: STheme.color.background,
                     borderColor: STheme.color.lightGray,
                     borderWidth: 1,
-                    borderRadius: 8
+                    borderRadius: 8,
 
                 }, this.props.style]}>
                 {this.props.roles.sort((a, b) => (a.index ?? 0) > (b.index ?? 0) ? 1 : -1).map((rol) => {

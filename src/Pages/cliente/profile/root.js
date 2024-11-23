@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from ".."
-import { SHr, SIcon, SImage, SLanguage, SList, SNavigation, SNotification, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SLanguage, SList, SNavigation, SNotification, SPopup, SText, STheme, SUtil, SView } from 'servisofts-component';
 import Model from '../../../Model';
 import SSocket from 'servisofts-socket';
 import Eventos from '../eventos';
 import PBarraFooter from '../../../Components/PBarraFooter';
 import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
+import ImageProfile from '../../../Components/ImageProfile';
+import TextVerMas from '../../../Components/TextVerMas';
 
 class index extends DPA.profile {
     static FOOTER = <>
@@ -19,7 +21,16 @@ class index extends DPA.profile {
         super(props, {
             title: "Client",
             Parent: Parent,
-            itemType:"2",
+            itemType: "2",
+            pageParams: {
+                backAlternative: (opt) => {
+                    if (this.data?.key_company) {
+                        SNavigation.replace("/cliente", { key_company: this.data?.key_company })
+                    } else {
+                        SNavigation.goBack();
+                    }
+                }
+            },
             excludes: ["key", "key_servicio", "key_usuario", "fecha_on", "key_company", "estado", "latitude", "longitude"]
         });
     }
@@ -45,6 +56,8 @@ class index extends DPA.profile {
     onEdit() {
         SNavigation.navigate("/cliente/add", { pk: this.pk })
     }
+
+
     componentDidMount() {
         // this.data = this.$getData();
 
@@ -60,6 +73,24 @@ class index extends DPA.profile {
         })
     }
 
+    $render() {
+        this.data = this.$getData();
+        return <SView col={"xs-12"} card center padding={8}>
+            <SView row center>
+                <ImageProfile
+                    width={60}
+                    src={SSocket.api.root + "cliente/" + this.pk}
+                />
+                <SView width={4} />
+                <SView>
+                    <ImageProfile src={SSocket.api.root + "company/" + this.data?.key_company} />
+                    <SText fontSize={18} bold>{this.data?.descripcion}</SText>
+                </SView>
+            </SView>
+            <TextVerMas limitString={200} col={"xs-12"} center color={STheme.color.gray}>{this.data?.observacion}</TextVerMas>
+            {/* <SText col={"xs-12"} center color={STheme.color.gray}>{SUtil.limitString(this.data?.observacion, 200)}</SText> */}
+        </SView>
+    }
     $footer() {
         return <SView col={"xs-12"}>
             <SHr />

@@ -1,6 +1,6 @@
 {
   "name": "staffprousa_app",
-  "version": "1.0.18",
+  "version": "1.0.20",
   "description": "staffprousa_app",
   "scripts": {
     "start": "react-native start",
@@ -82,11 +82,11 @@
     "servisofts-component": "file:../../servisofts-component/dist",
     "servisofts-db": "^1.0.7",
     "servisofts-model": "^1.0.7",
-    "servisofts-page": "^1.0.13-en",
+    "servisofts-page": "file:../../servisofts-page/dist",
     "servisofts-rn-chat": "1.0.12",
     "servisofts-rn-contabilidad": "1.0.8",
     "servisofts-rn-geolocation": "1.0.5",
-    "servisofts-rn-roles_permisos": "^1.0.7",
+    "servisofts-rn-roles_permisos": "file:../../roles_permisos/library/dist",
     "servisofts-rn-spdf": "^1.0.5",
     "servisofts-rn-usuario": "1.0.11",
     "servisofts-socket": "^4.0.5",

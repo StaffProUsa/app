@@ -47,27 +47,36 @@ class index extends DPA.profile {
 
     $menu() {
         var items = super.$menu();
-        items.push({
-            children: <SView col={"xs-12"} center padding={10} row
-                onPress={() => {
-                    SNavigation.navigate("/company/invite", { key_company: this.pk })
-                }}>
-                <SIcon name={"Compartir"} height={15} width={15} fill={STheme.color.text} />
-                <SView width={10} />
-                <SText>Share</SText>
-            </SView>,
-        })
+        if (Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "share", user_data: { key_company: this.pk } })) {
+            items.push({
+                children: <SView col={"xs-12"} center padding={10} row
+                    onPress={() => {
+                        SNavigation.navigate("/company/invite", { key_company: this.pk })
+                    }}>
+                    <SIcon name={"Compartir"} height={15} width={15} fill={STheme.color.text} />
+                    <SView width={10} />
+                    <SText>Share</SText>
+                </SView>,
+            })
+        }
+
         return items;
     }
 
     $footer() {
+        
         return <SView col={"xs-12"}>
             <SHr />
-            <MenuPages path='/company/' permiso='ver'>
+            <MenuPages path='/company/' permiso='ver' params={{ pk: this.pk }} blackList={[
+                "/company/profile/staff_tipo",
+                "/company/profile/users",
+                "/company/profile/report",
+            ]}>
                 <MenuButtom label={SLanguage.select({ en: "Client", es: "Cliente" })} url='/cliente' params={{ key_company: this.pk }} icon={<SIcon name='ubicacionesA' />} />
                 <MenuButtom label={SLanguage.select({ en: "Type Staff", es: "Staff Tipo" })} url='/company/profile/staff_tipo' params={{ pk: this.pk }} icon={<SIcon name='staffTipoA' />} />
-                <MenuButtom label={SLanguage.select({ en: "Users", es: "Usuarios" })} url='/company/roles' params={{ key_company: this.pk }} icon={<SIcon name='usuariosA' />} />
-                <MenuButtom label={SLanguage.select({ en: "Users Table", es: "Usuarios tabla" })} url='/company/users' params={{ key_company: this.pk }} icon={<SIcon name='Excel' />} />
+                <MenuButtom label={SLanguage.select({ en: "Users", es: "Usuarios" })} url='/company/profile/users' params={{ pk: this.pk }} icon={<SIcon name='usuariosA' />} />
+                <SHr />
+                <MenuButtom label={SLanguage.select({ en: "Report", es: "Reporte" })} url='/company/profile/report' params={{ pk: this.pk }} icon={<SIcon name='Excel' />} />
                 {/* <MenuButtom label='Eventos' url='/company/eventos' params={{ key_company: this.pk }} icon={<SIcon name='eventA' />} /> */}
 
             </MenuPages>

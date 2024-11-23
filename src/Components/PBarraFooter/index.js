@@ -94,11 +94,11 @@ class PBarraFooter extends Component {
                 params: {}
               })}
               {this.getItem({
-                key: '/token',
+                key: '/event_in_progress',
                 title: 'ASISTENCIA',
                 title_en: 'ASSIST',
                 icon: 'asiste',
-                url: '/token',
+                url: '/event_in_progress',
                 params: {}
               })}
               {this.getItem({

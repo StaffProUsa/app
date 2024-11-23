@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native'
-import { SComponentContainer, SLanguage, SNavigation, SMapView, SPage } from 'servisofts-component';
+import { SComponentContainer, SLanguage, SNavigation, SMapView, SPage, SText, STheme } from 'servisofts-component';
 import packageInfo from "../package.json";
 
 import Assets from './Assets';
@@ -97,6 +97,7 @@ const App = (props) => {
         />
         <Socket store={store} />
         {/* <NavBar /> */}
+        <SText style={{ position: "absolute", bottom: 2, right: 2, zIndex: 0, pointerEvents:"none" }} disabled fontSize={8} color={STheme.color.lightGray}>v{packageInfo.version}</SText>
       </SComponentContainer>
     </ErrorBoundary>
   </Redux>

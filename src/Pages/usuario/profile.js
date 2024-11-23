@@ -53,7 +53,7 @@ class index extends DPA.profile {
             {/* <SHr height={16} /> */}
             {/* <DatosDocumentosEditar key_usuario={this.pk} /> */}
             <SHr height={30} />
-            <SView width={180} height={40} row style={{
+            {/* <SView width={180} height={40} row style={{
                 backgroundColor: STheme.color.card,
                 borderRadius: 8,
                 borderWidth: 1,
@@ -69,7 +69,7 @@ class index extends DPA.profile {
                     <SText center bold fontSize={16}>EVENTOS</SText>
                 </SView>
             </SView>
-            <SHr height={20} />
+            <SHr height={20} /> */}
 
             {/* <SText style={{ textDecorationLine: "underline" }} onPress={() => {
                 this.props.navigation.navigate("/usuario/eventos", { pk: this.pk })
@@ -77,7 +77,7 @@ class index extends DPA.profile {
 
             {/* <EditarUsuarioRolEmpresa key_usuario={this.pk} key_empresa={Model.empresa.Action.getSelect()?.key} url={"/usuario"} permiso={"edit_rol"} /> */}
             {/* <SHr height={50} /> */}
-            <EditarUsuarioRol key_usuario={this.pk} url={"/usuario"} permiso={"edit_rol"} />
+            <EditarUsuarioRol key_usuario={this.pk} url={"/usuario"} permiso={"edit_rol"}  />
 
 
         </SView>

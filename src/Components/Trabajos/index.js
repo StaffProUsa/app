@@ -244,15 +244,15 @@ class index extends Component {
       borderWidth: 1,
       borderColor: STheme.color.lightGray,
       overflow: "hidden",
-    }} >
+    }} onPress={() => {
+      if (isInvitation) {
+        SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key })
+      } else {
+        SNavigation.navigate("/evento", { key: obj?.evento?.key })
+      }
+    }}>
       <Degradado />
-      <SView row col={"xs-12"} onPress={() => {
-        if (isInvitation) {
-          SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key })
-        } else {
-          SNavigation.navigate("/evento", { key: obj?.evento?.key })
-        }
-      }}>
+      <SView row col={"xs-12"}>
         <SView col={"xs-2 sm-2"} row center >
           <SView style={{
             width: 40,

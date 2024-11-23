@@ -31,16 +31,16 @@ export default class Reclutas extends Component {
     }
 
     componentDidMount() {
-        if (!this.props.key_evento) return;
-        SSocket.sendPromise({
-            component: "evento",
-            type: "getEstadoReclutas",
-            key_evento: this.props.key_evento
-        }).then(e => {
-            this.setState({ data: e.data })
-        }).catch(e => {
+        // if (!this.props.key_evento) return;
+        // SSocket.sendPromise({
+        //     component: "evento",
+        //     type: "getEstadoReclutas",
+        //     key_evento: this.props.key_evento
+        // }).then(e => {
+        //     this.setState({ data: e.data })
+        // }).catch(e => {
 
-        })
+        // })
     }
     renderObj(obj) {
         return <SView col={"xs-12"} row style={{ paddingTop: 8 }} onPress={() => {
@@ -106,8 +106,8 @@ export default class Reclutas extends Component {
     }
 
     render() {
-        if (!this.props.key_evento) return null;
-        const arr = Object.values(this.state.data) ?? [];
+        if (!this.props.data) return null;
+        const arr = Object.values(this.props.data) ?? [];
         return <SView col={"xs-12"}>
             {arr.length <= 0 ? <SView center col={"xs-12"} height={200}>
                 <SText color={STheme.color.gray} language={{

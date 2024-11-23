@@ -40,6 +40,7 @@ import Mapa from './Components/Mapa';
 import Asistencia from './Components/Asistencia';
 import MisTrabajosDelEvento from './Components/MisTrabajosDelEvento';
 import TrabajosDelEvento from './Components/TrabajosDelEvento';
+import MarcarPorCodigoEvento from '../../Components/Asistencia/MarcarPorCodigoEvento';
 
 const SPACE = 50;
 
@@ -589,6 +590,7 @@ class Perfil extends React.Component {
                 row
                 center
                 backgroundColor={'transparent'}>
+
                 {/* {this.getHeader()} */}
 
                 {/* <SHr height={SPACE} /> */}
@@ -620,6 +622,7 @@ class Perfil extends React.Component {
                 {/* <SView col={'xs-11.5'}>
                   <Asistencia  data={this.state.data}/>
                 </SView>  */}
+                <MarcarPorCodigoEvento key_evento={this.key}/>
                 <SView col={'xs-11.5'}>
                   {/* <MisTrabajosDelEvento key_evento={this.key} /> */}
                   <TrabajosDelEvento key_evento={this.key} />
@@ -639,7 +642,9 @@ class Perfil extends React.Component {
                 {/* <SHr height={100} color={this.bgSpace} /> */}
                 {/* <EventoQR key_evento={this.key} /> */}
                 <SHr height={100} color={this.bgSpace} />
+
               </SView>
+              
             </SView>
           }
         </SPage>

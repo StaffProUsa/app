@@ -95,6 +95,7 @@ class index extends Component {
         if (this.state.data) {
             events = this.state.data.filter(a => new SDate(a.fecha, "yyyy-MM-ddThh:mm:ss").equalDay(data.sdate))
         }
+        let isNow = this.state.curDay.equalDay(data.sdate)
         let datosArray = data?.dataAsis
         return <>
             <SView col={"xs-1.7"} height={100} style={{
@@ -116,10 +117,24 @@ class index extends Component {
                     backgroundColor: "#D70201"
                 }}></SView> : null} */}
 
-                <SText style={{
-                    position: "absolute", right: 4, top: 4
-                }} bold font={"Roboto"} fontSize={14} color={STheme.color.text}>{data.sdate.toString("dd")}</SText>
+                <SView style={{
+                    position: "absolute", right: 2, top: 2,
+                    padding: 3,
+                    ...isNow ? {
+                        borderRadius: 100,
+                        backgroundColor: STheme.color.secondary
+                    } : {}
+                }} center>
+                    <SText bold center font={"Roboto"} fontSize={14}
+                    color={(isNow) ? STheme.color.white : STheme.color.text}
+                    // color={{
+                    //     ...isNow ? STheme.color.white : STheme.color.white
+                    // }}
+                    >{data.sdate.toString("dd")}</SText>
+                </SView>
+
                 <SScrollView2  >
+                    <SHr h={18} />
                     {events ? events.map((k) => {
                         let desCorto = k?.cliente?.descripcion.length > 15 ? k?.cliente?.descripcion.substring(0, 15) + "..." : k?.cliente?.descripcion
                         let isInvitation = (k?.staff_usuario?.estado == 2)

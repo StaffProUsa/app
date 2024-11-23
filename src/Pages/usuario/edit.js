@@ -13,9 +13,10 @@ class index extends DPA.edit {
             Parent: Parent,
             excludes: []
         });
+        this.key_company = SNavigation.getParam("key_company")
     }
     $allowAccess() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit" })
+        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit", user_data: { key_company: this.key_company } })
     }
     $getData() {
         return Parent.model.Action.getByKey(this.pk);

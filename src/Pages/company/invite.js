@@ -41,7 +41,8 @@ export default class invite extends Component {
             key_company: this.key_company,
             data: {
                 // descripcion: (lenguaje == "es") ? `${empresa?.descripcion} te invita a formar parte de la empresa.` : `${empresa?.descripcion} invites you to join the company.`,
-                descripcion: "",
+                descripcion: `${empresa?.descripcion} invites you to join the company.`,
+                // descripcion: "",
                 observacion: (lenguaje == "es") ? "Te invitamos a formar parte de la empresa. Acepta esta invitación." : "We invite you to join the company. Accept this invitation.",
                 fecha_inicio: new SDate().toString(),
                 fecha_fin: new SDate().addDay(1).toString(),

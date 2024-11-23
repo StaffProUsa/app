@@ -67,6 +67,7 @@ import invitacion from './invitacion';
 import onLogin from './onLogin';
 import direccion from './direccion';
 import boss from './boss';
+import event_in_progress from './event_in_progress';
 const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
@@ -105,6 +106,7 @@ const NewPages = SPage.combinePages("/", {
     ...token,
     "waiting": waiting,
     my_companys,
+    event_in_progress,
     ...invitacion,
 
 })

@@ -267,7 +267,7 @@ class Lista extends React.Component {
                   <SIcon name={'TipoEntrada'} fill={STheme.color.secondary} height={35} width={35} />
                   <SView width={5} />
                   <SText center>Entradas </SText>
-                  <SText center>({e.entradas.length})</SText>
+                  <SText center>({e.entradas?.length})</SText>
                 </SView>
                 <SView col={'xs-12'} height={195} >
                   <SScrollView2>

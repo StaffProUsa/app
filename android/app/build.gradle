@@ -70,8 +70,8 @@ android {
         applicationId "com.staffprousa_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10018
-        versionName "1.0.18"
+        versionCode 10020
+        versionName "1.0.20"
     }
     splits {
         abi {

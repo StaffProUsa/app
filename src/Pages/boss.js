@@ -52,7 +52,7 @@ class boss extends Component {
                     type: "editar",
                     data: {
                         key: obj.key,
-                        fecha_ingreso: new SDate().toString()
+                        fecha_ingreso: new SDate().toString("yyyy-MM-ddThh:mm:ssTZD")
                     }
                 }).then(e => {
                     SNotification.send({
@@ -88,7 +88,7 @@ class boss extends Component {
                     type: "editar",
                     data: {
                         key: obj.key,
-                        fecha_salida: new SDate().toString()
+                        fecha_salida: new SDate().toString("yyyy-MM-ddThh:mm:ssTZD")
                     }
                 }).then(e => {
                     SNotification.send({
@@ -133,14 +133,30 @@ class boss extends Component {
                 header={[
                     {
                         key: "-options", label: "Actions", width: 80, renderExcel: a => "-", component: (obj) => {
-
-                            return <SView col={"xs-12"} flex row >
+                            let mensaje = "--";
+                            let onPress = null;
+                            const sdate = new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD");
+                            if (sdate.isAfter(new SDate())) {
+                                mensaje = "--"
+                            } else if (!obj.fecha_ingreso) {
+                                mensaje = "CLOCK IN"
+                                onPress = () => {
+                                    this.handleOpen(obj);
+                                }
+                            } else if (!obj.fecha_salida) {
+                                mensaje = "CLOCK OUT"
+                                onPress = () => {
+                                    this.handleClose(obj);
+                                }
+                            }
+                            return <SView col={"xs-12"} flex row center>
+                                <SText card padding={4} onPress={onPress}>{mensaje}</SText>
                                 {/* <SView width={8} /> */}
                                 {/* <SView width={20} height={20} onPress={this.handlePressEdit.bind(this, obj)}><SIcon name='Edit' /></SView> */}
-                                <SView width={8} />
-                                {!!obj.fecha_ingreso ? null : <SView width={20} height={20} onPress={this.handleOpen.bind(this, obj)}><SIcon name='Add' /></SView>}
-                                <SView width={8} />
-                                {!obj.fecha_salida && !!obj.fecha_ingreso ? <SView width={20} height={20} onPress={this.handleClose.bind(this, obj)}><SIcon name='Close' fill={"#fff"} /></SView> : null}
+                                {/* <SView width={8} /> */}
+                                {/* {!!obj.fecha_ingreso ? null : <SView width={20} height={20} onPress={this.handleOpen.bind(this, obj)}><SIcon name='Add' /></SView>} */}
+                                {/* <SView width={8} /> */}
+                                {/* {!obj.fecha_salida && !!obj.fecha_ingreso ? <SView width={20} height={20} onPress={this.handleClose.bind(this, obj)}><SIcon name='Close' fill={"#fff"} /></SView> : null} */}
                             </SView>
                         }
                     },

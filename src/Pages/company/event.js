@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SDate, SHr, SIcon, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView, SLanguage } from 'servisofts-component';
+import { SButtom, SDate, SHr, SIcon, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView, SLanguage, SLoad } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { Container } from '../../Components';
 import Reclutas from './Components/Reclutas';
@@ -34,6 +34,17 @@ export default class event extends Component {
         }).catch(e => {
             this.setState({ loading: false })
         })
+
+        SSocket.sendPromise({
+            component: "evento",
+            type: "getEstadoReclutas",
+            key_evento: this.key_evento
+        }).then(e => {
+            this.setState({ dataReclutas: e.data })
+        }).catch(e => {
+
+        })
+
     }
     componentWillUnmount() {
         SLanguage.removeListener(this.onChangeLanguage)
@@ -68,12 +79,33 @@ export default class event extends Component {
     }
 
     EsFechaMenorOIgual(fecha) {
+        if (!this.state?.dataReclutas) return <SLoad />;
         // Convertir la fecha de cadena a objeto Date
         const fechaObj = new Date(fecha);
+        let result = false;
 
         // Obtener la fecha actual
         const fechaActual = new Date();
-        return fechaObj.getDate() < fechaActual.getDate()
+        let datas = this.state?.dataReclutas;
+
+        Object.keys(datas).forEach((key) => {
+            const item = datas[key];
+            let fechaIni =new Date(item.fecha_inicio);
+            fechaIni.setDate(fechaIni.getDate() + 1);
+
+          
+            // let fechaObj = new Date(item.fecha_fin);
+            let fechaObj = (item.fecha_fin === null) ? fechaIni  : new Date(item.fecha_fin);
+
+            if (fechaObj < fechaActual) {
+                result = true;
+            } else {
+                result = false;
+            }
+        });
+
+        // return fechaObj.getDate() < fechaActual.getDate()
+        return result;
     }
 
     renderHeader() {
@@ -137,7 +169,9 @@ export default class event extends Component {
                     </SView>
                 </SView>
                 {/* <SText card padding={16} o language={{ en: "Add new staff", es: "Crear nuevo staff" }}></SText> */}
-                <Reclutas key_evento={this.key_evento} />
+
+                {/* <Reclutas key_evento={this.key_evento} /> */}
+                <Reclutas data={this.state.dataReclutas} />
             </SView>
             {/* <SHr h={300} /> */}
             {/* <SHr h={1} color={STheme.color.card} /> */}
@@ -152,6 +186,13 @@ export default class event extends Component {
             //     en: "Event",
             //     es: "Evento"
             // }}
+            backAlternative={o => {
+                if (this.state.data.key_cliente) {
+                    SNavigation.replace("/cliente/profile", { pk: this.state.data.key_cliente })
+                }else{
+                    SNavigation.goBack();
+                }
+            }}
             onRefresh={() => {
                 this.componentDidMount();
             }}

@@ -5,6 +5,7 @@ import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import { Container } from '../../Components';
 import BtnWhatsapp from '../../Components/BtnWhatsapp';
+import ResizeDualPanel from '../../Components/ResizeDualPanel';
 
 export default class users extends Component {
     constructor(props) {
@@ -151,7 +152,7 @@ export default class users extends Component {
     renderStaffUsuario(staff_usuario) {
         const fi = new SDate(staff_usuario.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD")
         const fs = new SDate(staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD")
-        const disf = fs.diffTime(fi);
+        const disf = fi.diffTime(fs);
         // return ((disf / 1000) / 60 / 60).toFixed(2);
         if (!staff_usuario) return
         if (staff_usuario.estado == 2) return <SText fontSize={12} color={STheme.color.lightGray} language={{ en: "Pendiente de confirmar", es: "Pendiente de confirmar" }} />
@@ -208,13 +209,23 @@ export default class users extends Component {
     }
 
 
-    EsFechaMenorOIgual(fecha) {
+    EsFechaMenorOIgual(fechaInicio, fechaFin) {
         // Convertir la fecha de cadena a objeto Date
-        const fechaObj = new Date(fecha);
+
+        let fechaIni =new Date(fechaInicio);
+        fechaIni.setDate(fechaIni.getDate() + 1);
+      
+        let fechaObj = (fechaFin === null) ? fechaIni  : new Date(fechaFin);
 
         // Obtener la fecha actual
         const fechaActual = new Date();
-        return fechaObj.getDate() < fechaActual.getDate()
+        console.log("fechaObj", fechaObj)
+        console.log("fechaActual", fechaActual)
+        // console.log(fechaObj.getDate() < fechaActual.getDate())
+        // return fechaObj.getDate() < fechaActual.getDate()
+
+        console.log(fechaObj.getTime() < fechaActual.getTime())
+        return fechaObj.getTime() < fechaActual.getTime()
     }
 
     handleInvitarArray(usuarios) {
@@ -253,16 +264,26 @@ export default class users extends Component {
             return a.usuario
         })
         if (selecteds.length <= 0) return;
-        return <SView card padding={4} width={100} center row
+
+        return <SView card padding={2} width={123} row
             style={{
-                backgroundColor: STheme.color.warning,
+                backgroundColor: STheme.color.secondary,
                 position: "absolute",
             }}
             onPress={() => {
                 this.handleInvitarArray(selecteds)
             }}>
-            <SText bold language={{ es: "Invitar", en: "Invite" }} />
-            <SText bold > {selecteds.length}</SText>
+            <SView width={54} height={20} style={{ borderColor: STheme.color.white, borderRightWidth: 1 }} center row>
+                <SText center color={STheme.color.white} bold > {selecteds.length}</SText>
+                <SView width={4} />
+                <SIcon name='invite2' fill={STheme.color.white} width={15} height={15} />
+                <SView width={4} />
+            </SView>
+            <SView width={4} />
+            {(selecteds.length > 1) ? <SText color={STheme.color.white} bold language={{ es: "Invitar", en: "Invite all" }} /> :
+                <SText color={STheme.color.white} bold language={{ es: "Invitar", en: "Invite" }} />
+            }
+
         </SView>
     }
     renderAsignarJefe() {
@@ -306,14 +327,24 @@ export default class users extends Component {
         return <SPage disableScroll titleLanguage={{
             es: "Armando mi STAFF",
             en: "Building my STAFF"
-        }}>
+        }}
+            backAlternative={o => {
+                if (this.state.data.key_evento) {
+                    SNavigation.replace("/company/event", { key_evento: this.state.data.key_evento })
+                } else {
+                    SNavigation.goBack();
+                }
+            }}
+        >
             <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8 }} >
                 {/* <SText fontSize={16} bold color={STheme.color.gray}>Evento: </SText> */}
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
                 <SView width={6} />
                 <SText center color={STheme.color.gray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
                 <SView width={16} />
-                <SText onPress={() => { this.loadData() }}><SIcon name='Reload' width={15} height={15} fill={STheme.color.text} />{" Reload"}</SText>
+                {/* <SText onPress={() => { this.loadData() }}><SIcon name='Reload' width={15} height={15} fill={STheme.color.text} />{" Reload"}</SText> */}
+                <SText onPress={() => { window.location.reload() }}><SIcon name='Reload' width={15} height={15} fill={STheme.color.text} />{" Reload"}</SText>
+                
                 {/* <SText center fontSize={15} color={STheme.color.gray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText> */}
                 {/* {this.separator()} */}
                 <SHr />
@@ -340,7 +371,7 @@ export default class users extends Component {
                     <SText fontSize={14} >{new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd, yyyy  HH")}</SText>
                 </> : null}
                 <SView width={6} />
-                {(this.EsFechaMenorOIgual(new Date(this.state?.data?.fecha_inicio))) ? <SText fontSize={16} center color={STheme.color.danger} language={{
+                {(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio , this.state?.data?.fecha_fin)) ? <SText fontSize={16} center color={STheme.color.danger} language={{
                     en: "[ Past event ]",
                     es: "[ Evento pasado ]"
                 }} /> : null}
@@ -375,16 +406,19 @@ export default class users extends Component {
                     <SView flex />
                 </SView>
             </SView>
-            <SView row col={"xs-12"} flex padding={4} >
-                <SView flex={1} height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }}>
-                    {/* <SView flex={2} height backgroundColor={STheme.color.darkGray} style={{ borderRadius: 4 }}> */}
-                    <SHr h={4} />
-                    <SText fontSize={12} color={STheme.color.text} center language={{
-                        es: "Staff Disponibles",
-                        en: "Available Staff"
-                    }} />
-                    {this.renderInvitar()}
-                    {/* <SView style={{
+            <SView row col={"xs-12"} flex style={{paddingBottom:20, paddingLeft:4, paddingRight:4, paddingTop:4}} >
+                <ResizeDualPanel
+                    startX={320}
+                    content1={
+                        <SView flex={1} height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }}>
+                            {/* <SView flex={2} height backgroundColor={STheme.color.darkGray} style={{ borderRadius: 4 }}> */}
+                            <SHr h={4} />
+                            <SText fontSize={12} color={STheme.color.text} center language={{
+                                es: "Staff Disponibles",
+                                en: "Available Staff"
+                            }} />
+                            {this.renderInvitar()}
+                            {/* <SView style={{
                         position: "absolute",
                         left: 2,
                         top: 2,
@@ -398,297 +432,336 @@ export default class users extends Component {
                     }}>
                         <SIcon name={"checkAll"} fill={STheme.color.gray} width={20} height={20} />
                     </SView> */}
-                    
-                    <STable2
-                        key={"Algo"}
-                        data={this.state.data_disponibles}
-                        filter={(a) => !a.staff_usuario || a?.staff_usuario?.estado == 2}
-                        rowHeight={25}
-                        cellStyle={{
-                            justifyContent: "center",
-                            paddingStart: 2,
-                            height: 30,
-                            color: STheme.color.text
+                            <STable2
+                                key={"Algo"}
+                                data={this.state.data_disponibles}
+                                filter={(a) => !a.staff_usuario || a?.staff_usuario?.estado == 2}
+                                rowHeight={25}
+                                cellStyle={{
+                                    justifyContent: "center",
+                                    paddingStart: 2,
+                                    height: 30,
+                                    color: STheme.color.text
 
-                        }}
-                        // filter={a => a.estado != 0}
-                        headerColor={STheme.color.primary}
-                        header={[
-                            {
-                                key: "-select", width: 25,
-                                renderHeader: () => {
-                                    const ff = this.state.data_disponibles.filter(a => !a.staff_usuario || a?.staff_usuario?.estado == 2);
-                                    const ff_disponible = ff.filter(a => !a.staff_usuario);
-                                    const ff_select = ff.filter(a => !!a._select);
-                                    let active = false;
-                                    if (ff_disponible.length == ff_select.length) {
-                                        active = true
-                                    }
-                                    return <SView width={20} height={20}>
-                                        <SInput type={"checkBox"} defaultValue={active} onChangeText={e => {
-                                            if (e) {
-                                                ff_disponible.map((itm) => {
-                                                    itm._select = true;
-                                                })
-                                                this.setState({ ...this.state })
-                                            } else {    
-                                                ff_select.map((itm) => {
-                                                    itm._select = false;
-                                                })
-                                                this.setState({ ...this.state })
+                                }}
+                                // filter={a => a.estado != 0}
+                                headerColor={STheme.color.primary}
+                                header={[
+                                    {
+                                        key: "-select", width: 25,
+                                        renderHeader: () => {
+                                            const ff = this.state.data_disponibles.filter(a => !a.staff_usuario || a?.staff_usuario?.estado == 2);
+                                            const ff_disponible = ff.filter(a => !a.staff_usuario);
+                                            const ff_select = ff.filter(a => !!a._select);
+                                            let active = false;
+                                            if (ff_disponible.length == ff_select.length) {
+                                                active = true
                                             }
-                                            console.log(e);
-                                        }} />
-                                    </SView>
-                                },
-                                component: (elm) => <SView col={"xs-12"} center>
-                                    <SView width={20} height={20} >
-                                        {
-                                            elm?.staff_usuario ? null :
-                                                <SInput type='checkBox' defaultValue={elm?._select} onChangeText={e => {
-                                                    elm._select = !!e;
-                                                    this.setState({ ...this.state })
-                                                }} />
-                                        }
-                                    </SView>
-                                </SView>
-                            },
-                            {
-                                key: "-", width: 50, component: (elm) => <SView col={"xs-12"} center>
-                                    {!elm.staff_usuario ? null : <SText color={STheme.color.danger} fontSize={12} underLine onPress={() => {
-                                        SSocket.sendPromise({
-                                            component: "staff_usuario",
-                                            type: "desinvitarGrupo",
-                                            key_usuarios_desinvitados: [elm.key_usuario],
-                                            key_staff: this.pk,
-                                            key_usuario: Model.usuario.Action.getKey(),
-                                        }).then(e => {
-                                            this.loadData();
-                                            SNotification.send({
-                                                title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
-                                                body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
-                                                color: STheme.color.success,
-                                                time: 5000
-                                            })
-                                        }).catch(e => {
-                                            console.error(e)
-                                            SNotification.send({
-                                                title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
-                                                body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
-                                                color: STheme.color.danger,
-                                                time: 5000
-                                            })
-                                        })
-                                    }}>{"Uninvite"}</SText>}
-                                </SView>
-                            },
-                            {
-                                key: "eventos_duplicados", label: "Events", width: 30, component: (a) => {
-                                    let color = STheme.color.warning
-
-                                    let onPress = null;
-                                    if (!a || !a.length) {
-                                        color = STheme.color.success
-                                    } else {
-                                        onPress = () => {
-                                            SPopup.open({
-                                                content: <SView col={"xs-12"} height={200} backgroundColor={STheme.color.primary} center>
-                                                    <SIcon name='noUser' fill={STheme.color.text} width={100} height={100} />
-                                                    <SHr h={4} />
-                                                    <SText fontSize={16} language={{
-                                                        es: "Usuario registrado en otro evento",
-                                                        en: "User registered in another event"
-                                                    }} />
-                                                    <SHr height={4} />
-                                                    <SView row center>
-                                                        <SText language={{
-                                                            es: "Evento: ",
-                                                            en: "Event: "
-                                                        }} />                                                    {a.map(p => <SText>{p.evento}</SText>)}
-                                                    </SView>
-                                                </SView>
-                                            })
-                                            console.log(a);
-                                        }
-                                    }
-
-                                    return <SView style={{
-                                        width: 22,
-                                        height: 22,
-                                        backgroundColor: color,
-                                        borderRadius: 4,
-                                    }} onPress={onPress}>
-
-                                    </SView>
-                                }
-                            },
-                            {
-                                key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
-                                    style={{ borderRadius: 4, overflow: "hidden" }}>
-                                    <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
-                                        resizeMode: "cover",
-                                    }} /></SView>
-                            },
-                            { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
-                            { key: "horas_trabajadas_tipo", label: "H. Staff", width: 50, order: "desc", render: a => !a ? "" : parseFloat(a).toFixed(2) },
-                            { key: "horas_trabajadas_company", label: "H. Company", width: 50, render: a => !a ? "" : parseFloat(a).toFixed(2) },
-                            { key: "participacion", label: "Events", width: 50, },
-                            { key: "rechazos", label: "Rejects", width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
-                            // {key: "usuario/Telefono", label: "Telefono", width: 100 },
-                            {
-                                key: "usuario/Telefono", label: "Phone", width: 140, component: (number) => <BtnWhatsapp telefono={number}
-                                    texto={this.state?.data?.evento?.observacion}
-                                >
-                                    <SText fontSize={11} color={STheme.color.text} underLine>
-                                        {number}
-                                    </SText>
-                                </BtnWhatsapp>
-                            },
-                            { key: "usuario/nivel_ingles", label: "English level", width: 60, },
-                           
-                        ]} />
-                </SView >
-
-                <SView width={25} height center>
-
-                </SView>
-                <SView flex height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }} >
-                    <SHr h={4} />
-                    <SText center fontSize={12} color={STheme.color.text} language={{
-                        es: "Staff Aceptado",
-                        en: "Staff Accepted"
-                    }} />
-                    {this.renderAsignarJefe()}
-
-                    <STable2
-                        key={"Algo1"}
-                        data={this.state.data_disponibles}
-                        headerColor={STheme.color.primary}
-                        filter={(a) => !!a.staff_usuario && a?.staff_usuario?.estado != 2}
-                        rowHeight={25}
-                        cellStyle={{
-                            justifyContent: "center",
-                            paddingStart: 2,
-                            height: 30,
-                            color: STheme.color.text
-
-                        }}
-                        header={[
-                            {
-                                key: "-", width: 25,
-                                renderHeader: () => {
-                                    const ff = this.state.data_disponibles.filter(a => !!a.staff_usuario && a?.staff_usuario?.estado != 2);
-                                    const ff_disponible = ff.filter(a => !!a.staff_usuario);
-                                    const ff_select = ff.filter(a => !!a.select_derecha);
-                                    let active = false;
-                                    if (ff_disponible.length == ff_select.length) {
-                                        active = true
-                                    }
-                                    return <SView width={20} height={20}>
-                                        <SInput type={"checkBox"} defaultValue={active} onChangeText={e => {
-                                            if (e) {
-                                                ff_disponible.map((itm) => {
-                                                    itm.select_derecha = true;
-                                                })
-                                                this.setState({ ...this.state })
-                                            } else {
-                                                ff_select.map((itm) => {
-                                                    itm.select_derecha = false;
-                                                })
-                                                this.setState({ ...this.state })
-                                            }
-                                            console.log(e);
-                                        }} />
-                                    </SView>
-                                },
-                                component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}>
-                                    <SInput type='checkBox' defaultValue={elm.select_derecha} onChangeText={e => {
-                                        elm.select_derecha = !!e;
-                                        this.setState({ ...this.state })
-                                    }} /></SView></SView>
-                            },
-                            {
-                                key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
-                                    style={{ borderRadius: 4, overflow: "hidden" }}>
-                                    <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
-                                        resizeMode: "cover",
-                                    }} /></SView>
-                            },
-                            { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
-                            {
-                                key: "staff_usuario", label: "Status", width: 140, component: (obj) => <SView col={"xs-12"} center>
-                                    {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
-                                    {this.renderStaffUsuario(obj)}
-                                </SView>
-                            },
-                            {
-                                key: "staff_usuario-2", label: "Boss", width: 140, component: (obj) => {
-                                    const user = this.usuarios[obj.key_usuario_atiende]?.usuario
-                                    return <SView col={"xs-12"} flex onPress={() => {
-                                        this.handleAsignarJefe(obj)
-                                    }} center>
-                                        {user ? <SView row><SView width={20} height={20} card>
-                                            <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario_atiende} />
-                                        </SView><SText color={STheme.color.text} flex fontSize={10}>{user.Nombres} {user.Apellidos}</SText></SView> : <SText color={STheme.color.text} fontSize={10}>{"Sin jefe"}</SText>}
-
-                                        {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
-                                        {/* {this.renderStaffUsuario(obj)} */}
-                                    </SView>
-                                }
-                            },
-
-                            {
-                                key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
-                                    <SText fontSize={11} color={STheme.color.text} underLine>
-                                        {number}
-                                    </SText>
-                                </BtnWhatsapp>
-                            },
-                            {
-                                key: "-delete", label: "Delete", width: 100, component: (e) => {
-                                    return <SText color={STheme.color.text} onPress={() => {
-                                        // console.log(e);
-                                        SPopup.confirm({
-                                            title: "Seguro de eliminar?",
-                                            onPress: () => {
-                                                SSocket.send({
-                                                    component: "staff_usuario",
-                                                    type: "editar",
-                                                    data: {
-                                                        key: e.staff_usuario.key,
-                                                        estado: 0
+                                            return <SView width={20} height={20}>
+                                                <SInput type={"checkBox"} defaultValue={active} onChangeText={e => {
+                                                    if (e) {
+                                                        ff_disponible.map((itm) => {
+                                                            itm._select = true;
+                                                        })
+                                                        this.setState({ ...this.state })
+                                                    } else {
+                                                        ff_select.map((itm) => {
+                                                            itm._select = false;
+                                                        })
+                                                        this.setState({ ...this.state })
                                                     }
+                                                    console.log(e);
+                                                }} 
+                                                {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio , this.state?.data?.fecha_fin) ? { disabled: true } : {})}
+                                                />
+                                            </SView>
+                                        },
+                                        component: (elm) => <SView col={"xs-12"} center>
+                                            <SView width={20} height={20} >
+                                                {
+                                                    elm?.staff_usuario ? null :
+                                                        <SInput key={elm.key ?? ""} type='checkBox' defaultValue={elm?._select} onChangeText={e => {
+
+                                                            // console.log("queeee")
+                                                            // console.log(this.EsFechaMenorOIgual(new Date((this.state?.data?.fecha_fin))))
+                                                            // if (this.EsFechaMenorOIgual(new Date((this.state?.data?.fecha_fin)))) return SPopup.alert("No puedes invitar a usuarios a un evento que no ha iniciado.")
+
+                                                            elm._select = !!e;
+                                                            this.setState({ ...this.state })
+                                                        }}
+
+                                                            // onPress={() => {
+                                                            //     console.log("queeee")
+                                                            //     console.log(this.EsFechaMenorOIgual(new Date((this.state?.data?.fecha_fin))))
+                                                            //     if (!this.EsFechaMenorOIgual(new Date((this.state?.data?.fecha_fin)))) return SPopup.alert("No puedes invitar a usuarios a un evento que no ha iniciado.")
+                                                            // }}
+
+                                                            {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio , this.state?.data?.fecha_fin) ? { disabled: true } : {})}
+
+                                                        />
+                                                }
+                                            </SView>
+                                        </SView>,
+                                        renderExcel: (a) => {
+                                            return "";
+                                        }
+                                    },
+                                    {
+                                        key: "-", width: 50, component: (elm) => <SView col={"xs-12"} center>
+                                            {!elm.staff_usuario ? null : <SText color={STheme.color.danger} fontSize={12} underLine onPress={() => {
+                                                SSocket.sendPromise({
+                                                    component: "staff_usuario",
+                                                    type: "desinvitarGrupo",
+                                                    key_usuarios_desinvitados: [elm.key_usuario],
+                                                    key_staff: this.pk,
+                                                    key_usuario: Model.usuario.Action.getKey(),
                                                 }).then(e => {
                                                     this.loadData();
+                                                    SNotification.send({
+                                                        title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
+                                                        body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
+                                                        color: STheme.color.success,
+                                                        time: 5000
+                                                    })
                                                 }).catch(e => {
-
+                                                    console.error(e)
+                                                    SNotification.send({
+                                                        title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
+                                                        body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
+                                                        color: STheme.color.danger,
+                                                        time: 5000
+                                                    })
                                                 })
+                                            }}>{"Uninvite"}</SText>}
+                                        </SView>,
+                                        renderExcel: (a) => {
+                                            return "";
+                                        }
+                                    },
+                                    {
+                                        key: "eventos_duplicados", label: "Events", width: 30, component: (a) => {
+                                            let color = STheme.color.warning
+
+                                            let onPress = null;
+                                            if (!a || !a.length) {
+                                                color = STheme.color.success
+                                            } else {
+                                                onPress = () => {
+                                                    SPopup.open({
+                                                        content: <SView col={"xs-12"} height={200} backgroundColor={STheme.color.primary} center>
+                                                            <SIcon name='noUser' fill={STheme.color.text} width={100} height={100} />
+                                                            <SHr h={4} />
+                                                            <SText fontSize={16} language={{
+                                                                es: "Usuario registrado en otro evento",
+                                                                en: "User registered in another event"
+                                                            }} />
+                                                            <SHr height={4} />
+                                                            <SView row center>
+                                                                <SText language={{
+                                                                    es: "Evento: ",
+                                                                    en: "Event: "
+                                                                }} />                                                    {a.map(p => <SText>{p.evento}</SText>)}
+                                                            </SView>
+                                                        </SView>
+                                                    })
+                                                    console.log(a);
+                                                }
                                             }
-                                        })
-                                    }}>{"Delete"}</SText>
-                                }
-                            },
-                            // {
-                            //     key: "tipos_staff_favoritos", label: "Tipos", width: 200,
-                            //     render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : ""
-                            // },
-                            // {
-                            //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
-                            //         tipo_staff
-                            //             ? tipo_staff.map((a, index) => (
-                            //                 <SText row key={index} style={{ color: a.descripcion === "cocinero" ? "green" : "white" }}>
-                            //                     {a.descripcion}
-                            //                 </SText>
-                            //             ))
-                            //             // .reduce((prev, curr) => [prev, ', ', curr]) // Para añadir coma entre los elementos
-                            //             : ""
-                            //     }</SView>
-                            // },
+
+                                            return <SView style={{
+                                                width: 22,
+                                                height: 22,
+                                                backgroundColor: color,
+                                                borderRadius: 4,
+                                            }} onPress={onPress}>
+
+                                            </SView>
+                                        },
+                                        renderExcel: (a) => {
+                                            return "";
+                                        }
+                                    },
+                                    {
+                                        key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
+                                            style={{ borderRadius: 4, overflow: "hidden" }}>
+                                            <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
+                                                resizeMode: "cover",
+                                            }} /></SView>
+                                    },
+                                    { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
+                                    { key: "horas_trabajadas_tipo", label: "Hrs. Staff", width: 65, order: "desc", render: a => !a ? "" : parseFloat(a).toFixed(2) },
+                                    { key: "horas_trabajadas_company", label: "Hrs. Company", width: 75, render: a => !a ? "" : parseFloat(a).toFixed(2) },
+                                    { key: "participacion", label: "Events", width: 50, },
+                                    { key: "rechazos", label: "Rejects", width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
+                                    // {key: "usuario/Telefono", label: "Telefono", width: 100 },
+                                    {
+                                        key: "usuario/Telefono", label: "Phone", width: 140, component: (number) => <BtnWhatsapp telefono={number}
+                                            texto={this.state?.data?.evento?.observacion}
+                                        >
+                                            <SText fontSize={11} color={STheme.color.text} underLine>
+                                                {number}
+                                            </SText>
+                                        </BtnWhatsapp>
+                                    },
+                                    { key: "usuario/nivel_ingles", label: "English level", width: 60, },
+
+                                ]} />
+                        </SView >
+                    }
+                    content2={
+                        <SView flex height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }} >
+                            <SHr h={4} />
+                            <SText center fontSize={12} color={STheme.color.text} language={{
+                                es: "Staff Aceptado",
+                                en: "Staff Accepted"
+                            }} />
+                            {this.renderAsignarJefe()}
+
+                            <STable2
+                                key={"Algo1"}
+                                data={this.state.data_disponibles}
+                                headerColor={STheme.color.primary}
+                                filter={(a) => !!a.staff_usuario && a?.staff_usuario?.estado != 2}
+                                rowHeight={25}
+                                cellStyle={{
+                                    justifyContent: "center",
+                                    paddingStart: 2,
+                                    height: 30,
+                                    color: STheme.color.text
+
+                                }}
+                                header={[
+                                    {
+                                        key: "-", width: 25,
+                                        renderHeader: () => {
+                                            const ff = this.state.data_disponibles.filter(a => !!a.staff_usuario && a?.staff_usuario?.estado != 2);
+                                            const ff_disponible = ff.filter(a => !!a.staff_usuario);
+                                            const ff_select = ff.filter(a => !!a.select_derecha);
+                                            let active = false;
+                                            if (ff_disponible.length == ff_select.length) {
+                                                active = true
+                                            }
+                                            return <SView width={20} height={20}>
+                                                <SInput type={"checkBox"} defaultValue={active} onChangeText={e => {
+                                                    if (e) {
+                                                        ff_disponible.map((itm) => {
+                                                            itm.select_derecha = true;
+                                                        })
+                                                        this.setState({ ...this.state })
+                                                    } else {
+                                                        ff_select.map((itm) => {
+                                                            itm.select_derecha = false;
+                                                        })
+                                                        this.setState({ ...this.state })
+                                                    }
+                                                    console.log(e);
+                                                }} />
+                                            </SView>
+                                        },
+                                        component: (elm) => <SView col={"xs-12"} center><SView width={20} height={20}>
+                                            <SInput type='checkBox' defaultValue={elm.select_derecha} onChangeText={e => {
+                                                elm.select_derecha = !!e;
+                                                this.setState({ ...this.state })
+                                            }} /></SView></SView>,
+                                        renderExcel: (a) => {
+                                            return "";
+                                        }
+                                    },
+                                    {
+                                        key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
+                                            style={{ borderRadius: 4, overflow: "hidden" }}>
+                                            <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
+                                                resizeMode: "cover",
+                                            }} /></SView>
+                                    },
+                                    { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
+                                    {
+                                        key: "staff_usuario", label: "Status", width: 140, component: (obj) => <SView col={"xs-12"} center>
+                                            {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
+                                            {this.renderStaffUsuario(obj)}
+                                        </SView>,
+                                        renderExcel: (a) => {
+                                            return "";
+                                        }
+                                    },
+                                    {
+                                        key: "staff_usuario-2", label: "Boss", width: 140, component: (obj) => {
+                                            const user = this.usuarios[obj.key_usuario_atiende]?.usuario
+                                            return <SView col={"xs-12"} flex onPress={() => {
+                                                this.handleAsignarJefe(obj)
+                                            }} center>
+                                                {user ? <SView row><SView width={20} height={20} card>
+                                                    <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario_atiende} />
+                                                </SView><SText color={STheme.color.text} flex fontSize={10}>{user.Nombres} {user.Apellidos}</SText></SView> : <SText color={STheme.color.text} fontSize={10}>{"Sin jefe"}</SText>}
+
+                                                {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
+                                                {/* {this.renderStaffUsuario(obj)} */}
+                                            </SView>
+                                        },
+                                        renderExcel: (obj) => {
+                                            const user = this.usuarios[obj.key_usuario_atiende]?.usuario
+                                            return user ? `${user.Nombres} ${user.Apellidos}` : "Sin jefe"
+                                            // return a.map(b => b.descripcion)
+                                        }
+                                    },
+
+                                    {
+                                        key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
+                                            <SText fontSize={11} color={STheme.color.text} underLine>
+                                                {number}
+                                            </SText>
+                                        </BtnWhatsapp>
+                                    },
+                                    {
+                                        key: "-delete", label: "Delete", width: 100, component: (e) => {
+                                            return <SText color={STheme.color.text} onPress={() => {
+                                                // console.log(e);
+                                                SPopup.confirm({
+                                                    title: "Seguro de eliminar?",
+                                                    onPress: () => {
+                                                        SSocket.send({
+                                                            component: "staff_usuario",
+                                                            type: "editar",
+                                                            data: {
+                                                                key: e.staff_usuario.key,
+                                                                estado: 0
+                                                            }
+                                                        }).then(e => {
+                                                            this.loadData();
+                                                        }).catch(e => {
+
+                                                        })
+                                                    }
+                                                })
+                                            }}>{"Delete"}</SText>
+                                        },
+                                        renderExcel: (a) => {
+                                            return "";
+                                        }
+                                    },
+                                    // {
+                                    //     key: "tipos_staff_favoritos", label: "Tipos", width: 200,
+                                    //     render: (tipo_staff) => (tipo_staff) ? tipo_staff.map(a => a.descripcion).join(", ") : ""
+                                    // },
+                                    // {
+                                    //     key: "tipos_staff", label: "Tipos", width: 150, component: (tipo_staff) => <SView col={"xs-12"} row center>{
+                                    //         tipo_staff
+                                    //             ? tipo_staff.map((a, index) => (
+                                    //                 <SText row key={index} style={{ color: a.descripcion === "cocinero" ? "green" : "white" }}>
+                                    //                     {a.descripcion}
+                                    //                 </SText>
+                                    //             ))
+                                    //             // .reduce((prev, curr) => [prev, ', ', curr]) // Para añadir coma entre los elementos
+                                    //             : ""
+                                    //     }</SView>
+                                    // },
 
 
 
-                        ]} />
-                </SView>
+                                ]} />
+                        </SView>
+                    }
+                />
             </SView >
         </SPage >
     }

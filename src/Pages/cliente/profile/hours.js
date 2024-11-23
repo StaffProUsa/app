@@ -49,11 +49,13 @@ export default class hours extends Component {
           defaultValue={this.state.fecha_fin}
         />
         <SView width={8} />
-        <SText card onPress={() => {
+        <SIcon name='Search' width={12} fill={STheme.color.text}/>
+        <SView width={4} />
+        <SText padding={4} card onPress={() => {
           this.state.fecha_inicio = this.inpFechaInicio.getValue();
           this.state.fecha_fin = this.inpFechaFin.getValue();
           this.componentDidMount();
-        }}>{"SEND"}</SText>
+        }}>{"SEARCH"}</SText>
       </SView>
       <SView col={"xs-12"} flex>
         <STable2 data={this.state.data}

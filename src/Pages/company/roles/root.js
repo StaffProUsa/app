@@ -206,7 +206,7 @@ export default class root extends Component {
                     </SView>
                 </SView>
             </SView>
-            {
+            {/* {
                 !this.state.delete ? null :
                     <SView width={40} center height={30} onPress={() => {
                         SPopup.confirm({
@@ -246,7 +246,7 @@ export default class root extends Component {
                     }} padding={4}>
                         <SImage src={require("../../../Assets/img/borrar.png")} />
                     </SView>
-            }
+            } */}
         </SView >
     }
     renderList() {

@@ -23,6 +23,7 @@ import Carrito, { ReactComponent as CarritoW } from './svg/carrito.svg';
 import out, { ReactComponent as outW } from './svg/out.svg';
 import share, { ReactComponent as shareW } from './svg/share.svg';
 import invite, { ReactComponent as inviteW } from './svg/invite.svg';
+import invite2, { ReactComponent as invite2W } from './svg/invite2.svg';
 import next, { ReactComponent as nextW } from './svg/next.svg';
 import next2, { ReactComponent as next2W } from './svg/next2.svg';
 import aptitud, { ReactComponent as aptitudW } from './svg/aptitud.svg';
@@ -47,6 +48,7 @@ const Assets: SAssets = {
         "out": { Native: out, Web: outW },
         "share": { Native: share, Web: shareW },
         "invite": { Native: invite, Web: inviteW },
+        "invite2": { Native: invite2, Web: invite2W },
         "next": { Native: next, Web: nextW },
         "next2": { Native: next2, Web: next2W },
         "aptitud": { Native: aptitud, Web: aptitudW },

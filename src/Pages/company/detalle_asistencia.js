@@ -245,6 +245,13 @@ class detalle_asistencia extends Component {
             onRefresh={() => {
                 this.componentDidMount();
             }}
+            backAlternative={o => {
+                if (this.key_evento) {
+                    SNavigation.replace("/company/event", { key_evento: this.key_evento })
+                } else {
+                    SNavigation.goBack();
+                }
+            }}
             footer={<PBarraFooter url={'/company'} />}
         >
             <Container loading={!this.state.data || this.state.loading}>

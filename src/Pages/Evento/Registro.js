@@ -155,7 +155,7 @@ export default class Registro extends React.Component {
               }).then(e => {
                 if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount()
                 if (event.INSTANCE) event.INSTANCE.componentDidMount()
-                SNavigation.goBack();
+                SNavigation.goBack(this.backAlternative.bind(this));
               }).catch(e => {
                 SNotification.send({
                   title: "Error",
@@ -172,7 +172,7 @@ export default class Registro extends React.Component {
                 key_usuario: Model.usuario.Action.getKey(),
               }).then(e => {
                 if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount()
-                SNavigation.goBack();
+                SNavigation.goBack(this.backAlternative.bind(this));
               }).catch(e => {
                 SNotification.send({
                   title: "Error",
@@ -187,6 +187,15 @@ export default class Registro extends React.Component {
       </>);
   }
 
+  backAlternative(o) {
+    if (this.key_cliente) {
+      SNavigation.replace("/cliente/profile", { pk: this.key_cliente })
+    } else if (this.key) {
+      SNavigation.replace("/company/event", { key_evento: this.key })
+    } else {
+      SNavigation.goBack();
+    }
+  }
   render() {
     // var reducer = this.props.state[evento.component + 'Reducer'];
     // if (reducer.type == 'registro' || reducer.type == 'editar') {
@@ -206,7 +215,9 @@ export default class Registro extends React.Component {
         <SPage titleLanguage={{
           es: "Registro",
           en: "Register"
-        }}>
+        }}
+          backAlternative={this.backAlternative.bind(this)}
+        >
           <SView col={'xs-12'} backgroundColor={'transparent'} center row>
             <SHr height={20} />
             <SView

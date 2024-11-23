@@ -223,9 +223,9 @@ export default class root extends Component {
         {/* <SText onPress={() => {
           SNavigation.navigate("/token/exito")
         }}>{"TEST VENTANA EXITO"}</SText> */}
-        <SHr h={20} />
+        {/* <SHr h={20} />
         <SHr h={1} color={STheme.color.lightGray} />
-        <SHr h={20} />
+        <SHr h={20} /> */}
         {this.state.reload ? <SLoad /> : <Trabajos />}
       </Container>
       <SHr h={90} />
