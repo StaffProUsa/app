@@ -29,6 +29,7 @@ export default class root extends Component {
             add: true
         };
         this.key_company = SNavigation.getParam("key_company");
+        this.key_evento = SNavigation.getParam("key_evento");
         this.onSelect = SNavigation.getParam("onSelect", "");
     }
 
@@ -60,8 +61,9 @@ export default class root extends Component {
         SSocket.sendPromise({
             component: "usuario_company",
             // type: "getAllStaff",
-            type: "getAllStaff",
-            key_company: this.key_company
+            type: "getAllStaffEvento",
+            // key_company: this.key_company
+            key_evento: this.key_evento
         }).then(e => {
             let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))];
             SSocket.sendPromise({
@@ -178,13 +180,11 @@ export default class root extends Component {
                     </SView>
 
                 </SView>
-                {!this.state.edit ? null :
+                {/* {!this.state.edit ? null :
                     <SView center height={60}>
                         <SView width={35} height={35} center onPress={() => {
-                            // SNavigation.navigate("/company/roles/add", { key_company: this.key_company, key_usuario: obj.key_usuario, key: obj.key })
                             SNavigation.navigate("/usuario/edit", { pk: obj.key_usuario })
                         }} >
-                            {/* <SImage src={require("../../../Assets/img/EDITAR2.png")} /> */}
                             <SIcon name='editar' height={20} width={20} fill={STheme.color.gray} />
                             <SText fontSize={9} color={STheme.color.gray} language={{
                                 en: "Edit",
@@ -192,8 +192,8 @@ export default class root extends Component {
                             }} />
                         </SView>
                     </SView>
-                }
-                <SView width={4} />
+                } */}
+                {/* <SView width={4} />
                 <SView center height={60}>
                     <SView width={35} height={35} center onPress={() => {
                         SNavigation.navigate("/perfil/staff_tipo", { key_usuario: obj.key_usuario });
@@ -204,7 +204,7 @@ export default class root extends Component {
                             es: "Posición"
                         }} />
                     </SView>
-                </SView>
+                </SView> */}
             </SView>
             {/* {
                 !this.state.delete ? null :

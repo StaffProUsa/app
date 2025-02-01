@@ -18,7 +18,7 @@ export default class event_in_progress extends Component {
 
 
   render() {
-    return <SPage titleLanguage={{ es: "Asistencia", en: "Assistance" }} footer={<PBarraFooter url={'/token'} />}>
+    return <SPage titleLanguage={{ es: "Asistencia", en: "Assistance" }} footer={<PBarraFooter url={'/event_in_progress'} />}>
       <Container>
         <SHr h={20} />
         <Trabajos />

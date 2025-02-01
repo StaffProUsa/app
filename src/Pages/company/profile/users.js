@@ -20,14 +20,19 @@ class root extends Component {
         };
         this.key_company = SNavigation.getParam("pk");
     }
-
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
 
-
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         this.getData({ key_company: this.key_company }).then((users) => {
             console.log(users)
             this.setState({ data: users })
         })
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
     }
     getData = async ({ key_company }) => {
         const staff_response = await SSocket.sendPromise({
@@ -51,7 +56,7 @@ class root extends Component {
         this.state.roles = roles.data;
         console.log(roles)
         Object.values(staff_response.data).map(o => {
-            o.usuario = users_request?.data[o.key_usuario]?.usuario;
+            o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
             o.rol = roles?.data[o.key_rol]
         })
         return staff_response.data;
@@ -59,19 +64,19 @@ class root extends Component {
     renderEstado(estado) {
         const val = {
             color: STheme.color.danger,
-            text: "DISABLED"
+            text: SLanguage.select({ en: "DISABLED", es: "DESHAB." })
         }
         if (estado == 2) {
             val.color = STheme.color.success
-            val.text = "ENABLED"
+            val.text = SLanguage.select({ en: "ENABLED", es: "HABILIT." })
         }
-        return <SView width={35} height={12}
+        return <SView width={38} height={12}
             backgroundColor={val.color}
             center
             style={{
                 borderRadius: 2
             }} >
-            <SText fontSize={6} bold color={STheme.color.white}>{val.text}</SText>
+            <SText fontSize={7} bold color={STheme.color.white}>{val.text}</SText>
         </SView>
     }
     handleChangeStatus(obj) {
@@ -97,7 +102,7 @@ class root extends Component {
             SNotification.send({
                 title: SLanguage.select({
                     es: "No tienes permisos",
-                    en: "TODO: lan",
+                    en: "You do not have permissions",
                 }),
                 color: STheme.color.warning,
                 time: 5000
@@ -194,21 +199,30 @@ class root extends Component {
         if (permiso == "cargando") return <SLoad />
         if (!permiso) return <PermisoNotFound />
         let permiso_habilitar = Model.usuarioPage.Action.getPermiso({ url: "/company/profile/users", permiso: "habilitar", user_data: { key_company: this.key_company } })
-        return <SPage title={"Users"} disableScroll>
+        return <SPage titleLanguage={{
+            es: "Usuarios",
+            en: "Users"
+        }} disableScroll>
             <SView col={"xs-12"} height={20} row>
                 <SText card style={{
                     opacity: this.state.show_disabled ? 1 : 0.6,
-                }} fontSize={10} center padding={2} onPress={() => {
+                }} fontSize={10} center padding={4} onPress={() => {
                     this.state.show_disabled = !this.state.show_disabled
                     this.setState({ ...this.state })
-                }}>{"Show Disabled"}</SText>
+                }} language={{
+                    es: "Mostrar Deshabilitados",
+                    en: "Show Disabled"
+                }} />
                 <SView width={8} />
                 <SText card style={{
                     opacity: this.state.show_enabled ? 1 : 0.6,
-                }} fontSize={10} center padding={2} onPress={() => {
+                }} fontSize={10} center padding={4} onPress={() => {
                     this.state.show_enabled = !this.state.show_enabled
                     this.setState({ ...this.state })
-                }}>{"Show Enabled"}</SText>
+                }} language={{
+                    es: "Mostrar Habilitados",
+                    en: "Show Enabled"
+                }} />
             </SView>
             <SView col={"xs-12"} flex>
                 <STable2
@@ -220,15 +234,18 @@ class root extends Component {
                     rowHeight={30}
                     header={[
                         { key: "index", label: "#", width: 20, component: (a) => <SView card padding={4}><SText fontSize={8}>{a}</SText></SView> },
-                        { key: "usuario/key", label: "Edit", width: 40, component: (a) => <SView card padding={4} onPress={() => { SNavigation.navigate("/usuario/edit", { pk: a, key_company: this.key_company }) }}><SIcon name='Edit' width={20} height={20} /></SView> },
                         {
-                            key: "-estado", label: "Status", width: 40,
+                            key: "usuario/key", label: SLanguage.select({ en: "Edit", es: "Editar" }), width: 40,
+                            component: (a) => <SView card padding={4} onPress={() => { SNavigation.navigate("/usuario/edit", { pk: a, key_company: this.key_company }) }}><SIcon name='Edit' width={20} height={20} /></SView>
+                        },
+                        {
+                            key: "-estado", label: SLanguage.select({ en: "Status", es: "Estado" }), width: 40,
                             component: (a) => this.renderEstado(a.estado), onPress: (a, b, c) => {
                                 if (!permiso_habilitar) {
                                     SNotification.send({
                                         title: SLanguage.select({
                                             es: "No tienes permisos",
-                                            en: "TODO: lan",
+                                            en: "You do not have permissions",
                                         }),
                                         color: STheme.color.warning,
                                         time: 5000
@@ -239,7 +256,11 @@ class root extends Component {
                             }, renderExcel: (e) => e.estado == 2 ? "enabled" : "disabled"
                         },
                         {
-                            key: "-rol", label: "Rol in company", width: 100, component: this.renderRol.bind(this),
+                            key: "-rol", label: SLanguage.select({
+                                en: "Role in company",
+                                es: "Rol en la empresa"
+                            })
+                            , width: 100, component: this.renderRol.bind(this),
                             renderExcel: e => e?.rol?.descripcion
                         },
 
@@ -247,19 +268,72 @@ class root extends Component {
                             key: "usuario/key-foto", label: "Img", width: 40,
                             component: (a) => <SImage enablePreview style={{ width: 30, height: 30, resizeMode: "cover" }} src={SSocket.api.root + "usuario/" + a} />
                         },
-                        { key: "usuario/employee_number", label: "Employee Number", width: 100 },
-                        { key: "usuario-name", label: "Full Name", order: "asc", width: 160, render: (a) => `${a.Nombres} ${a.Apellidos}` },
-                        { key: "usuario/Telefono", label: "Phone Number", width: 100 },
-                        { key: "usuario/Correo", label: "Email", width: 170, },
-                        { key: "usuario/nivel_ingles", label: "English level", width: 80, cellStyle: { textAlign: "center" } },
-                        { key: "usuario/papeles", label: "Has Papers?", width: 70, cellStyle: { textAlign: "center" } },
-                        { key: "usuario/estado_civil", label: "Marital Status", width: 70 },
-                        { key: "usuario/fecha_nacimiento", label: "Dae of Birth", width: 70, cellStyle: { textAlign: "center" } },
-                        { key: "usuario/direccion", label: "Affress", width: 150 },
-                        { key: "usuario/otros_idiomas", label: "Other Languages", width: 150 },
-                        { key: "fecha_on", label: "Date added", width: 150, cellStyle: { textAlign: "right", paddingRight: 4 }, render: (a) => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy") },
                         {
-                            key: "staff_tipo", label: "Position", width: 600,
+                            key: "employee_number", label: SLanguage.select({
+                                en: "Employee Number",
+                                es: "Número de Empleado"
+                            }), width: 100
+                        },
+                        {
+                            key: "usuario-name", label: SLanguage.select({
+                                en: "Full Name",
+                                es: "Nombre Completo"
+                            }), order: "asc", width: 160, render: (a) => `${a.Nombres} ${a.Apellidos}`
+                        },
+                        {
+                            key: "usuario/Telefono", label: SLanguage.select({
+                                en: "Phone Number",
+                                es: "Teléfono"
+                            }), width: 100
+                        },
+                        { key: "usuario/Correo", label: "Email", width: 170, },
+                        {
+                            key: "usuario/nivel_ingles", label: SLanguage.select({
+                                en: "English level",
+                                es: "Nivel de Inglés"
+                            }), width: 80, cellStyle: { textAlign: "center" }
+                        },
+                        {
+                            key: "usuario/papeles", label: SLanguage.select({
+                                en: "Has Papers?",
+                                es: "Tiene Papeles?"
+                            }), width: 70, cellStyle: { textAlign: "center" }
+                        },
+                        {
+                            key: "usuario/estado_civil", label: SLanguage.select({
+                                en: "Marital Status",
+                                es: "Estado civil"
+                            }), width: 70
+                        },
+                        {
+                            key: "usuario/fecha_nacimiento", label: SLanguage.select({
+                                en: "Dae of Birth",
+                                es: "Fecha de Nac."
+                            }), width: 70, cellStyle: { textAlign: "center" }
+                        },
+                        {
+                            key: "usuario/direccion", label: SLanguage.select({
+                                en: "Address",
+                                es: "Dirección"
+                            }), width: 150
+                        },
+                        {
+                            key: "usuario/otros_idiomas", label: SLanguage.select({
+                                en: "Other Languages",
+                                es: "Otros idiomas"
+                            }), width: 150
+                        },
+                        {
+                            key: "fecha_on", label: SLanguage.select({
+                                en: "Date added",
+                                es: "Fecha de alta"
+                            }), width: 150, cellStyle: { textAlign: "right", paddingRight: 4 }, render: (a) => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy")
+                        },
+                        {
+                            key: "staff_tipo", label: SLanguage.select({
+                                en: "Position",
+                                es: "Posición"
+                            }), width: 600,
                             component: (a) => {
                                 if (!a) return <SText>{""}</SText>;
                                 return <SView row col={"xs-12"}>{a.map(o => this.renderStaffTipo(o))}</SView>

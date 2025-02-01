@@ -68,6 +68,8 @@ export default class staff_tipo extends Component {
         return <SPage title={"Staff Tipo"} disableScroll>
             <SHr height={40} />
             <Container flex>
+                <SText col={"sm-12"} justify fontSize={18} bold>{(lenguaje == "es") ? "Selecciona tus habilidades o tipos de staff favoritos:" : "Select your favorite skills or staff types:"}</SText>
+                <SHr height={20} />
                 <SBuscador onChange={(e) => {
                     this.setState({ filter: e })
                 }} />

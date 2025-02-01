@@ -5,6 +5,7 @@ import table from "./table";
 import _new from "./new";
 import profile from "./profile/index";
 import edit from "./edit";
+import edit_employee from "./edit_employee";
 import _delete from "./delete";
 import roles from "./roles";
 import event from "./event";
@@ -25,6 +26,7 @@ export default SPage.combinePages(Parent.name, {
     event,
     "detalleAsistencia": detalle_asistencia,
     "edit": edit,
+    "editEmployee": edit_employee,
     "delete": _delete,
     "invite": invite,
     ...roles,

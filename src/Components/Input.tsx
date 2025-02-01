@@ -72,8 +72,10 @@ const Input = forwardRef((props: InputProps, ref) => {
     }));
 
     return <SView col={props.col}>
-        <SText fontSize={12} font={"Montserrat"} color={color} style={props.labelStyle}>{props.label}</SText>
-        <SHr h={3} />
+        {!props.label ? null : <>
+            <SText fontSize={12} font={"Montserrat"} color={color} style={props.labelStyle}>{props.label}</SText>
+            <SHr h={3} />
+        </>}
         <SView style={{
             width: "100%",
             height: props.height ?? 38,

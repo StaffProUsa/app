@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import { SDate, SIcon, SNavigation, SPage, STable2, SText, STheme, SView, SLanguage, SHr, SList2, SImage, SUtil } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
-import { SImage, SList2, SPage, SText, STheme, SView, SLanguage, SHr, SIcon, SDate, SNavigation, SLoad, SUtil } from 'servisofts-component';
+import InputFecha from '../Components/NuevoInputs/InputFecha';
 import { Container } from '../Components';
-import Degradado from '../Components/Degradado';
-import PBarraFooter from '../Components/PBarraFooter';
-import Card from 'servisofts-component/img/Card';
 
-export default class history extends Component {
+export default class historyDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            data: {},
+            fecha_inicio: SNavigation.getParam("fecha_inicio", new SDate().toString("yyyy-MM-dd")),
+            fecha_fin: SNavigation.getParam("fecha_inicio", new SDate().toString("yyyy-MM-dd"))
         };
+        this.key_cliente = SNavigation.getParam("pk");
+        this.option = SNavigation.getParam("option");
     }
     onChangeLanguage(language) {
         this.setState({ ...this.state })
@@ -20,10 +23,24 @@ export default class history extends Component {
     componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
 
+        // SSocket.sendPromise({
+        //     component: "staff_usuario",
+        //     type: "reporteHorasCliente",
+        //       key_cliente: this.key_cliente,
+        //     fecha_inicio: this.state.fecha_inicio,
+        //     fecha_fin: this.state.fecha_fin
+        // }).then((e) => {
+        //     this.setState({ data: e.data })
+        // }).catch(e => {
+
+        // })
+
         SSocket.sendPromise({
             component: "staff_usuario",
-            type: "getMisTrabajos",
-            key_usuario: Model.usuario.Action.getKey()
+            type: "getMisTrabajosEntreFechas",
+            key_usuario: Model.usuario.Action.getKey(),
+            fecha_inicio: this.state.fecha_inicio,
+            fecha_fin: this.state.fecha_fin
         }).then(e => {
             Object.values(e.data).map((obj) => {
                 const f = new SDate(obj.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd")
@@ -35,27 +52,28 @@ export default class history extends Component {
                 }
 
             })
-            this.setState({ data: e.data })
-        }).catch(e => {
-            console.error(e);
-        })
 
-        // SSocket.sendPromise({
-        //     component: "staff_usuario",
-        //     type: "getTrabajosProximos",
-        //     key_usuario: Model.usuario.Action.getKey()
-        // }).then(e => {
-        //     this.setState({ data: e.data })
-        // }).catch(e => {
-        //     console.error(e);
-        // })
+            if (this.option == 1) {
 
-        SSocket.sendPromise({
-            component: "staff_usuario",
-            type: "getHistorico",
-            key_usuario: Model.usuario.Action.getKey()
-        }).then(e => {
-            this.setState({ dataResumen: e.data })
+                this.setState({
+                    data: Object.fromEntries(
+                        Object.entries(e.data).filter(([key, value]) => value.fecha_ingreso !== null && value.fecha_salida === null))
+                })
+            } else if (this.option == 2) {
+                this.setState({
+                    data: Object.fromEntries(
+                        Object.entries(e.data).filter(([key, value]) => value.fecha_ingreso === null))
+                })
+            } else if (this.option == 3) {
+                this.setState({
+                    data: Object.fromEntries(
+                        Object.entries(e.data).filter(([key, value]) => value.fecha_ingreso !== null && value.fecha_salida !== null))
+                })
+            } else {
+                this.setState({ data: e.data })
+            }
+            // this.setState({ data: e.data })
+
         }).catch(e => {
             console.error(e);
         })
@@ -64,79 +82,12 @@ export default class history extends Component {
         SLanguage.removeListener(this.onChangeLanguage)
     }
 
-    getPerfil() {
-        var usuario = Model.usuario.Action.getUsuarioLog();
-        // if (!usuario) {
-        //   SNavigation.navigate('login');
-        //   return <SView />;
-        // }
-        return (
-            <SView
-                center
-                onPress={() => {
-                    SNavigation.navigate('/perfil/editar');
-                }}>
-                <SView
-                    style={{
-                        width: 140,
-                        height: 140,
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                    <SView
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            backgroundColor: STheme.color.card,
-                            borderRadius: 100,
-                            overflow: 'hidden',
-                            borderWidth: 1,
-                            borderColor: STheme.color.card
-                        }}>
-                        <SImage
-                            src={`${SSocket.api.root}usuario/${usuario.key
-                                }?time=${new Date().getTime()}`}
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                resizeMode: "cover"
-                            }}
-                        />
-                    </SView>
-                </SView>
-                <SHr />
-                <SView>
-                    <SView center>
-                        <SText
-                            style={{
-                                // flex: 5,
-                                fontSize: 18,
-                                // fontWeight: "bold",
-                                color: STheme.color.text
-                            }}>
-                            {usuario['Nombres'] + ' ' + usuario['Apellidos']}{' '}
-                        </SText>
-                    </SView>
-                    <SView center>
-                        <SText
-                            style={{
-                                fontSize: 14
-                                // color: "#bbb"
-                            }}
-                            color={STheme.color.gray}>
-                            {usuario['Correo'] ?? '--'}{' '}
-                        </SText>
-                    </SView>
-                </SView>
-            </SView>
-        );
-    }
     getList() {
         return <SList2 data={this.state.data} order={[{ key: "_fecha_inicio", order: "desc" }]} render={(obj) => {
             let isInvitation = (obj?.staff_usuario?.estado == 2)
             let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
-            console.log("obj", obj)
-            console.log("userCoordinador", userCoordinador)
+            // console.log("obj", obj)
+            // console.log("userCoordinador", userCoordinador)
             let timeWork;
 
             let asistencia = STheme.color.danger + "66"
@@ -154,11 +105,11 @@ export default class history extends Component {
             }
 
             if ((obj.fecha_ingreso != null) && (obj.fecha_salida != null)) {
-                console.log("fecha_ingreso", obj.fecha_ingreso)
+                // console.log("fecha_ingreso", obj.fecha_ingreso)
                 let fi = new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ss.sssTZD")
                 let fs = obj.fecha_salida ? new SDate(obj.fecha_salida, "yyyy-MM-ddThh:mm:ss.sssTZD") : new SDate()
                 let disf = fi.diffTime(fs);
-                console.log("disf", disf)
+                // console.log("disf", disf)
                 timeWork = ((disf / 1000) / 60 / 60).toFixed(2);
                 asistencia = STheme.color.success + "66";
                 mensaje = SLanguage.select({
@@ -265,68 +216,117 @@ export default class history extends Component {
             </SView>
         }} />
     }
-    CardResumen({ title, value, color, icon, onPress, option }) {
-        return <SView col={"xs-6"} row style={{ paddingRight: 5, paddingBottom: 5 }} onPress={() => {
-            if (onPress) {
-                SNavigation.navigate(onPress, { option: option })
-            }
-        }}>
-            <SView col={"xs-12"} row style={{
-                borderWidth: 1,
-                borderColor: STheme.color.lightGray,
-                borderRadius: 16,
-                overflow: "hidden",
-            }}>
-                <Degradado />
-                <SView col={"xs-12"} padding={10}>
-                    <SText fontSize={18} color={STheme.color.text}>
-                        {title}
-                    </SText>
-                </SView>
-
-                <SView col={"xs-8"} center padding={10}>
-                    <SText fontSize={30} center>
-                        {value}
-                    </SText>
-                </SView>
-                <SView col={"xs-4"} center style={{
-                    backgroundColor: color,
-                    borderBottomLeftRadius: 50,
-                    borderTopLeftRadius: 50,
-                }}>
-                    <SIcon name={icon} fill={STheme.color.white} width={30} />
-                </SView>
-            </SView>
-        </SView>
-    }
-
-
-
     getResumen() {
-        // if (!this.state.dataResumen) return <SLoad/>
-        const { eventos, eventos_asistidos, eventos_completados, eventos_no_asistidos } = this.state.dataResumen ?? {}
-        return <>
-            <SView col={"xs-12"} row>
-                <this.CardResumen onPress={"/history/detail"} option={0} title={SLanguage.select({ es: "Total eventos", en: "Total events" })} value={eventos} color={"#35A1C3"} icon={"hisEvent"} />
-                <this.CardResumen onPress={"/history/detail"} option={3} title={SLanguage.select({ es: "Eventos completados", en: "Completed events" })} value={eventos_completados} color={"#33BE5B"} icon={"hisCompleted"} />
-                <this.CardResumen onPress={"/history/detail"} option={1} title={SLanguage.select({ es: "Eventos asistidos", en: "Events attended" })} value={eventos_asistidos} color={STheme.color.warning} icon={"asistido"} />
-                <this.CardResumen onPress={"/history/detail"} option={2} title={SLanguage.select({ es: "Eventos no asistidos", en: "Unattended events" })} value={eventos_no_asistidos} color={STheme.color.danger} icon={"noAsistido"} />
-            </SView>
-        </>
-    }
+        const fecha1 = new Date(this.state.fecha_inicio);
+        const fecha2 = new Date(this.state.fecha_fin);
 
+        // Diferencia en milisegundos
+        const diferenciaMilisegundos = fecha2 - fecha1;
+
+        // Convertir milisegundos a días
+        const diferenciaDias = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+
+
+        if (this.option == 3 && Object.keys(this.state.data).length > 0) {
+            return <SView col={"xs-12"} row center backgroundColor={STheme.color.success + "66"} style={{ borderRadius: 10 }}>
+                <SHr height={20} />
+                <SText center col={"xs-12"} fontSize={18} padding={10} style={{
+                    borderRadius: 10
+                }} language={{
+                    es: "Resumen de asistencias",
+                    en: "Attendance summary"
+                }} />
+                <SView col={"xs-12"} row center style={{
+                    borderBottomWidth: 1,
+                    borderBottomColor: STheme.color.white
+                }} />
+                <SView col={"xs-12"} center>
+                    <SText fontSize={16} padding={10} language={{
+                        es: "Días trabajados: " + diferenciaDias,
+                        en: "Days worked: " + diferenciaDias
+                    }} />
+                </SView>
+
+                <SView col={"xs-6"} center>
+                    <SText fontSize={16} padding={10} language={{
+                        es: "Total eventos: " + Object.keys(this.state.data).length,
+                        en: "Total events: " + Object.keys(this.state.data).length
+                    }} />
+                </SView>
+                <SView col={"xs-6"} center>
+                    <SText fontSize={16} padding={10} language={{
+                        es: "Total horas trabajadas: " + Object.values(this.state.data).reduce((a, b) => {
+                            let fi = new SDate(b.fecha_ingreso, "yyyy-MM-ddThh:mm:ss.sssTZD")
+                            let fs = b.fecha_salida ? new SDate(b.fecha_salida, "yyyy-MM-ddThh:mm:ss.sssTZD") : new SDate()
+                            let disf = fi.diffTime(fs);
+                            return a + ((disf / 1000) / 60 / 60)
+                        }, 0).toFixed(2),
+                        en: "Total hours worked: " + Object.values(this.state.data).reduce((a, b) => {
+                            let fi = new SDate(b.fecha_ingreso, "yyyy-MM-ddThh:mm:ss.sssTZD")
+                            let fs = b.fecha_salida ? new SDate(b.fecha_salida, "yyyy-MM-ddThh:mm:ss.sssTZD") : new SDate()
+                            let disf = fi.diffTime(fs);
+                            return a + ((disf / 1000) / 60 / 60)
+                        }, 0).toFixed(2)
+                    }} />
+                </SView>
+            </SView>
+        }
+    }
 
     render() {
-        return <SPage titleLanguage={{ es: "Mi historial", en: "My history" }} footer={<PBarraFooter url={'/trabajos'} />}>
+        const users = Model.usuario.Action.getAll() ?? {};
+        console.log(this.state.fecha_inicio)
+        console.log(this.state.fecha_fin)
+        console.log(this.option)
+
+        return <SPage titleLanguage={{
+            en: "Attendace Report",
+            es: "Reporte de horas trabajadas"
+        }} >
+            <SHr />
+            <SView row col={"xs-12"} center>
+                <SText language={{
+                    en: "FROM:",
+                    es: "DESDE:"
+                }} />
+                <SView width={4} />
+                <InputFecha ref={ref => this.inpFechaInicio = ref}
+                    defaultValue={this.state.fecha_inicio}
+                />
+                <SView width={8} />
+                <SText language={{
+                    en: "TO:",
+                    es: "HASTA:"
+                }} />
+                <SView width={4} />
+                <InputFecha ref={ref => this.inpFechaFin = ref}
+                    defaultValue={this.state.fecha_fin}
+                />
+                <SView width={8} />
+
+                <SView width={4} />
+                <SView padding={5} card onPress={() => {
+                    this.state.fecha_inicio = this.inpFechaInicio.getValue();
+                    this.state.fecha_fin = this.inpFechaFin.getValue();
+                    this.componentDidMount();
+                }} style={{
+                    backgroundColor: STheme.color.secondary
+                }} row center>
+                    <SIcon name='Search' width={18} fill={STheme.color.white} />
+                    <SView width={4} />
+                    <SText color={STheme.color.white} language={{
+                        en: "SEARCH",
+                        es: "BUSCAR"
+                    }} />
+                </SView>
+            </SView>
             <Container>
-                {this.getPerfil()}
-                <SHr height={25} />
+                <SHr height={20} />
                 {this.getResumen()}
-                {/* {this.getTrabajos()} */}
-                <SHr height={25} />
+                <SHr height={20} />
                 {this.getList()}
-                <SHr height={90} />
+                <SHr height={30} />
             </Container>
-        </SPage >
+        </SPage>
     }
 }

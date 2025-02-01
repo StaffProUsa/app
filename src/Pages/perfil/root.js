@@ -175,8 +175,8 @@ class Perfil extends Component {
           </SView>
           <SView row col={'xs-9'}>
             <SText color={url == 'salir' ? '#ff4132' : STheme.color.text} font={"Roboto"} language={{
-              es: titulo ,
-              en: titulo_en 
+              es: titulo,
+              en: titulo_en
             }} />
           </SView>
           <SView flex col={'xs-2'} style={{ alignItems: 'flex-end' }}>
@@ -209,7 +209,7 @@ class Perfil extends Component {
             overflow: 'hidden',
             backgroundColor: STheme.color.card
           }}>
-            {/* <Degradado /> */}
+          {/* <Degradado /> */}
           <SHr />
           <SView row col={'xs-12'} center>
             <SHr height={10} />
@@ -217,7 +217,7 @@ class Perfil extends Component {
               <SText color={STheme.color.text} font={"Roboto"} fontSize={16} language={{
                 es: "OPCIONES",
                 en: "OPTIONS"
-              }}/>
+              }} />
             </SView>
             <SHr height={10} />
             <SView
@@ -249,7 +249,12 @@ class Perfil extends Component {
                   fill={STheme.color.text}></SIcon>
               </SView>
               <SView row col={'xs-9'}>
-                <SText font={"Roboto"}>Modo {STheme.getTheme() == 'dark' ? "oscuro" : "claro"}</SText>
+                {/* <SText font={"Roboto"}>Modo {STheme.getTheme() == 'dark' ? "oscuro" : "claro"}</SText> */}
+                <SText font={"Roboto"} language={{
+                  es: "Modo " + (STheme.getTheme() == 'dark' ? "oscuro" : "claro"),
+                  en: (STheme.getTheme() == 'dark' ? "Dark" : "Light") + " Mode"
+                
+                }} />
               </SView>
               <SView flex col={'xs-2'} style={{ alignItems: 'flex-end' }}>
                 <SwitchTheme
@@ -269,13 +274,13 @@ class Perfil extends Component {
               titulo_en: 'Edit profile',
               icon: 'Editar'
             })}
-             {/* {this.opcion({
+            {/* {this.opcion({
               url: '/perfil/staff_tipo',
               titulo: 'Mis Aptitudes o experiencias',
               titulo_en: 'My Skills or experiences',
               icon: 'aptitud'
             })} */}
-             {/* {this.opcion({
+            {/* {this.opcion({
               url: '/registro/categorias',
               titulo: 'Mis Aptitudes o experiencias',
               titulo_en: 'My Skills or experiences',

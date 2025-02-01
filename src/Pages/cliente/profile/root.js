@@ -57,11 +57,13 @@ class index extends DPA.profile {
         SNavigation.navigate("/cliente/add", { pk: this.pk })
     }
 
-
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
         // this.data = this.$getData();
 
-
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         SSocket.sendPromise({
             component: "evento",
             type: "getEstadoEventos",
@@ -71,6 +73,9 @@ class index extends DPA.profile {
         }).catch(e => {
             console.error(e);
         })
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
     }
 
     $render() {

@@ -86,6 +86,7 @@ class categorias extends Component {
                     SNotification.send({
                         title: "Error",
                         body: e.error ?? "Ocurrio error",
+                        time:5000,
                     })
                 })
                 delete newSelectedItems[key];
@@ -107,6 +108,7 @@ class categorias extends Component {
                     SNotification.send({
                         title: "Error",
                         body: e.error ?? "Ocurrio error",
+                        time:5000,
                     })
                 })
                 // Si el elemento no está seleccionado, añadirlo al estado

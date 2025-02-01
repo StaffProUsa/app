@@ -70,7 +70,8 @@ export default class event extends Component {
                 }).catch(e => {
                     SNotification.send({
                         title: "error",
-                        body: "Error al eliminar"
+                        body: "Error al eliminar",
+                        time: 5000,
                     })
                 })
 
@@ -90,12 +91,12 @@ export default class event extends Component {
 
         Object.keys(datas).forEach((key) => {
             const item = datas[key];
-            let fechaIni =new Date(item.fecha_inicio);
+            let fechaIni = new Date(item.fecha_inicio);
             fechaIni.setDate(fechaIni.getDate() + 1);
 
-          
+
             // let fechaObj = new Date(item.fecha_fin);
-            let fechaObj = (item.fecha_fin === null) ? fechaIni  : new Date(item.fecha_fin);
+            let fechaObj = (item.fecha_fin === null) ? fechaIni : new Date(item.fecha_fin);
 
             if (fechaObj < fechaActual) {
                 result = true;
@@ -121,12 +122,12 @@ export default class event extends Component {
                     <SIcon name='Delete' />
                 </SView>
                 <SView width={32} />
-                <SView width={30} height={30} onPress={() => {
+                {(this.EsFechaMenorOIgual(new Date(fecha))) ? null : <SView width={30} height={30} onPress={() => {
                     SNavigation.navigate('/evento/registro', { key_company: this.state?.data?.key_company, key: this.key_evento });
-                    // SNavigation.navigate("/company/")registro
                 }}>
                     <SIcon name='Edit' />
-                </SView>
+                </SView>}
+               
             </SView>
             <SHr />
             <SView col={"xs-12"} card center padding={10}>
@@ -162,16 +163,17 @@ export default class event extends Component {
                         es: "Reclutas"
                     }} />
                     <SView flex />
-                    <SView width={30} height={30} onPress={() => {
-                        SNavigation.navigate("/staff/add", { key_evento: this.key_evento, key_company: this.state.data.key_company, fecha: new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
-                    }}>
-                        <SIcon name='Add' />
-                    </SView>
+                    {(!this.EsFechaMenorOIgual(new Date(fecha))) ?
+                        <SView width={30} height={30} onPress={() => {
+                            SNavigation.navigate("/staff/add", { key_evento: this.key_evento, key_company: this.state.data.key_company, fecha: new SDate(fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd") })
+                        }}>
+                            <SIcon name='Add' />
+                        </SView> : null}
                 </SView>
                 {/* <SText card padding={16} o language={{ en: "Add new staff", es: "Crear nuevo staff" }}></SText> */}
 
                 {/* <Reclutas key_evento={this.key_evento} /> */}
-                <Reclutas data={this.state.dataReclutas} />
+                <Reclutas data={this.state.dataReclutas} past={(this.EsFechaMenorOIgual(new Date(fecha)))} />
             </SView>
             {/* <SHr h={300} /> */}
             {/* <SHr h={1} color={STheme.color.card} /> */}
@@ -189,7 +191,7 @@ export default class event extends Component {
             backAlternative={o => {
                 if (this.state.data.key_cliente) {
                     SNavigation.replace("/cliente/profile", { pk: this.state.data.key_cliente })
-                }else{
+                } else {
                     SNavigation.goBack();
                 }
             }}

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from '.';
-import { SNavigation, SPopup, STheme, SView } from 'servisofts-component';
+import { SForm, SNavigation, SPopup, STheme, SView } from 'servisofts-component';
 import Model from '../../Model';
 // import DatosDocumentosEditar from './Components/DatosDocumentosEditar';
 import CryptoJS from 'crypto-js';
 import InputSelect from '../../Components/NuevoInputs/InputSelect';
 import InputFloat from '../../Components/NuevoInputs/InputFloat';
+import SSocket from 'servisofts-socket';
 class index extends DPA.edit {
     constructor(props) {
         super(props, {
@@ -15,11 +16,39 @@ class index extends DPA.edit {
         });
         this.key_company = SNavigation.getParam("key_company")
     }
+
+    componentDidMount() {
+        if (this.key_company) {
+            SSocket.sendPromise({
+                component: "usuario_company",
+                type: "get",
+                key_company: this.key_company,
+                key_usuario: this.pk
+            }).then(e => {
+                const form: SForm = this.form
+                // this.
+                // form.setValues({
+                //     employee_number: e.data.employee_number ?? ""
+                // })
+                // this.state.usuario_company = e.data;
+                this.setState({ usuario_company: e.data })
+                console.log(e);
+            }).catch(e => {
+                console.log(e);
+            })
+        }
+
+    }
     $allowAccess() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit", user_data: { key_company: this.key_company } })
     }
     $getData() {
-        return Parent.model.Action.getByKey(this.pk);
+        const data = Parent.model.Action.getByKey(this.pk);
+        if(this.key_company){
+            if(!this.state.usuario_company) return null;
+            data.employee_number = this.state.usuario_company.employee_number
+        }
+        return data;
     }
     $inputs() {
         var inputs = super.$inputs();
@@ -71,10 +100,14 @@ class index extends DPA.edit {
         return inputs;
     }
     $onSubmit(data) {
-
         if (data["Password"] != this.data["Password"]) data["Password"] = CryptoJS.MD5(data["Password"]).toString();
 
+        if (this.key_company) {
+            // const employee_number = data.employee_number;
+            this.state.usuario_company.employee_number = data.employee_number;
+            delete data.employee_number;
 
+        }
         Parent.model.Action.editar({
             data: {
                 ...this.data,
@@ -82,13 +115,18 @@ class index extends DPA.edit {
             },
             key_usuario: ""
         }).then((resp) => {
-            SNavigation.goBack();
-            // this.presolve({
-            //     key_usuario: this.pk, callback: () => {
-            //         SNavigation.replace("/usuario/profile", { pk: this.pk })
-            //     }
-            // })
 
+            SSocket.sendPromise({
+                component: "usuario_company",
+                type: "editar",
+                data: this.state.usuario_company
+            }).then(e => {
+                console.log(e);
+            }).catch(e => {
+                console.error(e);
+            })
+
+            SNavigation.goBack();
 
         }).catch(e => {
             console.error(e);

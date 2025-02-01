@@ -226,7 +226,7 @@ export default class add extends Component {
                 },
                 key_usuario: Model.usuario.Action.getKey(),
             }).then(e => {
-                if (event.INSTANCE) event.INSTANCE.componentDidMount();
+                if (event.INSTANCE) event.INSTANCE.componentDidMount()
                 SNavigation.goBack(this.backAlternative.bind(this));
             }).catch(e => {
                 console.error(e);
@@ -487,18 +487,22 @@ export default class add extends Component {
                             en: "INVITE"
                         }} /></SButtom> */}
                         <SView width={30} />
-                        <SButtom onPress={this.handleEliminar.bind(this)} type='danger'>
+                        <SButtom onPress={this.handleEliminar.bind(this)} type='secondary'>
                             <SText language={{
                                 es: "ELIMINAR",
                                 en: "DELETE"
                             }} color={STheme.color.white} /></SButtom>
                         <SView width={30} />
-                    </> : null}
-
-                    <SButtom onPress={this.handlePress.bind(this)} type='secondary'><SText color={STheme.color.white} language={{
+                        <SButtom onPress={this.handlePress.bind(this)} type='success'><SText color={STheme.color.white} language={{
                         es: "GUARDAR",
                         en: "SAVE"
                     }} /></SButtom>
+                    </> : <SButtom onPress={this.handlePress.bind(this)} type='secondary'><SText color={STheme.color.white} language={{
+                        es: "GUARDAR",
+                        en: "SAVE"
+                    }} /></SButtom>}
+
+                    
 
                 </SView>
 

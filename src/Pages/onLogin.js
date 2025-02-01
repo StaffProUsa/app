@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SNavigation, SStorage, SThread } from 'servisofts-component';
+import { SNavigation, SNotification, SStorage, SThread } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
+
+
 
 export default class onLogin extends Component {
     constructor(props) {
@@ -16,8 +18,12 @@ export default class onLogin extends Component {
         SStorage.getItem("key_invitacion", ki => {
             if (ki) {
                 SStorage.removeItem("key_invitacion");
-                SNavigation.replace("/invitation", { pk: ki })
-                this.state.pasar = false;
+                new SThread(100, "cargando usuerrio").start(() => {
+                    SNavigation.replace("/invitation", { pk: ki })
+                    // SNotification.send({ title: "navego a invitation" })
+                    this.state.pasar = false;
+                })
+
             }
         })
 
@@ -29,6 +35,7 @@ export default class onLogin extends Component {
             if (!this.state.pasar) return;
             if (e.data) {
                 if (Object.values(e.data).length <= 0) {
+                    // SNotification.send({ title: "entro a staff_tipo" })
                     SNavigation.replace("/perfil/staff_tipo")
                     this.state.pasar = false;
                 }
@@ -39,7 +46,9 @@ export default class onLogin extends Component {
 
 
         new SThread(2000, "pasar", true).start(() => {
-            if (this.state.pasar) SNavigation.goBack();
+            if (!this.state.pasar) return;
+            // SNotification.send({ title: "volvio" })
+            SNavigation.goBack();
         })
         // SNavigation.goBack();
     }

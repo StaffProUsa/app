@@ -51,14 +51,16 @@ class Carga extends Component {
             position: "relative",
         }}
         >
-          <SIcon name={'Logo'} fill={STheme.color.white} />
+          <SIcon name={'Logo'} fill={STheme.color.text} />
         </SView>
         <SHr height={32} />
         {/* <SView col={"xs-8 sm-6 md-4 lg-3 xl-2"} height={200}>
                     <SIcon name={"tuvidaesmejor"} />
                 </SView> */}
         <SHr height={32} />
-        <SImage src={require('../Assets/images/carga.jpg')} style={{ resizeMode: "cover", zIndex: 9, position: "absolute" }} />
+        {STheme.getTheme() == 'dark' ? <SImage src={require('../Assets/images/carga.jpg')} style={{ resizeMode: "cover", zIndex: 9, position: "absolute" }} /> : 
+        <SImage src={require('../Assets/images/carga2.jpg')} style={{ resizeMode: "cover", zIndex: 9, position: "absolute" }} />}
+        
       </SPage>
     );
   }

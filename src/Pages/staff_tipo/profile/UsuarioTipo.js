@@ -92,6 +92,7 @@ export default class UsuarioTipo extends Component {
                             SNotification.send({
                                 title: "Error",
                                 body: e.error ?? "Ocurrio error",
+                                time:5000,
                             })
                         })
                     }
@@ -133,7 +134,8 @@ export default class UsuarioTipo extends Component {
                                     SNotification.send({
                                         title: "Error",
                                         body: e?.error ?? "Error desconocido",
-                                        color:STheme.color.danger
+                                        color:STheme.color.danger,
+                                        time:5000,
                                     })
                                     console.error(e);
                                 })

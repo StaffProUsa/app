@@ -1,11 +1,12 @@
 import React, { Component, version } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import { SHr, SIcon, SImage, SInput, SList, SNavigation, SNotification, SPage, SSwitch, STable, STable2, SText, STheme, SView, SLanguage, SPopup, SDate } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import { Container } from '../../Components';
 import BtnWhatsapp from '../../Components/BtnWhatsapp';
 import ResizeDualPanel from '../../Components/ResizeDualPanel';
+import EditClock from './Components/EditClock';
 
 export default class users extends Component {
     constructor(props) {
@@ -106,6 +107,7 @@ export default class users extends Component {
         }
         SNavigation.navigate("/company/roles", {
             key_company: this.state.data.evento.key_company,
+            key_evento: this.state.data.key_evento,
             onSelect: (usuario) => {
                 SNotification.send({
                     key: "staff_usuario-asingJefe",
@@ -212,19 +214,19 @@ export default class users extends Component {
     EsFechaMenorOIgual(fechaInicio, fechaFin) {
         // Convertir la fecha de cadena a objeto Date
 
-        let fechaIni =new Date(fechaInicio);
+        let fechaIni = new Date(fechaInicio);
         fechaIni.setDate(fechaIni.getDate() + 1);
-      
-        let fechaObj = (fechaFin === null) ? fechaIni  : new Date(fechaFin);
+
+        let fechaObj = (fechaFin === null) ? fechaIni : new Date(fechaFin);
 
         // Obtener la fecha actual
         const fechaActual = new Date();
-        console.log("fechaObj", fechaObj)
-        console.log("fechaActual", fechaActual)
+        // console.log("fechaObj", fechaObj)
+        // console.log("fechaActual", fechaActual)
         // console.log(fechaObj.getDate() < fechaActual.getDate())
         // return fechaObj.getDate() < fechaActual.getDate()
 
-        console.log(fechaObj.getTime() < fechaActual.getTime())
+        // console.log(fechaObj.getTime() < fechaActual.getTime())
         return fechaObj.getTime() < fechaActual.getTime()
     }
 
@@ -269,6 +271,7 @@ export default class users extends Component {
             style={{
                 backgroundColor: STheme.color.secondary,
                 position: "absolute",
+                top: -8
             }}
             onPress={() => {
                 this.handleInvitarArray(selecteds)
@@ -296,10 +299,12 @@ export default class users extends Component {
             style={{
                 backgroundColor: STheme.color.warning,
                 position: "absolute",
+                top: -20
             }}
             onPress={() => {
                 SNavigation.navigate("/company/roles", {
                     key_company: this.state.data.evento.key_company,
+                    key_evento: this.state.data.key_evento,
                     onSelect: (usuario) => {
                         SSocket.sendPromise({
                             component: "staff_usuario",
@@ -344,7 +349,7 @@ export default class users extends Component {
                 <SView width={16} />
                 {/* <SText onPress={() => { this.loadData() }}><SIcon name='Reload' width={15} height={15} fill={STheme.color.text} />{" Reload"}</SText> */}
                 <SText onPress={() => { window.location.reload() }}><SIcon name='Reload' width={15} height={15} fill={STheme.color.text} />{" Reload"}</SText>
-                
+
                 {/* <SText center fontSize={15} color={STheme.color.gray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText> */}
                 {/* {this.separator()} */}
                 <SHr />
@@ -371,7 +376,7 @@ export default class users extends Component {
                     <SText fontSize={14} >{new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd, yyyy  HH")}</SText>
                 </> : null}
                 <SView width={6} />
-                {(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio , this.state?.data?.fecha_fin)) ? <SText fontSize={16} center color={STheme.color.danger} language={{
+                {(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin)) ? <SText fontSize={16} center color={STheme.color.danger} language={{
                     en: "[ Past event ]",
                     es: "[ Evento pasado ]"
                 }} /> : null}
@@ -406,9 +411,9 @@ export default class users extends Component {
                     <SView flex />
                 </SView>
             </SView>
-            <SView row col={"xs-12"} flex style={{paddingBottom:20, paddingLeft:4, paddingRight:4, paddingTop:4}} >
+            <SView row col={"xs-12"} flex style={{ paddingBottom: 20, paddingLeft: 4, paddingRight: 4, paddingTop: 4 }} >
                 <ResizeDualPanel
-                    startX={320}
+                    startX={(Dimensions.get("window").width / 2) - 8}
                     content1={
                         <SView flex={1} height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }}>
                             {/* <SView flex={2} height backgroundColor={STheme.color.darkGray} style={{ borderRadius: 4 }}> */}
@@ -471,8 +476,8 @@ export default class users extends Component {
                                                         this.setState({ ...this.state })
                                                     }
                                                     console.log(e);
-                                                }} 
-                                                {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio , this.state?.data?.fecha_fin) ? { disabled: true } : {})}
+                                                }}
+                                                    {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? { disabled: true } : {})}
                                                 />
                                             </SView>
                                         },
@@ -496,8 +501,13 @@ export default class users extends Component {
                                                             //     if (!this.EsFechaMenorOIgual(new Date((this.state?.data?.fecha_fin)))) return SPopup.alert("No puedes invitar a usuarios a un evento que no ha iniciado.")
                                                             // }}
 
-                                                            {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio , this.state?.data?.fecha_fin) ? { disabled: true } : {})}
-
+                                                            {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? { disabled: true } : {})}
+                                                            {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? SPopup.alert(SLanguage.select({ es: "Evento pasado, no puedes invitar a usuarios", en: "Past event, you can't invite users" })) : {})}
+                                                            onPress={() => {
+                                                                // console.log("queeee")
+                                                                // if (this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin)) return SPopup.alert("Evento pasado, no puedes invitar a usuarios")
+                                                            }
+                                                            }
                                                         />
                                                 }
                                             </SView>
@@ -506,9 +516,43 @@ export default class users extends Component {
                                             return "";
                                         }
                                     },
+                                    // {
+                                    //     key: "-", width: 50, component: (elm) => <SView col={"xs-12"} center>
+                                    //         {!elm.staff_usuario ? null : <SText color={STheme.color.danger} fontSize={12} underLine onPress={() => {
+                                    //             SSocket.sendPromise({
+                                    //                 component: "staff_usuario",
+                                    //                 type: "desinvitarGrupo",
+                                    //                 key_usuarios_desinvitados: [elm.key_usuario],
+                                    //                 key_staff: this.pk,
+                                    //                 key_usuario: Model.usuario.Action.getKey(),
+                                    //             }).then(e => {
+                                    //                 this.loadData();
+                                    //                 SNotification.send({
+                                    //                     title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
+                                    //                     body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
+                                    //                     color: STheme.color.success,
+                                    //                     time: 5000
+                                    //                 })
+                                    //             }).catch(e => {
+                                    //                 console.error(e)
+                                    //                 SNotification.send({
+                                    //                     title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
+                                    //                     body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
+                                    //                     color: STheme.color.danger,
+                                    //                     time: 5000
+                                    //                 })
+                                    //             })
+                                    //         }}>{"Uninvite"}</SText>}
+                                    //     </SView>,
+                                    //     renderExcel: (a) => {
+                                    //         return "";
+                                    //     }
+                                    // },
+
                                     {
                                         key: "-", width: 50, component: (elm) => <SView col={"xs-12"} center>
-                                            {!elm.staff_usuario ? null : <SText color={STheme.color.danger} fontSize={12} underLine onPress={() => {
+                                            {!elm.staff_usuario ? null : <SView width={20} height={20} ><SInput key={elm.key ?? ""} defaultValue={true} type='checkBox' onChangeText={e => {
+
                                                 SSocket.sendPromise({
                                                     component: "staff_usuario",
                                                     type: "desinvitarGrupo",
@@ -532,14 +576,61 @@ export default class users extends Component {
                                                         time: 5000
                                                     })
                                                 })
-                                            }}>{"Uninvite"}</SText>}
+                                            }}
+
+
+                                            // {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? { disabled: true } : {})}
+
+                                            /></SView>
+                                                // <SText color={STheme.color.danger} fontSize={12} underLine onPress={() => {
+                                                //     SSocket.sendPromise({
+                                                //         component: "staff_usuario",
+                                                //         type: "desinvitarGrupo",
+                                                //         key_usuarios_desinvitados: [elm.key_usuario],
+                                                //         key_staff: this.pk,
+                                                //         key_usuario: Model.usuario.Action.getKey(),
+                                                //     }).then(e => {
+                                                //         this.loadData();
+                                                //         SNotification.send({
+                                                //             title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
+                                                //             body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
+                                                //             color: STheme.color.success,
+                                                //             time: 5000
+                                                //         })
+                                                //     }).catch(e => {
+                                                //         console.error(e)
+                                                //         SNotification.send({
+                                                //             title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
+                                                //             body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
+                                                //             color: STheme.color.danger,
+                                                //             time: 5000
+                                                //         })
+                                                //     })
+                                                // }}>{"Uninvite"}</SText>
+                                            }
                                         </SView>,
                                         renderExcel: (a) => {
                                             return "";
                                         }
                                     },
+
                                     {
-                                        key: "eventos_duplicados", label: "Events", width: 30, component: (a) => {
+                                        key: "horas_trabajadas_tipo", label: SLanguage.select({
+                                            en: "Hrs. Staff\nTREND",
+                                            es: "Hrs. Staff\nTENDEN."
+                                        }), width: 65, order: "desc", headerColor: STheme.color.warning + "70", render: (a) => {
+                                            if (a) {
+                                                return parseFloat(a).toFixed(2)
+                                            } else {
+                                                return ""
+                                            }
+                                        }
+                                    },
+                                    {
+                                        key: "eventos_duplicados", label: SLanguage.select({
+                                            en: "Event",
+                                            es: "Evento"
+                                        }), width: 34, component: (a) => {
                                             let color = STheme.color.warning
 
                                             let onPress = null;
@@ -548,33 +639,67 @@ export default class users extends Component {
                                             } else {
                                                 onPress = () => {
                                                     SPopup.open({
-                                                        content: <SView col={"xs-12"} height={200} backgroundColor={STheme.color.primary} center>
+                                                        content: <SView col={"xs-12"} height={230} backgroundColor={STheme.color.primary} center>
+                                                            <SHr height={15} />
                                                             <SIcon name='noUser' fill={STheme.color.text} width={100} height={100} />
                                                             <SHr h={4} />
                                                             <SText fontSize={16} language={{
                                                                 es: "Usuario registrado en otro evento",
                                                                 en: "User registered in another event"
                                                             }} />
-                                                            <SHr height={4} />
-                                                            <SView row center>
-                                                                <SText language={{
-                                                                    es: "Evento: ",
-                                                                    en: "Event: "
-                                                                }} />                                                    {a.map(p => <SText>{p.evento}</SText>)}
+                                                            <SHr height={8} />
+                                                            <SView padding={10} center style={{
+                                                                borderRadius: 4,
+                                                                borderWidth: 1,
+                                                                borderColor: STheme.color.text
+
+                                                            }}>
+                                                                <SView center>
+                                                                    <SText language={{
+                                                                        es: "Evento: ",
+                                                                        en: "Event: "
+                                                                    }} />{a.map(p => <SView>
+                                                                        <SText fontSize={16} bold>{p.evento}</SText>
+                                                                        {/* <SHr height={4} />
+                                                                    <SView row>
+                                                                        <SText>{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")} </SText>
+                                                                        <SText> - </SText>
+                                                                        <SText>{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
+                                                                    </SView> */}
+                                                                    </SView>)}
+                                                                </SView>
+                                                                <SView row center>
+                                                                    <SText language={{
+                                                                        es: "Horario: ",
+                                                                        en: "Schedule: "
+                                                                    }} />{a.map(p => <SView>
+                                                                        {/* <SText>{p.evento}</SText>
+                                                                    <SHr height={4} /> */}
+                                                                        <SView row>
+                                                                            <SText fontSize={16} bold>{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")} </SText>
+                                                                            <SText> - </SText>
+                                                                            <SText fontSize={16} bold>{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
+                                                                        </SView>
+                                                                    </SView>)}
+                                                                </SView>
                                                             </SView>
+                                                            <SHr height={15} />
                                                         </SView>
                                                     })
                                                     console.log(a);
                                                 }
                                             }
 
-                                            return <SView style={{
-                                                width: 22,
-                                                height: 22,
-                                                backgroundColor: color,
-                                                borderRadius: 4,
-                                            }} onPress={onPress}>
+                                            // return <SView style={{
+                                            //     width: 22,
+                                            //     height: 22,
+                                            //     backgroundColor: color,
+                                            //     borderRadius: 4,
+                                            // }} onPress={onPress}>
+                                            // </SView>
+                                            return <SView onPress={onPress}>
 
+                                                <SIcon name={(!a || !a.length) ? 'dispo' : 'noDispo'} fill={color} width={22} height={22} />
                                             </SView>
                                         },
                                         renderExcel: (a) => {
@@ -582,20 +707,58 @@ export default class users extends Component {
                                         }
                                     },
                                     {
-                                        key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
+                                        key: "key_usuario", label: SLanguage.select({
+                                            en: "Photo",
+                                            es: "Foto"
+                                        }), width: 30, component: (usr) => <SView card width={25} height={25} center
                                             style={{ borderRadius: 4, overflow: "hidden" }}>
                                             <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
                                                 resizeMode: "cover",
                                             }} /></SView>
                                     },
-                                    { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
-                                    { key: "horas_trabajadas_tipo", label: "Hrs. Staff", width: 65, order: "desc", render: a => !a ? "" : parseFloat(a).toFixed(2) },
-                                    { key: "horas_trabajadas_company", label: "Hrs. Company", width: 75, render: a => !a ? "" : parseFloat(a).toFixed(2) },
-                                    { key: "participacion", label: "Events", width: 50, },
-                                    { key: "rechazos", label: "Rejects", width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText> },
+                                    {
+                                        key: "employee_number", label: SLanguage.select({
+                                            en: "E. Number",
+                                            es: "N. de empleado"
+                                        }), width: 60,
+                                    },
+                                    {
+                                        key: "usuario", label: SLanguage.select({
+                                            en: "User",
+                                            es: "Usuario"
+                                        }), width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
+
+                                    },
+                                    // { key: "horas_trabajadas_tipo", label: SLanguage.select({
+                                    //     en: "Hrs. Staff\nTREND",
+                                    //     es: "Hrs. Staff\nTENDEN."
+                                    // }), width: 65, order: "desc", render: a => !a ? "" : parseFloat(a).toFixed(2) },
+
+                                    // component: (a) => {
+                                    {
+                                        key: "horas_trabajadas_company", label: SLanguage.select({
+                                            en: "Hrs. Company",
+                                            es: "Hrs. Empresa"
+                                        }), width: 75, render: a => !a ? "" : parseFloat(a).toFixed(2)
+                                    },
+                                    {
+                                        key: "participacion", label: SLanguage.select({
+                                            en: "Events",
+                                            es: "Eventos"
+                                        }), width: 50,
+                                    },
+                                    {
+                                        key: "rechazos", label: SLanguage.select({
+                                            en: "Rejects",
+                                            es: "Rechazos"
+                                        }), width: 50, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText>
+                                    },
                                     // {key: "usuario/Telefono", label: "Telefono", width: 100 },
                                     {
-                                        key: "usuario/Telefono", label: "Phone", width: 140, component: (number) => <BtnWhatsapp telefono={number}
+                                        key: "usuario/Telefono", label: SLanguage.select({
+                                            en: "Phone",
+                                            es: "Telefono"
+                                        }), width: 140, component: (number) => <BtnWhatsapp telefono={number}
                                             texto={this.state?.data?.evento?.observacion}
                                         >
                                             <SText fontSize={11} color={STheme.color.text} underLine>
@@ -603,7 +766,12 @@ export default class users extends Component {
                                             </SText>
                                         </BtnWhatsapp>
                                     },
-                                    { key: "usuario/nivel_ingles", label: "English level", width: 60, },
+                                    {
+                                        key: "usuario/nivel_ingles", label: SLanguage.select({
+                                            en: "English level",
+                                            es: "Nivel de inglés"
+                                        }), width: 70,
+                                    },
 
                                 ]} />
                         </SView >
@@ -668,15 +836,32 @@ export default class users extends Component {
                                         }
                                     },
                                     {
-                                        key: "key_usuario", label: "Photo", width: 30, component: (usr) => <SView card width={25} height={25} center
+                                        key: "key_usuario", label: SLanguage.select({
+                                            en: "Photo",
+                                            es: "Foto"
+                                        }), width: 30, component: (usr) => <SView card width={25} height={25} center
                                             style={{ borderRadius: 4, overflow: "hidden" }}>
                                             <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
                                                 resizeMode: "cover",
                                             }} /></SView>
                                     },
-                                    { key: "usuario", label: "User", width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}` },
                                     {
-                                        key: "staff_usuario", label: "Status", width: 140, component: (obj) => <SView col={"xs-12"} center>
+                                        key: "employee_number", label: SLanguage.select({
+                                            en: "E. Number",
+                                            es: "N. de empleado"
+                                        }), width: 60,
+                                    },
+                                    {
+                                        key: "usuario", label: SLanguage.select({
+                                            en: "User",
+                                            es: "Usuario"
+                                        }), width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
+                                    },
+                                    {
+                                        key: "staff_usuario", label: SLanguage.select({
+                                            en: "Status",
+                                            es: "Estado"
+                                        }), width: 140, component: (obj) => <SView col={"xs-12"} center>
                                             {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
                                             {this.renderStaffUsuario(obj)}
                                         </SView>,
@@ -684,8 +869,43 @@ export default class users extends Component {
                                             return "";
                                         }
                                     },
+
                                     {
-                                        key: "staff_usuario-2", label: "Boss", width: 140, component: (obj) => {
+                                        key: "staff_usuario/fecha_ingreso", label: SLanguage.select({
+                                            en: "Clock In",
+                                            es: "Ingreso"
+                                        }), width: 80,
+                                        render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH"),
+                                    },
+                                    {
+                                        key: "staff_usuario/fecha_salida", label: SLanguage.select({
+                                            en: "Clock Out",
+                                            es: "Salida"
+                                        }), width: 80,
+                                        render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH"),
+                                    },
+                                    {
+                                        key: "-edit", label: SLanguage.select({
+                                            en: "Clock Out",
+                                            es: "Salida"
+                                        }), width: 80,
+                                        component: (o) => {
+                                            return <SText onPress={(e) => {
+                                                SPopup.open({
+                                                    key: "editclock",
+                                                    content: <EditClock data={o} onChange={e => {
+                                                        this.componentDidMount()
+                                                        SPopup.close("editclock")
+                                                    }} />
+                                                })
+                                            }}>Edit Clock</SText>
+                                        }
+                                    },
+                                    {
+                                        key: "staff_usuario-2", label: SLanguage.select({
+                                            en: "Boss",
+                                            es: "Jefe"
+                                        }), width: 140, component: (obj) => {
                                             const user = this.usuarios[obj.key_usuario_atiende]?.usuario
                                             return <SView col={"xs-12"} flex onPress={() => {
                                                 this.handleAsignarJefe(obj)
@@ -706,18 +926,27 @@ export default class users extends Component {
                                     },
 
                                     {
-                                        key: "usuario/Telefono", label: "Phone", width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
+                                        key: "usuario/Telefono", label: SLanguage.select({
+                                            en: "Phone",
+                                            es: "Teléfono"
+                                        }), width: 100, component: (number) => <BtnWhatsapp telefono={number} texto={"Hola, Staff Pro USA te saluda!"}>
                                             <SText fontSize={11} color={STheme.color.text} underLine>
                                                 {number}
                                             </SText>
                                         </BtnWhatsapp>
                                     },
                                     {
-                                        key: "-delete", label: "Delete", width: 100, component: (e) => {
+                                        key: "-delete", label: SLanguage.select({
+                                            en: "Delete",
+                                            es: "Eliminar"
+                                        }), width: 100, component: (e) => {
                                             return <SText color={STheme.color.text} onPress={() => {
                                                 // console.log(e);
                                                 SPopup.confirm({
-                                                    title: "Seguro de eliminar?",
+                                                    title: SLanguage.select({
+                                                        en: "Are you sure to delete?",
+                                                        es: "¿Seguro de eliminar?"
+                                                    }),
                                                     onPress: () => {
                                                         SSocket.send({
                                                             component: "staff_usuario",
@@ -733,7 +962,10 @@ export default class users extends Component {
                                                         })
                                                     }
                                                 })
-                                            }}>{"Delete"}</SText>
+                                            }} language={{
+                                                en: "Delete",
+                                                es: "Eliminar"
+                                            }} />
                                         },
                                         renderExcel: (a) => {
                                             return "";

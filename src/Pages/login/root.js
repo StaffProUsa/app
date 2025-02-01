@@ -166,7 +166,7 @@ class Login extends Component {
                         </SView>
                     </LoginApple>
                 </SView> */}
-                <SView height={70} col={'xs-12'}>
+                {/* <SView height={70} col={'xs-12'}>
                     <LoginGoogle onLogin={(usuario) => {
                         console.log("onLogin", usuario)
                         this.loginRedSocial("gmail_key", usuario)
@@ -180,7 +180,7 @@ class Login extends Component {
                             }} />
                         </SView>
                     </LoginGoogle>
-                </SView>
+                </SView> */}
                 <SView height={70} col={'xs-12'} onPress={() => {
                     SNavigation.navigate("/registro")
                 }}>

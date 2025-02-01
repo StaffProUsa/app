@@ -135,7 +135,7 @@ class index extends Component {
               es: "Ingreso",
               en: "Clock In"
             }} />
-            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff_usuario?.fecha_ingreso, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff_usuario?.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
           </>
         }
       </SView>
@@ -149,7 +149,7 @@ class index extends Component {
               es: "Salida",
               en: "Clock Out"
             }} />
-            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff_usuario?.fecha_salida, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+            <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff_usuario?.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
           </>
         }
       </SView> : null}
@@ -173,7 +173,7 @@ class index extends Component {
           es: `Ingreso`,
           en: `Income`
         }} />
-        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.asistencia_staff_usuario[0].fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.asistencia_staff_usuario[0].fecha_on, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
       </SView>
       {(obj?.asistencia_staff_usuario.length > 1) ? <SView col={"xs-4"} center style={{
         borderLeftWidth: 1,
@@ -183,7 +183,7 @@ class index extends Component {
           es: `Salida`,
           en: `Exit`
         }} />
-        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.asistencia_staff_usuario[obj?.asistencia_staff_usuario.length - 1].fecha_on, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+        <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.asistencia_staff_usuario[obj?.asistencia_staff_usuario.length - 1].fecha_on, "yyyy-MM-ddThh:mm:ss.SSSTZD").toString("HH")}</SText>
       </SView> : null}
 
     </SView>

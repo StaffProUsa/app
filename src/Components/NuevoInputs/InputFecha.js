@@ -64,8 +64,8 @@ export default class InputFecha extends Component {
         //     // this.state.dia = parseFloat(selectdate.clone().addMonth(1).addDay(-1).getDay());
         // }
 
-        return <SView row>
-            <SText padding={6} card onPress={(e) => {
+        return <SView row height={40}>
+            <SText height padding={4} center card onPress={(e) => {
                 InputFloat.open({
                     e: e,
                     width: 100,
@@ -97,7 +97,7 @@ export default class InputFecha extends Component {
                 })
             }} >{monthArray[this.state.mes - 1]}</SText>
             <SView width={4} />
-            <SText padding={6} card onPress={(e) => {
+            <SText height padding={4} center card onPress={(e) => {
                 const date = new SDate(this.state.ano + "-" + (mes) + "-01", "yyyy-MM-dd");
                 date.addDay(-1);
                 const startYear = 1
@@ -131,7 +131,7 @@ export default class InputFecha extends Component {
                 })
             }} >{selectdate.getDayOfWeekJson().text} {selectdate.getDay()},</SText>
             <SView width={8} />
-            <SText padding={6} card onPress={(e) => {
+            <SText height padding={4} center card onPress={(e) => {
                 const startYear = new SDate().getYear();
                 const endYear = startYear + 20;
                 const yearsArray = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);

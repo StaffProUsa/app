@@ -96,7 +96,7 @@ class index extends Component {
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
-                fecha_nacimiento: { label: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), placeholder: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), isRequired: false, defaultValue: this.data.fecha_nacimiento, type: "date", },
+                fecha_nacimiento: { label: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), isRequired: true, placeholder: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }),  defaultValue: this.data.fecha_nacimiento, type: "date", },
                 estado_civil: {
                     label: SLanguage.select({ es: "Estado civil", en: "Marital Status" }),
                     placeholder: SLanguage.select({ es: "Estado civil", en: "Marital Status" }),

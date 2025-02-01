@@ -72,6 +72,22 @@ export default class Eventos extends React.Component {
         </SView>
     }
     renderItem(obj) {
+        let fecha = new Date(obj.fecha);
+        let hoy = new Date();
+
+        // Ajustar "hoy" para ignorar la hora y comparar solo la fecha.
+        hoy.setHours(0, 0, 0, 0);
+        let pasado = false;
+        if (fecha < hoy) {
+            console.log("La fecha es pasada.");
+            pasado = true;
+        } else if (fecha.getTime() === hoy.getTime()) {
+            pasado = false;
+            console.log("La fecha es hoy.");
+        } else {
+            pasado = false;
+            console.log("La fecha es futura.");
+        }
         return <SView col={"xs-12"} style={{
             borderWidth: 1,
             borderRadius: 8,
@@ -81,7 +97,19 @@ export default class Eventos extends React.Component {
             SNavigation.navigate("/company/event", { key_evento: obj.key })
         }}>
             <SHr />
-            <SText fontSize={14} bold>{obj.descripcion}</SText>
+            <SView col={"xs-12"} row center>
+                <SView flex>
+                    <SText fontSize={14} bold>{obj.descripcion}</SText>
+                </SView>
+                <SView>
+                    {pasado ? <SText fontSize={12} backgroundColor={STheme.color.danger} padding={5} color={STheme.color.white} language={{
+                        es: "EVENTO PASADO",
+                        en: "PAST EVENT"
+                    }} /> : null}
+                    {/* <SText fontSize={12} color={STheme.color.gray}>ESTADO</SText> */}
+                </SView>
+            </SView>
+
             <SHr h={4} />
             <SText fontSize={12} color={STheme.color.gray}>{SUtil.limitString(obj?.observacion, 200, "...")?.trim()}</SText>
             <SHr />

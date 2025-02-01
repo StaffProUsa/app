@@ -2,7 +2,7 @@ import React from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from "."
 import Model from '../../Model';
-import { SHr, SIcon, SImage, SNavigation, SPopup, SText, STheme, SUtil, SView } from 'servisofts-component';
+import { SHr, SIcon, SImage, SLanguage, SNavigation, SPopup, SText, STheme, SUtil, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import PBarraFooter from '../../Components/PBarraFooter';
 import ImageProfile from '../../Components/ImageProfile';
@@ -115,7 +115,10 @@ class index extends DPA.list {
             </SView>
             {!permisoDelete ? null : <SView width={30} height={30} onPress={() => {
                 SPopup.confirm({
-                    title: "Esta seguro que desea eliminar?",
+                    title: SLanguage.select({
+                        en: "Are you sure you want to delete?",
+                        es: "¿Está seguro que desea eliminar?"
+                    }),
                     message: "Eliminar",
                     onPress: () => {
                         Model.cliente.Action.editar({

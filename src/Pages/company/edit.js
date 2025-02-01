@@ -1,6 +1,6 @@
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from '.';
-import { SNavigation, SPopup } from 'servisofts-component';
+import { SNavigation, SPopup, SLanguage } from 'servisofts-component';
 import Model from '../../Model';
 
 class index extends DPA.edit {
@@ -10,6 +10,17 @@ class index extends DPA.edit {
             excludes: []
         });
     }
+
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
+    componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
+
     $allowAccess() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit", user_data: { key_company: this.pk } })
     }
@@ -18,10 +29,32 @@ class index extends DPA.edit {
         const inp = super.$inputs();
 
         inp["descripcion"].required = true;
-        // inp["email"].required = true;
-        // inp["contacto"].required = true;
-        // inp["telefono"].required = true;
+        inp["descripcion"].required = true;
+        inp["descripcion"].label = SLanguage.select({
+            es: "Nombre",
+            en: "Name"
+        });
+        inp["observacion"].label = SLanguage.select({
+            es: "Detalles",
+            en: "Details"
+        });
 
+        inp["email"].label = SLanguage.select({
+            es: "Correo",
+            en: "Email"
+        });
+        inp["contacto"].label = SLanguage.select({
+            es: "Contacto",
+            en: "Contact"
+        });
+        inp["telefono"].label = SLanguage.select({
+            es: "Teléfono",
+            en: "Phone"
+        });
+        inp["direccion"].label = SLanguage.select({
+            es: "Dirección",
+            en: "Address"
+        });
 
         inp["email"].type = "email";
         inp["telefono"].type = "phone";
