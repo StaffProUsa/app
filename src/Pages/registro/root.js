@@ -120,6 +120,8 @@ class root extends Component {
                                             render: () => {
                                                 return <SView col={"xs-12"} flex card>
                                                     <InputSelect
+                                                        defaultValue={this.form.getValues().estado_civil}
+                                                        autoSelect
                                                         data={["SINGLE", "MARRIED", "DIVORCED", "WIDOWED", "SEPARATED", "OTHER"]}
                                                         onChange={val => {
                                                             this.form.setValues({ "estado_civil": val })
@@ -168,6 +170,8 @@ class root extends Component {
                                             render: () => {
                                                 return <SView col={"xs-12"} flex card>
                                                     <InputSelect
+                                                        defaultValue={this.form.getValues().nivel_ingles}
+                                                        autoSelect
                                                         data={["NONE", "BASIC", "MEDIUM", "ADVANCED"]}
                                                         onChange={val => {
                                                             this.form.setValues({ "nivel_ingles": val })
@@ -261,18 +265,20 @@ class root extends Component {
                                     delete values["RepPassword"]
                                     Model.usuario.Action.registro({
                                         data: { ...values, Password: password }
-                                    }).then(resp => {
+                                    }).then(resp1 => {
                                         Model.usuario.Action.loginByKey({
                                             usuario: values["Correo"],
                                             password: password
 
                                         }).then(resp => {
-                                            // Model.empresa.Action.setEmpresa(null)
-                                            SNavigation.reset("/");
-                                            new SThread(1000, "asdasd").start(() => {
-                                                SNavigation.replace("/onLogin")
 
-                                            })
+                                            SNavigation.replace("/registro/foto", { key_usuario: resp.data.key })
+                                            // Model.empresa.Action.setEmpresa(null)
+                                            // SNavigation.reset("/");
+                                            // new SThread(1000, "asdasd").start(() => {
+                                            //     SNavigation.replace("/onLogin")
+
+                                            // })
                                         }).catch(e => {
                                             if (lenguaje == "en") {
                                                 SPopup.alert('Error starting with the new user');

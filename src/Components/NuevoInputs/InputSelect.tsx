@@ -42,14 +42,16 @@ const Item = ({ item, index, scrollY, onPress, ITEM_HEIGHT = 50 }) => {
 };
 const ocd = (e) => {
 }
-const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT }) => {
+const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT, autoSelect = false }) => {
     const scrollY = useSharedValue(0);
     const flatListRef = useRef<FlatList>(null); // Referencia al FlatList
 
     const [state, setState] = useState({ value: defaultValue, valueTo: undefined, ready: false });
     const [layout, setLayout] = useState({ width: 0, height: 0 });
     const initialOffset = ((layout.height - ITEM_HEIGHT) / 2);
+
     useEffect(() => {
+        console.log("Enste es el defaultValue", defaultValue)
         if (defaultValue && data.includes(defaultValue)) {
             const defaultIndex = data.indexOf(defaultValue); // Obtener el índice del ítem predeterminado
             if (flatListRef.current) {
@@ -59,7 +61,13 @@ const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT }) =
                 });
                 state.ready = false;
             }
+        } else {
+            if (autoSelect && flatListRef.current) {
+                state.value = data[0]
+                if (onChange) onChange(state.value)
+            }
         }
+
     }, [defaultValue, data, layout.height]); // Dependencias: defaultValue, data y layout.height
 
 

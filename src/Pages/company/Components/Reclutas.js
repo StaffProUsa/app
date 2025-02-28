@@ -43,6 +43,7 @@ export default class Reclutas extends Component {
         // })
     }
     renderObj(obj) {
+
         return <SView col={"xs-12"} row style={{ paddingTop: 8 }} onPress={() => {
             console.log(obj);
             // SNavigation.navigate("/staff/add", { key_evento: obj.key_evento, pk: obj.key, })
@@ -66,11 +67,11 @@ export default class Reclutas extends Component {
                                 es: "Inicio " + new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
                             }} />
 
-                            {(obj.fecha_fin != null) ?<SText fontSize={13} language={{
+                            {(obj.fecha_fin != null) ? <SText fontSize={13} language={{
                                 en: " | End " + new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
                                 es: " | Fin " + new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
                             }} /> : null}
-                            
+
 
                         </SView>
                         <SText fontSize={14} color={STheme.color.gray}>{obj.staff}</SText>
@@ -97,11 +98,13 @@ export default class Reclutas extends Component {
                         }} />
                 </SView>
             </SView>
-            <SView center padding={5} onPress={() => {
+            {(this.props.past) ? null : <SView center padding={5} onPress={() => {
                 SNavigation.navigate("/staff/add", { key_evento: obj.key_evento, pk: obj.key, })
             }}>
                 <SIcon name={"Edit"} width={30} height={30} />
             </SView>
+            }
+
         </SView>
     }
 

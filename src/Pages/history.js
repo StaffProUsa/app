@@ -139,6 +139,20 @@ export default class history extends Component {
             console.log("userCoordinador", userCoordinador)
             let timeWork;
 
+            let asistencia = STheme.color.danger + "66"
+            let mensaje = SLanguage.select({
+                es: "No asistió",
+                en: "Did not attend"
+            })
+
+            if (obj.fecha_ingreso != null) {
+                asistencia = STheme.color.warning + "66"
+                mensaje = SLanguage.select({
+                    es: "Asistió pero no completó",
+                    en: "Attended but did not complete"
+                })
+            }
+
             if ((obj.fecha_ingreso != null) && (obj.fecha_salida != null)) {
                 console.log("fecha_ingreso", obj.fecha_ingreso)
                 let fi = new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ss.sssTZD")
@@ -146,12 +160,17 @@ export default class history extends Component {
                 let disf = fi.diffTime(fs);
                 console.log("disf", disf)
                 timeWork = ((disf / 1000) / 60 / 60).toFixed(2);
+                asistencia = STheme.color.success + "66";
+                mensaje = SLanguage.select({
+                    es: "Completado",
+                    en: "Completed"
+                })
             }
 
             return <SView col={"xs-12"} row padding={15} style={{
                 borderRadius: 16,
-                borderWidth: 1,
-                borderColor: STheme.color.lightGray,
+                borderWidth: 2,
+                borderColor: asistencia,
                 overflow: "hidden",
             }} onPress={() => {
                 if (isInvitation) {
@@ -178,10 +197,17 @@ export default class history extends Component {
 
                     </SView>
                 </SView>
-                <SView col={"xs-10"} >
-                    <SText fontSize={14}>{obj?.cliente?.descripcion}</SText>
-                    <SText fontSize={12} color={STheme.color.gray}>{obj?.staff_tipo?.descripcion}</SText>
-                    <SText fontSize={10} color={STheme.color.gray}>{SUtil.limitString(obj?.staff?.descripcion, 120)}</SText>
+                <SView col={"xs-10"} row>
+                    <SView col={"xs-8"} >
+                        <SText fontSize={14}>{obj?.cliente?.descripcion}</SText>
+                        <SText fontSize={12} color={STheme.color.gray}>{obj?.staff_tipo?.descripcion}</SText>
+                        <SText fontSize={10} color={STheme.color.gray}>{SUtil.limitString(obj?.staff?.descripcion, 120)}</SText>
+                    </SView>
+                    <SView col={"xs-4"} flex style={{ alignItems: "flex-end" }}>
+                        <SText fontSize={14} padding={3} backgroundColor={asistencia} style={{ textAlign: "right" }} >{mensaje}</SText>
+                    </SView>
+
+
                 </SView>
                 <SHr height={10} />
                 <SHr height={1} color={STheme.color.lightGray} />
@@ -190,8 +216,11 @@ export default class history extends Component {
                     <SIcon name={"dating"} fill={STheme.color.gray} width={12} />
                 </SView>
                 <SView col={"xs-10"} row >
-                    <SText col={"xs-4"} fontSize={12}>{new SDate(obj?.evento?.fecha).toString("MONTH dd, yyyy")}</SText>
-                    {(obj?.staff?.fecha_inicio != null) ? <SText col={"xs-4"} fontSize={12} language={{
+                    <SText col={"xs-4"} style={{
+                        borderRightWidth: 1,
+                        borderRightColor: STheme.color.lightGray,
+                    }} fontSize={12}>{new SDate(obj?.evento?.fecha).toString("MONTH dd, yyyy")}</SText>
+                    {(obj?.staff?.fecha_inicio != null) ? <SText col={"xs-4"} style={{ paddingLeft: 3 }} fontSize={12} language={{
                         es: "Inicio: " + new SDate(obj?.staff?.fecha_inicio).toString("HH"),
                         en: "Start: " + new SDate(obj?.staff?.fecha_inicio).toString("HH"),
                     }} /> : null}
@@ -204,15 +233,30 @@ export default class history extends Component {
                 <SHr height={1} color={STheme.color.lightGray} />
                 <SHr height={10} />
                 <SView col={"xs-12"} row>
-                    <SText col={"xs-6"} fontSize={10}>Clock In : {!obj.fecha_ingreso ? "No" : new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH")}</SText>
-                    <SText col={"xs-6"} fontSize={10}>Clock Out: {!obj.fecha_salida ? "No" : new SDate(obj.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH")}</SText>
+                    <SText col={"xs-6"} fontSize={12} style={{
+                        borderRightWidth: 1,
+                        borderRightColor: STheme.color.lightGray,
+                    }}>  {SLanguage.select({
+                        es: "Ingreso: ",
+                        en: "Clock In: "
+                    })}
+                        {!obj.fecha_ingreso ? "No" : new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH")}</SText>
+                    <SText col={"xs-6"} style={{ paddingLeft: 3 }} fontSize={12}>{SLanguage.select({
+                        es: "Salida: ",
+                        en: "Clock Out: "
+                    })} {!obj.fecha_salida ? "No" : new SDate(obj.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH")}</SText>
                 </SView>
                 {((obj.fecha_ingreso != null) && (obj.fecha_salida != null)) ? <>
                     <SHr height={10} />
                     <SHr height={1} color={STheme.color.lightGray} />
                     <SHr height={10} />
-                    <SView col={"xs-12"}  style={{alignItems:"flex-end"}}>
-                        <SText  fontSize={14} language={{
+                    <SView col={"xs-12"} style={{ alignItems: "flex-end" }}>
+                        <SText fontSize={18} style={{
+                            backgroundColor: STheme.color.success,
+                            color: STheme.color.white,
+                            padding: 5,
+                            // borderRadius: 10
+                        }} language={{
                             es: "Tiempo de trabajo: " + timeWork,
                             en: "Working time: " + timeWork
                         }} />
@@ -221,8 +265,12 @@ export default class history extends Component {
             </SView>
         }} />
     }
-    CardResumen({ title, value, color, icon }) {
-        return <SView col={"xs-6"} row style={{ paddingRight: 5, paddingBottom: 5 }}>
+    CardResumen({ title, value, color, icon, onPress, option }) {
+        return <SView col={"xs-6"} row style={{ paddingRight: 5, paddingBottom: 5 }} onPress={() => {
+            if (onPress) {
+                SNavigation.navigate(onPress, { option: option })
+            }
+        }}>
             <SView col={"xs-12"} row style={{
                 borderWidth: 1,
                 borderColor: STheme.color.lightGray,
@@ -259,10 +307,10 @@ export default class history extends Component {
         const { eventos, eventos_asistidos, eventos_completados, eventos_no_asistidos } = this.state.dataResumen ?? {}
         return <>
             <SView col={"xs-12"} row>
-                <this.CardResumen title={SLanguage.select({ es: "Total eventos", en: "Total events" })} value={eventos} color={"#C09C0C"} icon={"hisEvent"} />
-                <this.CardResumen title={SLanguage.select({ es: "Eventos completados", en: "Completed events" })} value={eventos_completados} color={"#33BE5B"} icon={"hisCompleted"} />
-                <this.CardResumen title={SLanguage.select({ es: "Eventos asistidos", en: "Events attended" })} value={eventos_asistidos} color={"#511B8D"} icon={"asistido"} />
-                <this.CardResumen title={SLanguage.select({ es: "Eventos no asistidos", en: "Unattended events" })} value={eventos_no_asistidos} color={"#566471"} icon={"noAsistido"} />
+                <this.CardResumen onPress={"/history/detail"} option={0} title={SLanguage.select({ es: "Total eventos", en: "Total events" })} value={eventos} color={"#35A1C3"} icon={"hisEvent"} />
+                <this.CardResumen onPress={"/history/detail"} option={3} title={SLanguage.select({ es: "Eventos completados", en: "Completed events" })} value={eventos_completados} color={"#33BE5B"} icon={"hisCompleted"} />
+                <this.CardResumen onPress={"/history/detail"} option={1} title={SLanguage.select({ es: "Eventos asistidos", en: "Events attended" })} value={eventos_asistidos} color={STheme.color.warning} icon={"asistido"} />
+                <this.CardResumen onPress={"/history/detail"} option={2} title={SLanguage.select({ es: "Eventos no asistidos", en: "Unattended events" })} value={eventos_no_asistidos} color={STheme.color.danger} icon={"noAsistido"} />
             </SView>
         </>
     }

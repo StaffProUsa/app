@@ -165,6 +165,19 @@ export default class add extends Component {
             }
             this._ref["nivel_ingles"].setValue(e.data.nivel_ingles)
             console.log(e);
+
+            SSocket.sendPromise({
+                component: "staff_tipo",
+                type: "getByKey",
+                key: e.data.key_staff_tipo,
+            }).then(e => {
+                this._ref["tipo"].setValue(e.data.descripcion)
+                this._ref["tipo"].setData(e.data)
+                // this._ref["tipo"].setData(e.data)
+            }).catch(e => {
+                console.error(e);
+            }
+            )
         }).catch(e => {
             console.error(e);
         })
@@ -188,6 +201,12 @@ export default class add extends Component {
             }
 
         })
+
+        if(this._ref["tipo"]){
+            const data = this._ref["tipo"].getData();
+            val["key_staff_tipo"] = data.key;
+        }
+
         if (!valid) {
             return;
         }
@@ -222,11 +241,12 @@ export default class add extends Component {
                     "fecha_inicio": !val.hora_inicio ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? "") + tz,
                     "fecha_fin": !val.hora_fin ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? "") + tz,
                     cantidad: val.cantidad,
-                    nivel_ingles: val.nivel_ingles
+                    nivel_ingles: val.nivel_ingles,
+                    key_staff_tipo: val.key_staff_tipo
                 },
                 key_usuario: Model.usuario.Action.getKey(),
             }).then(e => {
-                if (event.INSTANCE) event.INSTANCE.componentDidMount();
+                if (event.INSTANCE) event.INSTANCE.componentDidMount()
                 SNavigation.goBack(this.backAlternative.bind(this));
             }).catch(e => {
                 console.error(e);
@@ -306,7 +326,7 @@ export default class add extends Component {
                 <SView row col={"xs-12"} style={{
                     justifyContent: "space-between"
                 }}>
-                    {this.state.pk ? null : <SInput
+                    {/* {this.state.pk ? null : <SInput
                         ref={r => this._ref["tipo"] = r}
                         label={tipo_staff}
                         col={"xs-7"}
@@ -324,7 +344,29 @@ export default class add extends Component {
                                 }
                             })
                         }} />
-                    }
+                    } */}
+
+                    <SInput
+                        ref={r => this._ref["tipo"] = r}
+                        label={tipo_staff}
+                        col={"xs-7"}
+                        editable={false}
+                        placeholder={tipo_staff}
+                        // defaultValue={this.state?.data?.tipo?.descripcion}
+                        required
+                        onPress={() => {
+                            // if (!this.state?.key_company) return;
+                            SNavigation.navigate("/staff_tipo", {
+                                key_company: this.state.key_company, onSelect: (e) => {
+                                    const input: SInput = this._ref["tipo"];
+                                    input.setValue(e.descripcion)
+                                    input.setData(e);
+
+                                }
+                            })
+                        }} />
+
+
                     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea' />
                     <SInput ref={r => this._ref["cantidad"] = r} defaultValue={1} col={"xs-7"} label={cantidad} required placeholder={"0"} />
 
@@ -487,18 +529,22 @@ export default class add extends Component {
                             en: "INVITE"
                         }} /></SButtom> */}
                         <SView width={30} />
-                        <SButtom onPress={this.handleEliminar.bind(this)} type='danger'>
+                        <SButtom onPress={this.handleEliminar.bind(this)} type='secondary'>
                             <SText language={{
                                 es: "ELIMINAR",
                                 en: "DELETE"
                             }} color={STheme.color.white} /></SButtom>
                         <SView width={30} />
-                    </> : null}
-
-                    <SButtom onPress={this.handlePress.bind(this)} type='secondary'><SText color={STheme.color.white} language={{
+                        <SButtom onPress={this.handlePress.bind(this)} type='success'><SText color={STheme.color.white} language={{
+                            es: "GUARDAR",
+                            en: "SAVE"
+                        }} /></SButtom>
+                    </> : <SButtom onPress={this.handlePress.bind(this)} type='secondary'><SText color={STheme.color.white} language={{
                         es: "GUARDAR",
                         en: "SAVE"
-                    }} /></SButtom>
+                    }} /></SButtom>}
+
+
 
                 </SView>
 

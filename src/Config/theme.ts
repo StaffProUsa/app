@@ -3,7 +3,7 @@ import { SThemeThemes } from 'servisofts-component';
 const theme: SThemeThemes = {
   default: {
     barStyle: 'light-content',
-    barColor: '#C4C5C680',
+    barColor: '#DDDDDD',
     text: '#252525',
     primary: '#F3F3F3',
     secondary: '#A61A1A',
@@ -13,6 +13,7 @@ const theme: SThemeThemes = {
     accent: '#BBBBBB30',
     darkGray: '#333333',
     gray: "#454545",
+    lightGray: "#888888",
 
  
 
@@ -46,11 +47,11 @@ const theme: SThemeThemes = {
     secondary: '#9F191E',
     // secondary: '#5F0409',
     info: '#333333',
-    background: '#090A0C',
+    background: '#191919',
     card: '#ffffff28',
     accent: '#08080B',
     darkGray: '#333333',
-    gray: "#E2E0E0",
+    gray: "#DDDDDD",
   }
 }
 export default theme;

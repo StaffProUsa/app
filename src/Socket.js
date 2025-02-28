@@ -31,7 +31,6 @@ export default ({ store }) => {
             // }
 
 
-            console.log();
             return {
                 data: usuario ? usuario : {},
                 deviceKey: DeviceKey.getKey(),

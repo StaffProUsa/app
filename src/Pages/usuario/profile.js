@@ -28,6 +28,7 @@ class index extends DPA.profile {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "delete" })
     }
     $allowRestore() {
+        return true;
         if (this.data?.estado != 0) return false;
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "restore" })
     }

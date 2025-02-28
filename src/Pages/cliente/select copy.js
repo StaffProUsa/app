@@ -30,7 +30,8 @@ export default class select extends Component {
                 SNotification.send({
                     title: "Error",
                     body: (lenguaje == "es") ? "No pudimos optener tu ubicación" : "We couldn't get your location",
-                    color: STheme.color.danger
+                    color: STheme.color.danger,
+                    time:5000,
                 })
             })
         }

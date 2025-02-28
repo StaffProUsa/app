@@ -89,7 +89,33 @@ class Perfil extends React.Component {
     }).catch(e => {
       SNotification.send({
         title: "Error",
-        body: e.error ?? "No se pudo completar la accion."
+        body: e.error ?? "No se pudo completar la accion.",
+        time:5000,
+      })
+    })
+
+    SSocket.sendPromise({
+      component: "staff_usuario",
+      type: "isJefe",
+      key_evento: this.key,
+      key_usuario: Model.usuario.Action.getKey() ?? "",
+      tipo: Platform.OS,
+      device_info: {
+        OS: Platform.OS,
+        version: PackageJson.version,
+        descripcion: Platform.select({
+          "web": `Web ${window.navigator.userAgent}`,
+          "android": `Android ${Platform?.constants?.Version}, ${Platform?.constants?.Manufacturer} ${Platform?.constants?.Brand} ${Platform?.constants?.Model}`,
+          "ios": `IOS ${Platform?.Version}, ${Platform?.constants?.systemName}`,
+        }),
+      }
+    }).then(e => {
+      this.setState({ dataJefe: e.data })
+    }).catch(e => {
+      SNotification.send({
+        title: "Error",
+        body: e.error ?? "No se pudo completar la accion.",
+        time:5000,
       })
     })
   }
@@ -622,7 +648,7 @@ class Perfil extends React.Component {
                 {/* <SView col={'xs-11.5'}>
                   <Asistencia  data={this.state.data}/>
                 </SView>  */}
-                <MarcarPorCodigoEvento key_evento={this.key}/>
+                <MarcarPorCodigoEvento key_evento={this.key} dataJefe={this.state?.dataJefe}/>
                 <SView col={'xs-11.5'}>
                   {/* <MisTrabajosDelEvento key_evento={this.key} /> */}
                   <TrabajosDelEvento key_evento={this.key} />

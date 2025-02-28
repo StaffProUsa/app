@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SExcel, SNavigation } from 'servisofts-component';
+import { SExcel, SLanguage, SNavigation } from 'servisofts-component';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from "."
 import Model from '../../Model';
@@ -8,7 +8,7 @@ class index extends DPA.list {
     constructor(props) {
         super(props, {
             Parent: Parent,
-            excludes: ["key", "fecha_on", "key_usuario", "Password", "Telefono", "Correo", "CI", "papeles","nivel_ingles"],
+            excludes: ["key", "fecha_on", "key_usuario", "Password", "Telefono", "Correo", "CI", "papeles", "nivel_ingles"],
             onRefresh: (resolve) => {
                 Parent.model.Action.CLEAR();
                 if (resolve) resolve();
@@ -29,7 +29,7 @@ class index extends DPA.list {
         return true;
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "ver" });
     }
-    onNew(){
+    onNew() {
         SNavigation.navigate(Parent.path + "/add")
     }
     $menu() {
@@ -41,7 +41,7 @@ class index extends DPA.list {
         // })
         if (Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "show_deleted" })) {
             menu.push({
-                label: "Eliminados", onPress: () => {
+                label: SLanguage.select({ en: "Deleted", es: "Eliminados" }), onPress: () => {
                     console.log(Parent.path)
                     SNavigation.navigate(Parent.path + "/eliminados")
                 }

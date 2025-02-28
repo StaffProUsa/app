@@ -5,11 +5,14 @@ import table from "./table";
 import _new from "./new";
 import profile from "./profile/index";
 import edit from "./edit";
+import edit_employee from "./edit_employee";
 import _delete from "./delete";
 import roles from "./roles";
 import event from "./event";
 import detalle_asistencia from "./detalle_asistencia";
 import invite from "./invite";
+import dashboard from "./dashboard"
+import dashboardTimeSheets from "./dashboardTimeSheets"
 const model = Model.company;
 export const Parent = {
     name: "company",
@@ -25,7 +28,10 @@ export default SPage.combinePages(Parent.name, {
     event,
     "detalleAsistencia": detalle_asistencia,
     "edit": edit,
+    "editEmployee": edit_employee,
     "delete": _delete,
     "invite": invite,
+    dashboard,
+    dashboardTimeSheets,
     ...roles,
 })

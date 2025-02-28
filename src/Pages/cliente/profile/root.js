@@ -33,6 +33,9 @@ class index extends DPA.profile {
             },
             excludes: ["key", "key_servicio", "key_usuario", "fecha_on", "key_company", "estado", "latitude", "longitude"]
         });
+        this.state = {
+            pasadoSelect: true
+        }
     }
     $allowEdit() {
         this.data = this.$getData();
@@ -57,11 +60,13 @@ class index extends DPA.profile {
         SNavigation.navigate("/cliente/add", { pk: this.pk })
     }
 
-
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
         // this.data = this.$getData();
 
-
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         SSocket.sendPromise({
             component: "evento",
             type: "getEstadoEventos",
@@ -71,6 +76,9 @@ class index extends DPA.profile {
         }).catch(e => {
             console.error(e);
         })
+    }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
     }
 
     $render() {
@@ -105,6 +113,25 @@ class index extends DPA.profile {
             <SHr />
             <SView row col={"xs-12"} center>
                 <SText language={{ en: "Events", es: "Eventos" }} fontSize={16} bold flex />
+                <SView height={30} backgroundColor={this.state.pasadoSelect ? STheme.color.success : STheme.color.lightGray} center padding={8} style={{
+                    borderTopLeftRadius: 7,
+                    borderBottomLeftRadius: 7,
+                }}
+                    onPress={() => {
+                        this.setState({ pasadoSelect: true })
+                    }}>
+                    <SText language={{ en: "Ongoing", es: "En curso" }} fontSize={12} bold color={this.state.pasadoSelect ? STheme.color.white : "#646464"} />
+                </SView>
+                <SView height={30} backgroundColor={this.state.pasadoSelect ? STheme.color.lightGray : STheme.color.success} center padding={8} style={{
+                    borderTopRightRadius: 7,
+                    borderBottomRightRadius: 7,
+                }}
+                    onPress={() => {
+                        this.setState({ pasadoSelect: false })
+                    }}>
+                    <SText language={{ en: "Past", es: "Pasados" }} fontSize={12} bold color={this.state.pasadoSelect ? "#646464" : STheme.color.white} />
+                </SView>
+                <SView width={5} />
                 <SView width={30} height={30} onPress={() => {
                     SNavigation.navigate("/evento/registro", { key_cliente: this.data.key, key_company: this.data.key_company })
                 }}>
@@ -112,7 +139,7 @@ class index extends DPA.profile {
                 </SView>
             </SView>
             <SHr />
-            <Eventos key_cliente={this.pk} />
+            <Eventos key_cliente={this.pk} pasadoSelect={this.state.pasadoSelect} />
         </SView>
     }
 }

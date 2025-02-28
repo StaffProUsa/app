@@ -21,7 +21,11 @@ class index extends DPA.profile {
     }
     state = {
     }
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
     componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
         // Roles.$getPermiso({
         //     url: Parent.path, permiso: "ver", key_company: this.pk, key_usuario: Model.usuario.Action.getKey()
         // }).then(e => {
@@ -30,6 +34,10 @@ class index extends DPA.profile {
         //     this.setState({ permiso_ver: "" })
         // })
     }
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
+    
     $allowEdit() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit", user_data: { key_company: this.pk } })
     }

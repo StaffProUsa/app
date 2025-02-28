@@ -83,7 +83,6 @@ export default class Inicio extends Component {
 
   renderInvitaciones() {
     if (!this.state.invitaciones) return null
-    console.log("this.state.invitaciones", this.state.invitaciones);
     let txtInvitacion = "";
     let txtInvitacion_en = "";
     if (this.state.invitaciones.length == 1) {
@@ -103,6 +102,9 @@ export default class Inicio extends Component {
           borderLeftColor: "#DE7B26",
 
 
+        }} onPress={() => {
+          (this.state.invitaciones.length == 1) ? SNavigation.navigate("/invitationDetail", { key: this.state.invitaciones[0].staff_usuario?.key }) : SNavigation.navigate("/invitations")
+
         }}>
         <SView col={"xs-2"} row center padding={5}>
           <SIcon name={"exclamacion2"} fill={"#DE7B26"} width={35} height={35} />
@@ -112,19 +114,14 @@ export default class Inicio extends Component {
             es: "AVISO IMPORTANTE",
             en: "IMPORTANT NOTICE"
           }} />
-          <SText color={"#585858"} onPress={() => {
-            // SNavigation.navigate("/invitations")
-          }} language={{
+          <SText color={"#585858"} language={{
             es: txtInvitacion,
             en: txtInvitacion_en
           }} />
         </SView>
 
         <SView col={"xs-3"} row center>
-          <SView col={"xs-12"} row center padding={10} backgroundColor={"#585858"} onPress={() => {
-            (this.state.invitaciones.length == 1) ? SNavigation.navigate("/invitationDetail", { key: this.state.invitaciones[0].staff_usuario?.key }) : SNavigation.navigate("/invitations")
-
-          }}
+          <SView col={"xs-12"} row center padding={10} backgroundColor={"#585858"}
             style={{ borderRadius: 6 }}>
             <SText color={STheme.color.white} language={{
               es: "VER",
@@ -139,7 +136,9 @@ export default class Inicio extends Component {
   }
 
   render() {
-    return <SPage titleLanguage={{ es: "Próximos eventos", en: "Next events" }} preventBack footer={<PBarraFooter url={'/'} />} >
+    return <SPage
+      // titleLanguage={{ es: "Próximos eventos", en: "Next events" }} 
+      preventBack footer={<PBarraFooter url={'/'} />} >
       <Container>
         <SView col={"xs-12"}>
           {this.state.invitaciones && this.state.invitaciones.length > 0 && <>

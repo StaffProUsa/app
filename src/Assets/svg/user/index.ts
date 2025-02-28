@@ -18,6 +18,7 @@ import qr, { ReactComponent as qrw } from './qr.svg';
 import party, { ReactComponent as partyw } from './party.svg';
 import hisCompleted, { ReactComponent as hisCompletedw } from './hisCompleted.svg';
 import hisEvent, { ReactComponent as hisEventw } from './hisEvent.svg';
+import move, { ReactComponent as movew } from './move.svg';
 
 
 
@@ -44,6 +45,7 @@ const Assets = {
 	// "Repassword": { Native: Repassword, Web: RepasswordW },
 	"hisCompleted": { Native: hisCompleted, Web: hisCompletedw },
 	"hisEvent": { Native: hisEvent, Web: hisEventw },
+	"move": { Native: move, Web: movew },
 }
 
 export default Assets;

@@ -75,7 +75,8 @@ class detalle_asistencia extends Component {
                 }).catch(e => {
                     SNotification.send({
                         title: "error",
-                        body: "Error al eliminar"
+                        body: "Error al eliminar",
+                        time:5000,
                     })
                 })
 
@@ -176,7 +177,7 @@ class detalle_asistencia extends Component {
                         es: "Hora Inicio",
                         en: "Start Time"
                     }} />
-                    <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                    <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
                 </SView>
                 {(obj?.staff?.fecha_fin) ? <SView col={"xs-6"} center style={{
                     borderLeftWidth: 1,
@@ -186,7 +187,7 @@ class detalle_asistencia extends Component {
                         es: "Hora Fin",
                         en: "End Time"
                     }} />
-                    <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                    <SText fontSize={14} bold color={STheme.color.text}>{new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
                 </SView> : null}
                 <SHr />
                 <SHr height={1} color={STheme.color.lightGray} />
@@ -201,7 +202,7 @@ class detalle_asistencia extends Component {
                         en: "Clock In"
 
                     }} />
-                    <SText fontSize={18} bold color={STheme.color.text}>{new SDate(obj?.fecha_ingreso, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                    <SText fontSize={18} bold color={STheme.color.text}>{new SDate(obj?.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
                 </SView> : <SText center color={STheme.color.warning} language={{
                     es: "No marcó asistencia",
                     en: "Did not mark attendance"
@@ -215,7 +216,7 @@ class detalle_asistencia extends Component {
                         es: "Marcar Salida",
                         en: "Clock Out"
                     }} />
-                    <SText fontSize={18} bold color={STheme.color.text}>{new SDate(obj?.fecha_salida, "yyyy-MM-ddThh:mm:ss").toString("HH")}</SText>
+                    <SText fontSize={18} bold color={STheme.color.text}>{new SDate(obj?.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
                     <SHr />
                 </SView> : null}
 

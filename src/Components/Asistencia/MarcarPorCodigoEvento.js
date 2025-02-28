@@ -7,6 +7,7 @@ import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import PButtom from '../PButtom';
 import Trabajos from '../Trabajos';
+import MDL from '../../MDL';
 
 export default class MarcarPorCodigoEvento extends Component {
     constructor(props) {
@@ -56,7 +57,7 @@ export default class MarcarPorCodigoEvento extends Component {
                     zIndex: 99,
                     padding: 11
                 }}>
-                    <SView col={"xs-12"} center height onPress={this.handleGetCode.bind(this)} style={{
+                    <SView col={"xs-12"} center height onPress={(this.props?.dataJefe) ? this.handleGetCode.bind(this) : null} style={{
                         backgroundColor: STheme.color.secondary,
                         borderRadius: 100,
                         padding: 10,
@@ -113,7 +114,18 @@ export default class MarcarPorCodigoEvento extends Component {
     render() {
         let lenguaje = SLanguage.language;
         return <SView col={"xs-12"} center >
-            <SHr h={40} />
+            <SHr h={20} />
+
+            {(this.props?.dataJefe) ? <SText fontSize={20} center bold color={STheme.color.text} >{SLanguage.select({
+                en: "You have been assigned as event leader",
+                es: "Has sido asignado como jefe del evento"
+            })}</SText> : <SText fontSize={20} center bold color={STheme.color.text} >{SLanguage.select({
+                en: "Enter the code to start the event",
+                es: "Ingresa el código para iniciar el evento"
+            })}</SText>}
+
+
+            <SHr h={20} />
             {this.getToken()}
             <SHr h={40} />
             <PButtom rojo onPress={() => {
@@ -143,20 +155,22 @@ export default class MarcarPorCodigoEvento extends Component {
                     component: "asistencia",
                     type: "asistirEvento",
                     codigo: code,
-                    key_evento:this.props.key_evento,
+                    key_evento: this.props.key_evento,
                     key_usuario: Model.usuario.Action.getKey(),
                 }).then(e => {
                     this.setState({ reload: true })
                     new SThread(1000, "ASdas").start(() => {
                         this.setState({ reload: false })
                     })
+                    MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
+                    SNavigation.goBack();
                     SNotification.send({
                         key: "asistencia",
                         title: "Exito",
                         body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
                         time: 5000
                     })
-                    SNavigation.navigate("/token/exito")
+                    // SNavigation.navigate("/token/exito")
                 }).catch(e => {
                     SNotification.send({
                         key: "asistencia",
@@ -176,8 +190,10 @@ export default class MarcarPorCodigoEvento extends Component {
                 }} />
             </PButtom>
 
+
             <SHr h={30} />
-            <SText onPress={() => SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText>
+            {(this.props?.dataJefe) ? <SText onPress={() => SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText> : null}
+
             <SHr h={30} />
         </SView>
     }

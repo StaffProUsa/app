@@ -160,7 +160,8 @@ export default class Registro extends React.Component {
                 SNotification.send({
                   title: "Error",
                   body: e.error ?? "Error desconocido",
-                  color: STheme.color.danger
+                  color: STheme.color.danger,
+                  time:5000,
                 })
               })
               // evento.Actions.editar({ ...data, ...values }, this.props);
@@ -177,7 +178,8 @@ export default class Registro extends React.Component {
                 SNotification.send({
                   title: "Error",
                   body: e.error ?? "Error desconocido",
-                  color: STheme.color.danger
+                  color: STheme.color.danger,
+                  time:5000,
                 })
               })
               // evento.Actions.registro(values, this.props);

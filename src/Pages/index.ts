@@ -46,7 +46,7 @@ import entrega from './entrega';
 import rol from './rol';
 import version_required from './version_required';
 import t2 from './t2';
-
+import t3 from "./t3";
 import staff_tipo from './staff_tipo';
 import staff from './staff';
 import intro from './Intro';
@@ -62,6 +62,7 @@ import my_companys from "./my_companys";
 import invitations from './invitations';
 import trabajos from './trabajos';
 import history from './history';
+import historyDetail from './historyDetail';
 import Evento from './Evento';
 import invitacion from './invitacion';
 import onLogin from './onLogin';
@@ -81,6 +82,7 @@ const NewPages = SPage.combinePages("/", {
     version_required,
     "test": Test,
     t2,
+    t3,
     manilla,
     ...Evento,
     ...direccion,
@@ -99,6 +101,7 @@ const NewPages = SPage.combinePages("/", {
     onLogin,
     trabajos,
     history,
+    "history/detail": historyDetail,
     "invitationDetail": invitationDetail,
     "invitationUser": invitationUser,
     invitations,

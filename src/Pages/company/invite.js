@@ -54,7 +54,8 @@ export default class invite extends Component {
         }).then(e => {
             // let page_link = 'http://192.168.3.3:3000';
             let page_link = 'https://staffprousa.servisofts.com';
-            let invitation_link = `${page_link}/invitation?pk=${e.data.key}`
+            // let invitation_link = `${page_link}/invitation?pk=${e.data.key}`
+            let invitation_link = `${page_link}/link/invitation_company?key=${e.data.key}`
             let message = (lenguaje == "es") ? `
 Hola te invitamos a formar parte de nuesta empresa, Presiona el link para unirte.
 
@@ -156,7 +157,8 @@ Welcome to *${empresa?.descripcion}*
                                 SNotification.send({
                                     title: "Copy",
                                     body: "El texto fue copiado con éxito.",
-                                    time: 5000
+                                    time: 5000,
+                                    
                                 })
                             }).catch(e => {
 

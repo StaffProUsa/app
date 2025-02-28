@@ -426,14 +426,14 @@ class TerminosCondiciones extends Component {
             <SView>
               <SView col={'xs-12'} center>
                 <PButtom
-                  small
+                  rojo
                   fontSize={13}
                   width={150}
                   center
                   onPress={() => {
                     SNavigation.goBack();
                   }}>
-                    <SText color={STheme.color.black} language={{
+                    <SText color={STheme.color.white} language={{
                       es: "Aceptar",
                       en: "Accept"
                     }}/>
