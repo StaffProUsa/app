@@ -72,6 +72,8 @@ export default class Eventos extends React.Component {
         </SView>
     }
     renderItem(obj) {
+
+        let pasadoSelect = this.props.pasadoSelect ?? true;
         let fecha = new Date(obj.fecha);
         let hoy = new Date();
 
@@ -88,12 +90,18 @@ export default class Eventos extends React.Component {
             pasado = false;
             console.log("La fecha es futura.");
         }
+
+        //validando si el evento es pasado o no
+        if (pasadoSelect == pasado) {
+            return null;
+        }
+
+
         return <SView col={"xs-12"} style={{
             borderWidth: 1,
             borderRadius: 8,
             borderColor: STheme.color.gray + "50",
         }} padding={8} onPress={() => {
-            // SNavigation.navigate("admin/evento/perfil", { key: obj.key })
             SNavigation.navigate("/company/event", { key_evento: obj.key })
         }}>
             <SHr />
@@ -133,11 +141,22 @@ export default class Eventos extends React.Component {
         </SView>
     }
     render() {
+        let pasadoSelectOk = this.props.pasadoSelect ?? true;
         return <SList
             buscador
             space={16}
             data={this.state?.data}
             order={[{ key: "fecha", order: "desc" }]}
+            filter={d => {
+                let fechaEvento = new Date(d.fecha);
+                let hoy = new Date();
+                hoy.setHours(0, 0, 0, 0); // Ignorar la hora, solo comparar fechas
+                if (!pasadoSelectOk) {
+                    return fechaEvento < hoy; // Solo eventos pasados
+                } else {
+                    return fechaEvento >= hoy; // Solo eventos futuros
+                }
+            }}
             render={this.renderItem.bind(this)}
         />
     }

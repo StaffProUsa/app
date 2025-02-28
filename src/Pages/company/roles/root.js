@@ -26,7 +26,8 @@ export default class root extends Component {
             roles: [],
             edit: true,
             delete: true,
-            add: true
+            add: true,
+            invitadosSelect: true
         };
         this.key_company = SNavigation.getParam("key_company");
         this.key_evento = SNavigation.getParam("key_evento");
@@ -39,7 +40,7 @@ export default class root extends Component {
     componentDidMount() {
 
         root.INSTANCE = this;
-        this.getUsuarioRestaurante();
+        this.getUsuarioRestaurante(this.state.invitadosSelect);
         this.getRoles();
 
     }
@@ -57,14 +58,18 @@ export default class root extends Component {
     }
 
 
-    getUsuarioRestaurante() {
-        SSocket.sendPromise({
+
+
+    getUsuarioRestaurante(invitadosSelect) {
+        let requestData = {
             component: "usuario_company",
-            // type: "getAllStaff",
-            type: "getAllStaffEvento",
-            // key_company: this.key_company
-            key_evento: this.key_evento
-        }).then(e => {
+            type: invitadosSelect ? "getAllStaffEvento" : "getAllStaff",
+            key_evento: invitadosSelect ? this.key_evento : undefined,
+            key_company: invitadosSelect ? undefined : this.key_company
+        };
+
+        Object.keys(requestData).forEach(key => requestData[key] === undefined && delete requestData[key]);
+        SSocket.sendPromise(requestData).then(e => {
             let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))];
             SSocket.sendPromise({
                 version: "2.0",
@@ -283,7 +288,26 @@ export default class root extends Component {
                             es: "+ Agregar usuario"
                         }} />
                     </SView> : null}
-
+                    <SView col={"xs-12"} row>
+                        <SView height={30} backgroundColor={this.state.invitadosSelect ? STheme.color.success : STheme.color.lightGray} center padding={5} style={{ borderRadius: 7 }}
+                            onPress={() => {
+                                this.setState({ invitadosSelect: true })
+                                // this.componentDidMount();
+                                this.getUsuarioRestaurante(true);
+                            }}>
+                            <SText language={{ en: "Invited", es: "Invitados" }} fontSize={14} bold color={STheme.color.white} />
+                        </SView>
+                        <SView width={5} />
+                        <SView height={30} backgroundColor={this.state.invitadosSelect ? STheme.color.lightGray : STheme.color.success} center padding={5} style={{ borderRadius: 7 }}
+                            onPress={() => {
+                                
+                                this.setState({ invitadosSelect: false })
+                                this.getUsuarioRestaurante(false);
+                                // this.componentDidMount();
+                            }}>
+                            <SText language={{ en: "All", es: "Todos" }} fontSize={14} bold color={STheme.color.white} />
+                        </SView>
+                    </SView>
                 </SView>
                 <SHr h={32} />
                 {this.renderList()}

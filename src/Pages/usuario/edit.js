@@ -44,9 +44,10 @@ class index extends DPA.edit {
     }
     $getData() {
         const data = Parent.model.Action.getByKey(this.pk);
-        if(this.key_company){
-            if(!this.state.usuario_company) return null;
-            data.employee_number = this.state.usuario_company.employee_number
+        if(!data) return null;
+        if (this.key_company) {
+            if (!this.state.usuario_company) return null;
+            data.employee_number = this.state?.usuario_company?.employee_number ?? ""
         }
         return data;
     }
@@ -56,6 +57,7 @@ class index extends DPA.edit {
         inputs["Correo"].type = "email"
         inputs["Telefono"].type = "phone"
         inputs["papeles"].type = "checkBox"
+        inputs["salario_hora"].type = "money"
 
         inputs["estado_civil"].onPress = (e) => {
             InputFloat.open({

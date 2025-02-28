@@ -6,6 +6,7 @@ import { SHr, SIcon, SImage, SLanguage, SNavigation, SPopup, SText, STheme, SUti
 import SSocket from 'servisofts-socket';
 import PBarraFooter from '../../Components/PBarraFooter';
 import ImageProfile from '../../Components/ImageProfile';
+import EstadoEvento from './Components/EstadoEvento';
 
 class index extends DPA.list {
     static FOOTER = <>
@@ -88,10 +89,47 @@ class index extends DPA.list {
     //     })
     //     return;
     // }
+    getEvents({ key }) {
 
+        // SSocket.sendPromise({
+        //     "version": "1.0",
+        //     "service": "evento",
+        //     "component": "evento",
+        //     "type": "getEstadoEventos",
+        //     "estado": "cargando",
+        //     "key_cliente": key,
+        // }).then(e => {
+        //     this.setState({ dataEvents: e.data })
+        // }).catch(e => {
+        //     console.error(e);
+        // })
+    }
 
     $item(obj) {
+        
+       
+
+
         let permisoDelete = Model.usuarioPage.Action.getPermiso({ url: "/cliente", permiso: "delete", user_data: { key_company: this.$params.key_company } });
+
+        //TODO: Verificar si hay eventos activos, pero que el server me retorne cliente getAll con sus eventos
+         // this.getEvents({ key: obj.key })
+        //Si hay eventos activos
+        // let fecha = new Date(this.state.dataEvents?.fecha);
+        // let hoy = new Date();
+
+        // hoy.setHours(0, 0, 0, 0);
+        let pasado = false;
+        // if (fecha < hoy) {
+        //     console.log("La fecha es pasada.");
+        //     pasado = true;
+        // } else if (fecha.getTime() === hoy.getTime()) {
+        //     pasado = false;
+        //     console.log("La fecha es hoy.");
+        // } else {
+        //     pasado = false;
+        //     console.log("La fecha es futura.");
+        // }
         return <SView col={"xs-12"} padding={8} row style={{
             borderBottomWidth: 1,
             borderColor: STheme.color.card
@@ -108,11 +146,14 @@ class index extends DPA.list {
                         width={20}
                         src={SSocket.api.root + "company/" + this.$params.key_company}
                     />
-                    <SView width={4}/>
+                    <SView width={4} />
                     <SText bold fontSize={16}>{obj.descripcion}</SText>
                 </SView>
                 <SText color={STheme.color.lightGray} fontSize={12}>{SUtil.limitString(obj.observacion ?? "", 100).trim()}</SText>
             </SView>
+            
+            <EstadoEvento key_cliente={obj.key} pasado={pasado}/>
+            <SView width={8} />
             {!permisoDelete ? null : <SView width={30} height={30} onPress={() => {
                 SPopup.confirm({
                     title: SLanguage.select({
@@ -133,6 +174,17 @@ class index extends DPA.list {
             }}>
                 <SIcon name='Delete' />
             </SView>}
+           
+            {/* <SView width={30} height={30} onPress={this.$onSelect.bind(this, obj)}> */}
+            
+            {/* <SView width={30} height={30} center style={{
+                borderRadius: 7,
+                backgroundColor: pasado ? STheme.color.gray : STheme.color.lightGray,
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <SIcon name='eventIcon2' width={22} height={22} fill={pasado ? STheme.color.white:STheme.color.white } />
+            </SView> */}
         </SView>
     }
 

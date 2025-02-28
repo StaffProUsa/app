@@ -11,6 +11,8 @@ import roles from "./roles";
 import event from "./event";
 import detalle_asistencia from "./detalle_asistencia";
 import invite from "./invite";
+import dashboard from "./dashboard"
+import dashboardTimeSheets from "./dashboardTimeSheets"
 const model = Model.company;
 export const Parent = {
     name: "company",
@@ -29,5 +31,7 @@ export default SPage.combinePages(Parent.name, {
     "editEmployee": edit_employee,
     "delete": _delete,
     "invite": invite,
+    dashboard,
+    dashboardTimeSheets,
     ...roles,
 })

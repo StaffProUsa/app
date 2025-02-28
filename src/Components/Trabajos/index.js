@@ -188,10 +188,15 @@ class index extends Component {
 
     </SView>
   }
+  
+
+  renderClientStatus(obj){
+    
+  }
 
 
   renderItem(obj) {
-    console.log("obj", obj?.staff_usuario?.key_usuario_atiende)
+    // console.log("obj", obj?.staff_usuario?.key_usuario_atiende)
     let userCoordinador = Model.usuario.Action.getByKey(obj?.staff_usuario?.key_usuario_atiende)
     // if(!userCoordinador) return null
     let isInvitation = (obj?.staff_usuario?.estado == 2)

@@ -72,7 +72,7 @@ export default class UsuarioTipo extends Component {
             }} onPress={() => {
                 SPopup.confirm({
                     title: "Seguro de eliminar",
-                    message: "Confimar que descea eliminar",
+                    message: "Confimar que desea eliminar",
                     onPress: () => {
                         SSocket.sendPromise({
                             component: "staff_tipo_favorito",

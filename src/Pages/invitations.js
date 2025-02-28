@@ -5,6 +5,7 @@ import SSocket from 'servisofts-socket';
 import Model from '../Model';
 import { Container } from '../Components';
 import Degradado from '../Components/Degradado';
+import CardEvento from '../Components/Evento/CardEvento';
 
 export default class invitations extends Component {
     constructor(props) {
@@ -25,8 +26,9 @@ export default class invitations extends Component {
         })
     }
     render() {
-        return <SPage titleLanguage={{ es: "Invitaciones", en: "Invitations" }} >
+        return <SPage  >
             <Container>
+                <SHr h={16}/>
                 <SView col={"xs-12"} >
                     <SText fontSize={20} bold language={{
                         es: "Invitaciones pendientes",
@@ -35,10 +37,12 @@ export default class invitations extends Component {
                 </SView>
                 <SHr height={25} />
                 <SList2 data={this.state.data} render={(obj, key) => {
-                    console.log(obj);
-                    const fecha = new SDate(obj.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd")
-                    const hora_inicio = new SDate(obj.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm")
-                    const hora_fin = new SDate(obj.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm")
+                    // const fecha = new SDate(obj.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd")
+                    // const hora_inicio = new SDate(obj.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm")
+                    // const hora_fin = new SDate(obj.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm")
+                    return <CardEvento data={obj} onPress={() => {
+                        SNavigation.navigate("/invitationDetail", { key: obj?.staff_usuario?.key });
+                    }} />
                     return <SView col={"xs-12"} row padding={15} style={{
                         borderRadius: 16,
                         borderWidth: 1,
@@ -65,7 +69,7 @@ export default class invitations extends Component {
                                 }} />
                             </SView>
                         </SView>
-                        <SView col={"xs-8 sm-4"} style={{marginBottom:10}}>
+                        <SView col={"xs-8 sm-4"} style={{ marginBottom: 10 }}>
                             <SText fontSize={16} bold>{obj?.company?.descripcion}</SText>
                             <SText fontSize={14} color={STheme.color.gray} language={{
                                 es: "Empresa",

@@ -7,6 +7,7 @@ import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import PButtom from '../PButtom';
 import Trabajos from '../Trabajos';
+import MDL from '../../MDL';
 
 export default class MarcarPorCodigoEvento extends Component {
     constructor(props) {
@@ -161,13 +162,15 @@ export default class MarcarPorCodigoEvento extends Component {
                     new SThread(1000, "ASdas").start(() => {
                         this.setState({ reload: false })
                     })
+                    MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
+                    SNavigation.goBack();
                     SNotification.send({
                         key: "asistencia",
                         title: "Exito",
                         body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
                         time: 5000
                     })
-                    SNavigation.navigate("/token/exito")
+                    // SNavigation.navigate("/token/exito")
                 }).catch(e => {
                     SNotification.send({
                         key: "asistencia",

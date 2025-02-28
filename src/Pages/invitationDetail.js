@@ -1,11 +1,12 @@
 import React from 'react';
-import { SGradient, SHr, SIcon, SImage, SPage, SText, STheme, SView, SLanguage, SNavigation, SDate, SLoad } from 'servisofts-component';
+import { SGradient, SHr, SIcon, SImage, SPage, SText, STheme, SView, SLanguage, SNavigation, SDate, SLoad, SNotification } from 'servisofts-component';
 
 import PBarraFooter from '../Components/PBarraFooter';
 import { Btn, Container } from '../Components';
 import Model from '../Model';
 import usuarios from './rol/profile/usuarios';
 import SSocket from 'servisofts-socket';
+import MDL from '../MDL';
 
 export default class invitationDetail extends React.Component {
   constructor(props) {
@@ -245,10 +246,11 @@ export default class invitationDetail extends React.Component {
                       data: data
                     }).then(e => {
                       console.log(e);
+                      MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
                       // SNavigation.navigate("/evento",{key:obj?.evento?.key});
                       // SNavigation.navigate("/inicio");
                       this.setState({ loading: false })
-                      SNavigation.reset("/inicio");
+                      SNavigation.goBack();
                     }).catch(e => {
                       console.error(e);
                       this.setState({ loading: false, error: e.error })
@@ -270,12 +272,19 @@ export default class invitationDetail extends React.Component {
                       key_staff_usuario: obj.staff_usuario.key
                     }).then(e => {
                       console.log(e);
+                      MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
                       // SNavigation.navigate("/evento",{key:obj?.evento?.key});
                       // SNavigation.navigate("/inicio");
                       this.setState({ loading: false })
-                      SNavigation.reset("/inicio");
+                      SNavigation.goBack();
                     }).catch(e => {
                       console.error(e);
+                      SNotification.send({
+                        title: "Error",
+                        body: e.error,
+                        color: STheme.color.danger,
+                        time: 5000,
+                      })
                       this.setState({ loading: false, error: e.error })
                     })
                   }} backgroundColor={STheme.color.secondary}

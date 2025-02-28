@@ -132,7 +132,7 @@ export default class InputFecha extends Component {
             }} >{selectdate.getDayOfWeekJson().text} {selectdate.getDay()},</SText>
             <SView width={8} />
             <SText height padding={4} center card onPress={(e) => {
-                const startYear = new SDate().getYear();
+                const startYear = this.props.startYear ?? (new SDate().getYear() - 10);
                 const endYear = startYear + 20;
                 const yearsArray = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);
                 InputFloat.open({

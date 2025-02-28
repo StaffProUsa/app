@@ -8,6 +8,7 @@ import Asistencias from './Components/Asistencias';
 import Model from '../../Model';
 import eventosPage from "../cliente/eventos"
 import PBarraFooter from '../../Components/PBarraFooter';
+import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
 export default class event extends Component {
     static INSTANCE: event;
     constructor(props) {
@@ -89,21 +90,21 @@ export default class event extends Component {
         const fechaActual = new Date();
         let datas = this.state?.dataReclutas;
 
-        Object.keys(datas).forEach((key) => {
-            const item = datas[key];
-            let fechaIni = new Date(item.fecha_inicio);
-            fechaIni.setDate(fechaIni.getDate() + 1);
+        // Object.keys(datas).forEach((key) => {
+        //     const item = datas[key];
+        //     let fechaIni = new Date(item.fecha_inicio);
+        //     fechaIni.setDate(fechaIni.getDate() + 1);
 
 
-            // let fechaObj = new Date(item.fecha_fin);
-            let fechaObj = (item.fecha_fin === null) ? fechaIni : new Date(item.fecha_fin);
+        //     // let fechaObj = new Date(item.fecha_fin);
+        //     let fechaObj = (item.fecha_fin === null) ? fechaIni : new Date(item.fecha_fin);
 
-            if (fechaObj < fechaActual) {
-                result = true;
-            } else {
-                result = false;
-            }
-        });
+        //     if (fechaObj < fechaActual) {
+        //         result = true;
+        //     } else {
+        //         result = false;
+        //     }
+        // });
 
         // return fechaObj.getDate() < fechaActual.getDate()
         return result;
@@ -155,7 +156,18 @@ export default class event extends Component {
                 <SHr h={25} />
                 <SHr h={1} color={STheme.color.card} />
             </SView>
-            <SHr h={25} />
+            <SHr h={15} />
+            <SView col={"xs-12"}>
+            <MenuPages path='/cliente/profile' permiso='ver'>
+                <MenuButtom
+                    icon={<SIcon name='Excel' />}
+                    label={SLanguage.select({
+                        en: "Report",
+                        es: "Reporte"
+                    })} url='/company/dashboardTimeSheets' params={{ pk: this.key_evento, }} />
+            </MenuPages>
+            </SView>
+            <SHr h={15} />
             <SView col={"xs-12"} >
                 <SView col={"xs-12"} row>
                     <SText fontSize={18} language={{

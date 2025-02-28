@@ -28,6 +28,7 @@ Usuario.init({
         "fecha_nacimiento": { type: "date", label: "Date of Birth", notNull: true, editable: true },
         "estado_civil": { type: "text", label: "Marital Status",  editable: true },
         "employee_number": { type: "text", label: "Employee Number",  editable: true },
+        "salario_hora": { type: "text", label: "Salary",  editable: true },
         "Telefono": { type: "text", label: "Phone Number", editable: true, notNull: true },
         // "CI": { type: "text", notNull: true, editable: true },
         "Correo": { type: "text", label: "Email", notNull: true, editable: true },

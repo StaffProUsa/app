@@ -51,6 +51,26 @@ export default class index extends React.Component {
             observacion = "Client information and requirements";
             direccion = "Address";
         }
+        const OBSDEFAULT = SLanguage.select({
+            en: `
+In this space, you will find all the requirements that the client has requested for the project. 📝 It is important to carefully review every detail, as this outlines all the needs and expectations we must meet to ensure an optimal outcome. 🎯
+
+Remember that any modifications or updates will be communicated through this section, so we always stay aligned with the client's expectations. 🛠️
+
+👉 Please keep this space updated at all times and make sure to review the requirements before starting any task.
+
+Thank you for your collaboration! 😊            
+            `,
+            es: `
+En este espacio, podrás encontrar todos los requerimientos que el cliente ha solicitado para el proyecto. 📝 Es importante que revises cada detalle cuidadosamente, ya que aquí se plasman todas las necesidades y expectativas que debemos cumplir para garantizar un resultado óptimo. 🎯
+
+Recuerda que cualquier modificación o actualización será comunicada a través de este mismo apartado, para que siempre estemos alineados con lo que el cliente espera. 🛠️
+
+👉 Por favor, mantén este espacio siempre actualizado y asegúrate de verificar los requerimientos antes de iniciar cualquier tarea.
+
+¡Gracias por tu colaboración! 😊
+                            `
+        })
         return <SPage titleLanguage={{
             es: "Nuevo cliente",
             en: "New client"
@@ -79,24 +99,7 @@ export default class index extends React.Component {
                         // "nivel_ingles": { col: "xs-5.5", type: "select", label: nivel_ingles, defaultValue: this.state?.data?.nivel_ingles,options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content:  (lenguaje == "en") ? "NONE" :"NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }], },
                         "papeles": { col: "xs-5.5", type: "checkBox", label: papeles, defaultValue: this.state?.data?.papeles },
                         "observacion": {
-                            col: "xs-12", type: "textArea", height: 400, label: observacion, defaultValue: (this.state?.data?.observacion) ? this.state?.data?.observacion : `
-En este espacio, podrás encontrar todos los requerimientos que el cliente ha solicitado para el proyecto. 📝 Es importante que revises cada detalle cuidadosamente, ya que aquí se plasman todas las necesidades y expectativas que debemos cumplir para garantizar un resultado óptimo. 🎯
-
-Recuerda que cualquier modificación o actualización será comunicada a través de este mismo apartado, para que siempre estemos alineados con lo que el cliente espera. 🛠️
-
-👉 Por favor, mantén este espacio siempre actualizado y asegúrate de verificar los requerimientos antes de iniciar cualquier tarea.
-
-¡Gracias por tu colaboración! 😊
-                            `,
-                            //                             placeholder: `
-                            // En este espacio, podrás encontrar todos los requerimientos que el cliente ha solicitado para el proyecto. 📝 Es importante que revises cada detalle cuidadosamente, ya que aquí se plasman todas las necesidades y expectativas que debemos cumplir para garantizar un resultado óptimo. 🎯
-
-                            // Recuerda que cualquier modificación o actualización será comunicada a través de este mismo apartado, para que siempre estemos alineados con lo que el cliente espera. 🛠️
-
-                            // 👉 Por favor, mantén este espacio siempre actualizado y asegúrate de verificar los requerimientos antes de iniciar cualquier tarea.
-
-                            // ¡Gracias por tu colaboración! 😊
-                            //                             `
+                            col: "xs-12", type: "textArea", height: 400, label: observacion, defaultValue: (this.state?.data?.observacion) ? this.state?.data?.observacion : OBSDEFAULT,
                         },
                         "direccion": {
                             col: "xs-12", type: "text", label: SLanguage.select({ es: "Dirección", en: "Address" }), defaultValue: this.state?.data?.direccion,

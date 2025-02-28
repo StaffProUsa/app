@@ -24,6 +24,8 @@ export default class root extends Component {
                 <SView col={"xs-11"}  >
                     <MenuPages path={"/reportes/"} permiso={"page"} >
                         <MenuButtom label={"Ventas por eventos"} url={"/reportes/ventas_por_evento"} icon={<SIcon name={"Excel"} />} />
+                        <MenuButtom label={"Company"} url={"/reportes/reportCompany"} icon={<SIcon name={"Excel"} />} />
+                        
                     </MenuPages>
                 </SView>
             </SView>

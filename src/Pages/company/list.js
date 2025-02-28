@@ -72,6 +72,26 @@ class index extends DPA.list {
         return data.estado != 0
     }
 
+    $menu(){
+        let menu = super.$menu();
+        // menu.push({
+        //     key: "report",
+        //     icon: "Excel",
+        //     label:"Report",
+        //     onPress: (data) => {
+        //         SNavigation.navigate("/reportes/reportCompany")
+        //     }
+        // })
+        menu.push({
+            key: "dasboard",
+            icon: "Excel",
+            label:"Dashboard",
+            onPress: (data) => {
+                SNavigation.navigate("/company/dashboard")
+            }
+        })
+        return menu;
+    }
 
     // $onSelect(data) {
     //     SNavigation.navigate("/company/profile", { pk: data.pk })

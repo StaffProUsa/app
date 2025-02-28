@@ -7,6 +7,26 @@ import { Container } from '../../Components';
 import BtnWhatsapp from '../../Components/BtnWhatsapp';
 import ResizeDualPanel from '../../Components/ResizeDualPanel';
 import EditClock from './Components/EditClock';
+import MoveStaff from './Components/MoveStaff';
+
+
+const ItemImage = ({ src, label }) => {
+    return <SView row style={{ padding: 2, paddingRight: 16, justifyContent: "center", alignItems: "center" }}>
+        <SView style={{
+            width: 18,
+            height: 18,
+            borderRadius: 100,
+            backgroundColor: STheme.color.card,
+            overflow: "hidden",
+        }}>
+            <SImage src={src} style={{
+                resizeMode: "cover",
+            }} />
+        </SView>
+        <SView width={4} />
+        <SText fontSize={12} bold color={STheme.color.lightGray}>{label}</SText>
+    </SView>
+}
 
 export default class users extends Component {
     constructor(props) {
@@ -47,6 +67,29 @@ export default class users extends Component {
             key_usuario: Model.usuario.Action.getKey(),
         }).then(e => {
             this.setState({ data: e.data })
+            SSocket.sendPromise({
+                component: "company",
+                type: "getByKey",
+                key: e.data.evento.key_company,
+            }).then(e => {
+                this.setState({ data_company: e.data })
+            }
+            ).catch(e => {
+                console.error(e);
+            })
+
+            SSocket.sendPromise({
+                component: "cliente",
+                type: "getByKey",
+                key: e.data.evento.key_cliente,
+            }).then(e => {
+                this.setState({ data_cliente: e.data })
+            }
+            ).catch(e => {
+                console.error(e);
+            })
+
+
         }).catch(e => {
             console.error(e);
         })
@@ -146,6 +189,83 @@ export default class users extends Component {
                         color: STheme.color.danger,
                         time: 5000,
                     })
+                })
+            }
+        })
+    }
+
+    handleMoverStaff = (post) => {
+        // if (!this.state?.data?.evento?.key_company) {
+        //     SNotification.send({
+        //         title: "No se encontro la compañia",
+        //         color: STheme.color.danger,
+        //         time: 5000
+        //     })
+        //     return;
+        // }
+
+        SPopup.open({
+            key: "MoveStaff",
+            content: <SView col={"xs-12"} style={{
+                height: 500,
+                borderRadius: 8,
+                overflow: 'hidden',
+                padding: 8,
+                backgroundColor: STheme.color.background,
+                borderWidth: 1,
+                borderColor: STheme.color.card,
+            }} withoutFeedback>
+                <MoveStaff key_staff={post.key_staff} staff_usuario_list={[post.key]} onChange={e => {
+                    this.loadData();
+                    SPopup.close("MoveStaff")
+
+                }} />
+            </SView>,
+
+        })
+        return;
+        console.log("post")
+        console.log(post)
+        console.log(this.state.data)
+        SNavigation.navigate("/cliente/eventos", {
+            key_company: this.state.data.evento.key_company,
+            key_evento: this.state.data.key_evento,
+            key_cliente: this.state.data.evento.key_cliente,
+            onSelect: (evento) => {
+                // SNotification.send({
+                //     key: "staff_usuario-asingJefe",
+                //     title: "Applying...",
+                //     body: "Please wait.",
+                //     type: "loading"
+                // })
+                console.log("hola1")
+                console.log(evento)
+                SSocket.sendPromise({
+                    component: "staff_usuario",
+                    type: "cambiarEvento",
+                    // key_usuario: Model.usuario.Action.getKey(),
+                    key_staff_usuario: post.key,
+                    // key_usuario_atiende: usuario.key_usuario,
+                    key_evento: evento.key_usuario,
+                }).then(e => {
+                    SNotification.send({
+                        key: "staff_usuario-asingJefe",
+                        title: "Successfully applied.",
+                        body: "Successfully registered.",
+                        color: STheme.color.success,
+                        time: 5000,
+                    })
+                    this.componentDidMount();
+                    console.log(e);
+                }).catch(e => {
+                    console.error(e)
+                    // SNotification.send({
+                    //     key: "staff_usuario-asingJefe",
+                    //     title: "Error.",
+                    //     body: e.error ?? "Unknown error.",
+                    //     color: STheme.color.danger,
+                    //     time: 5000,
+                    // })
                 })
             }
         })
@@ -322,7 +442,7 @@ export default class users extends Component {
 
                 // this.handleInvitarArray(selecteds)
             }}>
-            <SText bold language={{ es: "Change Boss", en: "Change Boss" }} />
+            <SText bold language={{ es: "Asignar Jefe", en: "Assign Boss" }} />
             <SText bold > {selecteds.length}</SText>
         </SView>
     }
@@ -345,13 +465,23 @@ export default class users extends Component {
                 {/* <SText fontSize={16} bold color={STheme.color.gray}>Evento: </SText> */}
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
                 <SView width={6} />
-                <SText center color={STheme.color.gray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
+                
                 <SView width={16} />
                 {/* <SText onPress={() => { this.loadData() }}><SIcon name='Reload' width={15} height={15} fill={STheme.color.text} />{" Reload"}</SText> */}
                 <SText onPress={() => { window.location.reload() }}><SIcon name='Reload' width={15} height={15} fill={STheme.color.text} />{" Reload"}</SText>
 
                 {/* <SText center fontSize={15} color={STheme.color.gray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText> */}
                 {/* {this.separator()} */}
+                <SHr />
+                <SView col={"xs-12"} row>
+                    <ItemImage src={SSocket.api.root + "company/" + this.state?.data?.evento?.key_company} label={this.state?.data_company?.descripcion} />
+                    <ItemImage src={SSocket.api.root + "cliente/" + this.state?.data?.evento?.key_cliente} label={this.state?.data_cliente?.descripcion} />
+                    <ItemImage src={SSocket.api.root + "staff_tipo/" + this.state?.data?.staff_tipo?.key} label={this.state?.data?.staff_tipo?.descripcion} />
+                    {/* {!!data?.staff_usuario?.key_usuario_atiende ? <ItemImage src={SSocket.api.root + "usuario/" + data.staff_usuario.key_usuario_atiende} label={data.staff_usuario.key_usuario_atiende} /> : null} */}
+                    <SText fontSize={11} center color={STheme.color.gray}>{"( "}{this.state?.data?.descripcion}{" )"}</SText>
+                </SView>
+                <SHr />
+                
                 <SHr />
                 <SText center color={STheme.color.gray} language={{
                     es: "Inicio:",
@@ -383,9 +513,7 @@ export default class users extends Component {
 
                 <SHr />
                 <SView col={"xs-12"} row>
-                    <SView row>
-                        {/* <SText fontSize={12} bold color={STheme.color.gray}>Se requiere:</SText> */}
-                        {/* <SView width={6} /> */}
+                    {/* <SView row>
                         <SView style={{
                             borderWidth: 1,
                             borderColor: STheme.color.success,
@@ -395,7 +523,7 @@ export default class users extends Component {
                             <SText fontSize={14} color={STheme.color.success}>{this.state?.data?.staff_tipo?.descripcion}</SText>
                         </SView>
                     </SView>
-                    <SView width={7} />
+                    <SView width={7} /> */}
                     <SView row>
                         {/* <SText fontSize={12} bold color={STheme.color.gray}>Se requiere:</SText> */}
                         {/* <SView width={6} /> */}
@@ -615,21 +743,17 @@ export default class users extends Component {
                                     },
 
                                     {
-                                        key: "horas_trabajadas_tipo", label: SLanguage.select({
-                                            en: "Hrs. Staff\nTREND",
-                                            es: "Hrs. Staff\nTENDEN."
-                                        }), width: 65, order: "desc", headerColor: STheme.color.warning + "70", render: (a) => {
-                                            if (a) {
-                                                return parseFloat(a).toFixed(2)
-                                            } else {
-                                                return ""
-                                            }
-                                        }
+                                        key: "participacion", label: SLanguage.select({
+                                            en: "Events\nTREND",
+                                            es: "Eventos\nTENDEN."
+                                        }), width: 65, order: "desc", headerColor: STheme.color.warning + "70",
                                     },
+
+
                                     {
                                         key: "eventos_duplicados", label: SLanguage.select({
-                                            en: "Event",
-                                            es: "Evento"
+                                            en: "Avail.",
+                                            es: "Disp."
                                         }), width: 34, component: (a) => {
                                             let color = STheme.color.warning
 
@@ -735,18 +859,27 @@ export default class users extends Component {
                                     // }), width: 65, order: "desc", render: a => !a ? "" : parseFloat(a).toFixed(2) },
 
                                     // component: (a) => {
+
+                                    {
+                                        key: "horas_trabajadas_tipo", label: SLanguage.select({
+                                            en: "Hrs. Staff",
+                                            es: "Hrs. Staff"
+                                        }), width: 65, render: (a) => {
+                                            if (a) {
+                                                return parseFloat(a).toFixed(2)
+                                            } else {
+                                                return ""
+                                            }
+                                        }
+                                    },
+
                                     {
                                         key: "horas_trabajadas_company", label: SLanguage.select({
                                             en: "Hrs. Company",
                                             es: "Hrs. Empresa"
                                         }), width: 75, render: a => !a ? "" : parseFloat(a).toFixed(2)
                                     },
-                                    {
-                                        key: "participacion", label: SLanguage.select({
-                                            en: "Events",
-                                            es: "Eventos"
-                                        }), width: 50,
-                                    },
+
                                     {
                                         key: "rechazos", label: SLanguage.select({
                                             en: "Rejects",
@@ -934,6 +1067,24 @@ export default class users extends Component {
                                                 {number}
                                             </SText>
                                         </BtnWhatsapp>
+                                    },
+                                    {
+                                        key: "staff_usuario-3", label: SLanguage.select({
+                                            en: "Move",
+                                            es: "Mover"
+                                        }), width: 60, component: (obj) => {
+                                            const user = this.usuarios[obj.key_usuario_atiende]?.usuario
+                                            return <SView col={"xs-12"} flex onPress={() => {
+                                                this.handleMoverStaff(obj)
+                                            }} center>
+                                                <SIcon name="move" fill={STheme.color.success} width={30} height={30} />
+                                            </SView>
+                                        },
+                                        renderExcel: (obj) => {
+                                            const user = this.usuarios[obj.key_usuario_atiende]?.usuario
+                                            return user ? `${user.Nombres} ${user.Apellidos}` : "Sin jefe"
+                                            // return a.map(b => b.descripcion)
+                                        }
                                     },
                                     {
                                         key: "-delete", label: SLanguage.select({

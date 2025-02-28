@@ -1,39 +1,51 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions } from 'react-native';
-import { SDate, SIcon, SImage, SInput, SLanguage, SLoad, SNavigation, SNotification, SPage, SPopup, STable, STable2, SText, STheme, SView } from 'servisofts-component';
+import { View, Text, TextStyle, Dimensions } from 'react-native';
+import { SDate, SIcon, SImage, SLanguage, SNavigation, SPopup, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
-import Model from '../../../Model';
+import { DinamicTable } from 'servisofts-table';
 import SelectRol from '../roles/Components/SelectRol';
-import { connect } from 'servisofts-page';
-import PermisoNotFound from '../../../Components/PermisoNotFound';
+import Model from '../../../Model';
 
+const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
+    return <SView row >
+        <SView width={16} height={16} style={{ borderRadius: 100, overflow: "hidden", backgroundColor: STheme.color.card }}>
+            <SImage src={src} style={{
+                resizeMode: "cover"
+            }} />
+        </SView>
+        <SView width={4} />
+        <Text style={[textStyle, { flex: 1 }]} numberOfLines={!wrap ? 0 : 1} >{label}</Text>
+    </SView>
+}
 
-
-class root extends Component {
+export default class MoveStaff extends Component {
     constructor(props) {
         super(props);
         this.state = {
             key_company: SNavigation.getParam("pk"),
             show_disabled: true,
             show_enabled: true,
-            data: {}
+            data: []
         };
         this.key_company = SNavigation.getParam("pk");
     }
+
     onChangeLanguage(language) {
         this.setState({ ...this.state })
     }
-    componentDidMount() {
 
+    componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
         this.getData({ key_company: this.key_company }).then((users) => {
             console.log(users)
             this.setState({ data: users })
         })
     }
+
     componentWillUnmount() {
         SLanguage.removeListener(this.onChangeLanguage)
     }
+
     getData = async ({ key_company }) => {
         const staff_response = await SSocket.sendPromise({
             component: "usuario_company",
@@ -61,44 +73,56 @@ class root extends Component {
         })
         return staff_response.data;
     }
-    renderEstado(estado) {
-        const val = {
-            color: STheme.color.danger,
-            text: SLanguage.select({ en: "DISABLED", es: "DESHAB." })
-        }
-        if (estado == 2) {
-            val.color = STheme.color.success
-            val.text = SLanguage.select({ en: "ENABLED", es: "HABILIT." })
-        }
-        return <SView width={38} height={12}
-            backgroundColor={val.color}
-            center
-            style={{
-                borderRadius: 2
-            }} >
-            <SText fontSize={7} bold color={STheme.color.white}>{val.text}</SText>
-        </SView>
-    }
-    handleChangeStatus(obj) {
-        SSocket.sendPromise({
-            component: "usuario_company",
-            type: "editar",
-            key_usuario: Model.usuario.Action.getKey(),
-            data: {
-                key: obj.key,
-                estado: obj.estado == 2 ? 1 : 2,
-            }
-        }).then(e => {
-            obj.estado = e.data.estado;
-            this.setState({ ...this.state })
-        }).catch(e => {
 
+    loadData = async () => {
+        const staff_response = await SSocket.sendPromise({
+            component: "usuario_company",
+            type: "getAllStaff",
+            key_company: this.key_company
         })
+        let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null))];
+        const users_request = await SSocket.sendPromise({
+            version: "2.0",
+            service: "usuario",
+            component: "usuario",
+            type: "getAllKeys",
+            keys: keys,
+        });
+        const roles = await SSocket.sendPromise({
+            service: "roles_permisos",
+            component: "rol",
+            type: "getAll",
+        })
+        this.state.roles = roles.data;
+        console.log(roles)
+        Object.values(staff_response.data).map(o => {
+            o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
+            o.rol = roles?.data[o.key_rol]
+        })
+        return Object.values(staff_response.data);
     }
+
+    renderStaffTipo(staffTipo) {
+        return <Text style={{
+            padding: 0,
+            paddingLeft: 4,
+            paddingRight: 4,
+            // borderWidth: 1,
+            height: 12,
+            borderColor: staffTipo?.color ?? STheme.color.success,
+            backgroundColor: (staffTipo?.color ?? STheme.color.success) + "44",
+            borderRadius: 100,
+            color: STheme.color.text,
+            fontSize: 10,
+            marginRight: 4,
+            marginBottom: 2,
+            paddingBottom: 1,
+        }} bold>{staffTipo?.descripcion}</Text>
+    }
+
     renderRol(obj) {
         let permiso_Edit_Rol = Model.usuarioPage.Action.getPermiso({ url: "/company/profile/users", permiso: "edit_rol", user_data: { key_company: this.key_company } })
-
-        return <SView col={"xs-12"} height center onPress={!permiso_Edit_Rol ? () => {
+        return <SView col={"xs-12"} height={30} center onPress={!permiso_Edit_Rol ? () => {
             SNotification.send({
                 title: SLanguage.select({
                     es: "No tienes permisos",
@@ -176,178 +200,188 @@ class root extends Component {
         </SView>
     }
 
-    renderStaffTipo(staffTipo) {
-        return <Text style={{
-            padding: 0,
-            paddingLeft: 4,
-            paddingRight: 4,
-            // borderWidth: 1,
-            height: 12,
-            borderColor: staffTipo?.color ?? STheme.color.success,
-            backgroundColor: (staffTipo?.color ?? STheme.color.success) + "44",
-            borderRadius: 100,
-            color: STheme.color.text,
-            fontSize: 10,
-            marginRight: 4,
-            marginBottom: 2,
-            paddingBottom: 1,
-        }} bold>{staffTipo?.descripcion}</Text>
+    renderEstado(estado) {
+        const val = {
+            color: STheme.color.danger,
+            text: SLanguage.select({ en: "DISABLED", es: "DESHAB." })
+        }
+        if (estado == 2) {
+            val.color = STheme.color.success
+            val.text = SLanguage.select({ en: "ENABLED", es: "HABILIT." })
+        }
+        return <SView width={38} height={12}
+            backgroundColor={val.color}
+            center
+            style={{
+                borderRadius: 2
+            }} >
+            <SText fontSize={7} bold color={STheme.color.white}>{val.text}</SText>
+        </SView>
+    }
+
+    renderNew(fecha_on) {
+        let fecha = new Date(fecha_on)
+        let fecha_actual = new Date()
+        let rango = new Date();
+        rango.setDate(fecha_actual.getDate() - 7)
+        if (fecha.getTime() >= rango.getTime()) {
+            return <SView width={38} height={12}
+                backgroundColor={STheme.color.warning}
+                center
+                style={{
+                    borderRadius: 2
+                }} >
+                <SText fontSize={7} bold color={STheme.color.white}>NEW</SText>
+            </SView>
+        }
+    }
+
+    handleChangeStatus(obj) {
+        console.log("objetito")
+        console.log(obj)
+        SSocket.sendPromise({
+            component: "usuario_company",
+            type: "editar",
+            key_usuario: Model.usuario.Action.getKey(),
+            data: {
+                key: obj.key,
+                estado: obj.estado == 2 ? 1 : 2,
+            }
+        }).then(e => {
+            obj.estado = e.data.estado;
+            this.setState({ ...this.state })
+        }).catch(e => {
+
+        })
     }
 
     render() {
-        let permiso = Model.usuarioPage.Action.getPermiso({ url: "/company/profile/users", permiso: "ver", user_data: { key_company: this.key_company } })
-        if (permiso == "cargando") return <SLoad />
-        if (!permiso) return <PermisoNotFound />
         let permiso_habilitar = Model.usuarioPage.Action.getPermiso({ url: "/company/profile/users", permiso: "habilitar", user_data: { key_company: this.key_company } })
-        return <SPage titleLanguage={{
-            es: "Usuarios",
-            en: "Users"
-        }} disableScroll>
-            <SView col={"xs-12"} height={20} row>
-                <SText card style={{
-                    opacity: this.state.show_disabled ? 1 : 0.6,
-                }} fontSize={10} center padding={4} onPress={() => {
-                    this.state.show_disabled = !this.state.show_disabled
-                    this.setState({ ...this.state })
-                }} language={{
-                    es: "Mostrar Deshabilitados",
-                    en: "Show Disabled"
-                }} />
-                <SView width={8} />
-                <SText card style={{
-                    opacity: this.state.show_enabled ? 1 : 0.6,
-                }} fontSize={10} center padding={4} onPress={() => {
-                    this.state.show_enabled = !this.state.show_enabled
-                    this.setState({ ...this.state })
-                }} language={{
-                    es: "Mostrar Habilitados",
-                    en: "Show Enabled"
-                }} />
-            </SView>
-            <SView col={"xs-12"} flex>
-                <STable2
-                    data={Object.values(this.state.data).filter(a => {
-                        if (!this.state.show_disabled && a.estado != 2) return false;
-                        if (!this.state.show_enabled && a.estado == 2) return false;
-                        return true;
-                    })}
-                    rowHeight={30}
-                    header={[
-                        { key: "index", label: "#", width: 20, component: (a) => <SView card padding={4}><SText fontSize={8}>{a}</SText></SView> },
-                        {
-                            key: "usuario/key", label: SLanguage.select({ en: "Edit", es: "Editar" }), width: 40,
-                            component: (a) => <SView card padding={4} onPress={() => { SNavigation.navigate("/usuario/edit", { pk: a, key_company: this.key_company }) }}><SIcon name='Edit' width={20} height={20} /></SView>
-                        },
-                        {
-                            key: "-estado", label: SLanguage.select({ en: "Status", es: "Estado" }), width: 40,
-                            component: (a) => this.renderEstado(a.estado), onPress: (a, b, c) => {
-                                if (!permiso_habilitar) {
-                                    SNotification.send({
-                                        title: SLanguage.select({
-                                            es: "No tienes permisos",
-                                            en: "You do not have permissions",
-                                        }),
-                                        color: STheme.color.warning,
-                                        time: 5000
-                                    })
-                                    return
-                                }
-                                this.handleChangeStatus(a)
-                            }, renderExcel: (e) => e.estado == 2 ? "enabled" : "disabled"
-                        },
-                        {
-                            key: "-rol", label: SLanguage.select({
-                                en: "Role in company",
-                                es: "Rol en la empresa"
-                            })
-                            , width: 100, component: this.renderRol.bind(this),
-                            renderExcel: e => e?.rol?.descripcion
-                        },
 
-                        {
-                            key: "usuario/key-foto", label: "Img", width: 40,
-                            component: (a) => <SImage enablePreview style={{ width: 30, height: 30, resizeMode: "cover" }} src={SSocket.api.root + "usuario/" + a} />
-                        },
-                        {
-                            key: "employee_number", label: SLanguage.select({
-                                en: "Employee Number",
-                                es: "Número de Empleado"
-                            }), width: 100
-                        },
-                        {
-                            key: "usuario-name", label: SLanguage.select({
-                                en: "Full Name",
-                                es: "Nombre Completo"
-                            }), order: "asc", width: 160, render: (a) => `${a.Nombres} ${a.Apellidos}`
-                        },
-                        {
-                            key: "usuario/Telefono", label: SLanguage.select({
-                                en: "Phone Number",
-                                es: "Teléfono"
-                            }), width: 100
-                        },
-                        { key: "usuario/Correo", label: "Email", width: 170, },
-                        {
-                            key: "usuario/nivel_ingles", label: SLanguage.select({
-                                en: "English level",
-                                es: "Nivel de Inglés"
-                            }), width: 80, cellStyle: { textAlign: "center" }
-                        },
-                        {
-                            key: "usuario/papeles", label: SLanguage.select({
-                                en: "Has Papers?",
-                                es: "Tiene Papeles?"
-                            }), width: 70, cellStyle: { textAlign: "center" }
-                        },
-                        {
-                            key: "usuario/estado_civil", label: SLanguage.select({
-                                en: "Marital Status",
-                                es: "Estado civil"
-                            }), width: 70
-                        },
-                        {
-                            key: "usuario/fecha_nacimiento", label: SLanguage.select({
-                                en: "Dae of Birth",
-                                es: "Fecha de Nac."
-                            }), width: 70, cellStyle: { textAlign: "center" }
-                        },
-                        {
-                            key: "usuario/direccion", label: SLanguage.select({
-                                en: "Address",
-                                es: "Dirección"
-                            }), width: 150
-                        },
-                        {
-                            key: "usuario/otros_idiomas", label: SLanguage.select({
-                                en: "Other Languages",
-                                es: "Otros idiomas"
-                            }), width: 150
-                        },
-                        {
-                            key: "fecha_on", label: SLanguage.select({
-                                en: "Date added",
-                                es: "Fecha de alta"
-                            }), width: 150, cellStyle: { textAlign: "right", paddingRight: 4 }, render: (a) => new SDate(a, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy")
-                        },
-                        {
-                            key: "staff_tipo", label: SLanguage.select({
-                                en: "Position",
-                                es: "Posición"
-                            }), width: 600,
-                            component: (a) => {
-                                if (!a) return <SText>{""}</SText>;
-                                return <SView row col={"xs-12"}>{a.map(o => this.renderStaffTipo(o))}</SView>
+        return <SView col={"xs-12"} height backgroundColor={STheme.color.background} withoutFeedback>
+            <DinamicTable
+                loadInitialState={async () => {
+                    return {
+                        "filters": [
+                            {
+                                "col": "estado",
+                                "type": "string",
+                                "operator": "=",
+                                "value": [
+                                    "enabled"
+                                ]
                             },
-                            renderExcel: (a) => {
-                                if (!a) return "";
-                                return a.map(b => b.descripcion)
+
+                        ],
+                        "sorters": [
+                            {
+                                "key": "alta",
+                                "order": "asc",
+                                "type": "string"
                             }
-                        },
-                    ]}
+                        ]
+                    }
+                }}
+                loadData={this.loadData.bind(this)}
+                colors={{
+                    text: STheme.color.gray,
+                    // accent: STheme.color.secondary,
+                    border: STheme.color.card,
+                    // background: STheme.color.secondary,
+                    header: STheme.color.barColor,
+                    background: STheme.color.background,
+                    card: STheme.color.card
+                }}
+                cellStyle={{
+                    borderWidth: 0,
+                    // padding: 4,
+                    // justifyContent: "flex-start"
+                }}
+                textStyle={{
+                    fontSize: 12,
+                }}>
+                <DinamicTable.Col key={"index"} data={p => p.index} label='#' width={30} />
+
+                <DinamicTable.Col key={"edit"} label='Editar' width={40}
+                    data={e => ""}
+                    customComponent={e => <SView onPress={() => { SNavigation.navigate("/usuario/edit", { pk: e.row.key_usuario, key_company: this.key_company }) }}><SIcon name='Edit' width={20} height={20} /></SView>}
+                />
+                <DinamicTable.Col key={"position"} label='Posición' width={50}
+                    data={e => ""}
+                    customComponent={e => <SView onPress={() => { SNavigation.navigate("/perfil/staff_tipo", { key_usuario: e.row.key_usuario, key_company: this.key_company }) }}><SIcon name='Edit' width={20} height={20} /></SView>}
+                />
+                <DinamicTable.Col
+                    key={"estado"}
+                    label='Estado'
+                    width={60}
+                    data={p => p.row.estado == 2 ? "enabled" : "disabled"}
+
+                    customComponent={p => <SView onPress={() => {
+                        if (!permiso_habilitar) {
+                            SNotification.send({
+                                title: SLanguage.select({
+                                    es: "No tienes permisos",
+                                    en: "You do not have permissions",
+                                }),
+                                color: STheme.color.warning,
+                                time: 5000
+                            })
+                            return
+                        }
+                        this.handleChangeStatus(p.row)
+                    }}>{this.renderEstado(p.row.estado)}</SView>}
 
                 />
-            </SView>
-        </SPage >
+                <DinamicTable.Col
+                    key={"nuevo"}
+                    label='Nuevo'
+                    width={60}
+                    // data={p => p.row.estado == 2 ? "enabled" : "disabled"}
+                    data={p => {
+                        let fecha = new Date(p.row.fecha_on)
+                        let fecha_actual = new Date()
+
+                        let rango = new Date();
+                        rango.setDate(fecha_actual.getDate() - 7)
+                        if (fecha.getTime() >= rango.getTime()) return true
+                        return false;
+                    }}
+
+                    customComponent={p => <SView >{this.renderNew(p.row.fecha_on)}</SView>}
+
+                />
+                <DinamicTable.Col
+                    key={"rol"}
+                    label='Rol en la empresa'
+                    data={p => p.row.rol.descripcion}
+                    customComponent={p => this.renderRol(p.row)}
+                />
+
+                <DinamicTable.Col key={"employee"} data={p => p.row.employee_number ? p.row.employee_number : ""} label='Nro. empleado' />
+                <DinamicTable.Col key={"NombreUser"} label='Nombre usuario' width={150}
+                    data={e => e.row.usuario.Nombres + " " + e.row.usuario.Apellidos}
+                    customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
+                />
+                <DinamicTable.Col key={"telefono"} data={p => p.row?.usuario?.Telefono} label='Teléfono' />
+                <DinamicTable.Col key={"email"} data={p => p.row.usuario.Correo} label='Email' />
+                <DinamicTable.Col key={"ingles"} data={p => p.row.usuario.nivel_ingles} label='Nivel de Inglés' />
+                <DinamicTable.Col key={"papeles"} data={p => p.row.usuario.papeles} label='¿Tiene papeles?' />
+                <DinamicTable.Col key={"estadoCivil"} data={p => p.row.usuario.estado_civil} label='Estado civil' />
+                <DinamicTable.Col key={"nacimiento"} data={p => new SDate(p.row.usuario.fecha_nacimiento).toString("MONTH dd, yyyy")} label='Fecha de Nac.' />
+                <DinamicTable.Col key={"direccion"} data={p => p.row.usuario.direccion} label='Dirección' />
+                <DinamicTable.Col key={"idiomas"} data={p => p.row.usuario.otros_idiomas} label='Otros idiomas' />
+                <DinamicTable.Col key={"alta"} width={130} data={p => new SDate(p.row.fecha_on).toString("MONTH dd, yyyy")} label='Fecha de alta' />
+                <DinamicTable.Col
+                    key={"posicion"}
+                    label='Posición'
+                    width={300}
+                    data={p => Object.values(p.row.staff_tipo || {}).map(o => o.descripcion).join(", ")}
+                    customComponent={p => <SView row>
+                        {Object.values(p.row.staff_tipo || {}).map(e => this.renderStaffTipo(e))}
+                    </SView>}
+                />
+
+            </DinamicTable>
+        </SView >
     }
 }
-export default connect(root);

@@ -34,6 +34,8 @@ import asistido, { ReactComponent as asistidoW } from './svg/asistido.svg';
 import noAsistido, { ReactComponent as noAsistidoW } from './svg/noAsistido.svg';
 import noUser, { ReactComponent as noUserW } from './svg/noUser.svg';
 
+import confStaff, { ReactComponent as confStaffW } from './svg/confStaff.svg';
+
 
 
 import { Use } from 'react-native-svg';
@@ -68,6 +70,8 @@ const Assets: SAssets = {
         ...Admin,
         ...Event,
         ...Register,
+
+        "confStaff": { Native: confStaff, Web: confStaffW },
     }
 }
 

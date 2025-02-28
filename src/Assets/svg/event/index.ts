@@ -20,6 +20,8 @@ import aplausos, { ReactComponent as aplausosW } from './aplausos.svg';
 import mano1, { ReactComponent as mano1W } from './mano1.svg';
 import dispo, { ReactComponent as dispoW } from './dispo.svg';
 import noDispo, { ReactComponent as noDispoW } from './noDispo.svg';
+import eventIcon, { ReactComponent as eventIconW } from './eventIcon.svg';
+import eventIcon2, { ReactComponent as eventIcon2W } from './eventIcon2.svg';
 
 
 
@@ -44,6 +46,8 @@ const Assets = {
 	"mano1": { Native: mano1, Web: mano1W },
 	"dispo": { Native: dispo, Web: dispoW },
 	"noDispo": { Native: noDispo, Web: noDispoW },
+	"eventIcon": { Native: eventIcon, Web: eventIconW },
+	"eventIcon2": { Native: eventIcon2, Web: eventIcon2W },
 
 }
 

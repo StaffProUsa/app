@@ -8,6 +8,7 @@ import ventas_por_evento_grafico from "./ventas_por_evento_grafico";
 import entradas_por_evento from "./entradas_por_evento";
 import visitas_por_evento from "./visitas_por_evento";
 import mesas_por_evento from "./mesas_por_evento";
+import reportCompany from "./reportCompany";
 
 
 export default SPage.combinePages("reportes", {
@@ -18,6 +19,7 @@ export default SPage.combinePages("reportes", {
 
     entradas_por_evento,
     mesas_por_evento,
-    visitas_por_evento
+    visitas_por_evento,
+    reportCompany
 
 });

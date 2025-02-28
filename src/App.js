@@ -17,7 +17,7 @@ import Firebase from './Firebase';
 import DeviceKey from './Firebase/DeviceKey';
 import Socket from './Socket';
 import ErrorBoundary from './Components/ErrorBoundary';
-
+import * as MDL from "./MDL"
 SLanguage.language = "en";
 const versionToNumber = (v) => {
   const array = v.split("\.");
@@ -55,9 +55,11 @@ try {
 SLanguage.loadStorage();
 
 SMapView.bootstrapURLKeys = { key: "AIzaSyBO0I3cb4siQ7OiKH-nTDl5n3HSUd4FTQo" }
- 
+
 const App = (props) => {
   useEffect(() => {
+    MDL.componentDidMount();
+
     SSocket.sendPromise({
       component: "enviroment",
       type: "getByKey",
@@ -78,7 +80,7 @@ const App = (props) => {
   return <Redux>
     <ErrorBoundary>
       <SComponentContainer
-        // debug //para cambio de tema
+        debug //para cambio de tema
         socket={SSocket}
         assets={Assets}
         // inputs={Config.inputs}
@@ -97,7 +99,7 @@ const App = (props) => {
         />
         <Socket store={store} />
         {/* <NavBar /> */}
-        <SText style={{ position: "absolute", bottom: 2, right: 2, zIndex: 0, pointerEvents:"none" }} disabled fontSize={8} color={STheme.color.lightGray}>v{packageInfo.version}</SText>
+        <SText style={{ position: "absolute", bottom: 2, right: 2, zIndex: 0, pointerEvents: "none" }} disabled fontSize={8} color={STheme.color.lightGray}>v{packageInfo.version}</SText>
       </SComponentContainer>
     </ErrorBoundary>
   </Redux>
