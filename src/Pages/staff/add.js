@@ -10,6 +10,7 @@ import Input from '../../Components/Input';
 import InputFloat from '../../Components/NuevoInputs/InputFloat';
 import InputHora from '../../Components/NuevoInputs/InputHora';
 import InputSelect from '../../Components/NuevoInputs/InputSelect';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 const formatTime = (time) => {
     if (!time) return;
@@ -321,6 +322,7 @@ export default class add extends Component {
         }
         return <SPage titleLanguage={{ en: "Staff", es: "Staff" }}
             backAlternative={this.backAlternative.bind(this)}
+              footer={<PBarraFooter url={'/company'} />}
         >
             <Container>
                 <SView row col={"xs-12"} style={{
@@ -549,7 +551,7 @@ export default class add extends Component {
                 </SView>
 
             </Container>
-            <SHr h={30} />
+            <SHr h={105} />
         </SPage >
     }
 }

@@ -93,7 +93,7 @@ class Perfil extends React.Component {
         time:5000,
       })
     })
-
+ 
     SSocket.sendPromise({
       component: "staff_usuario",
       type: "isJefe",
@@ -607,7 +607,7 @@ class Perfil extends React.Component {
           this.getData();
           if (e) e()
         }}
-        // footer={<PBarraFooter url={''} />}
+        footer={<PBarraFooter url={''} />}
         >
           {!this.state.ready ? <SLoad /> :
             <SView col={'xs-12'} center>
@@ -668,7 +668,7 @@ class Perfil extends React.Component {
                 {/* <SHr height={100} color={this.bgSpace} /> */}
                 {/* <EventoQR key_evento={this.key} /> */}
                 <SHr height={100} color={this.bgSpace} />
-
+                <SHr height={30} />
               </SView>
               
             </SView>

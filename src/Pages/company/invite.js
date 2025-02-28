@@ -6,6 +6,7 @@ import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import select from '../cliente/select';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 let RNShare;
 
@@ -97,7 +98,7 @@ Welcome to *${empresa?.descripcion}*
     render() {
         // const empresa = Model.empresa.Action.getSelect();
         const empresa = Model.company.Action.getByKey(this.key_company);
-        return <SPage titleLanguage={{ es: "Crea un enlace de invitacion", en: "Create an invitation link" }} >
+        return <SPage titleLanguage={{ es: "Crea un enlace de invitacion", en: "Create an invitation link" }} footer={<PBarraFooter url={'/company'} />} >
             <Container>
                 <SHr h={40} />
                 <SText fontSize={16} language={

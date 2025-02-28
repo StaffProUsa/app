@@ -5,15 +5,27 @@ import SSocket from 'servisofts-socket';
 import Model from '../Model';
 import InputFecha from '../Components/NuevoInputs/InputFecha';
 import { Container } from '../Components';
+import FiltroEntreFechas from '../Components/Filtros/FiltroEntreFechas';
 
 export default class historyDetail extends Component {
     constructor(props) {
         super(props);
+        const defaultFechaInicio = new SDate()
+        const defaultFechaFin = new SDate()
+
+        // if (props.type == "mes") {
+            defaultFechaInicio.setDay(1);
+        // }
         this.state = {
             data: {},
-            fecha_inicio: SNavigation.getParam("fecha_inicio", new SDate().toString("yyyy-MM-dd")),
-            fecha_fin: SNavigation.getParam("fecha_inicio", new SDate().toString("yyyy-MM-dd"))
+            fecha_inicio: SNavigation.getParam("fecha_inicio", defaultFechaInicio.toString("yyyy-MM-dd")),
+            fecha_fin: SNavigation.getParam("fecha_inicio", defaultFechaFin.toString("yyyy-MM-dd"))
         };
+        // this.state = {
+        //     data: {},
+        //     fecha_inicio: SNavigation.getParam("fecha_inicio", new SDate().toString("yyyy-MM-dd")),
+        //     fecha_fin: SNavigation.getParam("fecha_inicio", new SDate().toString("yyyy-MM-dd"))
+        // };
         this.key_cliente = SNavigation.getParam("pk");
         this.option = SNavigation.getParam("option");
     }
@@ -320,6 +332,11 @@ export default class historyDetail extends Component {
                     }} />
                 </SView>
             </SView>
+            {/* <FiltroEntreFechas type='mes' onChange={(evt) => {
+                this.loadData(evt)
+            }} /> */}
+
+
             <Container>
                 <SHr height={20} />
                 {this.getResumen()}

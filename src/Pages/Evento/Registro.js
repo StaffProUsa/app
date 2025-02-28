@@ -18,6 +18,7 @@ import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import InputFecha from '../../Components/NuevoInputs/InputFecha';
 import event from '../company/event';
+import PBarraFooter from '../../Components/PBarraFooter';
 const inputHandler = (text, nro) => {
   console.log(text.nativeEvent.text);
   var value = text.nativeEvent.text;
@@ -161,7 +162,7 @@ export default class Registro extends React.Component {
                   title: "Error",
                   body: e.error ?? "Error desconocido",
                   color: STheme.color.danger,
-                  time:5000,
+                  time: 5000,
                 })
               })
               // evento.Actions.editar({ ...data, ...values }, this.props);
@@ -179,7 +180,7 @@ export default class Registro extends React.Component {
                   title: "Error",
                   body: e.error ?? "Error desconocido",
                   color: STheme.color.danger,
-                  time:5000,
+                  time: 5000,
                 })
               })
               // evento.Actions.registro(values, this.props);
@@ -219,6 +220,7 @@ export default class Registro extends React.Component {
           en: "Register"
         }}
           backAlternative={this.backAlternative.bind(this)}
+          footer={<PBarraFooter url={'/company'} />}
         >
           <SView col={'xs-12'} backgroundColor={'transparent'} center row>
             <SHr height={20} />
@@ -232,25 +234,26 @@ export default class Registro extends React.Component {
               {this.getregistro()}
             </SView>
           </SView>
-        </SPage>
 
-        <SView col={'xs-12'} center style={{ bottom: 0 }}>
-          <SView
-            col={'xs-11 sm-10 md-8 lg-6 xl-4'}
-            height={50}
-            center
-            backgroundColor={STheme.color.secondary}
-            style={{ borderRadius: 4 }}
-            onPress={() => {
-              this.form.submit();
-            }}>
-            <SText color={STheme.color.white} font={'Roboto'} fontSize={14} bold language={{
-              en: this.key ? "SAVE" : "REGISTER",
-              es: this.key ? "GUARDAR" : "REGISTRAR"
-            }} />
+
+          <SView col={'xs-12'} center >
+            <SView
+              col={'xs-4'}
+              height={50}
+              center
+              backgroundColor={STheme.color.secondary}
+              style={{ borderRadius: 4 }}
+              onPress={() => {
+                this.form.submit();
+              }}>
+              <SText color={STheme.color.white} font={'Roboto'} fontSize={14} bold language={{
+                en: this.key ? "SAVE" : "REGISTER",
+                es: this.key ? "GUARDAR" : "REGISTRAR"
+              }} />
+            </SView>
           </SView>
-        </SView>
-        <SHr height={25} />
+          <SHr height={105} />
+        </SPage>
       </>
     );
   }

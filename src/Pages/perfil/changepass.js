@@ -6,6 +6,7 @@ import Header from '../registro/components/Header';
 import CryptoJS from 'crypto-js';
 import BtnSend from '../registro/components/BtnSend';
 import Model from '../../Model';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 class password extends Component {
     constructor(props) {
@@ -110,7 +111,7 @@ class password extends Component {
 
         }
         return (
-            <SPage  >
+            <SPage footer={<PBarraFooter url={'/login'} />} >
                 <Header title={title} />
                 <Container>
                     <SForm

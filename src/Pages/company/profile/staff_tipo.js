@@ -5,6 +5,7 @@ import { Container } from '../../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../../Model';
 import { connect } from 'react-redux';
+import PBarraFooter from '../../../Components/PBarraFooter';
 
 
 
@@ -88,7 +89,7 @@ class staff_tipo extends Component {
             </SPage>
         }
         console.log("permiso_edit", permiso_Edit)
-        return <SPage title={"Staff Tipo"} disableScroll>
+        return <SPage title={"Staff Tipo"} disableScroll footer={<PBarraFooter url={'/company'} />}>
             <Container flex>
                 <SHr height={40} />
                 <SBuscador onChange={(e) => {

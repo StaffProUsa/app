@@ -4,6 +4,7 @@ import { SHr, SIcon, SPage } from 'servisofts-component';
 import Pages from '.';
 import { MenuButtom, MenuPages } from 'servisofts-rn-roles_permisos';
 import Model from '../Model';
+import PBarraFooter from '../Components/PBarraFooter';
 
 class Administracion extends Component {
   constructor(props) {
@@ -14,11 +15,13 @@ class Administracion extends Component {
   render() {
     const UsuaioPage = Pages['usuarioPage/lista'];
     return (
-      <SPage title={'Administracion'} onRefresh={(e) => {
+      <SPage title={'Administración'} onRefresh={(e) => {
 
         if (e) e()
         Model.usuarioPage.Action.CLEAR()
-      }}>
+      }}
+        footer={<PBarraFooter url={'/login'} />}
+      >
         <SHr />
         <MenuPages path='' permiso='page' >
         </MenuPages>

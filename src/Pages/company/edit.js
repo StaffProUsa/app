@@ -1,9 +1,19 @@
+import React, { Component } from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from '.';
 import { SNavigation, SPopup, SLanguage } from 'servisofts-component';
 import Model from '../../Model';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 class index extends DPA.edit {
+
+    static FOOTER = <>
+        <PBarraFooter style={{
+            position: "absolute",
+            bottom: 0,
+        }} url={'/company'} />
+    </>
+
     constructor(props) {
         super(props, {
             Parent: Parent,

@@ -9,6 +9,7 @@ import PButtom from '../../Components/PButtom';
 import InputFloat from '../../Components/NuevoInputs/InputFloat';
 // import usuario_dato from '../../Model/tapeke/usuario_dato';
 import InputSelect from "../../Components/NuevoInputs/InputSelect"
+import PBarraFooter from '../../Components/PBarraFooter';
 
 class index extends Component {
     constructor(props) {
@@ -261,7 +262,8 @@ class index extends Component {
             <>
                 <SPage titleLanguage={{ es: "Editar perfil", en: "Edit profile" }} onRefresh={() => {
                     Model.usuario.Action.CLEAR();
-                }} >
+                }} 
+                 footer={<PBarraFooter url={'/login'} />}>
                     <SView center>
                         <SView col={"xs-11 md-6 xl-4"} center>
                             <SView height={16} />
@@ -324,7 +326,7 @@ class index extends Component {
                                 es: "ELIMINAR CUENTA",
                                 en: "DELETE ACCOUNT"
                             }} /></PButtom> */}
-                            <SView height={36} />
+                            <SView height={96} />
 
                         </SView>
                         {/* <RolDeUsuario data={this.data} /> */}

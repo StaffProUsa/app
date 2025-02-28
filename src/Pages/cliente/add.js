@@ -3,6 +3,7 @@ import { SForm, SHr, SInput, SNavigation, SPage, SText, SThread, SLanguage, SThe
 import { Container } from "../../Components";
 import SSocket from "servisofts-socket";
 import Model from "../../Model";
+import PBarraFooter from "../../Components/PBarraFooter";
 
 export default class index extends React.Component {
     state = {}
@@ -74,7 +75,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
         return <SPage titleLanguage={{
             es: "Nuevo cliente",
             en: "New client"
-        }} >
+        }} footer={<PBarraFooter url={'/company'} />}>
             <SHr height={20} />
             <Container loading={(this.pk && !this.state.data)}>
                 <SForm
@@ -196,7 +197,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                     en: "SAVE"
                 }} /></SButtom>
             </Container>
-            <SHr height={25} />
+            <SHr height={105} />
         </SPage>;
     }
 }

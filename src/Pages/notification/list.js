@@ -6,6 +6,7 @@ import Model from '../../Model';
 import item from './item';
 import SSocket from 'servisofts-socket';
 import { Container } from '../../Components';
+import PBarraFooter from '../../Components/PBarraFooter';
 class index extends DPA.list {
     constructor(props) {
         super(props);
@@ -35,7 +36,9 @@ class index extends DPA.list {
         return <SPage title={"Notificaciones"} onRefresh={(res) => {
             this.componentDidMount();
             if (res) res()
-        }}>
+        }}
+        footer={<PBarraFooter url={'/login'} />}
+        >
             <Container >
                 <SHr h={30} />
                 <SList
