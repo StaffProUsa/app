@@ -12,7 +12,7 @@ class index extends DPA.edit {
     constructor(props) {
         super(props, {
             Parent: Parent,
-            excludes: []
+            excludes: (!SNavigation.getParam("key_company")) ? ["salario_hora","employee_number"] : []
         });
         this.key_company = SNavigation.getParam("key_company")
     }
