@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DPA, { connect } from 'servisofts-page';
 import { Parent } from '.';
-import { SForm, SNavigation, SPopup, STheme, SView } from 'servisofts-component';
+import { SForm, SMath, SNavigation, SPopup, STheme, SView } from 'servisofts-component';
 import Model from '../../Model';
 // import DatosDocumentosEditar from './Components/DatosDocumentosEditar';
 import CryptoJS from 'crypto-js';
@@ -48,6 +48,7 @@ class index extends DPA.edit {
         if (this.key_company) {
             if (!this.state.usuario_company) return null;
             data.employee_number = this.state?.usuario_company?.employee_number ?? ""
+            data.salario_hora =this.state?.usuario_company?.salario_hora ?? ""
         }
         return data;
     }
@@ -57,7 +58,9 @@ class index extends DPA.edit {
         inputs["Correo"].type = "email"
         inputs["Telefono"].type = "phone"
         inputs["papeles"].type = "checkBox"
-        inputs["salario_hora"].type = "money"
+        // inputs["salario_hora"].type = "money"
+
+        // inputs["salario_hora"].setValues = SMath.formatMoney(this.state?.usuario_company?.salario_hora) ?? ""
 
         inputs["estado_civil"].onPress = (e) => {
             InputFloat.open({
@@ -108,6 +111,9 @@ class index extends DPA.edit {
             // const employee_number = data.employee_number;
             this.state.usuario_company.employee_number = data.employee_number;
             delete data.employee_number;
+
+            this.state.usuario_company.salario_hora = data.salario_hora;
+            delete data.salario_hora;
 
         }
         Parent.model.Action.editar({

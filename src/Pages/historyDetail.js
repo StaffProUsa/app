@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SIcon, SNavigation, SPage, STable2, SText, STheme, SView, SLanguage, SHr, SList2, SImage, SUtil } from 'servisofts-component';
+import { SDate, SIcon, SNavigation, SPage, STable2, SText, STheme, SView, SLanguage, SHr, SList2, SImage, SUtil, SLoad } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
 import InputFecha from '../Components/NuevoInputs/InputFecha';
 import { Container } from '../Components';
 import FiltroEntreFechas from '../Components/Filtros/FiltroEntreFechas';
+import { MenuButtom } from 'servisofts-rn-roles_permisos';
 
 export default class historyDetail extends Component {
     constructor(props) {
@@ -14,12 +15,13 @@ export default class historyDetail extends Component {
         const defaultFechaFin = new SDate()
 
         // if (props.type == "mes") {
-            defaultFechaInicio.setDay(1);
+        defaultFechaInicio.setDay(1);
         // }
         this.state = {
             data: {},
             fecha_inicio: SNavigation.getParam("fecha_inicio", defaultFechaInicio.toString("yyyy-MM-dd")),
-            fecha_fin: SNavigation.getParam("fecha_inicio", defaultFechaFin.toString("yyyy-MM-dd"))
+            fecha_fin: SNavigation.getParam("fecha_inicio", defaultFechaFin.toString("yyyy-MM-dd")),
+            load: false
         };
         // this.state = {
         //     data: {},
@@ -54,6 +56,9 @@ export default class historyDetail extends Component {
             fecha_inicio: this.state.fecha_inicio,
             fecha_fin: this.state.fecha_fin
         }).then(e => {
+
+            this.state.load = true
+
             Object.values(e.data).map((obj) => {
                 const f = new SDate(obj.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd")
                 const hi = new SDate(obj.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")
@@ -89,6 +94,8 @@ export default class historyDetail extends Component {
         }).catch(e => {
             console.error(e);
         })
+
+
     }
     componentWillUnmount() {
         SLanguage.removeListener(this.onChangeLanguage)
@@ -229,6 +236,21 @@ export default class historyDetail extends Component {
         }} />
     }
     getResumen() {
+        if (!this.state.load) return <SLoad />
+
+        if (Object.keys(this.state.data).length === 0) return <SView col={"xs-12"} center>
+            <SHr height={25} />
+            <SView col={"xs-4"} style={{ borderRadius: 8, borderWidth: 1, borderColor: STheme.color.text }} center padding={15}>
+                <SIcon name='alertaNoResult' width={40} fill={STheme.color.text} />
+                <SText center col={"xs-12"} fontSize={18} padding={10} style={{
+                    borderRadius: 10
+                }} language={{
+                    es: "No se encontraron resultados",
+                    en: "No results found"
+                }} />
+            </SView>
+        </SView>
+
         const fecha1 = new Date(this.state.fecha_inicio);
         const fecha2 = new Date(this.state.fecha_fin);
 
@@ -291,6 +313,7 @@ export default class historyDetail extends Component {
         console.log(this.state.fecha_fin)
         console.log(this.option)
 
+        console.log("dataaaaa", this.state.data)
         return <SPage titleLanguage={{
             en: "Attendace Report",
             es: "Reporte de horas trabajadas"
@@ -340,7 +363,21 @@ export default class historyDetail extends Component {
             <Container>
                 <SHr height={20} />
                 {this.getResumen()}
-                <SHr height={20} />
+                <SHr height={10} />
+                <SView col={"xs-12"} style={{ alignItems: "flex-end" }}>
+                    <SView row center onPress={()=>{
+
+                    }}>
+                        <SText language={{
+                            en: "Report",
+                            es: "Reporte"
+                        }} />
+                        <SView width={5} />
+                        <SIcon name='Excel' height={30} width={30} />
+                    </SView>
+                </SView>
+                {/* <MenuButtom label={SLanguage.select({ en: "Report", es: "Reporte" })} url='/company/profile/report' params={{ pk: this.pk }} icon={<SIcon name='Excel' height={30} />} /> */}
+                <SHr height={10} />
                 {this.getList()}
                 <SHr height={30} />
             </Container>
