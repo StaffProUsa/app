@@ -118,6 +118,7 @@ class index extends DPA.edit {
             key_usuario: ""
         }).then((resp) => {
 
+            console.log("sdasdasd", this.state.usuario_company);
             SSocket.sendPromise({
                 component: "usuario_company",
                 type: "editar",
