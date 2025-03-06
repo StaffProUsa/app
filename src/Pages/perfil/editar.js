@@ -139,6 +139,14 @@ class index extends Component {
                     //isRequired: true,
                     height: 54
                 },
+                "salario_hora": {
+                    placeholder: SLanguage.select({ es: "Salario", en: "Salary" }),
+                    label: SLanguage.select({ es: "Salario", en: "Salary" }),
+                    defaultValue: this.data['salario_hora'],
+                    //type: 'phone',
+                    //isRequired: true,
+                    height: 54
+                },
                 "Telefono": {
                     placeholder: SLanguage.select({ es: "Teléfono", en: "Phone" }),
                     label: SLanguage.select({ es: "Teléfono", en: "Phone" }),

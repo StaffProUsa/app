@@ -35,6 +35,7 @@ import noAsistido, { ReactComponent as noAsistidoW } from './svg/noAsistido.svg'
 import noUser, { ReactComponent as noUserW } from './svg/noUser.svg';
 
 import confStaff, { ReactComponent as confStaffW } from './svg/confStaff.svg';
+import alertaNoResult, { ReactComponent as alertaNoResultW } from './svg/alertaNoResult.svg';
 
 
 
@@ -72,6 +73,7 @@ const Assets: SAssets = {
         ...Register,
 
         "confStaff": { Native: confStaff, Web: confStaffW },
+        "alertaNoResult": { Native: alertaNoResult, Web: alertaNoResultW },
     }
 }
 
