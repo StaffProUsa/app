@@ -52,10 +52,10 @@ class index extends Component<BoxMenuPropsType> {
 
   // console.log("this.props.data", this.props.data)
   const options = [
-   { label: "ver company", icon: "Menu", url: "/company/profile", params: { pk: this.props.data.company.key } },
-   { label: "ver cliente", icon: "Menu", url: "/cliente/profile", params: { pk: this.props.data.cliente.key } },
-   { label: "ver evento", icon: "Menu", url: "/company/event", params: { key_evento: this.props.data.evento.key } },
-   { label: "ver buking", icon: "Menu", url: "/staff/users", params: { pk: this.props.data.staff.key } },
+   { label: SLanguage.select({ en: "see company", es: "Ver compania" }) , icon: "Menu", url: "/company/profile", params: { pk: this.props.data.company.key } },
+   { label: SLanguage.select({ en: "see client", es: "Ver cliente" }), icon: "Menu", url: "/cliente/profile", params: { pk: this.props.data.cliente.key } },
+   { label: SLanguage.select({ en: "see event", es: "Ver evento" }), icon: "Menu", url: "/company/event", params: { key_evento: this.props.data.evento.key } },
+   { label: SLanguage.select({ en: "see bucking", es: "Ver bucking" }), icon: "Menu", url: "/staff/users", params: { pk: this.props.data.staff.key } },
   ];
 
   return (
