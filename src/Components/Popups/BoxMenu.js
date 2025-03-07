@@ -53,7 +53,7 @@ class index extends Component<BoxMenuPropsType> {
   // console.log("this.props.data", this.props.data)
   const options = [
    { label: "ver company", icon: "Menu", url: "/company/profile", params: { pk: this.props.data.company.key } },
-   { label: "ver cliente", icon: "Menu", url: "/cliente", params: { key_company: this.props.data.company.key } },
+   { label: "ver cliente", icon: "Menu", url: "/cliente/profile", params: { pk: this.props.data.cliente.key } },
    { label: "ver evento", icon: "Menu", url: "/company/event", params: { key_evento: this.props.data.evento.key } },
    { label: "ver buking", icon: "Menu", url: "/staff/users", params: { pk: this.props.data.staff.key } },
   ];
@@ -69,8 +69,8 @@ class index extends Component<BoxMenuPropsType> {
      borderRadius: 8,
      overflow: "hidden",
      borderWidth: 1,
-     borderBottomWidth: 2,
-     borderColor: "#66666622",
+    //  borderBottomWidth: 2,
+     borderColor: "#66666699",
     }}
    >
     <SView col={"xs-12"} row center  >
