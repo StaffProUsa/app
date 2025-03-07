@@ -11,7 +11,7 @@ class index extends DPA.profile {
 
     constructor(props) {
         super(props, {
-            Parent: Parent, excludes: ["key", "Password"],
+            Parent: Parent, excludes: ["key", "Password", "salario_hora"],
             itemType: "1"
         });
     }

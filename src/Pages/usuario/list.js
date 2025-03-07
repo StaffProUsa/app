@@ -8,7 +8,7 @@ class index extends DPA.list {
     constructor(props) {
         super(props, {
             Parent: Parent,
-            excludes: ["key", "fecha_on", "key_usuario", "Password", "Telefono", "Correo", "CI", "papeles", "nivel_ingles"],
+            excludes: ["key", "fecha_on", "key_usuario", "Password", "Telefono", "Correo", "CI", "papeles", "nivel_ingles", "salario_hora"],
             onRefresh: (resolve) => {
                 Parent.model.Action.CLEAR();
                 if (resolve) resolve();

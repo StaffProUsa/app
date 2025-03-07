@@ -144,6 +144,14 @@ class root extends Component {
                                     //type: 'phone',
                                     //isRequired: true,
                                 },
+                                "salario_hora": {
+                                    placeholder: SLanguage.select({ es: "Salario", en: "Salary" }),
+                                    label: SLanguage.select({ es: "Salario", en: "Salary" }),
+                                    defaultValue: defaultData.salario_hora,
+                                    icon: this.icon("empleado")
+                                    //type: 'phone',
+                                    //isRequired: true,
+                                },
                                 Telefono: {
                                     label: SLanguage.select({ es: "Número de teléfono", en: "Phone Number" }), isRequired: true, placeholder: SLanguage.select({ es: "Número de teléfono", en: "Phone Number" }), type: "phone", defaultValue: defaultData.Telefono,
                                 },
