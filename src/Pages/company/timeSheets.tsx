@@ -20,9 +20,11 @@ const ImageLabel = ({ label, src, textStyle }) => {
   <Text style={[textStyle as TextStyle, { flex: 1 }]} numberOfLines={1} >{label}</Text>
  </SView>
 }
-export default class dashboardTimeSheets extends Component {
+export default class timeSheets extends Component {
 
- key_evento = SNavigation.getParam("pk")
+ // key_evento = SNavigation.getParam("pk")
+ // key_company_ = SNavigation.getParam("key_company")
+ key_company_ = "b8118596-9980-4a27-aa4e-a48384095350";
 
  getByKeys = async (keys: string[]) => {
   // let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))
@@ -42,8 +44,8 @@ export default class dashboardTimeSheets extends Component {
  async loadData() {
   const resp: any = await SSocket.sendPromise({
    component: "board",
-   type: "timesheet",
-   key_evento: this.key_evento
+   type: "timesheet_company",
+   key_company: this.key_company_
   })
 
   let keys: any[] = [...new Set(resp.data.map((a: any) => a.staff_usuario.key_usuario).filter(key => key !== null))]
@@ -89,18 +91,31 @@ export default class dashboardTimeSheets extends Component {
       fontSize: 12,
      }}
     >
-     <Col key={"index"} label='#' width={30}
-      data={e => e.index + 1}
-     />
-     <Col key={"inicio"} label='Fecha' width={80}
+
+     <Col key={"fecha"} label='Fecha' width={80}
       dataType='date'
       data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-dd").date}
       format={e => new SDate(e.data).toString("yyyy-MM-dd")}
      // textStyle={{ color: STheme.color.success }}
      />
-     <Col key={"usuario"} label='Usuario' width={120}
-      data={e => `${e.row.usuario?.Nombres} ${e.row.usuario?.Apellidos}`}
-      customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
+
+
+
+
+     <Col key={"key_cliente"} label='Cliente' width={100}
+      data={e => {
+       return e.row?.cliente.descripcion;
+      }}
+      customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "cliente/" + e.row?.cliente?.key} textStyle={e.textStyle} />}
+
+     />
+
+
+     <Col key={"key_evento"} label='Evento' width={100}
+      data={e => {
+       return e.row?.evento.descripcion;
+      }}
+
      />
 
      <Col key={"employee_number"} label='Employee Number' width={70}
@@ -108,8 +123,13 @@ export default class dashboardTimeSheets extends Component {
        return e.row?.usuario_company?.employee_number;
       }}
      />
+     <Col key={"usuario"} label='Usuario' width={120}
+      data={e => `${e.row.usuario?.Nombres} ${e.row.usuario?.Apellidos}`}
+      customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
+     />
 
-     <Col key={"usuario_atiende"} label='Boss' width={120}
+
+     <Col key={"usuario_atiende"} label='Boss' width={80}
       data={e => `${e.row.usuario_atiende?.Nombres ?? ""} ${e.row.usuario_atiende?.Apellidos ?? ""}`}
       customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario_atiende?.key} textStyle={e.textStyle} />}
      />
