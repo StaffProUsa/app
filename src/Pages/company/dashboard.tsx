@@ -4,14 +4,9 @@ import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STh
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import Model from '../../Model';
-import BoxMenuTimeSheets from '../../Components/Popups/BoxMenuTimeSheets';
+import BoxMenu from '../../Components/Popups/BoxMenu';
 import TableIcon from '../../Components/Table/TableIcon';
 
-// import BoxMenu from '../../Components/BoxMenu';
-// import BoxLanguages from '';
-
-
-// type DataType = typeof DATATEST[0]
 type DataType = any
 const Col = DinamicTable.Col<DataType>
 
