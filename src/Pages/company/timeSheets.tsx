@@ -4,6 +4,7 @@ import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SText, STheme, SVi
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
+import TableIcon from '../../Components/Table/TableIcon';
 
 // type DataType = typeof DATATEST[0]
 type DataType = any
@@ -159,7 +160,10 @@ export default class timeSheets extends Component {
 
 
 
-          <Col key={"key_cliente"} label={SLanguage.select({ es: "Cliente", en: "Client" })} width={100}
+          <Col key={"key_cliente"}
+            labelIcon={<TableIcon name='icliente' />}
+            label={SLanguage.select({ es: "Cliente", en: "Client" })} width={100}
+
             data={e => {
               return e.row?.cliente.descripcion;
             }}
@@ -168,7 +172,9 @@ export default class timeSheets extends Component {
           />
 
 
-          <Col key={"key_evento"} label={SLanguage.select({ es: "Evento", en: "Event" })} width={100}
+          <Col key={"key_evento"}
+            labelIcon={<TableIcon name='ievento' />}
+            label={SLanguage.select({ es: "Evento", en: "Event" })} width={100}
             data={e => {
               return e.row?.evento.descripcion;
             }}
@@ -180,7 +186,9 @@ export default class timeSheets extends Component {
               return e.row?.usuario_company?.employee_number;
             }}
           />
-          <Col key={"usuario"} label={SLanguage.select({ es: "Usuario", en: "User" })} width={120}
+          <Col key={"usuario"}
+            labelIcon={<TableIcon name='iusuario' />}
+            label={SLanguage.select({ es: "Usuario", en: "User" })} width={120}
             data={e => `${e.row.usuario?.Nombres} ${e.row.usuario?.Apellidos}`}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
           />
@@ -198,7 +206,9 @@ export default class timeSheets extends Component {
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario_atiende?.key} textStyle={e.textStyle} />}
           />
 
-          <Col key={"staff"} label={SLanguage.select({ es: "Posición", en: "Position" })} width={100}
+          <Col key={"staff"}
+            labelIcon={<TableIcon name='iposition' />}
+            label={SLanguage.select({ es: "Posición", en: "Position" })} width={100}
             data={e => e.row.staff_tipo.descripcion}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
           />

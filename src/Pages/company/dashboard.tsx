@@ -5,6 +5,7 @@ import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import Model from '../../Model';
 import BoxMenu from '../../Components/Popups/BoxMenu';
+import TableIcon from '../../Components/Table/TableIcon';
 
 // import BoxMenu from '../../Components/BoxMenu';
 // import BoxLanguages from '';

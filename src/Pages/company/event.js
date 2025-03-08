@@ -160,7 +160,7 @@ export default class event extends Component {
    <SView col={"xs-12"} row center>
     <MenuPages path='/cliente/profile' permiso='ver'>
 
-     <MenuButtom
+     {/* <MenuButtom
       icon={<SIcon name='Excel' />}
       label={SLanguage.select({
        en: "Report",
@@ -170,9 +170,16 @@ export default class event extends Component {
      <MenuButtom
       icon={<SIcon name='Menu' />}
       label={SLanguage.select({ en: "timeSheets", es: "timeSheets" })} url='/company/timeSheets'
-      params={{ key_company: this.state?.data?.key_company, key_cliente: this.state.data.key_cliente , key_evento: this.key_evento, }} />
+      params={{ key_company: this.state?.data?.key_company, key_cliente: this.state.data.key_cliente , key_evento: this.key_evento, }} /> */}
+
+
+    <MenuButtom
+     icon={<SIcon name='itimesheet' fill={STheme.color.text} />}
+     label={SLanguage.select({ en: "Time Sheets", es: "Hoja de tiempos" })} url='/company/timeSheets'
+     params={{ key_company: this.state?.data?.key_company, key_cliente: this.state.data.key_cliente , key_evento: this.key_evento, }} />
 
     </MenuPages>
+
 
    </SView>
    <SHr h={15} />
