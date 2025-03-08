@@ -5,6 +5,7 @@ import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import Model from '../../Model';
 import BoxMenu from '../../Components/Popups/BoxMenu';
+import TableIcon from '../../Components/Table/TableIcon';
 
 // import BoxMenu from '../../Components/BoxMenu';
 // import BoxLanguages from '';
@@ -98,19 +99,28 @@ export default class dashboard extends Component {
             })
           }}
         >
-    
-          <Col key={"company"} label='Company' width={100}
+
+          <Col key={"company"}
+            labelIcon={<TableIcon name='icompany' />}
+            label='Company' width={100}
             data={e => e.row.company.descripcion}
             customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "company/" + e.row?.company?.key} textStyle={e.textStyle} />}
           />
-          <Col key={"cliente"} label='Cliente' width={100}
+          <Col key={"cliente"}
+            labelIcon={<TableIcon name='icliente' />}
+            label='Cliente'
+            width={100}
             data={e => e.row.cliente.descripcion}
             customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "cliente/" + e.row?.cliente?.key} textStyle={e.textStyle} />}
           />
-          <Col key={"evento"} label='Evento' width={100}
+          <Col key={"evento"}
+            labelIcon={<TableIcon name='ievento' />}
+            label='Evento' width={100}
             data={e => e.row.evento.descripcion}
           />
-          <Col key={"staff"} label='Position' width={100}
+          <Col key={"staff"}
+            labelIcon={<TableIcon name='iposition' />}
+            label='Position' width={100}
             data={e => e.row.staff_tipo.descripcion}
             customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
           />
