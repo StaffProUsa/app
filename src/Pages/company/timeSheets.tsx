@@ -22,9 +22,10 @@ const ImageLabel = ({ label, src, textStyle }) => {
 }
 export default class timeSheets extends Component {
 
- // key_evento = SNavigation.getParam("pk")
- // key_company_ = SNavigation.getParam("key_company")
- key_company_ = "b8118596-9980-4a27-aa4e-a48384095350";
+ key_company_ = SNavigation.getParam("key_company")
+ key_cliente_ = SNavigation.getParam("key_cliente")
+ key_evento_ = SNavigation.getParam("key_evento")
+ // key_company_ = "b8118596-9980-4a27-aa4e-a48384095350";
 
  getByKeys = async (keys: string[]) => {
   // let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))
@@ -71,9 +72,33 @@ export default class timeSheets extends Component {
  }
 
  render() {
+
+  // let filtrador = [];
+
+  // if (this.key_cliente_) {
+  //  filtrador.push({
+  //   "col": "key_cliente",
+  //   "type": "string",
+  //   "operator": "=",
+  //   "value": "Calistenia"
+  //  })
+  // }
+
+
+
+
+
+console.log("cliee "+this.key_cliente_)
   return <SPage title={"Test"} disableScroll>
    <SView col={"xs-12"} flex>
-    <DinamicTable loadData={this.loadData.bind(this)}
+    <DinamicTable
+     loadInitialState={async () => {
+      return {
+
+      }
+     }}
+
+     loadData={this.loadData.bind(this)}
      colors={{
       text: STheme.color.text,
       // accent: STheme.color.secondary,
@@ -92,7 +117,7 @@ export default class timeSheets extends Component {
      }}
     >
 
-     <Col key={"fecha"} label='Fecha' width={80}
+     <Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
       dataType='date'
       data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-dd").date}
       format={e => new SDate(e.data).toString("yyyy-MM-dd")}
@@ -102,7 +127,7 @@ export default class timeSheets extends Component {
 
 
 
-     <Col key={"key_cliente"} label='Cliente' width={100}
+     <Col key={"key_cliente"} label={SLanguage.select({ es: "Cliente", en: "Client" })} width={100}
       data={e => {
        return e.row?.cliente.descripcion;
       }}
@@ -111,41 +136,48 @@ export default class timeSheets extends Component {
      />
 
 
-     <Col key={"key_evento"} label='Evento' width={100}
+     <Col key={"key_evento"} label={SLanguage.select({ es: "Evento", en: "Event" })} width={100}
       data={e => {
        return e.row?.evento.descripcion;
       }}
 
      />
 
-     <Col key={"employee_number"} label='Employee Number' width={70}
+     <Col key={"employee_number"} label={SLanguage.select({ es: "Numero empleado", en: "Employee number" })} width={70}
       data={e => {
        return e.row?.usuario_company?.employee_number;
       }}
      />
-     <Col key={"usuario"} label='Usuario' width={120}
+     <Col key={"usuario"} label={SLanguage.select({ es: "Usuario", en: "User" })} width={120}
       data={e => `${e.row.usuario?.Nombres} ${e.row.usuario?.Apellidos}`}
       customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
      />
+     <Col key={"salario_hora"} label={SLanguage.select({ es: "Salario", en: "Salary" })} width={60}
+      dataType='number'
 
+      data={e => {
+       return e.row?.usuario_company?.salario_hora;
+      }}
+      format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
+     />
 
-     <Col key={"usuario_atiende"} label='Boss' width={80}
+     <Col key={"usuario_atiende"} label={SLanguage.select({ es: "Jefe", en: "Boss" })} width={80}
       data={e => `${e.row.usuario_atiende?.Nombres ?? ""} ${e.row.usuario_atiende?.Apellidos ?? ""}`}
       customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario_atiende?.key} textStyle={e.textStyle} />}
      />
 
-     <Col key={"staff"} label='Position' width={100}
+     <Col key={"staff"} label={SLanguage.select({ es: "Posición", en: "POsition" })} width={100}
       data={e => e.row.staff_tipo.descripcion}
       customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
      />
 
-     <Col key={"inicio"} label='Inicio' width={80}
+     <Col key={"inicio"} label={SLanguage.select({ es: "Hora inicio", en: "Clock In" })} width={80}
       dataType='date'
       data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
       format={e => new SDate(e.data).toString("HH")}
      />
 
-     <Col key={"fin"} label='Fin' width={80}
+     <Col key={"fin"} label={SLanguage.select({ es: "Hora fin", en: "Clock Out" })} width={80}
       dataType='date'
       data={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.row.staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").date}
       format={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.data).toString("HH")}
@@ -162,14 +194,7 @@ export default class timeSheets extends Component {
       }}
       format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
      />
-     <Col key={"salario_hora"} label={SLanguage.select({ es: "Salario", en: "Salary" })} width={60}
-      dataType='number'
 
-      data={e => {
-       return e.row?.usuario_company?.salario_hora;
-      }}
-      format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
-     />
 
      <Col key={"sutbtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
       dataType='number'
