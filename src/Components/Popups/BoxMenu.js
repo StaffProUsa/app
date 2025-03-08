@@ -37,7 +37,7 @@ class index extends Component<BoxMenuPropsType> {
                     </SView>
                     <SView width={8}/>
                     <SView flex  >
-                        <SText fontSize={14} bold>{label}</SText>
+                        <SText fontSize={14} >{label}</SText>
                     </SView>
 
                 </SView>

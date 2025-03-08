@@ -101,7 +101,7 @@ export default class event_in_progress extends Component {
       borderColor: STheme.color.darkGray,
       overflow: 'hidden',
      }}>
-     <SGradient colors={["#0C0C10", "#040405"]} style={{ borderRadius: 16, }} />
+     <SGradient colors={[STheme.color.accent, STheme.color.accent]} style={{ borderRadius: 16, }} />
      <SHr height={25} />
      <SText fontSize={28} center language={{
       es: "No tienes trabajo en curso en este momento",

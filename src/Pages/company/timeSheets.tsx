@@ -79,7 +79,7 @@ export default class timeSheets extends Component {
   render() {
 
 
-    return <SPage title={"Time Sheetssss"} disableScroll>
+    return <SPage title={"Time Sheets"} disableScroll>
       <SView col={"xs-12"} flex>
         <DinamicTable
           loadInitialState={async () => {
@@ -130,9 +130,13 @@ export default class timeSheets extends Component {
           colors={{
             text: STheme.color.text,
             // accent: STheme.color.secondary,
-            border: STheme.color.card,
-            // background: STheme.color.secondary,
-            background: STheme.color.barColor,
+           border: STheme.color.card,
+                  header: STheme.color.barColor,
+
+            background: STheme.color.secondary,
+           // background: STheme.color.barColor,
+                  // background: STheme.color.background,
+
             card: STheme.color.card
           }}
           cellStyle={{
@@ -206,7 +210,7 @@ export default class timeSheets extends Component {
                   backgroundColor: color,
                   borderRadius: 4,
                 }}>
-                  <Text style={[e.textStyle as TextStyle, { color: "#fff", fontWeight: "bold", fontSize: 10 }]} >{e.dataFormat}</Text>
+                  <Text style={[e.textStyle as TextStyle, { color: "#fff",  fontSize: 10 }]} >{e.dataFormat}</Text>
                 </SView>
               </SView>
             }} />
@@ -286,9 +290,6 @@ export default class timeSheets extends Component {
           />
           <Col key={"horas"} label={SLanguage.select({ es: "Horas", en: "Times" })} width={60}
             dataType='number'
-            textStyle={{
-              fontWeight: "bold"
-            }}
             data={e => {
               if (!e.row.staff_usuario.fecha_ingreso) return "";
               let hora44 = this.calculador_hora(e.row.staff_usuario.fecha_ingreso, e.row.staff_usuario.fecha_salida);

@@ -160,7 +160,7 @@ export default class dashboard extends Component {
          backgroundColor: color,
          borderRadius: 4,
         }}>
-         <Text style={[e.textStyle as TextStyle, { color: "#fff", fontWeight: "bold", fontSize: 10 }]} >{e.dataFormat}</Text>
+         <Text style={[e.textStyle as TextStyle, { color: "#fff",   fontSize: 10 }]} >{e.dataFormat}</Text>
         </SView>
        </SView>
       }} />
@@ -196,7 +196,6 @@ export default class dashboard extends Component {
       disableFilterGroup
       textStyle={{
        textAlign: "right",
-       fontWeight: "bold"
       }}
       data={e => {
        const time = new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").diffTime(new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD"))
