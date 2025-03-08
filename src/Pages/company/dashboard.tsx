@@ -100,18 +100,18 @@ export default class dashboard extends Component {
      }}
     >
 
-     <Col key={"company"} label={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} width={100}
+     <Col key={"company"} label={SLanguage.select({ en: "Company", es: "Compañia" })} width={100}
       data={e => e.row.company.descripcion}
       customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "company/" + e.row?.company?.key} textStyle={e.textStyle} />}
      />
-     <Col key={"cliente"} label={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} width={100}
+     <Col key={"cliente"} label={SLanguage.select({ en: "Client", es: "Cliente" })} width={100}
       data={e => e.row.cliente.descripcion}
       customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "cliente/" + e.row?.cliente?.key} textStyle={e.textStyle} />}
      />
      <Col key={"evento"} label={SLanguage.select({ en: "Event", es: "Evento" })} width={100}
       data={e => e.row.evento.descripcion}
      />
-     <Col key={"staff"} label={SLanguage.select({ en: "staff", es: "Eventos y posiciones" })} width={100}
+     <Col key={"staff"} label={SLanguage.select({ en: "Staff", es: "Puesto" })} width={100}
       data={e => e.row.staff_tipo.descripcion}
       customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
      />
@@ -125,7 +125,7 @@ export default class dashboard extends Component {
 
 
 
-     <Col key={"state"} label='State' width={70}
+     <Col key={"state"} label={SLanguage.select({ en: "State", es: "Estado" })} width={70}
       data={e => {
        const fecha_inicio = e.row?.staff?.fecha_inicio;
        const fecha_fin = e.row?.staff?.fecha_fin;
@@ -170,7 +170,7 @@ export default class dashboard extends Component {
        </SView>
       }} />
 
-     <Col key={"fecha"} label='Fecha' width={130}
+     <Col key={"fecha"} label={SLanguage.select({ en: "Date", es: "fecha" })}  width={130}
       textStyle={{
        textAlign: "right"
       }}
@@ -180,7 +180,7 @@ export default class dashboard extends Component {
      // format={e => new SDate(e.data).toString("MONTH dd, yyyy")}
 
      />
-     <Col key={"inicio"} label='Inicio' width={80}
+     <Col key={"inicio"} label={SLanguage.select({ en: "Clock in", es: "Inicio" })} width={80}
       dataType='date'
       disableFilterGroup
       data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
@@ -190,13 +190,13 @@ export default class dashboard extends Component {
      // textStyle={{ color: STheme.color.success }}
      />
 
-     <Col key={"fin"} label='Fin' width={80}
+     <Col key={"fin"} label={SLanguage.select({ en: "Clock out", es: "Fin" })} width={80}
       dataType='date'
       data={e => !e.row.staff.fecha_fin ? null : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").date}
       disableFilterGroup
       dateFormat='HH'
      />
-     <Col key={"horas"} label='Horas' width={60}
+     <Col key={"horas"} label={SLanguage.select({ en: "Times", es: "Horas" })} width={60}
       dataType='number'
       disableFilterGroup
       textStyle={{
@@ -209,7 +209,7 @@ export default class dashboard extends Component {
       }}
       format={e => Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
      />
-     <Col key={"staff_descripcion"} label='Staff Descripcion' width={200}
+     <Col key={"staff_descripcion"} label={SLanguage.select({ en: "Staff descripcion", es: "Descripcion puesto" })} width={200}
       disableFilterGroup
       data={e => e.row.staff.descripcion}
      // wrap={false}
