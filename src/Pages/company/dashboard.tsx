@@ -81,49 +81,24 @@ export default class dashboard extends Component {
             fontSize: 12,
           }}
 
-          selectType='multiple'
-
-        >
-          <Col key={"actions"} label=' ' width={40}
-            data={e => ""}
-            disableFilter
-            disableExport
-            disableSorter
-            customComponent={e => <View style={{ flexDirection: "row" }} >
-              <SView width={25} height padding={2} center onPress={(evt) => {
-                const target = evt.currentTarget;
-                // @ts-ignore
-                target.measure((x: number, y: number, width: number, height: number, pageX: number, pageY: number) => {
-
-                  SPopup.open({
-                    key: "popup_menu_alvaro",
-                    type: "2",
-                    content: <SView withoutFeedback style={[{
-                      position: "absolute",
-                      top: pageY + height,
-                      left: pageX,
-                      width: 230,
-                      // height: 100,
-                      // left: left,
-                      // top: top,
-                      // backgroundColor: STheme.color.card,
-                    }
-                    ]} center>
-                      {/* <SText >Hola</SText> */}
-
-                      {/* <SView width={"100%"} height={"100%"} center> */}
-                      <BoxMenu data={e.row}></BoxMenu>
-                      {/* </SView> */}
-                    </SView>
-                  })
-
-                })
-              }} >
-                <SIcon name={"Menu"} fill={e.dinamicTable.colors.accent} />
+          selectType='single'
+          onSelect={(e) => {
+            SPopup.open({
+              key: "popup_menu_alvaro",
+              type: "2",
+              content: <SView withoutFeedback style={[{
+                position: "absolute",
+                top: e.evt.nativeEvent.pageY,
+                left: e.evt.nativeEvent.pageX,
+                width: 230,
+              }
+              ]} center>
+                <BoxMenu data={e.row}></BoxMenu>
               </SView>
-            </View>}
-          />
-
+            })
+          }}
+        >
+    
           <Col key={"company"} label='Company' width={100}
             data={e => e.row.company.descripcion}
             customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "company/" + e.row?.company?.key} textStyle={e.textStyle} />}
