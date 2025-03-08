@@ -265,10 +265,10 @@ export default class history extends Component {
             </SView>
         }} />
     }
-    CardResumen({ title, value, color, icon, onPress, option }) {
-        return <SView col={"xs-6"} row style={{ paddingRight: 5, paddingBottom: 5 }} onPress={() => {
+    CardResumen({ title, value, color, icon, onPress, params, option }) {
+        return <SView col={"xs-4"} row style={{ paddingRight: 5, paddingBottom: 5 }} onPress={() => {
             if (onPress) {
-                SNavigation.navigate(onPress, { option: option })
+                SNavigation.navigate(onPress, params)
             }
         }}>
             <SView col={"xs-12"} row style={{
@@ -307,10 +307,16 @@ export default class history extends Component {
         const { eventos, eventos_asistidos, eventos_completados, eventos_no_asistidos } = this.state.dataResumen ?? {}
         return <>
             <SView col={"xs-12"} row>
-                <this.CardResumen onPress={"/history/detail"} option={0} title={SLanguage.select({ es: "Total eventos", en: "Total events" })} value={eventos} color={"#35A1C3"} icon={"hisEvent"} />
-                <this.CardResumen onPress={"/history/detail"} option={3} title={SLanguage.select({ es: "Eventos completados", en: "Completed events" })} value={eventos_completados} color={"#33BE5B"} icon={"hisCompleted"} />
-                <this.CardResumen onPress={"/history/detail"} option={1} title={SLanguage.select({ es: "Eventos asistidos", en: "Events attended" })} value={eventos_asistidos} color={STheme.color.warning} icon={"asistido"} />
-                <this.CardResumen onPress={"/history/detail"} option={2} title={SLanguage.select({ es: "Eventos no asistidos", en: "Unattended events" })} value={eventos_no_asistidos} color={STheme.color.danger} icon={"noAsistido"} />
+                <this.CardResumen onPress={"/history/timesheet"} params={{
+                   
+                }} title={SLanguage.select({ es: "Total eventos", en: "Total events" })} value={eventos} color={"#35A1C3"} icon={"hisEvent"} />
+                <this.CardResumen onPress={"/history/timesheet"} params={{
+                     state: ["FINISHED"]
+                }} title={SLanguage.select({ es: "Eventos no asistidos", en: "Unattended events" })} value={eventos_no_asistidos} color={STheme.color.danger} icon={"noAsistido"} />
+                <this.CardResumen onPress={"/history/timesheet"} params={{
+                     state: ["COMPLETED"]
+                }} title={SLanguage.select({ es: "Eventos completados", en: "Completed events" })} value={eventos_completados} color={"#33BE5B"} icon={"hisCompleted"} />
+                {/* <this.CardResumen onPress={"/history/timesheet"} option={1} title={SLanguage.select({ es: "Eventos asistidos", en: "Events attended" })} value={eventos_asistidos} color={STheme.color.warning} icon={"asistido"} /> */}
             </SView>
         </>
     }
