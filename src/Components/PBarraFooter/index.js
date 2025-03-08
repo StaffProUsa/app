@@ -35,22 +35,24 @@ class PBarraFooter extends Component {
       <SView
         flex
         center
-        height={70}
+        height={40}
         onPress={() => {
           SNavigation.navigate(url, params);
         }}>
         <SView
           style={{
-            width: 70
+            width: 40,
+            backgroundColor: isSelect ? STheme.color.card : "transparent",
+            borderRadius: 4,
           }}
           center>
-          {isSelect && <SView height={55} width={55} center style={{ position: "absolute", top: -5 }}>
+          {/* {isSelect && <SView height={40} width={40} center style={{ position: "absolute", top: -5 }}>
             <SImage src={require('../../Assets/images/selectMenu.png')} style={{
               borderWidth: 1,
               borderColor: STheme.color.white,
               borderRadius: 100,
             }} />
-          </SView>}
+          </SView>} */}
           <SHr height={5}></SHr>
           <SView height={23} colSquare center>
             <SIcon name={icon} fill={STheme.color.white} />
@@ -63,7 +65,7 @@ class PBarraFooter extends Component {
             es: title,
             en: title_en
           }} fontSize={7.5} center color={color} />
-          <SHr height={10}></SHr>
+          {/* <SHr height={10}></SHr> */}
         </SView>
       </SView>
     );
@@ -75,16 +77,16 @@ class PBarraFooter extends Component {
           col={'xs-12'} center>
           <SView
             col={'xs-11'}
-            height={65}
+            height={45}
             style={{
               position: 'absolute',
-              bottom: 15,
-              backgroundColor: STheme.color.secondary,
+              bottom: 4,
+              backgroundColor: STheme.color.secondary + "CC",
               borderRadius: 16,
               overflow: 'hidden',
             }}>
 
-            <SView col={'xs-12'} row backgroundColor={STheme.color.secondary} center>
+            <SView col={'xs-12'} flex row center>
               {this.getItem({
                 key: '/',
                 title: 'INICIO',

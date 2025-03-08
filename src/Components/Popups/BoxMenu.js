@@ -36,8 +36,9 @@ class index extends Component<BoxMenuPropsType> {
 
                 >
                     <SView col={"xs-2"} center height={32}>
-                        <SIcon name={icon} height={18} fill={STheme.color.card} />
+                        <SIcon name={icon} height={18} fill={STheme.color.text} />
                     </SView>
+                    <SView width={8}/>
                     <SView flex  >
                         <SText fontSize={14} bold>{label}</SText>
                     </SView>

@@ -149,7 +149,51 @@ export default class timeSheets extends Component {
             fontSize: 12,
           }}
         >
+          <Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
+            data={e => {
 
+              if (e.row?.staff_usuario?.fecha_salida) {
+                return "COMPLETED"
+              }
+
+              if (e.row?.staff_usuario?.fecha_ingreso) {
+                return "READY"
+              }
+
+              if (new SDate(e.row?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").getTime() < new SDate().getTime()) {
+                return "FINISHED"
+              }
+
+              return "PENDING"
+
+            }}
+
+            customComponent={e => {
+              let color: any = STheme.color.primary;
+              switch (e.dataFormat) {
+                case "FINISHED":
+                  color = STheme.color.danger;
+                  break;
+                case "READY":
+                  color = STheme.color.warning;
+                  break;
+                case "PENDING":
+                  color = STheme.color.lightGray;
+                  break;
+                case "COMPLETED":
+                  color = STheme.color.success;
+                  break;
+              }
+
+              return <SView col={"xs-12"} center >
+                <SView padding={3} center style={{
+                  backgroundColor: color,
+                  borderRadius: 4,
+                }}>
+                  <Text style={[e.textStyle as TextStyle, { color: "#fff", fontWeight: "bold", fontSize: 10 }]} >{e.dataFormat}</Text>
+                </SView>
+              </SView>
+            }} />
           <Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
             dataType='date'
             data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-dd").date}
@@ -221,8 +265,8 @@ export default class timeSheets extends Component {
 
           <Col key={"fin"} label={SLanguage.select({ es: "Hora fin", en: "Clock Out" })} width={80}
             dataType='date'
-            data={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.row.staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").date}
-            format={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.data).toString("HH")}
+            data={e => (!e.row.staff_usuario.fecha_salida) ? null : new SDate(e.row.staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").date}
+            format={e => (!e.row.staff_usuario.fecha_salida) ? null : new SDate(e.data).toString("HH")}
           />
           <Col key={"horas"} label={SLanguage.select({ es: "Horas", en: "Times" })} width={60}
             dataType='number'

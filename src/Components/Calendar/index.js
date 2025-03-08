@@ -98,7 +98,7 @@ class index extends Component {
         let isNow = this.state.curDay.equalDay(data.sdate)
         let datosArray = data?.dataAsis
         return <>
-            <SView col={"xs-1.7"} height={100} style={{
+            <SView col={"xs-1.7"} colSquare style={{
                 borderWidth: 1, borderColor: STheme.color.gray,
                 opacity: isCurtMonth ? 1 : 0.4,
                 // backgroundColor:  data.asistiendo ? "#D93444": STheme.color.card
@@ -249,27 +249,24 @@ class index extends Component {
         </>
     }
     getBody() {
-        var usuario = Model.usuario.Action.getUsuarioLog();
-        if (!usuario) return <SLoad />
+        // var usuario = Model.usuario.Action.getUsuarioLog();
+        // if (!usuario) return <SLoad />
         return <SView col={"xs-12"} row>
-            <SText bold fontSize={22} language={{
+            {/* <SText bold fontSize={22} language={{
                 es: "¡Hola " + usuario.Nombres + "!",
                 en: "Hello " + usuario.Nombres + "!"
-            }} />
-            <SHr height={15} />
+            }} /> */}
+            {/* <SHr height={15} /> */}
             {this.getCalendario()}
         </SView>
     }
     render() {
         return (<>
             {this.getBody()}
-            <SHr height={40} />
+            {/* <SHr height={40} /> */}
         </>
         );
     }
 
-    footer() {
-        return <BottomNavigator url={"/perfil"} />
-    }
 }
 export default index;
