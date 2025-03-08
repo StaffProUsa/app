@@ -188,10 +188,10 @@ class index extends Component {
 
     </SView>
   }
-  
+
 
   renderClientStatus(obj){
-    
+
   }
 
 
@@ -375,7 +375,7 @@ class index extends Component {
         <SView col={"xs-12"} row>
           <SView col={"xs-6"}>
             <SText fontSize={18} bold language={{
-              es: "Trabajos en curso",
+              es: "Trabajos en curso8888",
               en: "Jobs in progress"
             }} />
           </SView>
