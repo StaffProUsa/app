@@ -13,7 +13,7 @@ import MDL from '../MDL';
 
 const Header = (props) => {
 
- return <SView col={"xs-12"} row>
+ return <SView col={"xs-12"} row >
   <SView col={"xs-6"}>
    <SText fontSize={18} bold language={{
     es: "Trabajos en cursollll",
@@ -91,7 +91,8 @@ export default class event_in_progress extends Component {
   let verificador = this.state.data;
 
   if (!verificador || verificador.length === 0) return (<>
-   <SView col={'xs-12'} center>
+   <SView col={'xs-12'} center style={{ position: 'absolute' }}>
+
     <SView col={'xs-12'} center
      style={{
       padding: 20,
@@ -124,7 +125,6 @@ export default class event_in_progress extends Component {
      }} />
      <SHr height={25} />
     </SView>
-    <SHr height={50} />
    </SView>
   </>);
  }
@@ -133,28 +133,33 @@ export default class event_in_progress extends Component {
 
 
 
-  return <SPage titleLanguage={{ es: "", en: "" }} footer={<PBarraFooter url={'/event_in_progress'} />}>
-   <Container>
+  return <SPage titleLanguage={{ es: "", en: "" }} footer={<PBarraFooter url={'/event_in_progress'} />} disableScroll>
+   <Container flex>
     <SHr h={10} />
     <Header />
     <SHr h={8} />
-    <FlatList
-     style={{ width: "100%" }}
-     data={this.state.data ?? []}
-     ListHeaderComponent={() => <SHr h={32} />}
-     ItemSeparatorComponent={() => <SHr h={32} />}
-     ListFooterComponent={() => <SHr h={200} />}
-     renderItem={({ item }) => {
-      return <CardEvento data={item} onPress={() => {
-       if (!item?.staff_usuario?.fecha_aprobacion_invitacion) {
-        SNavigation.navigate("/invitationDetail", { key: item?.staff_usuario?.key })
-        return;
-       }
-       SNavigation.navigate("/evento", { key: item?.evento?.key })
+
+    <SView col={'xs-12'} center flex>
+
+     {this.mensaje()}
+
+     <FlatList
+      style={{ width: "100%" }}
+      data={this.state.data ?? []}
+      ListHeaderComponent={() => <SHr h={32} />}
+      ItemSeparatorComponent={() => <SHr h={32} />}
+      ListFooterComponent={() => <SHr h={200} />}
+      renderItem={({ item }) => {
+       return <CardEvento data={item} onPress={() => {
+        if (!item?.staff_usuario?.fecha_aprobacion_invitacion) {
+         SNavigation.navigate("/invitationDetail", { key: item?.staff_usuario?.key })
+         return;
+        }
+        SNavigation.navigate("/evento", { key: item?.evento?.key })
+       }} />
       }} />
-     }} />
-    {this.mensaje()}
-    {!this.state.load ? <SLoad /> : null}
+     {!this.state.load ? <SLoad /> : null}
+    </SView>
 
    </Container>
   </SPage>
