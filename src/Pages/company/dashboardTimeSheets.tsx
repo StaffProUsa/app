@@ -92,34 +92,34 @@ export default class dashboardTimeSheets extends Component {
      <Col key={"index"} label='#' width={30}
       data={e => e.index + 1}
      />
-     <Col key={"inicio"} label='Fecha' width={80}
+     <Col key={"inicio"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
       dataType='date'
       data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-dd").date}
       format={e => new SDate(e.data).toString("yyyy-MM-dd")}
      // textStyle={{ color: STheme.color.success }}
      />
-     <Col key={"usuario"} label='Usuario' width={120}
+     <Col key={"usuario"} label={SLanguage.select({ es: "Usuario", en: "User" })} width={120}
       data={e => `${e.row.usuario?.Nombres} ${e.row.usuario?.Apellidos}`}
       customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
      />
 
-     <Col key={"employee_number"} label='Employee Number' width={70}
+     <Col key={"employee_number"} label={SLanguage.select({ es: "cod.empleado", en: "Employee number" })} width={70}
       data={e => {
        return e.row?.usuario_company?.employee_number;
       }}
      />
 
-     <Col key={"usuario_atiende"} label='Boss' width={120}
+     <Col key={"usuario_atiende"} label={SLanguage.select({ es: "Jefe", en: "Boss" })} width={120}
       data={e => `${e.row.usuario_atiende?.Nombres ?? ""} ${e.row.usuario_atiende?.Apellidos ?? ""}`}
       customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario_atiende?.key} textStyle={e.textStyle} />}
      />
 
-     <Col key={"staff"} label='Position' width={100}
+     <Col key={"staff"} label={SLanguage.select({ es: "Posicion", en: "Position" })} width={100}
       data={e => e.row.staff_tipo.descripcion}
       customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
      />
 
-     <Col key={"inicio"} label='Inicio' width={80}
+     <Col key={"inicio2"} label='Inicio' width={80}
       dataType='date'
       data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
       format={e => new SDate(e.data).toString("HH")}
