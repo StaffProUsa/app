@@ -38,43 +38,59 @@ import confStaff, { ReactComponent as confStaffW } from './svg/confStaff.svg';
 import alertaNoResult, { ReactComponent as alertaNoResultW } from './svg/alertaNoResult.svg';
 
 
+import icliente, { ReactComponent as iclienteW } from "./svg/StaffProUsa/icliente.svg";
+import icompany, { ReactComponent as icompanyW } from "./svg/StaffProUsa/icompany.svg";
+import ievento, { ReactComponent as ieventoW } from "./svg/StaffProUsa/ievento.svg";
+import istaff, { ReactComponent as istaffW } from "./svg/StaffProUsa/istaff.svg";
+import itimesheet, { ReactComponent as itimesheetW } from "./svg/StaffProUsa/itimesheet.svg";
+import iusuario, { ReactComponent as iusuarioW } from "./svg/StaffProUsa/iusuario.svg";
+import iposition, { ReactComponent as ipositionW } from "./svg/StaffProUsa/iposition.svg";
+
+
 
 import { Use } from 'react-native-svg';
 
 
 const Assets: SAssets = {
-    svg: {
+ svg: {
 
-        "Logo": { Native: Logo, Web: LogoW },
-        "Logosolo": { Native: Logosolo, Web: LogosoloW },
-        "Carrito2": { Native: Carrito, Web: CarritoW },
-        "out": { Native: out, Web: outW },
-        "share": { Native: share, Web: shareW },
-        "invite": { Native: invite, Web: inviteW },
-        "invite2": { Native: invite2, Web: invite2W },
-        "next": { Native: next, Web: nextW },
-        "next2": { Native: next2, Web: next2W },
-        "aptitud": { Native: aptitud, Web: aptitudW },
-        "checkAll": { Native: checkAll, Web: checkAllW },
-        "posicion": { Native: posicion, Web: posicionW },
-        "editar": { Native: editar, Web: editarW },
-        "asistido": { Native: asistido, Web: asistidoW },
-        "noAsistido": { Native: noAsistido, Web: noAsistidoW },
-        "noUser": { Native: noUser, Web: noUserW },
-        ...Inicio,
-        ...Camara,
-        ...restaurante,
-        ...Inputs,
-        ...Reserva,
-        ...Tarjeta,
-        ...User,
-        ...Admin,
-        ...Event,
-        ...Register,
+  "Logo": { Native: Logo, Web: LogoW },
+  "Logosolo": { Native: Logosolo, Web: LogosoloW },
+  "Carrito2": { Native: Carrito, Web: CarritoW },
+  "out": { Native: out, Web: outW },
+  "share": { Native: share, Web: shareW },
+  "invite": { Native: invite, Web: inviteW },
+  "invite2": { Native: invite2, Web: invite2W },
+  "next": { Native: next, Web: nextW },
+  "next2": { Native: next2, Web: next2W },
+  "aptitud": { Native: aptitud, Web: aptitudW },
+  "checkAll": { Native: checkAll, Web: checkAllW },
+  "posicion": { Native: posicion, Web: posicionW },
+  "editar": { Native: editar, Web: editarW },
+  "asistido": { Native: asistido, Web: asistidoW },
+  "noAsistido": { Native: noAsistido, Web: noAsistidoW },
+  "noUser": { Native: noUser, Web: noUserW },
+  ...Inicio,
+  ...Camara,
+  ...restaurante,
+  ...Inputs,
+  ...Reserva,
+  ...Tarjeta,
+  ...User,
+  ...Admin,
+  ...Event,
+  ...Register,
 
-        "confStaff": { Native: confStaff, Web: confStaffW },
-        "alertaNoResult": { Native: alertaNoResult, Web: alertaNoResultW },
-    }
+  "confStaff": { Native: confStaff, Web: confStaffW },
+  "alertaNoResult": { Native: alertaNoResult, Web: alertaNoResultW },
+  "icliente": { Native: icliente, Web: iclienteW },
+  "icompany": { Native: icompany, Web: icompanyW },
+  "ievento": { Native: ievento, Web: ieventoW },
+  "istaff": { Native: istaff, Web: istaffW },
+  "itimesheet": { Native: itimesheet, Web: itimesheetW },
+  "iusuario": { Native: iusuario, Web: iusuarioW },
+  "iposition": { Native: iposition, Web: ipositionW },
+ }
 }
 
 export default Assets;
