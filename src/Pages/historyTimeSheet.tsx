@@ -171,18 +171,24 @@ export default class historyAlvaro extends Component {
             dataType='date' data={e => new SDate(e.row?.staff.fecha_inicio, "yyyy-MM-dd").date}
             format={e => new SDate(e.data).toString("yyyy-MM-dd")} />
           <Col key={"key_company"}
-            labelIcon={<SView width={20} height={20}><SIcon name={'Usuarios' as any} /></SView>}
+            labelIcon={<SView width={20} height={20} padding={3}><SIcon name={'icompany' as any} /></SView>}
             label={SLanguage.select({ es: "Compania", en: "Company" })} width={100}
             data={e => { return e.row?.company?.descripcion; }}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "company/" + e.row?.company?.key} textStyle={e.textStyle} />} />
-          <Col key={"key_cliente"} label={SLanguage.select({ es: "Cliente", en: "Client" })} width={100}
+          <Col key={"key_cliente"}
+            labelIcon={<SView width={20} height={20} padding={3}><SIcon name={'icliente' as any} /></SView>}
+            label={SLanguage.select({ es: "Cliente", en: "Client" })} width={100}
             data={e => { return e.row?.cliente?.descripcion; }}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "cliente/" + e.row?.cliente?.key} textStyle={e.textStyle} />} />
-          <Col key={"key_evento"} label={SLanguage.select({ es: "Evento", en: "Event" })} width={100}
+          <Col key={"key_evento"}
+            labelIcon={<SView width={20} height={20} padding={3}><SIcon name={'ievento' as any} /></SView>}
+            label={SLanguage.select({ es: "Evento", en: "Event" })} width={100}
             data={e => { return e.row?.evento?.descripcion; }} />
           <Col key={"employee_number"} label={SLanguage.select({ es: "Numero empleado", en: "Employee number" })} width={70}
             data={e => { return e.row?.usuario_company?.employee_number; }} />
-          <Col key={"usuario"} label={SLanguage.select({ es: "Usuario", en: "User" })} width={120}
+          <Col key={"usuario"}
+            labelIcon={<SView width={20} height={20} padding={3}><SIcon name={'iusuario' as any} /></SView>}
+            label={SLanguage.select({ es: "Usuario", en: "User" })} width={120}
             data={e => `${e.row?.usuario?.Nombres} ${e.row?.usuario?.Apellidos}`}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
           />
