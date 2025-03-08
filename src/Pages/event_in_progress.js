@@ -16,7 +16,7 @@ const Header = (props) => {
  return <SView col={"xs-12"} row >
   <SView col={"xs-6"}>
    <SText fontSize={18} bold language={{
-    es: "Trabajos en cursollll",
+    es: "Trabajos en curso",
     en: "Jobs in progress"
    }} />
   </SView>

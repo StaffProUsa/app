@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Text, TextStyle, View } from 'react-native';
-import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SText, STheme, SView, } from 'servisofts-component';
+import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView, } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
 import TableIcon from '../../Components/Table/TableIcon';
+
+import BoxMenuTimeSheets from '../../Components/Popups/BoxMenuTimeSheets';
+
 
 // type DataType = typeof DATATEST[0]
 type DataType = any
@@ -75,23 +78,8 @@ export default class timeSheets extends Component {
 
   render() {
 
-    // let filtrador = [];
 
-    // if (this.key_cliente_) {
-    //  filtrador.push({
-    //   "col": "key_cliente",
-    //   "type": "string",
-    //   "operator": "=",
-    //   "value": "Calistenia"
-    //  })
-    // }
-
-
-
-
-
-    console.log("cliee " + this.key_cliente_)
-    return <SPage title={"Time Sheet"} disableScroll>
+    return <SPage title={"Time Sheetssss"} disableScroll>
       <SView col={"xs-12"} flex>
         <DinamicTable
           loadInitialState={async () => {
@@ -147,7 +135,28 @@ export default class timeSheets extends Component {
           }}
           textStyle={{
             fontSize: 12,
-          }}
+       }}
+
+ selectType='single'
+     onSelect={(e) => {
+      SPopup.open({
+       key: "popup_menu_alvaro",
+       type: "2",
+       content: <SView withoutFeedback style={[{
+        position: "absolute",
+        top: e.evt.nativeEvent.pageY,
+        left: e.evt.nativeEvent.pageX,
+        width: 230,
+       }
+       ]} center>
+        <BoxMenuTimeSheets data={{ ...(e.row as any), key_company: this.key_company_ } }></BoxMenuTimeSheets>
+       </SView>
+      })
+     }}
+
+
+
+
         >
           <Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
             data={e => {

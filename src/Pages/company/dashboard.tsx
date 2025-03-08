@@ -4,7 +4,7 @@ import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STh
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import Model from '../../Model';
-import BoxMenu from '../../Components/Popups/BoxMenu';
+import BoxMenuTimeSheets from '../../Components/Popups/BoxMenuTimeSheets';
 import TableIcon from '../../Components/Table/TableIcon';
 
 // import BoxMenu from '../../Components/BoxMenu';
