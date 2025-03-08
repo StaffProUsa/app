@@ -87,7 +87,7 @@ export default class historyAlvaro extends Component {
       <SView col={"xs-12"} flex>
         <DinamicTable
           loadInitialState={async () => {
-            let filters:ExporterStateType["filters"] = [];
+            let filters: ExporterStateType["filters"] = [];
             if (this.params.state) {
               filters.push({
                 col: "state",
@@ -97,7 +97,7 @@ export default class historyAlvaro extends Component {
               })
             }
             return {
-              filters:filters,
+              filters: filters,
               sorters: [
                 {
                   key: "fecha",
@@ -165,10 +165,14 @@ export default class historyAlvaro extends Component {
             }} />
 
 
-          <Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
+          <Col key={"fecha"}
+
+            label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
             dataType='date' data={e => new SDate(e.row?.staff.fecha_inicio, "yyyy-MM-dd").date}
             format={e => new SDate(e.data).toString("yyyy-MM-dd")} />
-          <Col key={"key_company"} label={SLanguage.select({ es: "Compania", en: "Company" })} width={100}
+          <Col key={"key_company"}
+            labelIcon={<SView width={20} height={20}><SIcon name={'Usuarios' as any} /></SView>}
+            label={SLanguage.select({ es: "Compania", en: "Company" })} width={100}
             data={e => { return e.row?.company?.descripcion; }}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "company/" + e.row?.company?.key} textStyle={e.textStyle} />} />
           <Col key={"key_cliente"} label={SLanguage.select({ es: "Cliente", en: "Client" })} width={100}
