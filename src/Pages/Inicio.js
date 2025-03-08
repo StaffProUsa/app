@@ -149,7 +149,7 @@ export default class Inicio extends Component {
         </SView>
       </Container>
       <SView col={"xs-12"} center>
-        <SView col={"xs-11.5 md-8 xl-5"} center>
+        <SView col={"xs-11.5 md-8 lg-5 xl-4 xxl-4"} center>
           {/* <MisCompanys /> */}
           <SHr />
           {/* <MisStaffTipo /> */}

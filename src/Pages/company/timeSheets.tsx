@@ -116,6 +116,13 @@ export default class timeSheets extends Component {
 
             return {
               filters: filters,
+              sorters: [
+                {
+                  key: "fecha",
+                  order: "desc",
+                  type: "date"
+                },
+              ]
             }
           }}
 
