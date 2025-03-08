@@ -69,7 +69,8 @@ import onLogin from './onLogin';
 import direccion from './direccion';
 import boss from './boss';
 import event_in_progress from './event_in_progress';
-const NewPages = SPage.combinePages("/", {
+import historyAlvaro from './historyAlvaro';
+ const NewPages = SPage.combinePages("/", {
     "": Carga,
     "inicio": Inicio,
     ...entradas,
@@ -111,6 +112,7 @@ const NewPages = SPage.combinePages("/", {
     my_companys,
     event_in_progress,
     ...invitacion,
+ "history/alvaro": historyAlvaro,
 
 })
 const Pages: SPageListProps = {
@@ -144,7 +146,9 @@ const Pages: SPageListProps = {
     'cargandoqr': CargandoQr,
     'errorqr': ErrorQr,
     "planimetria": Planimetria,
-    "testQr": TestQr,
+ "testQr": TestQr,
+ // "history/reporte": reporte_total,
+
     ...Services.Pages,
 };
 

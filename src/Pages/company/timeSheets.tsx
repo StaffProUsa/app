@@ -166,7 +166,7 @@ console.log("cliee "+this.key_cliente_)
       customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario_atiende?.key} textStyle={e.textStyle} />}
      />
 
-     <Col key={"staff"} label={SLanguage.select({ es: "Posición", en: "POsition" })} width={100}
+     <Col key={"staff"} label={SLanguage.select({ es: "Posición", en: "Position" })} width={100}
       data={e => e.row.staff_tipo.descripcion}
       customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
      />
@@ -182,7 +182,7 @@ console.log("cliee "+this.key_cliente_)
       data={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.row.staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").date}
       format={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.data).toString("HH")}
      />
-     <Col key={"horas"} label='Horas' width={60}
+     <Col key={"horas"} label={SLanguage.select({ es: "Horas", en: "Times" })} width={60}
       dataType='number'
       textStyle={{
        fontWeight: "bold"
