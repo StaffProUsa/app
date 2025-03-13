@@ -88,6 +88,8 @@ class index extends DPA.profile {
         <ImageProfile
           width={60}
           src={SSocket.api.root + "cliente/" + this.pk}
+          // src={ `${SSocket.api.root}cliente/${this.pk}?time=${new Date().getTime()}`}
+         
         />
         <SView width={4} />
         <SView>

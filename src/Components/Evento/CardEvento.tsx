@@ -4,6 +4,7 @@ import { SText, STheme, SView, SLanguage, SImage, SHr, SIcon, SDate } from 'serv
 import CardEventoSteps from './CardEventoSteps';
 import SSocket from 'servisofts-socket';
 import { ObjectStaffUsuario } from '../../MDL/Evento/type';
+import Model from '../../Model';
 
 
 const ItemImage = ({ src, label }) => {
@@ -89,6 +90,8 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
     }
     render() {
         const { data } = this.props;
+        let keyUser = data?.staff_usuario?.key_usuario_atiende;
+        let dataUser = Model.usuario.Action.getAll()
         return <SView col={"xs-12"} style={{
             borderWidth: 1,
             borderRadius: 8,
@@ -119,7 +122,7 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
                 <ItemImage src={SSocket.api.root + "company/" + data.company?.key} label={data.company.descripcion} />
                 <ItemImage src={SSocket.api.root + "cliente/" + data.cliente?.key} label={data.cliente.descripcion} />
                 <ItemImage src={SSocket.api.root + "staff_tipo/" + data.staff_tipo?.key} label={data.staff_tipo.descripcion} />
-                {!!data?.staff_usuario?.key_usuario_atiende ? <ItemImage src={SSocket.api.root + "usuario/" + data.staff_usuario.key_usuario_atiende} label={data.staff_usuario.key_usuario_atiende} /> : null}
+                {!!data?.staff_usuario?.key_usuario_atiende ? <ItemImage src={SSocket.api.root + "usuario/" + data.staff_usuario.key_usuario_atiende} label={dataUser?.[data.staff_usuario.key_usuario_atiende]?.Nombres+" "+dataUser?.[data.staff_usuario.key_usuario_atiende]?.Apellidos} /> : null}
             </SView>
             <SHr height={12} />
             <SView col={"xs-12"} row style={{
