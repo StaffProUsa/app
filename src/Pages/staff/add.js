@@ -215,6 +215,9 @@ export default class add extends Component {
    val["key_staff_tipo"] = data.key;
   }
 
+  // const descripcion = this._ref["descripcion"]?.getValue()?.replace(/\n/g, " ") || "";
+
+
   if (!valid) {
    return;
   }
@@ -263,14 +266,7 @@ export default class add extends Component {
     },
     key_usuario: Model.usuario.Action.getKey(),
    }).then(e => {
-    // return <>
-    //  <SLoad />
-    //  <SText>ddd</SText>
-    // </>
-
-    console.log("ddddddddddd")
     this.setState({ loading: false })
-
     if (event.INSTANCE) event.INSTANCE.componentDidMount()
     SNavigation.goBack(this.backAlternative.bind(this));
    }).catch(e => {
@@ -335,7 +331,7 @@ export default class add extends Component {
  render() {
   let lenguaje = SLanguage.language;
   let tipo_staff = "Seleccione Tipo de staff";
-  let descripcion = "Descripcion del staff";
+  let descripcion = "Descripcion del staff ddddddd";
   let cantidad = "Cantidad";
   let fecha_inicio = "Fecha de inicio";
   let hora_inicio = "Hora de inicio";
@@ -398,7 +394,19 @@ export default class add extends Component {
       }} />
 
 
-     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea' />
+     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea'
+      // onKeyDown={(event) => {
+      //  if (event.key === "Enter") {
+      //   event.preventDefault();
+      //  }
+      // }}
+
+      // onChangeText={(event) => {
+      //  const cleanedValue = event.target.value.replace(/\n/g, " "); // Reemplaza \n por un espacio
+      //  this.setState({ descripcion: cleanedValue });
+      // }}
+
+     />
      <SInput ref={r => this._ref["cantidad"] = r} type='number' defaultValue={1} col={"xs-7"} label={cantidad} required placeholder={"0"} />
 
      {/* <SInput ref={r => this._ref["fecha_inicio"] = r} disabled defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={fecha_inicio} required placeholder={"yyyy-MM-dd"} /> */}
