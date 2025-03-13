@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextStyle, Dimensions } from 'react-native';
-import { SDate, SIcon, SImage, SLanguage, SNavigation, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table';
 import SelectRol from '../roles/Components/SelectRol';
@@ -122,7 +122,7 @@ export default class MoveStaff extends Component {
 
     renderRol(obj) {
         let permiso_Edit_Rol = Model.usuarioPage.Action.getPermiso({ url: "/company/profile/users", permiso: "edit_rol", user_data: { key_company: this.key_company } })
-        return <SView col={"xs-12"}  center onPress={!permiso_Edit_Rol ? () => {
+        return <SView col={"xs-12"} center onPress={!permiso_Edit_Rol ? () => {
             SNotification.send({
                 title: SLanguage.select({
                     es: "No tienes permisos",
@@ -258,131 +258,133 @@ export default class MoveStaff extends Component {
     render() {
         let permiso_habilitar = Model.usuarioPage.Action.getPermiso({ url: "/company/profile/users", permiso: "habilitar", user_data: { key_company: this.key_company } })
 
-        return <SView col={"xs-12"} height backgroundColor={STheme.color.background} withoutFeedback>
-            <DinamicTable
-                loadInitialState={async () => {
-                    return {
-                        "filters": [
-                            {
-                                "col": "estado",
-                                "type": "string",
-                                "operator": "=",
-                                "value": [
-                                    "enabled"
-                                ]
-                            },
+        return <SPage tile={""} disableScroll>
+            <SView col={"xs-12"} height backgroundColor={STheme.color.background} withoutFeedback>
+                <DinamicTable
+                    loadInitialState={async () => {
+                        return {
+                            "filters": [
+                                {
+                                    "col": "estado",
+                                    "type": "string",
+                                    "operator": "=",
+                                    "value": [
+                                        "enabled"
+                                    ]
+                                },
 
-                        ],
-                        "sorters": [
-                            {
-                                "key": "alta",
-                                "order": "asc",
-                                "type": "string"
-                            }
-                        ]
-                    }
-                }}
-                loadData={this.loadData.bind(this)}
-                colors={{
-                    text: STheme.color.gray,
-                    // accent: STheme.color.secondary,
-                    border: STheme.color.card,
-                    // background: STheme.color.secondary,
-                    header: STheme.color.barColor,
-                    background: STheme.color.background,
-                    card: STheme.color.card
-                }}
-                cellStyle={{
-                    borderWidth: 0,
-                    // padding: 4,
-                    // justifyContent: "flex-start"
-                }}
-                textStyle={{
-                    fontSize: 12,
-                }}>
-                {/* <DinamicTable.Col key={"index"} data={p => p.index} label='#' width={30} /> */}
-
-                <DinamicTable.Col key={"edit"} label='Editar' width={40}
-                    data={e => ""}
-                    customComponent={e => <SView onPress={() => { SNavigation.navigate("/usuario/edit", { pk: e.row.key_usuario, key_company: this.key_company }) }}><SIcon name='Edit' width={20} height={20} /></SView>}
-                />
-
-                <DinamicTable.Col
-                    key={"estado"}
-                    label='Estado'
-                    width={60}
-                    data={p => p.row.estado == 2 ? "enabled" : "disabled"}
-
-                    customComponent={p => <SView onPress={() => {
-                        if (!permiso_habilitar) {
-                            SNotification.send({
-                                title: SLanguage.select({
-                                    es: "No tienes permisos",
-                                    en: "You do not have permissions",
-                                }),
-                                color: STheme.color.warning,
-                                time: 5000
-                            })
-                            return
+                            ],
+                            "sorters": [
+                                {
+                                    "key": "alta",
+                                    "order": "asc",
+                                    "type": "string"
+                                }
+                            ]
                         }
-                        this.handleChangeStatus(p.row)
-                    }}>{this.renderEstado(p.row.estado)}</SView>}
-
-                />
-                <DinamicTable.Col
-                    key={"nuevo"}
-                    label='Nuevo'
-                    width={60}
-                    // data={p => p.row.estado == 2 ? "enabled" : "disabled"}
-                    data={p => {
-                        let fecha = new Date(p.row.fecha_on)
-                        let fecha_actual = new Date()
-
-                        let rango = new Date();
-                        rango.setDate(fecha_actual.getDate() - 7)
-                        if (fecha.getTime() >= rango.getTime()) return true
-                        return false;
                     }}
+                    loadData={this.loadData.bind(this)}
+                    colors={{
+                        text: STheme.color.gray,
+                        // accent: STheme.color.secondary,
+                        border: STheme.color.card,
+                        // background: STheme.color.secondary,
+                        header: STheme.color.barColor,
+                        background: STheme.color.background,
+                        card: STheme.color.card
+                    }}
+                    cellStyle={{
+                        borderWidth: 0,
+                        // padding: 4,
+                        // justifyContent: "flex-start"
+                    }}
+                    textStyle={{
+                        fontSize: 12,
+                    }}>
+                    {/* <DinamicTable.Col key={"index"} data={p => p.index} label='#' width={30} /> */}
 
-                    customComponent={p => <SView >{this.renderNew(p.row.fecha_on)}</SView>}
+                    <DinamicTable.Col key={"edit"} label='Editar' width={40}
+                        data={e => ""}
+                        customComponent={e => <SView onPress={() => { SNavigation.navigate("/usuario/edit", { pk: e.row.key_usuario, key_company: this.key_company }) }}><SIcon name='Edit' width={20} height={20} /></SView>}
+                    />
 
-                />
-                <DinamicTable.Col
-                    key={"rol"}
-                    label='Rol en la empresa'
-                    data={p => p.row.rol.descripcion}
-                    customComponent={p => this.renderRol(p.row)}
-                />
+                    <DinamicTable.Col
+                        key={"estado"}
+                        label='Estado'
+                        width={60}
+                        data={p => p.row.estado == 2 ? "enabled" : "disabled"}
 
-                <DinamicTable.Col key={"employee"} data={p => p.row.employee_number ? p.row.employee_number : ""} label='Nro. empleado' />
-                <DinamicTable.Col key={"NombreUser"} label='Nombre usuario' width={150}
-                    data={e => e.row.usuario.Nombres + " " + e.row.usuario.Apellidos}
-                    customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
-                />
-                <DinamicTable.Col key={"telefono"} data={p => p.row?.usuario?.Telefono} label='Teléfono' />
-                <DinamicTable.Col key={"email"} data={p => p.row.usuario.Correo} label='Email' />
-                <DinamicTable.Col key={"ingles"} data={p => p.row.usuario.nivel_ingles} label='Nivel de Inglés' />
-                <DinamicTable.Col key={"papeles"} data={p => p.row.usuario.papeles} label='¿Tiene papeles?' />
-                <DinamicTable.Col key={"estadoCivil"} data={p => p.row.usuario.estado_civil} label='Estado civil' />
-                <DinamicTable.Col key={"nacimiento"} data={p => new SDate(p.row.usuario.fecha_nacimiento).toString("MONTH dd, yyyy")} label='Fecha de Nac.' />
-                <DinamicTable.Col key={"direccion"} data={p => p.row.usuario.direccion} label='Dirección' />
-                <DinamicTable.Col key={"idiomas"} data={p => p.row.usuario.otros_idiomas} label='Otros idiomas' />
-                <DinamicTable.Col key={"alta"} width={130} data={p => new SDate(p.row.fecha_on).toString("MONTH dd, yyyy")} label='Fecha de alta' />
-                <DinamicTable.Col key={"position"} label='Posición' width={50}
-                    data={e => ""}
-                    customComponent={e => <SView height={20}  onPress={() => { SNavigation.navigate("/perfil/staff_tipo", { key_usuario: e.row.key_usuario, key_company: this.key_company }) }}><SIcon name='iposition' width={20} height={20} fill={STheme.color.text} /></SView>}
-                />
-                <DinamicTable.Col
-                    key={"posicion"}
-                    label='Posición'
-                    width={500}
-                    data={p => Object.values(p.row.staff_tipo || {}).map(o => o.descripcion).join(", ")}
-                    customComponent={p => <SView row  style={{ overflow: "hidden" }}>
-                        {Object.values(p.row.staff_tipo || {}).map(e => this.renderStaffTipo(e))}
-                    </SView>}
-                />
+                        customComponent={p => <SView onPress={() => {
+                            if (!permiso_habilitar) {
+                                SNotification.send({
+                                    title: SLanguage.select({
+                                        es: "No tienes permisos",
+                                        en: "You do not have permissions",
+                                    }),
+                                    color: STheme.color.warning,
+                                    time: 5000
+                                })
+                                return
+                            }
+                            this.handleChangeStatus(p.row)
+                        }}>{this.renderEstado(p.row.estado)}</SView>}
 
-            </DinamicTable>
-        </SView >
+                    />
+                    <DinamicTable.Col
+                        key={"nuevo"}
+                        label='Nuevo'
+                        width={60}
+                        // data={p => p.row.estado == 2 ? "enabled" : "disabled"}
+                        data={p => {
+                            let fecha = new Date(p.row.fecha_on)
+                            let fecha_actual = new Date()
+
+                            let rango = new Date();
+                            rango.setDate(fecha_actual.getDate() - 7)
+                            if (fecha.getTime() >= rango.getTime()) return true
+                            return false;
+                        }}
+
+                        customComponent={p => <SView >{this.renderNew(p.row.fecha_on)}</SView>}
+
+                    />
+                    <DinamicTable.Col
+                        key={"rol"}
+                        label='Rol en la empresa'
+                        data={p => p.row.rol.descripcion}
+                        customComponent={p => this.renderRol(p.row)}
+                    />
+
+                    <DinamicTable.Col key={"employee"} data={p => p.row.employee_number ? p.row.employee_number : ""} label='Nro. empleado' />
+                    <DinamicTable.Col key={"NombreUser"} label='Nombre usuario' width={150}
+                        data={e => e.row.usuario.Nombres + " " + e.row.usuario.Apellidos}
+                        customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
+                    />
+                    <DinamicTable.Col key={"telefono"} data={p => p.row?.usuario?.Telefono} label='Teléfono' />
+                    <DinamicTable.Col key={"email"} data={p => p.row.usuario.Correo} label='Email' />
+                    <DinamicTable.Col key={"ingles"} data={p => p.row.usuario.nivel_ingles} label='Nivel de Inglés' />
+                    <DinamicTable.Col key={"papeles"} data={p => p.row.usuario.papeles} label='¿Tiene papeles?' />
+                    <DinamicTable.Col key={"estadoCivil"} data={p => p.row.usuario.estado_civil} label='Estado civil' />
+                    <DinamicTable.Col key={"nacimiento"} data={p => new SDate(p.row.usuario.fecha_nacimiento).toString("MONTH dd, yyyy")} label='Fecha de Nac.' />
+                    <DinamicTable.Col key={"direccion"} data={p => p.row.usuario.direccion} label='Dirección' />
+                    <DinamicTable.Col key={"idiomas"} data={p => p.row.usuario.otros_idiomas} label='Otros idiomas' />
+                    <DinamicTable.Col key={"alta"} width={130} data={p => new SDate(p.row.fecha_on).toString("MONTH dd, yyyy")} label='Fecha de alta' />
+                    <DinamicTable.Col key={"position"} label='Posición' width={50}
+                        data={e => ""}
+                        customComponent={e => <SView height={20} onPress={() => { SNavigation.navigate("/perfil/staff_tipo", { key_usuario: e.row.key_usuario, key_company: this.key_company }) }}><SIcon name='iposition' width={20} height={20} fill={STheme.color.text} /></SView>}
+                    />
+                    <DinamicTable.Col
+                        key={"posicion"}
+                        label='Posición'
+                        width={500}
+                        data={p => Object.values(p.row.staff_tipo || {}).map(o => o.descripcion).join(", ")}
+                        customComponent={p => <SView row style={{ overflow: "hidden" }}>
+                            {Object.values(p.row.staff_tipo || {}).map(e => this.renderStaffTipo(e))}
+                        </SView>}
+                    />
+
+                </DinamicTable>
+            </SView >
+        </SPage>
     }
 }
