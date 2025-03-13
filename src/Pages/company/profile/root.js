@@ -93,6 +93,12 @@ class index extends DPA.profile {
 
                 {/* para evento */}
                 <MenuButtom label={SLanguage.select({ en: "timeSheets", es: "timeSheets" })} url='/company/timeSheets' params={{ key_company: this.pk }} icon={<SIcon name='itimesheet' fill={STheme.color.text} />} />
+                <MenuButtom label={SLanguage.select({ en: "dashBoard", es: "dashBoard" })}
+                    // url='/company/dashboard' params={{ key_company: this.pk }}
+                    onPress={() => {
+                        SNavigation.navigation.navigate({ name: "/company/dashboard", params: { key_company: this.pk }, key: Math.random() })
+                    }}
+                    icon={<SIcon name='Excel' fill={STheme.color.text} />} />
 
                 {/* <MenuButtom label={SLanguage.select({ en: "time_sheets", es: "time_sheets" })} url='/company/profile/time_sheets' params={{ key_company: this.pk, key_cliente: this.pk }} icon={<SIcon name='Menu' />} /> */}
                 {/* <MenuButtom label={SLanguage.select({ en: "time_sheets", es: "time_sheets" })} url='/company/profile/time_sheets' params={{ key_company: this.pk, key_cliente: this.pk }} icon={<SIcon name='Menu' />} /> */}
