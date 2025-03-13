@@ -107,6 +107,13 @@ class index extends Component {
      editable: false,
      defaultValue: this.data.estado_civil,
      onPress: e => {
+
+
+      if (this.state.loading) {
+       return;
+      }
+      this.setState({ loading: true })
+
       InputFloat.open({
        e: e,
        height: 180,
@@ -225,11 +232,13 @@ class index extends Component {
      data: finalObj,
      key_usuario: Model.usuario.Action.getKey()
     }).then((resp) => {
+     this.setState({ loading: false })
      SStorage.setItem("usr_log", JSON.stringify(finalObj)) //Modificar SStorage datos session
      // Model.usuario.Action.CLEAR(); //Limpiar caché
      Model.usuario.Action.syncUserLog()
      SNavigation.goBack();
     }).catch((e) => {
+     this.setState({ loading: false })
      SPopup.alert("Error en los datos");
     })
    }}
@@ -297,10 +306,7 @@ class index extends Component {
         <PButtom rojo fontSize={20} onPress={() => {
          this.form.submit();
         }}>
-         <SText fontSize={20} color={STheme.color.white} language={{
-          es: "CONFIRMAR",
-          en: "CONFIRM"
-         }} />
+         {this.state.loading? <SLoad /> :<SText fontSize={20} color={STheme.color.white} language={{ es: "CONFIRMAR", en: "CONFIRM" }} />}
         </PButtom>
        </SView>
        <SHr height={30} />

@@ -29,9 +29,9 @@ class index extends DPA.list {
     componentDidMount(){
         Parent.model.Action.CLEAR();
     }
-    $allowNew() {
-        return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new", user_data: { key_company: this.$params.key_company } });
-    }
+    // $allowNew() {
+    //     return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "new", user_data: { key_company: this.$params.key_company } });
+    // }
     $allowTable() {
         return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "table", user_data: { key_company: this.$params.key_company } });
     }
