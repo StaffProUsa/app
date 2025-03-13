@@ -20,7 +20,7 @@ export default class invitationDetail extends React.Component {
   componentDidMount() {
     let usuario_ = Model.usuario.Action.getUsuarioLog();
     if (!usuario_) {
-      SNavigation.navigate('login');
+      SNavigation.navigate('/login');
     }
     this.setState({ usuario: usuario_ })
 

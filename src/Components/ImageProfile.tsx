@@ -8,7 +8,7 @@ export default ({ src, width = 30, height }) => {
         borderWidth: 1,
         borderColor: STheme.color.card
     }}>
-        <SImage src={src} enablePreview style={{
+        <SImage src={src+"?time="+new Date().getTime()} enablePreview style={{
             resizeMode: "cover"
         }} />
     </SView>
