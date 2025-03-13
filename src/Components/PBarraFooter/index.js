@@ -80,7 +80,7 @@ class PBarraFooter extends Component {
             height={45}
             style={{
               position: 'absolute',
-              bottom: 4,
+              bottom: 15,
               backgroundColor: STheme.color.secondary + "CC",
               borderRadius: 16,
               overflow: 'hidden',

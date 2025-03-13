@@ -98,7 +98,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                         // "direccion": { col: "xs-7", label: SLanguage.select({es:"Dirección", en:"Address"}), required: true, defaultValue: this.state?.data?.direccion },
 
                         // "nivel_ingles": { col: "xs-5.5", type: "select", label: nivel_ingles, defaultValue: this.state?.data?.nivel_ingles,options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" }, { key: "NONE", content:  (lenguaje == "en") ? "NONE" :"NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }], },
-                        "papeles": { col: "xs-5.5", type: "checkBox", label: papeles, defaultValue: this.state?.data?.papeles },
+                        "papeles": { col: "xs-5.5", type: "checkBox", label: papeles, defaultValue: (this.state?.data?.papeles) },
                         "observacion": {
                             col: "xs-12", type: "textArea", height: 400, label: observacion, defaultValue: (this.state?.data?.observacion) ? this.state?.data?.observacion : OBSDEFAULT,
                         },

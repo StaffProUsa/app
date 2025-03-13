@@ -17,6 +17,7 @@ export default new SModel<Action, Reducer>({
         "observacion": { type: "text", editable: true },
         "latitude": { type: "double", editable: true },
         "longitude": { type: "double", editable: true },
+        "papeles": { type: "text", editable: true },
     },
     image: {
         name: "cliente",

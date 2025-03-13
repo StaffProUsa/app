@@ -138,6 +138,7 @@ export default class history extends Component {
             console.log("obj", obj)
             console.log("userCoordinador", userCoordinador)
             let timeWork;
+            let subtotal;
 
             let asistencia = STheme.color.danger + "66"
             let mensaje = SLanguage.select({
@@ -160,6 +161,7 @@ export default class history extends Component {
                 let disf = fi.diffTime(fs);
                 console.log("disf", disf)
                 timeWork = ((disf / 1000) / 60 / 60).toFixed(2);
+                subtotal = (timeWork * obj?.usuario_company?.salario_hora).toFixed(2);
                 asistencia = STheme.color.success + "66";
                 mensaje = SLanguage.select({
                     es: "Completado",
@@ -250,16 +252,30 @@ export default class history extends Component {
                     <SHr height={10} />
                     <SHr height={1} color={STheme.color.lightGray} />
                     <SHr height={10} />
-                    <SView col={"xs-12"} style={{ alignItems: "flex-end" }}>
-                        <SText fontSize={18} style={{
-                            backgroundColor: STheme.color.success,
-                            color: STheme.color.white,
-                            padding: 5,
-                            // borderRadius: 10
-                        }} language={{
-                            es: "Tiempo de trabajo: " + timeWork,
-                            en: "Working time: " + timeWork
-                        }} />
+                    <SView col={"xs-12"} row >
+                        <SView col={"xs-5.5"} style={{ alignItems: "flex-end" }}>
+                            <SText fontSize={18} style={{
+                                backgroundColor: STheme.color.success,
+                                color: STheme.color.white,
+                                padding: 5,
+                                // borderRadius: 10
+                            }} language={{
+                                es: "Tiempo de trabajo: " + timeWork,
+                                en: "Working time: " + timeWork
+                            }} />
+                        </SView>
+                        <SView col={"xs-1"} />
+                        <SView col={"xs-5.5"} style={{ alignItems: "flex-end" }}>
+                            <SText fontSize={18} style={{
+                                backgroundColor: STheme.color.warning,
+                                color: STheme.color.white,
+                                padding: 5,
+                                // borderRadius: 10
+                            }} language={{
+                                es: "Subtotal: " + subtotal,
+                                en: "Subtotal: " + subtotal
+                            }} />
+                        </SView>
                     </SView>
                 </> : null}
             </SView>
@@ -308,13 +324,13 @@ export default class history extends Component {
         return <>
             <SView col={"xs-12"} row>
                 <this.CardResumen onPress={"/history/timesheet"} params={{
-                   
+
                 }} title={SLanguage.select({ es: "Total eventos", en: "Total events" })} value={eventos} color={"#35A1C3"} icon={"hisEvent"} />
                 <this.CardResumen onPress={"/history/timesheet"} params={{
-                     state: ["FINISHED"]
+                    state: ["FINISHED"]
                 }} title={SLanguage.select({ es: "Eventos no asistidos", en: "Unattended events" })} value={eventos_no_asistidos} color={STheme.color.danger} icon={"noAsistido"} />
                 <this.CardResumen onPress={"/history/timesheet"} params={{
-                     state: ["COMPLETED"]
+                    state: ["COMPLETED"]
                 }} title={SLanguage.select({ es: "Eventos completados", en: "Completed events" })} value={eventos_completados} color={"#33BE5B"} icon={"hisCompleted"} />
                 {/* <this.CardResumen onPress={"/history/timesheet"} option={1} title={SLanguage.select({ es: "Eventos asistidos", en: "Events attended" })} value={eventos_asistidos} color={STheme.color.warning} icon={"asistido"} /> */}
             </SView>

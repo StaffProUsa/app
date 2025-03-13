@@ -630,7 +630,7 @@ export default class users extends Component {
                                                             // }}
 
                                                             {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? { disabled: true } : {})}
-                                                            {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? SPopup.alert(SLanguage.select({ es: "Evento pasado, no puedes invitar a usuarios", en: "Past event, you can't invite users" })) : {})}
+                                                            // {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? SPopup.alert(SLanguage.select({ es: "Evento pasado, no puedes invitar a usuarios", en: "Past event, you can't invite users" })) : {})}
                                                             onPress={() => {
                                                                 // console.log("queeee")
                                                                 // if (this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin)) return SPopup.alert("Evento pasado, no puedes invitar a usuarios")
