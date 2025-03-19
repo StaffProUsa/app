@@ -11,6 +11,7 @@ import PBarraFooter from '../../../Components/PBarraFooter';
 
 const Item = ({ data, onChange, disabled }) => {
     console.log("itm", disabled)
+    if(!data.descripcion) return null;
     return <SView padding={10} row center>
         <SView width={20} height={20} >
             <SInput type='checkBox' disabled={disabled} defaultValue={!!data.staff_tipo_company} onChangeText={onChange} width={20} height={20} style={{

@@ -224,51 +224,6 @@ export default class users extends Component {
 
         })
         return;
-        console.log("post")
-        console.log(post)
-        console.log(this.state.data)
-        SNavigation.navigate("/cliente/eventos", {
-            key_company: this.state.data.evento.key_company,
-            key_evento: this.state.data.key_evento,
-            key_cliente: this.state.data.evento.key_cliente,
-            onSelect: (evento) => {
-                // SNotification.send({
-                //     key: "staff_usuario-asingJefe",
-                //     title: "Applying...",
-                //     body: "Please wait.",
-                //     type: "loading"
-                // })
-                console.log("hola1")
-                console.log(evento)
-                SSocket.sendPromise({
-                    component: "staff_usuario",
-                    type: "cambiarEvento",
-                    // key_usuario: Model.usuario.Action.getKey(),
-                    key_staff_usuario: post.key,
-                    // key_usuario_atiende: usuario.key_usuario,
-                    key_evento: evento.key_usuario,
-                }).then(e => {
-                    SNotification.send({
-                        key: "staff_usuario-asingJefe",
-                        title: "Successfully applied.",
-                        body: "Successfully registered.",
-                        color: STheme.color.success,
-                        time: 5000,
-                    })
-                    this.componentDidMount();
-                    console.log(e);
-                }).catch(e => {
-                    console.error(e)
-                    // SNotification.send({
-                    //     key: "staff_usuario-asingJefe",
-                    //     title: "Error.",
-                    //     body: e.error ?? "Unknown error.",
-                    //     color: STheme.color.danger,
-                    //     time: 5000,
-                    // })
-                })
-            }
-        })
     }
 
     renderStaffUsuario(staff_usuario) {
@@ -563,7 +518,7 @@ export default class users extends Component {
                             <STable2
                                 key={"Algo"}
                                 data={this.state.data_disponibles}
-                                filter={(a) => !a.staff_usuario || a?.staff_usuario?.estado == 2}
+                                filter={(a) => (!a.staff_usuario || a?.staff_usuario?.estado == 2) && (!!a?.usuario)}
                                 rowHeight={25}
                                 cellStyle={{
                                     justifyContent: "center",

@@ -8,6 +8,7 @@ import Model from '../../Model';
 
 
 const Item = ({ data, onChange }) => {
+    if (!data.descripcion) return null;
     return <SView padding={10} row center>
         <SView width={20} height={20} >
             <SInput type='checkBox' defaultValue={!!data.staff_tipo_favorito} onChangeText={onChange} width={20} height={20} style={{
@@ -73,7 +74,7 @@ export default class staff_tipo extends Component {
                 <SBuscador onChange={(e) => {
                     this.setState({ filter: e })
                 }} />
-                <FlatList data={Object.values(datafilter).sort((a, b) => a.descripcion.toUpperCase() > b.descripcion.toUpperCase() ? 1 : -1)}
+                <FlatList data={Object.values(datafilter ?? {}).sort((a, b) => (a?.descripcion ?? "").toUpperCase() > (b?.descripcion ?? "").toUpperCase() ? 1 : -1)}
                     contentContainerStyle={{
                         flexDirection: "row",
                         width: "100%",
@@ -116,6 +117,8 @@ export default class staff_tipo extends Component {
                                 },
                                 key_usuario: Model.usuario.Action.getKey()
                             }).then(e => {
+
+                                delete  item.staff_tipo_favorito
                                 // item.staff_tipo_favorito = null;
                                 SNotification.send({
                                     title: (lenguaje == "es") ? "Éxito" : "Success",
@@ -142,6 +145,16 @@ export default class staff_tipo extends Component {
                     bottom: 8,
                     height: 50
                 }} onPress={() => {
+
+                    let select = Object.values(datafilter).filter(e => e.staff_tipo_favorito).length;
+                    if (select <= 0) {
+                        SNotification.send({
+                            title: "Error",
+                            body: "Please select at least one staff type",
+                            color:STheme.color.danger,
+                        })
+                        return;
+                    }
                     SNavigation.goBack()
                 }}>
                     <SIcon name={'next2'} fill={STheme.color.text} style={{ width: 50, height: 50 }} />
