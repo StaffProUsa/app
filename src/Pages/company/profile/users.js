@@ -5,6 +5,7 @@ import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table';
 import SelectRol from '../roles/Components/SelectRol';
 import Model from '../../../Model';
+import staff from '../../staff';
 
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
     return <SView row >
@@ -68,10 +69,14 @@ export default class MoveStaff extends Component {
         this.state.roles = roles.data;
         console.log(roles)
         Object.values(staff_response.data).map(o => {
-            o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
+            // o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
+            o.usuario = users_request?.data[o.key_usuario]?.usuario ??  { Nombres: "User", Apellidos: "Deleted" };
             o.rol = roles?.data[o.key_rol]
         })
-        return staff_response.data;
+        let users = Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User");
+        console.log("users",users)
+        console.log("staff_response",staff_response.data)
+        return users;
     }
 
     loadData = async () => {
@@ -80,7 +85,8 @@ export default class MoveStaff extends Component {
             type: "getAllStaff",
             key_company: this.key_company
         })
-        let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null))];
+         let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null ))];
+       
         const users_request = await SSocket.sendPromise({
             version: "2.0",
             service: "usuario",
@@ -94,12 +100,12 @@ export default class MoveStaff extends Component {
             type: "getAll",
         })
         this.state.roles = roles.data;
-        console.log(roles)
         Object.values(staff_response.data).map(o => {
             o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
             o.rol = roles?.data[o.key_rol]
         })
-        return Object.values(staff_response.data);
+        // return Object.values(staff_response.data);
+        return  Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User")
     }
 
     renderStaffTipo(staffTipo) {

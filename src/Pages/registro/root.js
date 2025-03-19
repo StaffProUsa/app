@@ -191,10 +191,38 @@ class root extends Component {
                                     // options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" },
                                     // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
                                 },
-                                // otros_idiomas: {
-                                //     label: SLanguage.select({ es: "Idiomas que habla", en: "Languages Spoken" }), isRequired: true, placeholder: SLanguage.select({ es: "Idiomas que habla", en: "Languages Spoken" }), defaultValue: defaultData.otros_idiomas, icon: this.icon("lenguaje"),
-                                // },
-                                papeles: { col: "xs-12", label: SLanguage.select({ es: "¿Está autorizado legalmente para trabajar en los Estados Unidos?", en: "Are you legally authorized to work in the United State?" }), type: "checkBox" },
+                                otros_idiomas: {
+                                    label: SLanguage.select({ es: "Escoja una opción", en: "Choose an option" }),
+                                    placeholder: SLanguage.select({ es: "Escoja una opción", en: "Choose an option" }),
+                                    // type: "select",
+                                    isRequired: true,
+                                    defaultValue: "",
+                                    editable: false,
+                                    onPress: e => {
+                                        InputFloat.open({
+                                            e: e,
+                                            height: 180,
+                                            width: 150,
+                                            style: {
+                                                backgroundColor: STheme.color.background
+                                            },
+                                            render: () => {
+                                                return <SView col={"xs-12"} flex card>
+                                                    <InputSelect
+                                                        defaultValue={this.form.getValues().nivel_ingles}
+                                                        autoSelect
+                                                        data={["US CITIZEN", "GREEN CARD", "WOK PERMIT", "TAX ID OR ITIN", "NONE"]}
+                                                        onChange={val => {
+                                                            this.form.setValues({ "otros_idiomas": val })
+                                                        }}
+                                                        ITEM_HEIGHT={30} />
+                                                </SView>
+                                            }
+                                        })
+                                    },
+                                    icon: this.icon("lenguaje"),
+                                },
+                                // papeles: { col: "xs-12", label: SLanguage.select({ es: "¿Está autorizado legalmente para trabajar en los Estados Unidos?", en: "Are you legally authorized to work in the United State?" }), type: "checkBox" },
 
                                 // FechaNacimiento: {placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
                                 //telefono: {placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},
