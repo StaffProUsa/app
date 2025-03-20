@@ -92,6 +92,11 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
         const { data } = this.props;
         let keyUser = data?.staff_usuario?.key_usuario_atiende;
         let dataUser = Model.usuario.Action.getAll()
+        let fechaFin = " ---";
+        if (data?.staff?.fecha_fin) {
+            fechaFin = (new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")).toString();
+        }
+        console.log("fechafin", fechaFin)
         return <SView col={"xs-12"} style={{
             borderWidth: 1,
             borderRadius: 8,
@@ -103,8 +108,8 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
                         <SText fontSize={10} color={STheme.color.lightGray}>{new SDate(data?.evento?.fecha).toString("MONTH dd, yyyy")}</SText>
                         <SView width={16} />
                         <SText fontSize={10} color={STheme.color.lightGray} language={{
-                            es: new SDate(data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") + " a " + new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
-                            en: new SDate(data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") + " to " + new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
+                            es: new SDate(data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") + " a " + fechaFin,
+                            en: new SDate(data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") + " to " + fechaFin
                         }} />
                     </SView>
                     <SHr height={12} />
@@ -122,7 +127,7 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
                 <ItemImage src={SSocket.api.root + "company/" + data.company?.key} label={data.company.descripcion} />
                 <ItemImage src={SSocket.api.root + "cliente/" + data.cliente?.key} label={data.cliente.descripcion} />
                 <ItemImage src={SSocket.api.root + "staff_tipo/" + data.staff_tipo?.key} label={data.staff_tipo.descripcion} />
-                {!!data?.staff_usuario?.key_usuario_atiende ? <ItemImage src={SSocket.api.root + "usuario/" + data.staff_usuario.key_usuario_atiende} label={dataUser?.[data.staff_usuario.key_usuario_atiende]?.Nombres+" "+dataUser?.[data.staff_usuario.key_usuario_atiende]?.Apellidos} /> : null}
+                {!!data?.staff_usuario?.key_usuario_atiende ? <ItemImage src={SSocket.api.root + "usuario/" + data.staff_usuario.key_usuario_atiende} label={dataUser?.[data.staff_usuario.key_usuario_atiende]?.Nombres + " " + dataUser?.[data.staff_usuario.key_usuario_atiende]?.Apellidos} /> : null}
             </SView>
             <SHr height={12} />
             <SView col={"xs-12"} row style={{
