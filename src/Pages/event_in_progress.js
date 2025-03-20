@@ -9,6 +9,7 @@ import PButtom from '../Components/PButtom';
 import Trabajos from '../Components/Trabajos';
 import CardEvento from '../Components/Evento/CardEvento';
 import MDL from '../MDL';
+import CardBoss from '../Components/Evento/CardBoss';
 
 
 const Header = (props) => {
@@ -65,10 +66,13 @@ export default class event_in_progress extends Component {
         const dataTrabajosProximos = await MDL.evento.getTrabajosProximos({ key_usuario: key_usuario });
         const dataInvitacionesPendientes = await MDL.evento.getInvitacionesPendientes({ key_usuario: key_usuario });
         const dataEventosBoss = await MDL.evento.getTrabajosProximosBoss({ key_usuario: key_usuario });
+        dataEventosBoss.map(e => {
+            e._type = "boss"
+        });
         let data = [
             ...dataTrabajosProximos,
             ...dataInvitacionesPendientes,
-            // ...dataEventosBoss
+            ...dataEventosBoss
         ];
         data.sort((a, b) => {
             if (!a?.staff?.fecha_inicio || !b?.staff?.fecha_inicio) return 0;
@@ -150,6 +154,11 @@ export default class event_in_progress extends Component {
                         ItemSeparatorComponent={() => <SHr h={32} />}
                         ListFooterComponent={() => <SHr h={200} />}
                         renderItem={({ item }) => {
+                            if (item._type == "boss") {
+                                return <CardBoss data={item} onPress={() => {
+                                    SNavigation.navigate("/evento", { key: item?.evento?.key })
+                                }} />
+                            }
                             return <CardEvento data={item} onPress={() => {
                                 if (!item?.staff_usuario?.fecha_aprobacion_invitacion) {
                                     SNavigation.navigate("/invitationDetail", { key: item?.staff_usuario?.key })
