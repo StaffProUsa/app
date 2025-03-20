@@ -563,29 +563,12 @@ export default class users extends Component {
                                             <SView width={20} height={20} >
                                                 {
                                                     elm?.staff_usuario ? null :
-                                                        <SInput key={elm.key ?? ""} type='checkBox' defaultValue={elm?._select} onChangeText={e => {
-
-                                                            // console.log("queeee")
-                                                            // console.log(this.EsFechaMenorOIgual(new Date((this.state?.data?.fecha_fin))))
-                                                            // if (this.EsFechaMenorOIgual(new Date((this.state?.data?.fecha_fin)))) return SPopup.alert("No puedes invitar a usuarios a un evento que no ha iniciado.")
-
-                                                            elm._select = !!e;
-                                                            this.setState({ ...this.state })
-                                                        }}
-
-                                                            // onPress={() => {
-                                                            //     console.log("queeee")
-                                                            //     console.log(this.EsFechaMenorOIgual(new Date((this.state?.data?.fecha_fin))))
-                                                            //     if (!this.EsFechaMenorOIgual(new Date((this.state?.data?.fecha_fin)))) return SPopup.alert("No puedes invitar a usuarios a un evento que no ha iniciado.")
-                                                            // }}
-
-                                                            {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? { disabled: true } : {})}
-                                                            // {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? SPopup.alert(SLanguage.select({ es: "Evento pasado, no puedes invitar a usuarios", en: "Past event, you can't invite users" })) : {})}
-                                                            onPress={() => {
-                                                                // console.log("queeee")
-                                                                // if (this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin)) return SPopup.alert("Evento pasado, no puedes invitar a usuarios")
-                                                            }
-                                                            }
+                                                        <SInput key={elm.key ?? ""} type='checkBox' defaultValue={elm?._select}
+                                                            disabled={this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin)}
+                                                            onChangeText={e => {
+                                                                elm._select = !!e;
+                                                                this.setState({ ...this.state })
+                                                            }}
                                                         />
                                                 }
                                             </SView>
@@ -654,39 +637,8 @@ export default class users extends Component {
                                                         time: 5000
                                                     })
                                                 })
-                                            }}
-
-
-                                            // {...(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin) ? { disabled: true } : {})}
-
-                                            /></SView>
-                                                // <SText color={STheme.color.danger} fontSize={12} underLine onPress={() => {
-                                                //     SSocket.sendPromise({
-                                                //         component: "staff_usuario",
-                                                //         type: "desinvitarGrupo",
-                                                //         key_usuarios_desinvitados: [elm.key_usuario],
-                                                //         key_staff: this.pk,
-                                                //         key_usuario: Model.usuario.Action.getKey(),
-                                                //     }).then(e => {
-                                                //         this.loadData();
-                                                //         SNotification.send({
-                                                //             title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
-                                                //             body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
-                                                //             color: STheme.color.success,
-                                                //             time: 5000
-                                                //         })
-                                                //     }).catch(e => {
-                                                //         console.error(e)
-                                                //         SNotification.send({
-                                                //             title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
-                                                //             body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
-                                                //             color: STheme.color.danger,
-                                                //             time: 5000
-                                                //         })
-                                                //     })
-                                                // }}>{"Uninvite"}</SText>
-                                            }
-                                        </SView>,
+                                            }} /></SView>}
+                                            </SView>,
                                         renderExcel: (a) => {
                                             return "";
                                         }
@@ -875,7 +827,7 @@ export default class users extends Component {
                                                     <SView row center col={"xs-5"}>
                                                         <SIcon name={(!a || !a.length) ? 'dispo' : 'noDispo'} fill={color} width={20} height={20} />
                                                         <SView flex width={45} center>
-                                                            <SText center style={{lineHeight:10}} fontSize={10} color={color} language={{
+                                                            <SText center style={{ lineHeight: 10 }} fontSize={10} color={color} language={{
                                                                 es: "Transferir aquí",
                                                                 en: "Transfer here"
                                                             }} />
