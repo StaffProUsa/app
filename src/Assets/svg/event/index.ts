@@ -22,6 +22,7 @@ import dispo, { ReactComponent as dispoW } from './dispo.svg';
 import noDispo, { ReactComponent as noDispoW } from './noDispo.svg';
 import eventIcon, { ReactComponent as eventIconW } from './eventIcon.svg';
 import eventIcon2, { ReactComponent as eventIcon2W } from './eventIcon2.svg';
+import duplicar, { ReactComponent as duplicarW } from './duplicar.svg';
 
 
 
@@ -48,6 +49,7 @@ const Assets = {
 	"noDispo": { Native: noDispo, Web: noDispoW },
 	"eventIcon": { Native: eventIcon, Web: eventIconW },
 	"eventIcon2": { Native: eventIcon2, Web: eventIcon2W },
+	"duplicar": { Native: duplicar, Web: duplicarW },
 
 }
 

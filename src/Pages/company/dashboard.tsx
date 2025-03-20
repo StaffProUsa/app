@@ -54,7 +54,7 @@ export default class dashboard extends Component {
               filters.push({
                 "col": "company",
                 "type": "string",
-                "operator": "=",
+                "operator": "contains",
                 "value": companyResp?.data?.descripcion
               })
             }
@@ -68,7 +68,7 @@ export default class dashboard extends Component {
               filters.push({
                 "col": "cliente",
                 "type": "string",
-                "operator": "=",
+                "operator": "contains",
                 "value": clientResp?.data?.descripcion
               })
             }
@@ -82,7 +82,7 @@ export default class dashboard extends Component {
               filters.push({
                 "col": "evento",
                 "type": "string",
-                "operator": "=",
+                "operator": "contains",
                 "value": eventtResp?.data?.descripcion
               })
             }

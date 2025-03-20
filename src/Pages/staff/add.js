@@ -284,10 +284,10 @@ export default class add extends Component {
                     "key_evento": this.state.key_evento,
                     "key_staff_tipo": dataTipo.key,
                     "fecha_inicio": !val.hora_inicio ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? "") + tz,
-                    // "fecha_fin": !val.hora_fin ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? "") + tz,
-                    "fecha_fin": !val.hora_fin 
-                    ? new SDate(val.hora_inicio).addDay(1).toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? "") + tz
-                    : new SDate(val.hora_fin).toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? "") + tz,
+                    "fecha_fin": !val.hora_fin ? null : new SDate().toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? "") + tz,
+                    // "fecha_fin": !val.hora_fin 
+                    // ? new SDate(val.hora_inicio).addDay(1).toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? "") + tz
+                    // : new SDate(val.hora_fin).toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? "") + tz,
                     cantidad: val.cantidad,
                     nivel_ingles: val.nivel_ingles
                 },
