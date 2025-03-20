@@ -64,7 +64,10 @@ const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT, aut
         } else {
             if (autoSelect && flatListRef.current) {
                 state.value = data[0]
-                if (onChange) onChange(state.value)
+                if (onChange) {
+                    onChange(state.value)
+                    // console.log("entro al onchange del useEffect")
+                }
             }
         }
 
@@ -86,12 +89,14 @@ const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT, aut
         }
     };
 
-    const onViewableItemsChanged = useCallback(({ viewableItems }) => {
+    const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
         if (viewableItems.length > 0) {
             if (!state.ready) {
                 state.ready = true;
                 return;
             }
+            // console.log("entro al onViewableItemsChanged", viewableItems)
+            // console.log("Changed", changed )
             state.value = viewableItems[0].item;
             if (!!state.valueTo) {
                 if (state.value == state.valueTo) {
@@ -99,7 +104,11 @@ const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT, aut
                 }
                 return;
             }
-            if (onChange) onChange(state.value)
+
+            if (onChange) {
+                // console.log("entro al onchange del onViewableItemsChanged" )
+                onChange(state.value)
+            }
 
         }
     }, []);
@@ -117,7 +126,10 @@ const InputSelect = ({ data, defaultValue = "", onChange = ocd, ITEM_HEIGHT, aut
                     // Aqui pon el codigo
                     state.value = item
                     state.valueTo = item
-                    if (onChange) onChange(state.value)
+                    if (onChange) {
+                        // console.log("entro al onchange del onpress")
+                        onChange(state.value)
+                    }
                     centerItemOnPress(index)
                 }} />}
                 getItemLayout={(data, index) => ({
