@@ -1,5 +1,5 @@
 import React from "react";
-import { SDate, SHr, SLanguage, SList, SNavigation, SPage, SText, STheme, SUtil, SView } from "servisofts-component";
+import { SDate, SHr, SIcon, SLanguage, SList, SNavigation, SNotification, SPage, SText, STheme, SUtil, SView } from "servisofts-component";
 import SSocket from "servisofts-socket";
 import { Container } from "../../Components";
 import FloatButtom from "../../Components/FloatButtom";
@@ -96,7 +96,7 @@ export default class Eventos extends React.Component {
             return null;
         }
 
-
+        let lenguaje = SLanguage.language;
         return <SView col={"xs-12"} style={{
             borderWidth: 1,
             borderRadius: 8,
@@ -104,7 +104,7 @@ export default class Eventos extends React.Component {
         }} padding={8} onPress={() => {
             SNavigation.navigate("/company/event", { key_evento: obj.key })
         }}>
-            <SHr />
+
             <SView col={"xs-12"} row center>
                 <SView flex>
                     <SText fontSize={14} bold>{obj.descripcion}</SText>
@@ -115,6 +115,43 @@ export default class Eventos extends React.Component {
                         en: "PAST EVENT"
                     }} /> : null}
                     {/* <SText fontSize={12} color={STheme.color.gray}>ESTADO</SText> */}
+                </SView>
+                <SView width={5} />
+                <SView width={40} center row padding={3}
+                    onPress={() => {
+                        SSocket.sendPromise({
+                            component: "evento",
+                            type: "duplicar",
+                            key_evento: obj.key
+                        }).then(e => {
+                            SNotification.send({
+                                title: (lenguaje == "es") ? "Éxito" : "Success",
+                                body: (lenguaje == "es") ? "Evento duplicado correctamente" : "Event duplicated successfully",
+                                color: STheme.color.success,
+                                time: 5000,
+                            })
+                            this.componentDidMount();
+                        }).catch(e => {
+                            SNotification.send({
+                                title: (lenguaje == "es") ? "Error" : "Error",
+                                body: e.error ?? (lenguaje == "es") ? "Error desconocido" : "Unknown error",
+                                color: STheme.color.danger,
+                                time: 5000,
+                            })
+                        })
+                    }}
+                    style={{
+                        alignItems: "flex-end",
+                        backgroundColor: STheme.color.success,
+                        borderRadius: 4,
+                    }}>
+                    <SIcon name={"duplicar"} fill={STheme.color.white} width={15} height={15} />
+                    <SText fontSize={8} color={STheme.color.white} language={
+                        {
+                            es: "Duplicar",
+                            en: "Duplicate"
+                        }
+                    } />
                 </SView>
             </SView>
 
