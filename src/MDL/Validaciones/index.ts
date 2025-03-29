@@ -2,8 +2,9 @@ import SSocket from "servisofts-socket";
 import MDLAbstract from "../MDLAbstract";
 import { EventListener } from "./type";
 import { Platform } from "react-native";
-import { SNavigation } from "servisofts-component";
+import { SNavigation, SNotification, STheme } from "servisofts-component";
 import packageInfo from "../../../package.json";
+import Model from "../../Model";
 
 
 export default class validaciones extends MDLAbstract<EventListener> {
@@ -13,7 +14,16 @@ export default class validaciones extends MDLAbstract<EventListener> {
     async componentDidMount() {
         try {
             await this.validateVersion();
-        } catch (e) {
+            await this.verificarImagen();
+            await this.getStaffTipoFavorito();
+
+        } catch (e: any) {
+            SNotification.send({
+                title: "Error",
+                body: e,
+                color: STheme.color.danger,
+                time: 5000
+            })
             console.error(e)
         }
     }
@@ -21,7 +31,7 @@ export default class validaciones extends MDLAbstract<EventListener> {
 
 
 
-    validateVersion = async () => {
+    validateVersion = () => {
         return new Promise((resolve, reject) => {
             SSocket.sendPromise({
                 component: "enviroment",
@@ -44,7 +54,57 @@ export default class validaciones extends MDLAbstract<EventListener> {
         })
     }
 
-    
+
+
+    verificarImagen = async () => {
+        const key_usuario = Model.usuario.Action.getKey();
+        if (!key_usuario) {
+            return;
+        }
+        try {
+            const response = await fetch(`${SSocket.api.root}usuario/${key_usuario}`);
+
+            if (!response.ok) {
+                SNavigation.replace('/registro/foto');
+                throw new Error("Imagen no existe");
+            }
+        } catch (error) {
+            console.log('Error al verificar la imagen:', error);
+            SNavigation.replace('/registro/foto'); // Por si hay error de red también lo llevamos a subir foto
+            throw new Error("Imagen no existe");
+        }
+    };
+
+    getStaffTipoFavorito() {
+        return new Promise((resolve, reject) => {
+            if(!Model.usuario.Action.getKey()){
+                resolve(true);
+                return;
+            }
+            SSocket.sendPromise({
+                component: "staff_tipo_favorito",
+                type: "getAll",
+                key_usuario: Model.usuario.Action.getKey()
+            }).then((e: any) => {
+                // this.setState({ StaffTipoFavorito: e.data })
+
+                if (e.data && Object.keys(e.data).length === 0) {
+                    SNavigation.navigate("/perfil/staff_tipo")
+                    reject("No hay staff tipo favorito")
+                    return;
+                    // throw new Error("Imagen no existe");
+                }
+                resolve(true)
+            }).catch(e => {
+                resolve(true)
+                console.error(e);
+            })
+        })
+
+
+    }
+
+
 
 
 }
