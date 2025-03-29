@@ -1,8 +1,9 @@
 import Evento from "./Evento";
-
+import Validaciones from "./Validaciones"
 
 export const MDL = {
-    evento: new Evento()
+    evento: new Evento(),
+    validaciones: new Validaciones(),
 };
 
 
