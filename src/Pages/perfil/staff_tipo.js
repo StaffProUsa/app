@@ -118,7 +118,7 @@ export default class staff_tipo extends Component {
                                 key_usuario: Model.usuario.Action.getKey()
                             }).then(e => {
 
-                                delete  item.staff_tipo_favorito
+                                delete item.staff_tipo_favorito
                                 // item.staff_tipo_favorito = null;
                                 SNotification.send({
                                     title: (lenguaje == "es") ? "Éxito" : "Success",
@@ -150,8 +150,12 @@ export default class staff_tipo extends Component {
                     if (select <= 0) {
                         SNotification.send({
                             title: "Error",
-                            body: "Please select at least one staff type",
-                            color:STheme.color.danger,
+                            body: SLanguage.select({
+                                en: "Please select at least one staff type",
+                                es: "Por favor selecciona al menos un tipo de staff"
+                            }),
+                            // body: "Please select at least one staff type", 
+                            color: STheme.color.danger,
                         })
                         return;
                     }

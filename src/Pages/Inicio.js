@@ -41,6 +41,8 @@ export default class Inicio extends Component {
       console.error(e);
     })
   }
+
+
   componentDidMount() {
 
     // Actions.usuario_company.getAllCompanyUser().then(e => {
@@ -48,6 +50,8 @@ export default class Inicio extends Component {
     // }).catch(e => {
 
     // })
+    // this.verificarImagen();
+
     this.loadDataInvitaciones();
 
     this.state.data = []
@@ -55,6 +59,18 @@ export default class Inicio extends Component {
     this.state.endData = false;
     // this.getFiltros();
     SSocket.addEventListener("onMessage", this.handleSocketMessage.bind(this))
+    // <SImage
+    //           src={`${SSocket.api.root}usuario/${usuario.key
+    //             }?time=${new Date().getTime()}`}
+    //           style={{
+    //             width: '100%',
+    //             height: '100%',
+    //             resizeMode: "cover"
+    //           }}
+    //         />
+
+
+
   }
   componentWillUnmount() {
     SSocket.removeEventListener("onMessage", this.handleSocketMessage.bind(this));
