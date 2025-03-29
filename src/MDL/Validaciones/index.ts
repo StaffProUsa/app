@@ -2,7 +2,7 @@ import SSocket from "servisofts-socket";
 import MDLAbstract from "../MDLAbstract";
 import { EventListener } from "./type";
 import { Platform } from "react-native";
-import { SNavigation, SNotification, STheme } from "servisofts-component";
+import { SNavigation, SNotification, STheme, SLanguage } from "servisofts-component";
 import packageInfo from "../../../package.json";
 import Model from "../../Model";
 
@@ -42,7 +42,10 @@ export default class validaciones extends MDLAbstract<EventListener> {
                     const versionRequired = e.data?.data
                     if (versionToNumber(versionRequired) > versionToNumber(packageInfo.version)) {
                         SNavigation.replace("/version_required")
-                        reject("Version not compatible")
+                        reject(SLanguage.select({
+                            en: "Version not compatible",
+                            es: "Versión no compatible",
+                        }))
                         return;
                     }
                 }
@@ -65,19 +68,26 @@ export default class validaciones extends MDLAbstract<EventListener> {
             const response = await fetch(`${SSocket.api.root}usuario/${key_usuario}`);
 
             if (!response.ok) {
-                SNavigation.replace('/registro/foto');
-                throw new Error("Imagen no existe");
+                SNavigation.replace('/registro/foto', { key_usuario: key_usuario });
+                // throw "Imagen no existe";
+                throw SLanguage.select({
+                    es: "Para continuar, por favor sube una foto de perfil.",
+                    en: "To continue, please upload a profile picture.",
+                })
             }
         } catch (error) {
             console.log('Error al verificar la imagen:', error);
-            SNavigation.replace('/registro/foto'); // Por si hay error de red también lo llevamos a subir foto
-            throw new Error("Imagen no existe");
+            SNavigation.replace('/registro/foto', { key_usuario: key_usuario }); // Por si hay error de red también lo llevamos a subir foto
+            throw SLanguage.select({
+                es: "Para continuar, por favor sube una foto de perfil.",
+                en: "To continue, please upload a profile picture.",
+            })
         }
     };
 
     getStaffTipoFavorito() {
         return new Promise((resolve, reject) => {
-            if(!Model.usuario.Action.getKey()){
+            if (!Model.usuario.Action.getKey()) {
                 resolve(true);
                 return;
             }
@@ -90,7 +100,11 @@ export default class validaciones extends MDLAbstract<EventListener> {
 
                 if (e.data && Object.keys(e.data).length === 0) {
                     SNavigation.navigate("/perfil/staff_tipo")
-                    reject("No hay staff tipo favorito")
+                    reject(SLanguage.select({
+                        es: "Selecciona tus aptitudes o lo que sabes hacer.",
+                        en: "Select your skills or what you know how to do.",
+                    }))
+                    // reject("No hay staff tipo favorito")
                     return;
                     // throw new Error("Imagen no existe");
                 }

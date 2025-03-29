@@ -4,6 +4,7 @@ import { SInput, SNavigation, SPage, SText, STheme, SView, SNotification, SLangu
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
+import MDL from '../../MDL';
 
 
 
@@ -60,6 +61,7 @@ export default class staff_tipo extends Component {
         })
     }
     componentWillUnmount() {
+        MDL.validaciones.componentDidMount();
         SLanguage.removeListener(this.onChangeLanguage)
     }
 

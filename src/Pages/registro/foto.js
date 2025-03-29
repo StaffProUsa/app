@@ -10,6 +10,7 @@ import BtnSend from './components/BtnSend';
 import Header from './components/Header';
 import CryptoJS from 'crypto-js';
 import PButtom from '../../Components/PButtom';
+import MDL from '../../MDL';
 
 class foto extends Component {
     constructor(props) {
@@ -19,6 +20,11 @@ class foto extends Component {
         };
         this.params = SNavigation.getAllParams();
     }
+
+    componentWillUnmount() {
+        MDL.validaciones.componentDidMount();
+    }
+
     icon = (name) => {
         return <SIcon
             name={name}
