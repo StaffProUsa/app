@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Platform } from 'react-native'
 import { SComponentContainer, SLanguage, SNavigation, SMapView, SPage, SText, STheme } from 'servisofts-component';
 import packageInfo from "../package.json";
-
 import Assets from './Assets';
 import Pages from './Pages';
 
@@ -19,18 +18,6 @@ import Socket from './Socket';
 import ErrorBoundary from './Components/ErrorBoundary';
 import * as MDL from "./MDL"
 SLanguage.language = "en";
-const versionToNumber = (v) => {
-  const array = v.split("\.");
-  const vl = 100;
-  let vn = 0;
-  for (let i = 0; i < array.length; i++) {
-    const element = array[array.length - i - 1];
-    const vp = Math.pow(vl, i);
-    vn += (vp * element)
-  }
-  console.log(vn)
-  return vn;
-}
 
 
 setProps(Config.socket);
@@ -59,23 +46,7 @@ SMapView.bootstrapURLKeys = { key: "AIzaSyC4rcy6GRVM5_i9ZF0vGFmb1HRc0mXsAdk" }
 const App = (props) => {
   useEffect(() => {
     MDL.componentDidMount();
-
-    SSocket.sendPromise({
-      component: "enviroment",
-      type: "getByKey",
-      key: "version_" + Platform.OS
-    }).then(e => {
-      if (!e.data) return;
-      const versionRequired = e.data?.data
-      if (versionToNumber(versionRequired) > versionToNumber(packageInfo.version)) {
-        SNavigation.replace("/version_required")
-        return;
-      }
-      // DataBaseContainer.sync();
-
-    }).catch(e => {
-      console.error(e)
-    })
+   
   }, [])
   return <Redux>
     <ErrorBoundary>
