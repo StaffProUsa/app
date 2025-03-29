@@ -128,15 +128,12 @@ export default class timeSheets extends Component {
 
           loadData={this.loadData.bind(this)}
           colors={{
-            text: STheme.color.text,
+            text: STheme.color.gray,
             // accent: STheme.color.secondary,
-           border: STheme.color.card,
-                  header: STheme.color.barColor,
-
-            background: STheme.color.secondary,
-           // background: STheme.color.barColor,
-                  // background: STheme.color.background,
-
+            border: STheme.color.card,
+            // background: STheme.color.secondary,
+            header: STheme.color.barColor,
+            background: STheme.color.background,
             card: STheme.color.card
           }}
           cellStyle={{
@@ -146,24 +143,24 @@ export default class timeSheets extends Component {
           }}
           textStyle={{
             fontSize: 12,
-       }}
+          }}
 
- selectType='single'
-     onSelect={(e) => {
-      SPopup.open({
-       key: "popup_menu_alvaro",
-       type: "2",
-       content: <SView withoutFeedback style={[{
-        position: "absolute",
-        top: e.evt.nativeEvent.pageY,
-        left: e.evt.nativeEvent.pageX,
-        width: 230,
-       }
-       ]} center>
-        <BoxMenuTimeSheets data={{ ...(e.row as any), key_company: this.key_company_ } }></BoxMenuTimeSheets>
-       </SView>
-      })
-     }}
+          selectType='single'
+          onSelect={(e) => {
+            SPopup.open({
+              key: "popup_menu_alvaro",
+              type: "2",
+              content: <SView withoutFeedback style={[{
+                position: "absolute",
+                top: e.evt.nativeEvent.pageY,
+                left: e.evt.nativeEvent.pageX,
+                width: 230,
+              }
+              ]} center>
+                <BoxMenuTimeSheets data={{ ...(e.row as any), key_company: this.key_company_ }}></BoxMenuTimeSheets>
+              </SView>
+            })
+          }}
 
 
 
@@ -210,7 +207,7 @@ export default class timeSheets extends Component {
                   backgroundColor: color,
                   borderRadius: 4,
                 }}>
-                  <Text style={[e.textStyle as TextStyle, { color: "#fff",  fontSize: 10 }]} >{e.dataFormat}</Text>
+                  <Text style={[e.textStyle as TextStyle, { color: "#fff", fontSize: 10 }]} >{e.dataFormat}</Text>
                 </SView>
               </SView>
             }} />
@@ -291,17 +288,18 @@ export default class timeSheets extends Component {
           <Col key={"horas"} label={SLanguage.select({ es: "Horas", en: "Times" })} width={60}
             dataType='number'
             data={e => {
-              if (!e.row.staff_usuario.fecha_ingreso) return "";
+              if (!e.row.staff_usuario.fecha_ingreso || !e.row.staff_usuario.fecha_salida) return 0;
               let hora44 = this.calculador_hora(e.row.staff_usuario.fecha_ingreso, e.row.staff_usuario.fecha_salida);
               return hora44;
             }}
-            format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
+            // format={e => e.data.toFixed(2)}
           />
 
 
           <Col key={"sutbtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
             dataType='number'
             data={e => {
+              if (!e.row.staff_usuario.fecha_ingreso || !e.row.staff_usuario.fecha_salida) return 0;
               let hora44: any = this.calculador_hora(e.row.staff_usuario.fecha_ingreso, e.row.staff_usuario.fecha_salida);
               let dadda = parseFloat(hora44 ?? "") * e.row?.usuario_company?.salario_hora;
               return dadda;

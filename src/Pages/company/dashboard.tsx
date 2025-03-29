@@ -3,9 +3,7 @@ import { Text, TextStyle, View } from 'react-native';
 import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView, } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
-import Model from '../../Model';
 import BoxMenu from '../../Components/Popups/BoxMenu';
-import TableIcon from '../../Components/Table/TableIcon';
 import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
 
 type DataType = any
@@ -24,7 +22,7 @@ const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
   </SView>
 }
 export default class dashboard extends Component {
-  params =  SNavigation.getAllParams();
+  params = SNavigation.getAllParams();
   async loadData() {
 
     const resp: any = await SSocket.sendPromise({
@@ -37,12 +35,12 @@ export default class dashboard extends Component {
 
 
   render() {
-    
+
     return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll>
       <SView col={"xs-12"} flex>
         <DinamicTable
           loadInitialState={async () => {
-         
+
             let filters: ExporterStateType["filters"] = [];
             if (this.params.key_company) {
               const companyResp: any = await SSocket.sendPromise({
@@ -213,7 +211,7 @@ export default class dashboard extends Component {
               </SView>
             }} />
 
-          <Col key={"fecha"} label={SLanguage.select({ en: "Date", es: "fecha" })} width={130}
+          <Col key={"fecha"} label={SLanguage.select({ en: "Date", es: "Fecha" })} width={130}
             textStyle={{
               textAlign: "right"
             }}
@@ -246,10 +244,11 @@ export default class dashboard extends Component {
               textAlign: "right",
             }}
             data={e => {
+              if (!e.row?.staff?.fecha_inicio || !e.row?.staff?.fecha_fin) return "";
               const time = new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").diffTime(new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD"))
               return time / 1000 / 60 / 60
             }}
-            format={e => Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
+            format={e => !e.data ? "" : e.data.toFixed(2)}
           />
           <Col key={"staff_descripcion"} label={SLanguage.select({ en: "Staff descripcion", es: "Descripcion puesto" })} width={200}
             disableFilterGroup
