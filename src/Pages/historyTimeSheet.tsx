@@ -84,7 +84,7 @@ export default class historyAlvaro extends Component {
 
   render() {
     // console.log("cliee " + this.key_cliente_)
-    return <SPage title={"Test"} disableScroll>
+    return <SPage titleLanguage={{ es: "Reporte de asistencia", en: "Timesheet" }} disableScroll>
       <SView col={"xs-12"} flex>
         <DinamicTable
           loadInitialState={async () => {
@@ -207,13 +207,14 @@ export default class historyAlvaro extends Component {
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />} />
 
           <Col key={"inicio"} label={SLanguage.select({ es: "Hora inicio", en: "Clock In" })} width={80}
-            dataType='date' data={e => new SDate(e.row?.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
-            format={e => new SDate(e.data).toString("HH")} />
+            dataType='date' data={e => (!e.row?.staff_usuario.fecha_ingreso) ? null : new SDate(e.row?.staff_usuario.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").date}
+            format={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.data).toString("HH")}
+          />
 
           <Col key={"fin"} label={SLanguage.select({ es: "Hora fin", en: "Clock Out" })} width={80}
             dataType='date'
-            data={e => (!e.row?.staff_usuario.fecha_ingreso) ? null : new SDate(e.row?.staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").date}
-            format={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.data).toString("HH")}
+            data={e => (!e.row?.staff_usuario.fecha_salida) ? null : new SDate(e.row?.staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").date}
+            format={e => (!e.row.staff_usuario.fecha_salida) ? null : new SDate(e.data).toString("HH")}
           />
 
           <Col key={"horas"} label={SLanguage.select({ es: "Horas", en: "Times" })} width={60}
@@ -222,7 +223,7 @@ export default class historyAlvaro extends Component {
               fontWeight: "bold"
             }}
             data={e => {
-              if (!e.row.staff_usuario.fecha_ingreso) return "";
+              if (!e.row.staff_usuario.fecha_ingreso || !e.row.staff_usuario.fecha_salida) return "";
               let hora44 = this.calculador_hora(e.row?.staff_usuario.fecha_ingreso, e.row?.staff_usuario.fecha_salida);
               return hora44;
             }}
@@ -232,6 +233,7 @@ export default class historyAlvaro extends Component {
           <Col key={"sutbtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
             dataType='number'
             data={e => {
+              if (!e.row.staff_usuario.fecha_ingreso || !e.row.staff_usuario.fecha_salida) return "";
               let hora44: any = this.calculador_hora(e.row?.staff_usuario.fecha_ingreso, e.row?.staff_usuario.fecha_salida);
               let dadda = parseFloat(hora44 ?? "") * e.row?.usuario_company?.salario_hora;
               return dadda;

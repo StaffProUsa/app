@@ -90,10 +90,10 @@ class Perfil extends React.Component {
       SNotification.send({
         title: "Error",
         body: e.error ?? "No se pudo completar la accion.",
-        time:5000,
+        time: 5000,
       })
     })
- 
+
     SSocket.sendPromise({
       component: "staff_usuario",
       type: "isJefe",
@@ -115,7 +115,7 @@ class Perfil extends React.Component {
       SNotification.send({
         title: "Error",
         body: e.error ?? "No se pudo completar la accion.",
-        time:5000,
+        time: 5000,
       })
     })
   }
@@ -322,19 +322,21 @@ class Perfil extends React.Component {
       currentActivity = arr.find(a => a.key == this.state.foto_id)
     }
     return (
-      console.log("dataaaaa ", DATA),
       <>
         <SView col={'xs-12'} border={this.bgborder} center row>
           <SView col={"xs-12"} center>
-            <SView width={40} height={40} style={{
-              borderRadius: 8,
-              overflow: "hidden"
-            }}>
-              <SImage src={SSocket.api.root + "cliente/" + DATA?.cliente?.key} style={{ resizeMode: "cover" }} />
+            <SView col={"xs-12"} center row>
+              <SView width={40} height={40} style={{
+                borderRadius: 8,
+                overflow: "hidden"
+              }}>
+                <SImage src={SSocket.api.root + "cliente/" + DATA?.cliente?.key} style={{ resizeMode: "cover" }} />
+              </SView>
+              <SView width={8} />
+              <SText  center color={STheme.color.text} bold font={'Roboto'} fontSize={24}>
+                {DATA?.cliente?.descripcion}
+              </SText>
             </SView>
-            <SText col={"xs-8"} center color={STheme.color.text} bold font={'Roboto'} fontSize={24}>
-              {DATA?.cliente?.descripcion}
-            </SText>
             <SHr h={4} />
             <SText col={"xs-8"} center color={STheme.color.text} bold font={'Roboto'} fontSize={20}>
               {DATA.descripcion}
@@ -473,7 +475,7 @@ class Perfil extends React.Component {
                 }} style={{
                   paddingLeft: 5
                 }} />
-                <SText center fontSize={18} justify>{(DATA?.cliente?.papeles) ? SLanguage.select({ es: "SÍ", en: "YES" })  : "NO"}</SText>
+                <SText center fontSize={18} justify>{(DATA?.cliente?.papeles) ? SLanguage.select({ es: "SÍ", en: "YES" }) : "NO"}</SText>
               </SView>
             </SView>
 
@@ -607,7 +609,7 @@ class Perfil extends React.Component {
           this.getData();
           if (e) e()
         }}
-        footer={<PBarraFooter url={''} />}
+          footer={<PBarraFooter url={''} />}
         >
           {!this.state.ready ? <SLoad /> :
             <SView col={'xs-12'} center>
@@ -648,7 +650,7 @@ class Perfil extends React.Component {
                 {/* <SView col={'xs-11.5'}>
                   <Asistencia  data={this.state.data}/>
                 </SView>  */}
-                <MarcarPorCodigoEvento key_evento={this.key} dataJefe={this.state?.dataJefe}/>
+                <MarcarPorCodigoEvento key_evento={this.key} dataJefe={this.state?.dataJefe} />
                 <SView col={'xs-11.5'}>
                   {/* <MisTrabajosDelEvento key_evento={this.key} /> */}
                   <TrabajosDelEvento key_evento={this.key} />
@@ -670,7 +672,7 @@ class Perfil extends React.Component {
                 <SHr height={100} color={this.bgSpace} />
                 <SHr height={30} />
               </SView>
-              
+
             </SView>
           }
         </SPage>

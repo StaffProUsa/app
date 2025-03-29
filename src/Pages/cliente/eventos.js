@@ -1,5 +1,5 @@
 import React from "react";
-import { SDate, SHr, SIcon, SLanguage, SList, SNavigation, SNotification, SPage, SText, STheme, SUtil, SView } from "servisofts-component";
+import { SDate, SHr, SIcon, SLanguage, SList, SNavigation, SNotification, SPage, SPopup, SText, STheme, SUtil, SView } from "servisofts-component";
 import SSocket from "servisofts-socket";
 import { Container } from "../../Components";
 import FloatButtom from "../../Components/FloatButtom";
@@ -118,27 +118,34 @@ export default class Eventos extends React.Component {
                 </SView>
                 <SView width={5} />
                 <SView width={40} center row padding={3}
+
                     onPress={() => {
-                        SSocket.sendPromise({
-                            component: "evento",
-                            type: "duplicar",
-                            key_evento: obj.key
-                        }).then(e => {
-                            SNotification.send({
-                                title: (lenguaje == "es") ? "Éxito" : "Success",
-                                body: (lenguaje == "es") ? "Evento duplicado correctamente" : "Event duplicated successfully",
-                                color: STheme.color.success,
-                                time: 5000,
-                            })
-                            this.componentDidMount();
-                        }).catch(e => {
-                            SNotification.send({
-                                title: (lenguaje == "es") ? "Error" : "Error",
-                                body: e.error ?? (lenguaje == "es") ? "Error desconocido" : "Unknown error",
-                                color: STheme.color.danger,
-                                time: 5000,
-                            })
-                        })
+                        SPopup.confirm({
+                            title: (lenguaje == "es") ? "¿Está seguro de duplicar el evento?" : "Are you sure to duplicate the event?",
+                            onPress: () => {
+                                SSocket.sendPromise({
+                                    component: "evento",
+                                    type: "duplicar",
+                                    key_evento: obj.key
+                                }).then(e => {
+                                    SNotification.send({
+                                        title: (lenguaje == "es") ? "Éxito" : "Success",
+                                        body: (lenguaje == "es") ? "Evento duplicado correctamente" : "Event duplicated successfully",
+                                        color: STheme.color.success,
+                                        time: 5000,
+                                    })
+                                    this.componentDidMount();
+                                }).catch(e => {
+                                    SNotification.send({
+                                        title: (lenguaje == "es") ? "Error" : "Error",
+                                        body: e.error ?? (lenguaje == "es") ? "Error desconocido" : "Unknown error",
+                                        color: STheme.color.danger,
+                                        time: 5000,
+                                    })
+                                })
+                            }
+                        });
+
                     }}
                     style={{
                         alignItems: "flex-end",
