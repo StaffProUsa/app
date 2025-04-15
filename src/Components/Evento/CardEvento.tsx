@@ -100,7 +100,9 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
         return <SView col={"xs-12"} style={{
             borderWidth: 1,
             borderRadius: 8,
-            borderColor: STheme.color.card
+            borderColor: STheme.color.card,
+            backgroundColor: STheme.getTheme() == "dark" ? STheme.color.black+"60" : STheme.color.white+"95"
+
         }} padding={12} onPress={this.props.onPress}>
             <SView col={"xs-12"} row >
                 <SView flex>

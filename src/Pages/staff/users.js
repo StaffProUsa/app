@@ -533,7 +533,7 @@ export default class users extends Component {
                                     {
                                         key: "-select", width: 25,
                                         renderHeader: () => {
-                                            const ff = this.state.data_disponibles.filter(a => !a.staff_usuario || a?.staff_usuario?.estado == 2);
+                                            const ff = this.state.data_disponibles.filter(a => (!a.staff_usuario || a?.staff_usuario?.estado == 2) && (!!a?.usuario));
                                             const ff_disponible = ff.filter(a => !a.staff_usuario);
                                             const ff_select = ff.filter(a => !!a._select);
                                             let active = false;
@@ -561,16 +561,43 @@ export default class users extends Component {
                                         },
                                         component: (elm) => <SView col={"xs-12"} center>
                                             <SView width={20} height={20} >
-                                                {
-                                                    elm?.staff_usuario ? null :
-                                                        <SInput key={elm.key ?? ""} type='checkBox' defaultValue={elm?._select}
-                                                            disabled={this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin)}
-                                                            onChangeText={e => {
-                                                                elm._select = !!e;
+                                                <SInput key={elm.key ?? ""} type='checkBox' defaultValue={elm?._select ?? elm?.staff_usuario}
+                                                    disabled={this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin)}
+                                                    backgroundColor={elm?.staff_usuario ? STheme.color.lightGray : "#1975FF"}
+                                                    onChangeText={e => {
+                                                        if (elm?.staff_usuario) {
+
+                                                            SSocket.sendPromise({
+                                                                component: "staff_usuario",
+                                                                type: "desinvitarGrupo",
+                                                                key_usuarios_desinvitados: [elm.key_usuario],
+                                                                key_staff: this.pk,
+                                                                key_usuario: Model.usuario.Action.getKey(),
+                                                            }).then(e => {
+                                                                // this.loadData();
+                                                                elm._select = false;
                                                                 this.setState({ ...this.state })
-                                                            }}
-                                                        />
-                                                }
+                                                                SNotification.send({
+                                                                    title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
+                                                                    body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
+                                                                    color: STheme.color.success,
+                                                                    time: 5000
+                                                                })
+                                                            }).catch(e => {
+                                                                console.error(e)
+                                                                SNotification.send({
+                                                                    title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
+                                                                    body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
+                                                                    color: STheme.color.danger,
+                                                                    time: 5000
+                                                                })
+                                                            })
+                                                            console.log("Ya tiene staff")
+                                                        }
+                                                        elm._select = !!e;
+                                                        this.setState({ ...this.state })
+                                                    }}
+                                                />
                                             </SView>
                                         </SView>,
                                         renderExcel: (a) => {
@@ -610,52 +637,41 @@ export default class users extends Component {
                                     //     }
                                     // },
 
-                                    {
-                                        key: "-", width: 50, component: (elm) => <SView col={"xs-12"} center>
-                                            {!elm.staff_usuario ? null : <SView width={20} height={20} ><SInput key={elm.key ?? ""} defaultValue={true} type='checkBox' onChangeText={e => {
+                                    // {
+                                    //     key: "-", width: 50, component: (elm) => <SView col={"xs-12"} center>
+                                    //         {!elm.staff_usuario ? null : <SView width={20} height={20} ><SInput key={elm.key ?? ""} defaultValue={true} type='checkBox' onChangeText={e => {
 
-                                                SSocket.sendPromise({
-                                                    component: "staff_usuario",
-                                                    type: "desinvitarGrupo",
-                                                    key_usuarios_desinvitados: [elm.key_usuario],
-                                                    key_staff: this.pk,
-                                                    key_usuario: Model.usuario.Action.getKey(),
-                                                }).then(e => {
-                                                    this.loadData();
-                                                    SNotification.send({
-                                                        title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
-                                                        body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
-                                                        color: STheme.color.success,
-                                                        time: 5000
-                                                    })
-                                                }).catch(e => {
-                                                    console.error(e)
-                                                    SNotification.send({
-                                                        title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
-                                                        body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
-                                                        color: STheme.color.danger,
-                                                        time: 5000
-                                                    })
-                                                })
-                                            }} /></SView>}
-                                            </SView>,
-                                        renderExcel: (a) => {
-                                            return "";
-                                        }
-                                    },
+                                    //             SSocket.sendPromise({
+                                    //                 component: "staff_usuario",
+                                    //                 type: "desinvitarGrupo",
+                                    //                 key_usuarios_desinvitados: [elm.key_usuario],
+                                    //                 key_staff: this.pk,
+                                    //                 key_usuario: Model.usuario.Action.getKey(),
+                                    //             }).then(e => {
+                                    //                 this.loadData();
+                                    //                 SNotification.send({
+                                    //                     title: (lenguaje == "es") ? "Cancelación de la Invitación" : "Invitation Canceled",
+                                    //                     body: (lenguaje == "es") ? "Se canceló la invitación al usuario seleccionado" : "The invitation to the selected user was canceled",
+                                    //                     color: STheme.color.success,
+                                    //                     time: 5000
+                                    //                 })
+                                    //             }).catch(e => {
+                                    //                 console.error(e)
+                                    //                 SNotification.send({
+                                    //                     title: (lenguaje == "es") ? "Error al cancelar la invitación" : "Error canceling the invitation",
+                                    //                     body: (lenguaje == "es") ? "Ocurrio un error al cancelar la invitación" : "An error occurred while canceling the invitation",
+                                    //                     color: STheme.color.danger,
+                                    //                     time: 5000
+                                    //                 })
+                                    //             })
+                                    //         }} /></SView>}
+                                    //         </SView>,
+                                    //     renderExcel: (a) => {
+                                    //         return "";
+                                    //     }
+                                    // },
 
-                                    {
-                                        key: "participacion", label: SLanguage.select({
-                                            en: "Events\nTREND",
-                                            es: "Eventos\nTENDEN."
-                                        }), width: 65, order: "desc", headerColor: STheme.color.warning + "70",
-                                    },
-                                    {
-                                        key: "rechazos", label: SLanguage.select({
-                                            en: "Rejects",
-                                            es: "Rechazos"
-                                        }), width: 60, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText>
-                                    },
+                                    
 
                                     // {
                                     //     key: "eventos_duplicados", label: SLanguage.select({
@@ -732,12 +748,12 @@ export default class users extends Component {
                                                 resizeMode: "cover",
                                             }} /></SView>
                                     },
-                                    {
-                                        key: "employee_number", label: SLanguage.select({
-                                            en: "E. Number",
-                                            es: "N. de empleado"
-                                        }), width: 60,
-                                    },
+                                    // {
+                                    //     key: "employee_number", label: SLanguage.select({
+                                    //         en: "E. Number",
+                                    //         es: "N. de empleado"
+                                    //     }), width: 60,
+                                    // },
 
                                     {
                                         key: "usuario", label: SLanguage.select({
@@ -746,6 +762,20 @@ export default class users extends Component {
                                         }), width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
 
                                     },
+
+                                    {
+                                        key: "participacion", label: SLanguage.select({
+                                            en: "Events\nTREND",
+                                            es: "Eventos\nTENDEN."
+                                        }), width: 65, order: "desc", headerColor: STheme.color.warning + "70",
+                                    },
+                                    {
+                                        key: "rechazos", label: SLanguage.select({
+                                            en: "Rejects",
+                                            es: "Rechazos"
+                                        }), width: 60, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText>
+                                    },
+
                                     // { key: "horas_trabajadas_tipo", label: SLanguage.select({
                                     //     en: "Hrs. Staff\nTREND",
                                     //     es: "Hrs. Staff\nTENDEN."
@@ -793,6 +823,40 @@ export default class users extends Component {
                                             es: "Nivel de inglés"
                                         }), width: 70,
                                     },
+
+                                    {
+                                        key: "usuario_company/salario_hora", label: SLanguage.select({
+                                            en: "Salary",
+                                            es: "Salario"
+                                        }), width: 60, component: (obj) => {
+                                            const user = this.usuarios
+                                            console.log(user)
+                                            return <SView col={"xs-12"} row 
+                                            onPress={() => {
+                                                // // this.handleEditSalario(obj)
+                                                // SSocket.sendPromise({
+                                                //     component: "cliente",
+                                                //     type: "getByKey",
+                                                //     key: e.data.evento.key_cliente,
+                                                // }).then(e => {
+                                                //     this.setState({ data_cliente: e.data })
+                                                // }
+                                                // ).catch(e => {
+                                                //     console.error(e);
+                                                // })
+                                            }} center>
+                                                {/* <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} /> */}
+                                                <SView width={3} />
+                                                <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
+                                            </SView>
+                                        },
+                                        renderExcel: (obj) => {
+                                            const user = this.usuarios[obj.key_usuario_atiende]?.usuario
+                                            return user ? `${user.Nombres} ${user.Apellidos}` : "Sin jefe"
+                                            // return a.map(b => b.descripcion)
+                                        }
+                                    },
+
                                     // {
                                     //     key: "eventos_duplicados", label: SLanguage.select({
                                     //         en: "Photo",
@@ -990,30 +1054,30 @@ export default class users extends Component {
                                                 resizeMode: "cover",
                                             }} /></SView>
                                     },
-                                    {
-                                        key: "employee_number", label: SLanguage.select({
-                                            en: "E. Number",
-                                            es: "N. de empleado"
-                                        }), width: 70,
-                                    },
+                                    // {
+                                    //     key: "employee_number", label: SLanguage.select({
+                                    //         en: "E. Number",
+                                    //         es: "N. de empleado"
+                                    //     }), width: 70,
+                                    // },
                                     {
                                         key: "usuario", label: SLanguage.select({
                                             en: "User",
                                             es: "Usuario"
                                         }), width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
                                     },
-                                    {
-                                        key: "staff_usuario", label: SLanguage.select({
-                                            en: "Status",
-                                            es: "Estado"
-                                        }), width: 140, component: (obj) => <SView col={"xs-12"} center>
-                                            {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
-                                            {this.renderStaffUsuario(obj)}
-                                        </SView>,
-                                        renderExcel: (a) => {
-                                            return "";
-                                        }
-                                    },
+                                    // {
+                                    //     key: "staff_usuario", label: SLanguage.select({
+                                    //         en: "Status",
+                                    //         es: "Estado"
+                                    //     }), width: 140, component: (obj) => <SView col={"xs-12"} center>
+                                    //         {/* <SView width={24} height={18} style={{ borderRadius: 100 }} backgroundColor={STheme.color.warning}></SView> */}
+                                    //         {this.renderStaffUsuario(obj)}
+                                    //     </SView>,
+                                    //     renderExcel: (a) => {
+                                    //         return "";
+                                    //     }
+                                    // },
 
                                     {
                                         key: "staff_usuario/fecha_ingreso", label: SLanguage.select({
@@ -1090,6 +1154,37 @@ export default class users extends Component {
                                                 this.handleMoverStaff(obj)
                                             }} center>
                                                 <SIcon name="move" fill={STheme.color.success} width={30} height={30} />
+                                            </SView>
+                                        },
+                                        renderExcel: (obj) => {
+                                            const user = this.usuarios[obj.key_usuario_atiende]?.usuario
+                                            return user ? `${user.Nombres} ${user.Apellidos}` : "Sin jefe"
+                                            // return a.map(b => b.descripcion)
+                                        }
+                                    },
+                                    {
+                                        key: "staff_usuario/salario_hora", label: SLanguage.select({
+                                            en: "Salary",
+                                            es: "Salario"
+                                        }), width: 60, component: (obj) => {
+                                            const user = this.usuarios
+                                            console.log(user)
+                                            return <SView col={"xs-12"} row onPress={() => {
+                                                // this.handleEditSalario(obj)
+                                                SSocket.sendPromise({
+                                                    component: "cliente",
+                                                    type: "getByKey",
+                                                    key: e.data.evento.key_cliente,
+                                                }).then(e => {
+                                                    this.setState({ data_cliente: e.data })
+                                                }
+                                                ).catch(e => {
+                                                    console.error(e);
+                                                })
+                                            }} center>
+                                                {/* <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} /> */}
+                                                <SView width={3} />
+                                                <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
                                             </SView>
                                         },
                                         renderExcel: (obj) => {

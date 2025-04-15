@@ -78,7 +78,7 @@ class index extends DPA.profile {
 
         return <SView col={"xs-12"}>
             <SHr />
-            <MenuPages path='/company/' permiso='ver' params={{ pk: this.pk }} blackList={[
+            <MenuPages path='/company/' permiso='ver__' params={{ pk: this.pk }} blackList={[
                 "/company/profile/staff_tipo",
                 "/company/profile/users",
                 "/company/profile/report",

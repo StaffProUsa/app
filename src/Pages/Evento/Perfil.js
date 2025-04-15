@@ -64,7 +64,22 @@ class Perfil extends React.Component {
   componentDidMount() {
     new SThread(100, "asdasd", true).start(() => {
       this.getData();
+      // this.getDataTrabajos();
       this.setState({ ready: true })
+    })
+  }
+
+
+  getDataTrabajos() {
+    SSocket.sendPromise({
+      component: "evento",
+      type: "getTrabajosPerfil",
+      key_usuario: Model.usuario.Action.getKey() ?? "",
+      key_evento: this.key
+    }).then(e => {
+      this.setState({ dataTrabajo: e.data })
+    }).catch(e => {
+      console.log(e)
     })
   }
 
@@ -114,11 +129,28 @@ class Perfil extends React.Component {
     }).catch(e => {
       SNotification.send({
         title: "Error",
-        body: e.error ?? "No se pudo completar la accion.",
+        body: e.error ?? "No se pudo completar la acción.",
         time: 5000,
       })
     })
+
+
+    SSocket.sendPromise({
+      component: "evento",
+      type: "getTrabajosPerfil",
+      key_usuario: Model.usuario.Action.getKey(),
+      key_evento: this.key
+    }).then(e => {
+      this.setState({ dataTrabajo: e.data })
+    }).catch(e => {
+
+    })
+
+
   }
+
+
+
   getBtnFooter() {
     var { total, cantidad } = carrito.Actions.getInfo(this.props);
     if (!cantidad) return null;
@@ -333,7 +365,7 @@ class Perfil extends React.Component {
                 <SImage src={SSocket.api.root + "cliente/" + DATA?.cliente?.key} style={{ resizeMode: "cover" }} />
               </SView>
               <SView width={8} />
-              <SText  center color={STheme.color.text} bold font={'Roboto'} fontSize={24}>
+              <SText center color={STheme.color.text} bold font={'Roboto'} fontSize={24}>
                 {DATA?.cliente?.descripcion}
               </SText>
             </SView>
@@ -599,6 +631,7 @@ class Perfil extends React.Component {
   render() {
     // if (!this.state.ready) return <SLoad />
     // console.log("data ubicacion", this.state.data);
+    console.log("datatrabo", this.state.dataTrabajo)
     return (
       <>
         <SPage onRefresh={e => {
@@ -650,10 +683,10 @@ class Perfil extends React.Component {
                 {/* <SView col={'xs-11.5'}>
                   <Asistencia  data={this.state.data}/>
                 </SView>  */}
-                <MarcarPorCodigoEvento key_evento={this.key} dataJefe={this.state?.dataJefe} />
+                <MarcarPorCodigoEvento key_evento={this.key} dataJefe={this.state?.dataJefe} dataTrabajo={this.state?.dataTrabajo} />
                 <SView col={'xs-11.5'}>
                   {/* <MisTrabajosDelEvento key_evento={this.key} /> */}
-                  <TrabajosDelEvento key_evento={this.key} />
+                  {/* <TrabajosDelEvento key_evento={this.key} /> */}
                 </SView>
                 <SHr height={30} />
                 <SView col={'xs-11.5'} >

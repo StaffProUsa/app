@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import { SDate, SImage, SNotification, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table';
+import Config from '../../../Config';
 
 export default class MoveStaff extends Component {
     constructor(props) {
@@ -40,7 +41,7 @@ export default class MoveStaff extends Component {
                 color: STheme.color.success,
                 time: 5000,
             })
-            if(this.props.onChange){
+            if (this.props.onChange) {
                 this.props.onChange()
             }
         }).catch(e => {
@@ -51,23 +52,9 @@ export default class MoveStaff extends Component {
     render() {
         return <SView col={"xs-12"} flex>
             <DinamicTable loadData={this.loadData.bind(this)}
-                colors={{
-                    text: STheme.color.gray,
-                    // accent: STheme.color.secondary,
-                    border: STheme.color.card,
-                    // background: STheme.color.secondary,
-                    header: STheme.color.barColor,
-                    background: STheme.color.background,
-                    card: STheme.color.card
-                }}
-                cellStyle={{
-                    borderWidth: 0,
-                    // padding: 4,
-                    // justifyContent: "flex-start"
-                }}
-                textStyle={{
-                    fontSize: 12,
-                }}>
+                colors={Config.table.styles()}
+                cellStyle={Config.table.cellStyle()}
+                textStyle={Config.table.textStyle()}>
                 <DinamicTable.Col key={"company"} data={p => p.row.company.descripcion} label='Company'
                     customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "company/" + e.row?.company?.key} textStyle={e.textStyle} />}
                 />

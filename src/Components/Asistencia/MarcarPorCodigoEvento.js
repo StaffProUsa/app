@@ -16,6 +16,32 @@ export default class MarcarPorCodigoEvento extends Component {
             secondDuration: 60
         };
     }
+    componentDidMount() {
+        // this.getData();
+        // SSocket.sendPromise({
+        //     component: "evento",
+        //     type: "getTrabajosPerfil",
+        //     key_usuario: Model.usuario.Action.getKey(),
+        //     key_evento: this.props.key_evento
+        // }).then(e => {
+        //     this.setState({ dataTrabajo: e.data })
+        // }).catch(e => {
+
+        // })
+    }
+
+    // getData() {
+    //     SSocket.sendPromise({
+    //         component: "evento",
+    //         type: "getTrabajosPerfil",
+    //         key_usuario: Model.usuario.Action.getKey(),
+    //         key_evento: this.props.key_evento
+    //     }).then(e => {
+    //         this.setState({ dataTrabajo: e.data })
+    //     }).catch(e => {
+
+    //     })
+    // }
 
     input: SInput
     handleGetCode() {
@@ -112,6 +138,44 @@ export default class MarcarPorCodigoEvento extends Component {
         </>
     }
     render() {
+        let dataValid = true
+
+        // console.log(this.props.key_evento)
+        // console.log("this.state?.dataTrabajo")
+        // console.log(this.props?.dataTrabajo)
+
+        // dataWork = this.props?.dataTrabajo
+        
+            // Object.entries(dataWork).map(([key, value]) => {
+            //     const fechaIngreso = value?.staff_usuario?.fecha_ingreso;
+            //     console.log(fechaIngreso)
+            //     return (
+            //         <View key={key}>
+            //             {fechaIngreso == null ? (
+            //                 <Text>Sin fecha de ingreso</Text>
+            //             ) : (
+            //                 <Text>Fecha de ingreso: {fechaIngreso}</Text>
+            //             )}
+            //         </View>
+            //     );
+            // })
+        
+
+
+        // Object.keys(dataWork).map((key) => {
+        //     var obj = dataWork[key];
+        //     console.log("hola")
+        //   });
+
+        // Object.keys(dataWork).forEach((key) => {
+        //     console.log("hola")
+        //     const item = dataWork[key];
+        //     if (!item?.staff_usuario?.fecha_ingreso) {
+        //         console.log(`La fecha_ingreso del item ${key} es null`);
+        //         dataValid = false
+        //     }
+        // });
+        // console.log(dataValid?.staff_usuario?.fecha_ingreso)
         let lenguaje = SLanguage.language;
         return <SView col={"xs-12"} center >
             <SHr h={20} />
@@ -185,7 +249,7 @@ export default class MarcarPorCodigoEvento extends Component {
                 loading={this.state.loading}
             >
                 <SText color={STheme.color.white} language={{
-                    es: "INICIAR",
+                    es: (dataValid) ? "INICIAR" : "FINALIZAR",
                     en: "START"
                 }} />
             </PButtom>

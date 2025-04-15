@@ -6,6 +6,7 @@ import { DinamicTable } from 'servisofts-table'
 import Model from '../Model';
 import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
 import TableIcon from '../Components/Table/TableIcon';
+import Config from '../Config';
 
 // type DataType = typeof DATATEST[0]
 type DataType = any
@@ -48,8 +49,10 @@ export default class historyAlvaro extends Component {
 
   async loadData1111() {
 
-    let fecha_inicio_statatio = "2022-03-01";
-    let fecha_fin_statatio = new SDate().toString('yyyy-MM-dd');
+    // let fecha_inicio_statatio = "2022-03-01";
+    // let fecha_fin_statatio = new SDate().toString('yyyy-MM-dd');
+    let fecha_inicio_statatio = this.params.fecha_inicio ?? "2022-03-01";
+    let fecha_fin_statatio = this.params.fecha_fin ?? new SDate().toString('yyyy-MM-dd');
     const resp: any = await SSocket.sendPromise({
       component: "board",
       type: "timesheet_cliente",
@@ -109,14 +112,9 @@ export default class historyAlvaro extends Component {
             }
           }}
           loadData={this.loadData1111.bind(this)}
-          colors={{
-            text: STheme.color.text,
-            border: STheme.color.card,
-            background: STheme.color.barColor,
-            card: STheme.color.card
-          }}
-          cellStyle={{ borderWidth: 0, height: 30 }}
-          textStyle={{ fontSize: 12 }}
+          colors={Config.table.styles()}
+          cellStyle={Config.table.cellStyle()}
+          textStyle={Config.table.textStyle()}
         >
 
           <Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
@@ -195,7 +193,7 @@ export default class historyAlvaro extends Component {
           />
           <Col key={"salario_hora"} label={SLanguage.select({ es: "Salario", en: "Salary" })} width={60}
             dataType='number'
-            data={e => { return e.row?.usuario_company?.salario_hora; }}
+            data={e => { return e.row?.staff_usuario?.salario_hora; }}
             format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)} />
 
           <Col key={"usuario_atiende"} label={SLanguage.select({ es: "Jefe", en: "Boss" })} width={80}
@@ -208,13 +206,17 @@ export default class historyAlvaro extends Component {
 
           <Col key={"inicio"} label={SLanguage.select({ es: "Hora inicio", en: "Clock In" })} width={80}
             dataType='date' data={e => (!e.row?.staff_usuario.fecha_ingreso) ? null : new SDate(e.row?.staff_usuario.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").date}
-            format={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.data).toString("HH")}
+            // format={e => (!e.row.staff_usuario.fecha_ingreso) ? null : new SDate(e.data).toString("HH")}
+            dateFormat='HH'
           />
+
 
           <Col key={"fin"} label={SLanguage.select({ es: "Hora fin", en: "Clock Out" })} width={80}
             dataType='date'
             data={e => (!e.row?.staff_usuario.fecha_salida) ? null : new SDate(e.row?.staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").date}
-            format={e => (!e.row.staff_usuario.fecha_salida) ? null : new SDate(e.data).toString("HH")}
+            // format={e => (!e.row.staff_usuario.fecha_salida) ? null : new SDate(e.data).toString("HH")}
+            dateFormat='HH'
+
           />
 
           <Col key={"horas"} label={SLanguage.select({ es: "Horas", en: "Times" })} width={60}
@@ -227,18 +229,52 @@ export default class historyAlvaro extends Component {
               let hora44 = this.calculador_hora(e.row?.staff_usuario.fecha_ingreso, e.row?.staff_usuario.fecha_salida);
               return hora44;
             }}
-            format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
+            // format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
+            format={a => !a.data ? null : a.data.toFixed(2)}
+            cellStyle={{ alignItems: "flex-end" }}
+            sumExcel
+            excelFormat='0.00'
+            renderFooter={(p) => {
+              if (!p.dinamicTable.dataFiltrada) return null;
+              if (p.dinamicTable.dataFiltrada.length == 0) return null;
+              const total = p.dinamicTable.dataFiltrada.reduce((acc: number, e: any) => {
+                return acc + (e.horas ?? 0);
+              }, 0);
+              console.log(total);
+              // console.log(p.dinamicTable.dataFiltrada);
+              return <SView col={"xs-12"} center backgroundColor='#000' >
+                <SText fontSize={6}>{"Sum:"}</SText>
+                <SText col={"xs-12"} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
+              </SView>
+            }}
           />
 
-          <Col key={"sutbtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
+          <Col key={"subtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
             dataType='number'
             data={e => {
               if (!e.row.staff_usuario.fecha_ingreso || !e.row.staff_usuario.fecha_salida) return "";
               let hora44: any = this.calculador_hora(e.row?.staff_usuario.fecha_ingreso, e.row?.staff_usuario.fecha_salida);
-              let dadda = parseFloat(hora44 ?? "") * e.row?.usuario_company?.salario_hora;
+              let dadda = parseFloat(hora44 ?? "") * e.row?.staff_usuario?.salario_hora;
               return dadda;
             }}
-            format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
+            // format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
+            format={a => !a.data ? null : a.data.toFixed(2)}
+            cellStyle={{ alignItems: "flex-end" }}
+            sumExcel
+            excelFormat='0.00'
+            renderFooter={(p) => {
+              if (!p.dinamicTable.dataFiltrada) return null;
+              if (p.dinamicTable.dataFiltrada.length == 0) return null;
+              const total = p.dinamicTable.dataFiltrada.reduce((acc: number, e: any) => {
+                return acc + (e.subtotal ?? 0);
+              }, 0);
+              console.log(total);
+              // console.log(p.dinamicTable.dataFiltrada);
+              return <SView col={"xs-12"} center backgroundColor='#000' >
+                <SText fontSize={6}>{"Sum:"}</SText>
+                <SText col={"xs-12"} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
+              </SView>
+            }}
           />
 
         </DinamicTable>

@@ -6,6 +6,7 @@ import { DinamicTable } from 'servisofts-table';
 import SelectRol from '../roles/Components/SelectRol';
 import Model from '../../../Model';
 import staff from '../../staff';
+import Config from '../../../Config';
 
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
     return <SView row >
@@ -70,12 +71,12 @@ export default class MoveStaff extends Component {
         console.log(roles)
         Object.values(staff_response.data).map(o => {
             // o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
-            o.usuario = users_request?.data[o.key_usuario]?.usuario ??  { Nombres: "User", Apellidos: "Deleted" };
+            o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
             o.rol = roles?.data[o.key_rol]
         })
         let users = Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User");
-        console.log("users",users)
-        console.log("staff_response",staff_response.data)
+        console.log("users", users)
+        console.log("staff_response", staff_response.data)
         return users;
     }
 
@@ -85,8 +86,8 @@ export default class MoveStaff extends Component {
             type: "getAllStaff",
             key_company: this.key_company
         })
-         let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null ))];
-       
+        let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null))];
+
         const users_request = await SSocket.sendPromise({
             version: "2.0",
             service: "usuario",
@@ -105,7 +106,7 @@ export default class MoveStaff extends Component {
             o.rol = roles?.data[o.key_rol]
         })
         // return Object.values(staff_response.data);
-        return  Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User")
+        return Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User")
     }
 
     renderStaffTipo(staffTipo) {
@@ -290,23 +291,10 @@ export default class MoveStaff extends Component {
                         }
                     }}
                     loadData={this.loadData.bind(this)}
-                    colors={{
-                        text: STheme.color.gray,
-                        // accent: STheme.color.secondary,
-                        border: STheme.color.card,
-                        // background: STheme.color.secondary,
-                        header: STheme.color.barColor,
-                        background: STheme.color.background,
-                        card: STheme.color.card
-                    }}
-                    cellStyle={{
-                        borderWidth: 0,
-                        // padding: 4,
-                        // justifyContent: "flex-start"
-                    }}
-                    textStyle={{
-                        fontSize: 12,
-                    }}>
+                    colors={Config.table.styles()}
+                    cellStyle={Config.table.cellStyle()}
+                    textStyle={Config.table.textStyle()}
+                >
                     {/* <DinamicTable.Col key={"index"} data={p => p.index} label='#' width={30} /> */}
 
                     <DinamicTable.Col key={"edit"} label='Editar' width={40}
@@ -362,6 +350,7 @@ export default class MoveStaff extends Component {
                     />
 
                     <DinamicTable.Col key={"employee"} data={p => p.row.employee_number ? p.row.employee_number : ""} label='Nro. empleado' />
+                    <DinamicTable.Col key={"salario"} data={p => p.row.salario_hora ? p.row.salario_hora : ""} label='Salario' />
                     <DinamicTable.Col key={"NombreUser"} label='Nombre usuario' width={150}
                         data={e => e.row.usuario.Nombres + " " + e.row.usuario.Apellidos}
                         customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}

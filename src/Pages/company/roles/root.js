@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 // import TopBar from '../../../Components/TopBar';
-import { SHr, SImage, SList, SLoad, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView, SLanguage, SIcon } from 'servisofts-component';
+import { SHr, SImage, SList, SLoad, SNavigation, SNotification, SPage, SPopup, SText, STheme, SView, SLanguage, SIcon, SBuscador } from 'servisofts-component';
 // import PBarraFooter from '../../../Components/PBarraFooter';
 import Container from '../../../Components/Container';
 import SSocket from 'servisofts-socket';
@@ -254,8 +254,8 @@ export default class root extends Component {
             } */}
         </SView >
     }
-    renderList() {
-        if (!this.state.data) return <SLoad />
+    renderList(datafilter) {
+        if (!datafilter) return <SLoad />
         return <FlatList
             style={{
                 width: "100%"
@@ -264,12 +264,14 @@ export default class root extends Component {
                 width: "100%"
             }}
             ItemSeparatorComponent={() => <SHr h={8} />}
-            data={Object.values(this.state.data)}
+            // data={Object.values(this.state.data)}
+            data ={Object.values(datafilter ?? {})}
             renderItem={({ item }) => this.renderItem(item)}
         />
     }
     render() {
         // const restaurante = Model.restaurante.Action.getSelect();
+        const datafilter = SBuscador.filter({ data: this.state.data ?? {}, txt: this.state.filter })
         return <SPage footer={<PBarraFooter url={'/company'} />} >
             <Container>
                 <SHr />
@@ -300,7 +302,7 @@ export default class root extends Component {
                         <SView width={5} />
                         <SView height={30} backgroundColor={this.state.invitadosSelect ? STheme.color.lightGray : STheme.color.success} center padding={5} style={{ borderRadius: 7 }}
                             onPress={() => {
-                                
+
                                 this.setState({ invitadosSelect: false })
                                 this.getUsuarioRestaurante(false);
                                 // this.componentDidMount();
@@ -309,8 +311,12 @@ export default class root extends Component {
                         </SView>
                     </SView>
                 </SView>
-                <SHr h={32} />
-                {this.renderList()}
+                <SHr h={20} />
+                <SBuscador onChange={(e) => {
+                    this.setState({ filter: e })
+                }} />
+                <SHr h={8} />
+                {this.renderList(datafilter)}
             </Container>
             <SHr height={90} />
         </SPage>

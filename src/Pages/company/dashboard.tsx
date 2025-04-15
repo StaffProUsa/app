@@ -5,6 +5,7 @@ import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import BoxMenu from '../../Components/Popups/BoxMenu';
 import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
+import Config from '../../Config';
 
 type DataType = any
 const Col = DinamicTable.Col<DataType>
@@ -39,6 +40,7 @@ export default class dashboard extends Component {
     return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll>
       <SView col={"xs-12"} flex>
         <DinamicTable
+          language={SLanguage.language}
           loadInitialState={async () => {
 
             let filters: ExporterStateType["filters"] = [];
@@ -86,6 +88,15 @@ export default class dashboard extends Component {
             }
 
 
+            // filters.push({
+            //   "col": "fecha",
+            //   "type": "date",
+            //   "operator": ">",
+            //   "dateFormat": "MONTH dd, yyyy",
+            //   "value": [
+            //     "2025-04-01"
+            //   ]
+            // })
             return {
               "filters": filters,
               "sorters": [
@@ -105,25 +116,11 @@ export default class dashboard extends Component {
           }}
           loadData={this.loadData}
           keyExtractor={(e: any) => e.staff.key}
-          colors={{
-            text: STheme.color.gray,
-            // accent: STheme.color.secondary,
-            border: STheme.color.card,
-            // background: STheme.color.secondary,
-            header: STheme.color.barColor,
-            background: STheme.color.background,
-            card: STheme.color.card
-          }}
-          cellStyle={{
-            borderWidth: 0,
-            // padding: 4,
-            // justifyContent: "flex-start"
-          }}
-          textStyle={{
-            fontSize: 12,
-          }}
-
+          colors={Config.table.styles()}
+          cellStyle={Config.table.cellStyle()}
+          textStyle={Config.table.textStyle()}
           selectType='single'
+
           onSelect={(e) => {
             SPopup.open({
               key: "popup_menu_alvaro",
@@ -224,7 +221,7 @@ export default class dashboard extends Component {
           <Col key={"inicio"} label={SLanguage.select({ en: "Clock in", es: "Inicio" })} width={80}
             dataType='date'
             disableFilterGroup
-            data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
+            data={e => !e?.row?.staff?.fecha_inicio ? "" : new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
             dateFormat='HH'
 
           // format={e => new SDate(e.data).toString("HH")}
@@ -233,11 +230,12 @@ export default class dashboard extends Component {
 
           <Col key={"fin"} label={SLanguage.select({ en: "Clock out", es: "Fin" })} width={80}
             dataType='date'
-            data={e => !e.row.staff.fecha_fin ? null : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").date}
+            data={e => !e?.row?.staff?.fecha_fin ? "" : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").date}
+            // data={e => !e.row.staff.fecha_fin ? null : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").date}
             disableFilterGroup
             dateFormat='HH'
           />
-          <Col key={"horas"} label={SLanguage.select({ en: "Times", es: "Horas" })} width={60}
+          {/* <Col key={"horas"} label={SLanguage.select({ en: "Times", es: "Horas" })} width={60}
             dataType='number'
             disableFilterGroup
             textStyle={{
@@ -249,7 +247,7 @@ export default class dashboard extends Component {
               return time / 1000 / 60 / 60
             }}
             format={e => !e.data ? "" : e.data.toFixed(2)}
-          />
+          /> */}
           <Col key={"staff_descripcion"} label={SLanguage.select({ en: "Staff descripcion", es: "Descripcion puesto" })} width={200}
             disableFilterGroup
             data={e => e.row.staff.descripcion}
