@@ -126,8 +126,9 @@ class boss extends Component {
                     <SView width={4} />
                     <SText>{"Refresh"}</SText>
                 </SView>
-            </SView>}>
-            <STable2 data={this.state.data}
+            </SView>}
+            >
+            <STable2 data={this.state.data} 
                 rowHeight={30}
 
                 header={[

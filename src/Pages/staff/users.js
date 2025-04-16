@@ -100,7 +100,11 @@ export default class users extends Component {
             key_usuario: Model.usuario.Action.getKey(),
         }).then(e => {
 
-            let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))];
+            let arr = [];
+            arr.push(...Object.values(e.data).map(a => a.key_usuario));
+            arr.push(...Object.values(e.data).map(a => a?.staff_usuario?.key_usuario_atiende));
+
+            let keys = [...new Set(arr.filter(key => key !== null))];
             // e = e.data.filter(item => item.estado === 2);
             e.data = e.data.filter(item => item.estado === 2);
             SSocket.sendPromise({
@@ -671,7 +675,7 @@ export default class users extends Component {
                                     //     }
                                     // },
 
-                                    
+
 
                                     // {
                                     //     key: "eventos_duplicados", label: SLanguage.select({
@@ -759,7 +763,7 @@ export default class users extends Component {
                                         key: "usuario", label: SLanguage.select({
                                             en: "User",
                                             es: "Usuario"
-                                        }), width: 150, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
+                                        }), width: 130, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
 
                                     },
 
@@ -767,13 +771,13 @@ export default class users extends Component {
                                         key: "participacion", label: SLanguage.select({
                                             en: "Events\nTREND",
                                             es: "Eventos\nTENDEN."
-                                        }), width: 65, order: "desc", headerColor: STheme.color.warning + "70",
+                                        }), width: 45, order: "desc", headerColor: STheme.color.warning + "70",
                                     },
                                     {
                                         key: "rechazos", label: SLanguage.select({
                                             en: "Rejects",
                                             es: "Rechazos"
-                                        }), width: 60, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText>
+                                        }), width: 45, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText>
                                     },
 
                                     // { key: "horas_trabajadas_tipo", label: SLanguage.select({
@@ -809,7 +813,7 @@ export default class users extends Component {
                                         key: "usuario/Telefono", label: SLanguage.select({
                                             en: "Phone",
                                             es: "Telefono"
-                                        }), width: 140, component: (number) => <BtnWhatsapp telefono={number}
+                                        }), width: 110, component: (number) => <BtnWhatsapp telefono={number}
                                             texto={this.state?.data?.evento?.observacion}
                                         >
                                             <SText fontSize={11} color={STheme.color.text} underLine>
@@ -821,30 +825,30 @@ export default class users extends Component {
                                         key: "usuario/nivel_ingles", label: SLanguage.select({
                                             en: "English level",
                                             es: "Nivel de inglés"
-                                        }), width: 70,
+                                        }), width: 60,
                                     },
 
                                     {
-                                        key: "usuario_company/salario_hora", label: SLanguage.select({
+                                        key: "salario_hora", label: SLanguage.select({
                                             en: "Salary",
                                             es: "Salario"
                                         }), width: 60, component: (obj) => {
                                             const user = this.usuarios
                                             console.log(user)
-                                            return <SView col={"xs-12"} row 
-                                            onPress={() => {
-                                                // // this.handleEditSalario(obj)
-                                                // SSocket.sendPromise({
-                                                //     component: "cliente",
-                                                //     type: "getByKey",
-                                                //     key: e.data.evento.key_cliente,
-                                                // }).then(e => {
-                                                //     this.setState({ data_cliente: e.data })
-                                                // }
-                                                // ).catch(e => {
-                                                //     console.error(e);
-                                                // })
-                                            }} center>
+                                            return <SView col={"xs-12"} row
+                                                onPress={() => {
+                                                    // // this.handleEditSalario(obj)
+                                                    // SSocket.sendPromise({
+                                                    //     component: "cliente",
+                                                    //     type: "getByKey",
+                                                    //     key: e.data.evento.key_cliente,
+                                                    // }).then(e => {
+                                                    //     this.setState({ data_cliente: e.data })
+                                                    // }
+                                                    // ).catch(e => {
+                                                    //     console.error(e);
+                                                    // })
+                                                }} center>
                                                 {/* <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} /> */}
                                                 <SView width={3} />
                                                 <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
@@ -878,40 +882,66 @@ export default class users extends Component {
                                         }), width: 170, component: (a) => {
                                             let color = STheme.color.warning
                                             let ocupado = false;
-                                            let onPress = null;
                                             if (a || a.length) {
                                                 // color = STheme.color.success
                                                 ocupado = true;
                                             }
-                                            onPress = () => {
-                                            }
+                                            if (!ocupado) return null
 
-                                            if (ocupado) {
-                                                return <SView onPress={onPress} row center col={"xs-12"}>
-                                                    <SView row center col={"xs-5"}>
-                                                        <SIcon name={(!a || !a.length) ? 'dispo' : 'noDispo'} fill={color} width={20} height={20} />
-                                                        <SView flex width={45} center>
-                                                            <SText center style={{ lineHeight: 10 }} fontSize={10} color={color} language={{
-                                                                es: "Transferir aquí",
-                                                                en: "Transfer here"
-                                                            }} />
-                                                        </SView>
-                                                    </SView>
-                                                    <SView col={"xs-7"}>
-                                                        {a.map(p => <SView col={"xs-12"}>
-                                                            {/* <SText fontSize={10} >({p.descripcion})</SText> */}
-                                                            <SView row>
-                                                                <SText col={"xs-12"} fontSize={9} >{p.evento}</SText>
-                                                                <SText fontSize={9} >{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")} </SText>
-                                                                <SText fontSize={9}> - </SText>
-                                                                <SText fontSize={9} >{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
-                                                            </SView>
-                                                        </SView>)}
+                                            console.log("ESTE ES EL DEL STAFF", a)
+
+                                            return <SView onPress={
+                                                () => {
+
+                                                    SPopup.confirm({
+                                                        title: "Are you sure?",
+                                                        message: "Are you sure you want to transfer this user?",
+                                                        onPress: () => {
+                                                            SSocket.sendPromise({
+                                                                component: "staff_usuario",
+                                                                type: "cambiarEvento",
+                                                                data: [a[0].key_staff_usuario],
+                                                                key_staff: this.pk,
+                                                            }).then(e => {
+                                                                SNotification.send({
+                                                                    key: "staff_usuario-asingJefe",
+                                                                    title: "Successfully applied.",
+                                                                    body: "Successfully registered.",
+                                                                    color: STheme.color.success,
+                                                                    time: 5000,
+                                                                })
+                                                                this.loadData();
+                                                            }).catch(e => {
+                                                                console.error(e)
+
+                                                            })
+                                                        }
+                                                    })
+
+                                                }
+
+                                            } row center col={"xs-12"}>
+                                                <SView row center col={"xs-5"}>
+                                                    <SIcon name={(!a || !a.length) ? 'dispo' : 'noDispo'} fill={color} width={20} height={20} />
+                                                    <SView flex width={45} center>
+                                                        <SText center style={{ lineHeight: 10 }} fontSize={10} color={color} language={{
+                                                            es: "Transferir aquí",
+                                                            en: "Transfer here"
+                                                        }} />
                                                     </SView>
                                                 </SView>
-                                            } else {
-                                                return
-                                            }
+                                                <SView col={"xs-7"}>
+                                                    {a.map(p => <SView col={"xs-12"}>
+                                                        {/* <SText fontSize={10} >({p.descripcion})</SText> */}
+                                                        <SView row>
+                                                            <SText col={"xs-12"} fontSize={9} >{p.evento}</SText>
+                                                            <SText fontSize={9} >{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")} </SText>
+                                                            <SText fontSize={9}> - </SText>
+                                                            <SText fontSize={9} >{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
+                                                        </SView>
+                                                    </SView>)}
+                                                </SView>
+                                            </SView>
                                         },
                                         renderExcel: (a) => {
                                             return "";
@@ -1166,32 +1196,17 @@ export default class users extends Component {
                                         key: "staff_usuario/salario_hora", label: SLanguage.select({
                                             en: "Salary",
                                             es: "Salario"
-                                        }), width: 60, component: (obj) => {
-                                            const user = this.usuarios
-                                            console.log(user)
-                                            return <SView col={"xs-12"} row onPress={() => {
-                                                // this.handleEditSalario(obj)
-                                                SSocket.sendPromise({
-                                                    component: "cliente",
-                                                    type: "getByKey",
-                                                    key: e.data.evento.key_cliente,
-                                                }).then(e => {
-                                                    this.setState({ data_cliente: e.data })
-                                                }
-                                                ).catch(e => {
-                                                    console.error(e);
-                                                })
-                                            }} center>
-                                                {/* <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} /> */}
-                                                <SView width={3} />
-                                                <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
-                                            </SView>
-                                        },
-                                        renderExcel: (obj) => {
-                                            const user = this.usuarios[obj.key_usuario_atiende]?.usuario
-                                            return user ? `${user.Nombres} ${user.Apellidos}` : "Sin jefe"
-                                            // return a.map(b => b.descripcion)
-                                        }
+                                        }), width: 60,
+                                        //  component: (obj) => {
+                                        //     const user = this.usuarios
+                                        //     console.log(user)
+                                        //     return <SView col={"xs-12"} row center>
+                                        //         {/* <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} /> */}
+                                        //         <SView width={3} />
+                                        //         <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
+                                        //     </SView>
+                                        // },
+
                                     },
                                     {
                                         key: "-delete", label: SLanguage.select({
