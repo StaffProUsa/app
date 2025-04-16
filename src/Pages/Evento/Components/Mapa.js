@@ -96,7 +96,7 @@ class Mapa extends Component<MapaPropsType> {
                         onPress={() => {
                             SNavigation.navigate("/root")
                         }}
-                    >
+                        >
                         <SText>Ir a Google Maps</SText>
                     </SView> */}
 

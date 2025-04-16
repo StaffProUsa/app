@@ -43,7 +43,7 @@ export default class MarcarPorCodigoEvento extends Component {
     //     })
     // }
 
-    input: SInput
+    input
     handleGetCode() {
         SSocket.sendPromise({
             component: "asistencia",
@@ -121,7 +121,7 @@ export default class MarcarPorCodigoEvento extends Component {
                         }}
                         // label={"CODIGO"}
                         placeholder={"______"}
-                        onChangeText={(e: string) => {
+                        onChangeText={(e) => {
                             if (!e) return e;
                             e = e.replace(/[^0-9]/g, "")
                             if (e.length > 6) {
@@ -189,9 +189,9 @@ export default class MarcarPorCodigoEvento extends Component {
             })}</SText>}
 
 
-            <SHr h={20} />
+            <SHr h={10} />
             {this.getToken()}
-            <SHr h={40} />
+            <SHr h={10} />
             <PButtom rojo onPress={() => {
                 const code = this.input.getValue() ?? "";
                 if (code.length < 6) {
@@ -258,7 +258,7 @@ export default class MarcarPorCodigoEvento extends Component {
             <SHr h={30} />
             {(this.props?.dataJefe) ? <SText onPress={() => SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText> : null}
 
-            <SHr h={30} />
+            <SHr h={16} />
         </SView>
     }
 }
