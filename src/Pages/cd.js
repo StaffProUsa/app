@@ -96,7 +96,7 @@ export default class cd extends React.Component {
                 height: 55,
             }}>
                 <Container flex center>
-                    <SText bold color={STheme.color.white} style={{
+                    {/* <SText bold color={STheme.color.white} style={{
                         fontSize: fontz * 1.5,
 
                     }}
@@ -105,7 +105,11 @@ export default class cd extends React.Component {
                             en: "Welcome to a new event",
 
                         }}
-                    />
+                    /> */}
+                    <CardEventoSteps colorPrimary={STheme.color.secondary} colorSecondary={STheme.color.white} data={{
+                        staff_usuario: this.state?.data
+                    }} />
+                    <SHr />
                 </Container>
             </SView>
             <SHr h={30} />
@@ -123,10 +127,8 @@ export default class cd extends React.Component {
 
                             }
                         } />
-                        <CardEventoSteps data={{
-                            staff_usuario: this.state?.data
-                        }}/>
-                        
+
+
                         <SView flex />
                         <ItemImage src={SSocket.api.root + "company/" + this.state.data?.company.key} label={this.state.data?.company.descripcion} />
                         <ItemImage src={SSocket.api.root + "cliente/" + this.state.data?.cliente.key} label={this.state.data?.cliente.descripcion} />
@@ -228,7 +230,7 @@ export default class cd extends React.Component {
                 {/* <SHr h={50} /> */}
                 <MarcarPorCodigoEvento
                     key_evento={this.state?.data?.evento?.key}
-                    // dataJefe={this.state?.dataJefe}
+                // dataJefe={this.state?.dataJefe}
                 />
                 <SHr color={STheme.color.card} h={1} />
                 <SHr h={15} />

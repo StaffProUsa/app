@@ -4,13 +4,13 @@ import { SDate, SIcon, SLanguage, SText, STheme, SView } from 'servisofts-compon
 import { ObjectStaffUsuario } from '../../MDL/Evento/type';
 
 
-export default class CardEventoSteps extends Component<{ data: ObjectStaffUsuario }> {
+export default class CardEventoSteps extends Component<{ data: ObjectStaffUsuario, colorPrimary?: any, colorSecondary?: any }> {
 
 
     colors = {
 
-        primary: "#fff",
-        secondary: "#E84148",
+        primary: this.props.colorPrimary ?? "#fff",
+        secondary: this.props.colorSecondary ?? "#E84148",
         card: STheme.color.lightGray,
     }
 
