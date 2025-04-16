@@ -876,77 +876,84 @@ export default class users extends Component {
                                     // },
 
                                     {
-                                        key: "eventos_duplicados", label: SLanguage.select({
+                                        key: "eventos_duplicados", 
+                                        label: SLanguage.select({
                                             en: "Avail.",
                                             es: "Disp."
-                                        }), width: 170, component: (a) => {
-                                            let color = STheme.color.warning
-                                            let ocupado = false;
-                                            if (a || a.length) {
-                                                // color = STheme.color.success
-                                                ocupado = true;
-                                            }
-                                            if (!ocupado) return null
-
-                                            console.log("ESTE ES EL DEL STAFF", a)
-
-                                            return <SView onPress={
-                                                () => {
-
-                                                    SPopup.confirm({
-                                                        title: "Are you sure?",
-                                                        message: "Are you sure you want to transfer this user?",
-                                                        onPress: () => {
-                                                            SSocket.sendPromise({
-                                                                component: "staff_usuario",
-                                                                type: "cambiarEvento",
-                                                                data: [a[0].key_staff_usuario],
-                                                                key_staff: this.pk,
-                                                            }).then(e => {
-                                                                SNotification.send({
-                                                                    key: "staff_usuario-asingJefe",
-                                                                    title: "Successfully applied.",
-                                                                    body: "Successfully registered.",
-                                                                    color: STheme.color.success,
-                                                                    time: 5000,
-                                                                })
-                                                                this.loadData();
-                                                            }).catch(e => {
-                                                                console.error(e)
-
-                                                            })
-                                                        }
-                                                    })
-
-                                                }
-
-                                            } row center col={"xs-12"}>
-                                                <SView row center col={"xs-5"}>
-                                                    <SIcon name={(!a || !a.length) ? 'dispo' : 'noDispo'} fill={color} width={20} height={20} />
-                                                    <SView flex width={45} center>
-                                                        <SText center style={{ lineHeight: 10 }} fontSize={10} color={color} language={{
-                                                            es: "Transferir aquí",
-                                                            en: "Transfer here"
-                                                        }} />
+                                        }), 
+                                        width: 250, 
+                                        component: (a) => {
+                                            let color = STheme.color.warning;
+                                            if (!a || !a.length) return null;
+                                        
+                                            return (
+                                                <SView 
+                                                    onPress={() => {
+                                                        SPopup.confirm({
+                                                            title: "Are you sure?",
+                                                            message: "Are you sure you want to transfer this user?",
+                                                            onPress: () => {
+                                                                SSocket.sendPromise({
+                                                                    component: "staff_usuario",
+                                                                    type: "cambiarEvento",
+                                                                    data: [a[0].key_staff_usuario],
+                                                                    key_staff: this.pk,
+                                                                }).then(e => {
+                                                                    SNotification.send({
+                                                                        key: "staff_usuario-asingJefe",
+                                                                        title: "Successfully applied.",
+                                                                        body: "Successfully registered.",
+                                                                        color: STheme.color.success,
+                                                                        time: 5000,
+                                                                    });
+                                                                    this.loadData();
+                                                                }).catch(console.error);
+                                                            }
+                                                        });
+                                                    }} 
+                                                    row
+                                                    center
+                                                    col={"xs-12"}
+                                                    style={{ padding: 4, backgroundColor: "#333", borderRadius: 8 }}
+                                                >
+                                                    {/* Botón Transferir */}
+                                                    <SView col={"xs-3"} row center>
+                                                        <SIcon name="noDispo" fill={color} width={20} height={20} />
+                                                        <SView width={60} center>
+                                                            <SText
+                                                                center
+                                                                fontSize={10}
+                                                                color={color}
+                                                                style={{ lineHeight: 12 }}
+                                                                language={{
+                                                                    es: "Transferir aquí",
+                                                                    en: "Transfer here"
+                                                                }}
+                                                            />
+                                                        </SView>
+                                                    </SView>
+                                        
+                                                    {/* Detalles del usuario */}
+                                                    <SView col={"xs-9"} style={{ paddingLeft: 8 }}>
+                                                        {a.map(p => (
+                                                            <SView key={p.key_staff_usuario} style={{ marginBottom: 6 }}>
+                                                                <SView row style={{ gap: 4 }}>
+                                                                    <ItemImage src={SSocket.api.root + "staff_tipo/" + p.key_staff_tipo} label={p.descripcion_staff_tipo} />
+                                                                    <ItemImage src={SSocket.api.root + "cliente/" + p.key_cliente} label={p.descripcion_cliente} />
+                                                                </SView>
+                                                                <SView row style={{ gap: 4, marginTop: 2 }}>
+                                                                    <SText fontSize={9} color={"#fff"}>{p.evento}</SText>
+                                                                    <SText fontSize={9} color={"#fff"}>{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
+                                                                    <SText fontSize={9} color={"#fff"}> - </SText>
+                                                                    <SText fontSize={9} color={"#fff"}>{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
+                                                                </SView>
+                                                            </SView>
+                                                        ))}
                                                     </SView>
                                                 </SView>
-                                                <SView col={"xs-7"}>
-                                                    {a.map(p => <SView col={"xs-12"}>
-                                                        {/* <SText fontSize={10} >({p.descripcion})</SText> */}
-                                                        <SView row>
-                                                            <SText col={"xs-12"} fontSize={9} >{p.evento}</SText>
-                                                            <SText fontSize={9} >{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")} </SText>
-                                                            <SText fontSize={9}> - </SText>
-                                                            <SText fontSize={9} >{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
-                                                        </SView>
-                                                    </SView>)}
-                                                </SView>
-                                            </SView>
-                                        },
-                                        renderExcel: (a) => {
-                                            return "";
+                                            );
                                         }
-                                    },
+                                    }
 
                                     // {
                                     //     key: "eventos_duplicados-otra",
