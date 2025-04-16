@@ -164,7 +164,7 @@ export default class event_in_progress extends Component {
                                     SNavigation.navigate("/invitationDetail", { key: item?.staff_usuario?.key })
                                     return;
                                 }
-                                SNavigation.navigate("/evento", { key: item?.evento?.key })
+                                SNavigation.navigate("/cd", { key_staff_usuario: item?.staff_usuario?.key })
                             }} />
                         }} />
                     {!this.state.load ? <SLoad /> : null}

@@ -184,8 +184,9 @@ export default class MarcarPorCodigoEvento extends Component {
                 en: "You have been assigned as event leader",
                 es: "Has sido asignado como jefe del evento"
             })}</SText> : <SText fontSize={20} center bold color={STheme.color.text} >{SLanguage.select({
-                en: "Enter the code to start the event",
-                es: "Ingresa el código para iniciar el evento"
+                es: "Ingresa el código para marcar asistencia en el evento",
+                en: "Enter the code to mark attendance at the event"
+                
             })}</SText>}
 
 

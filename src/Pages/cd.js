@@ -42,12 +42,39 @@ export default class cd extends React.Component {
                     flexWrap: "wrap",
                     alignItems: "center"
                 }} >
-                    <SText style={{
-                        flex: 1,
-                        fontSize: fontz * 1.4,
-                        textAlign: "left"
+                    <SView flex>
+                        <SText style={{
+                            flex: 1,
+                            fontSize: fontz * 1.4,
+                            textAlign: "left"
 
-                    }}>{this.state?.data?.evento?.descripcion}</SText>
+                        }}>{this.state?.data?.evento?.descripcion}</SText>
+                        <SHr />
+                        <SView row col={"xs-12"} style={{
+                        }}>
+                            <SText fontSize={fontz} color={STheme.color.lightGray} language={{
+                                en: new SDate(this.state?.data?.evento?.fecha, "yyyy-MM-dd").toString("MONTH dd, yyyy"),
+                                es: new SDate(this.state?.data?.evento?.fecha, "yyyy-MM-dd").toString("dd de MONTH del yyyy")
+                            }} />
+                            <SText fontSize={fontz} color={STheme.color.lightGray} language={{
+                                es: " desde las ",
+                                en: " from ",
+
+                            }} />
+                            <SText fontSize={fontz} color={STheme.color.text} language={{
+                                en: new SDate(this.state?.data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
+                                es: new SDate(this.state?.data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
+                            }} />
+                            <SText fontSize={fontz} color={STheme.color.lightGray} language={{
+                                es: " hasta las ",
+                                en: " to ",
+                            }} />
+                            <SText fontSize={fontz} color={STheme.color.text} language={{
+                                en: new SDate(this.state?.data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
+                                es: new SDate(this.state?.data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
+                            }} />
+                        </SView>
+                    </SView>
                     <SView style={{
                         width: 80,
                         height: 80,
@@ -68,7 +95,7 @@ export default class cd extends React.Component {
                 height: 55,
             }}>
                 <Container flex center>
-                    <SText style={{
+                    <SText bold color={STheme.color.white} style={{
                         fontSize: fontz * 1.5,
 
                     }}
@@ -88,27 +115,28 @@ export default class cd extends React.Component {
                         borderColor: STheme.color.card,
                         paddingBottom: 4
                     }}>
-                        <SText bold fontSize={fontz}  language={
+                        <SText bold fontSize={fontz * 1.2} language={
                             {
                                 es: "Detalles del evento",
                                 en: "Event details",
 
                             }
                         } />
-                        }/>
                         <SView flex />
                         <ItemImage src={SSocket.api.root + "company/" + this.state.data?.company.key} label={this.state.data?.company.descripcion} />
                         <ItemImage src={SSocket.api.root + "cliente/" + this.state.data?.cliente.key} label={this.state.data?.cliente.descripcion} />
                         <ItemImage src={SSocket.api.root + "staff_tipo/" + this.state.data?.staff_tipo.key} label={this.state.data?.staff_tipo.descripcion} />
                     </SView>
                     <SHr h={16} />
-                    <SText fontSize={fontz} color={STheme.color.lightGray} >{
+
+                    <SHr />
+                    {/* <SText fontSize={fontz} color={STheme.color.lightGray} >{
                         new SDate(this.state?.data?.evento?.fecha, "yyyy-MM-dd").toString("dd de MONTH del yyyy")
                         + " desde las "}
                         <SText fontSize={fontz}>{new SDate(this.state?.data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
                         {" hasta las "}
                         <SText fontSize={fontz}>{new SDate(this.state?.data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
-                    </SText>
+                    </SText> */}
                     <SText fontSize={fontz} color={STheme.color.lightGray} >{this.state?.data?.evento?.observacion}</SText>
 
                     <SHr h={16} />
@@ -139,7 +167,7 @@ export default class cd extends React.Component {
                     borderColor: STheme.color.card,
                     paddingBottom: 4
                 }}>
-                    <SText fontSize={fontz} col={"xs-12"} bold language={{
+                    <SText fontSize={fontz * 1.2} col={"xs-12"} bold language={{
                         es: "Requerimientos",
                         en: "Requirements",
                     }}></SText>
@@ -151,16 +179,16 @@ export default class cd extends React.Component {
                         es: "Nivel de ingles",
                         en: "Level of english",
                     }}></SText>
-                    <SText fontSize={fontz} col={"xs-6"} bold >{this.state?.data?.staff?.nivel_ingles}</SText>
+                    <SText fontSize={fontz} col={"xs-6"}  >{this.state?.data?.staff?.nivel_ingles}</SText>
                 </SView>
                 <SHr h={20} />
                 <SView row col="xs-12">
                     <SText fontSize={fontz} col={"xs-6"} language={{
                         es: "Dirección",
                         en: "Address",
-                        
+
                     }}></SText>
-                    <SText fontSize={fontz * .95} col={"xs-6"} bold >{this.state?.data?.cliente.direccion}</SText>
+                    <SText fontSize={fontz * .95} col={"xs-6"}  >{this.state?.data?.cliente.direccion}</SText>
                 </SView>
                 <SHr h={40} />
 
@@ -193,7 +221,10 @@ export default class cd extends React.Component {
                     </SView>
                 </SView> */}
                 {/* <SHr h={50} /> */}
-                <MarcarPorCodigoEvento key_evento={this.key} dataJefe={this.state?.dataJefe} dataTrabajo={this.state?.dataTrabajo} />
+                <MarcarPorCodigoEvento
+                    key_evento={this.state?.data?.evento?.key}
+                    // dataJefe={this.state?.dataJefe}
+                />
                 <SHr color={STheme.color.card} h={1} />
                 <SHr h={15} />
                 <SView center row col={"xs-12"}>
@@ -241,16 +272,16 @@ export default class cd extends React.Component {
 
             </Container>
             <SHr h={30} />
-            <SText center color={STheme.color.danger} style={{
+            {/* <SText center color={STheme.color.danger} style={{
                 fontSize: fontz
-            }}language={{
+            }} language={{
                 es: "ESTA MAL EL BOTON DEL CODIGO DE STAFF, PENDIENTE RICKY",
                 en: "THE STAFF CODE BUTTON IS WRONG, PENDING RICKY",
-                
-            }}></SText>
+
+            }}></SText> */}
 
 
-            <SHr h={100} />
+            {/* <SHr h={100} /> */}
 
         </SPage >
     }
