@@ -5,6 +5,7 @@ import SSocket from "servisofts-socket";
 import { component } from "../Services/Usuario/Components/datoCabecera";
 import Mapa from "./Evento/Components/Mapa";
 import MarcarPorCodigoEvento from "../Components/Asistencia/MarcarPorCodigoEvento";
+import CardEventoSteps from "../Components/Evento/CardEventoSteps";
 
 export default class cd extends React.Component {
 
@@ -122,6 +123,10 @@ export default class cd extends React.Component {
 
                             }
                         } />
+                        <CardEventoSteps data={{
+                            staff_usuario: this.state?.data
+                        }}/>
+                        
                         <SView flex />
                         <ItemImage src={SSocket.api.root + "company/" + this.state.data?.company.key} label={this.state.data?.company.descripcion} />
                         <ItemImage src={SSocket.api.root + "cliente/" + this.state.data?.cliente.key} label={this.state.data?.cliente.descripcion} />
