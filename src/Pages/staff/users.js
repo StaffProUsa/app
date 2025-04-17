@@ -8,6 +8,7 @@ import BtnWhatsapp from '../../Components/BtnWhatsapp';
 import ResizeDualPanel from '../../Components/ResizeDualPanel';
 import EditClock from './Components/EditClock';
 import MoveStaff from './Components/MoveStaff';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 
 const ItemImage = ({ src, label }) => {
@@ -438,6 +439,7 @@ export default class users extends Component {
         return <SPage disableScroll titleLanguage={{
             es: "Armando mi STAFF",
             en: "Building my STAFF"
+            
         }}
             backAlternative={o => {
                 if (this.state.data.key_evento) {
@@ -446,6 +448,7 @@ export default class users extends Component {
                     SNavigation.goBack();
                 }
             }}
+            footer={<PBarraFooter url={'/'} />}
         >
             <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8, marginTop: 10 }} >
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>

@@ -7,6 +7,7 @@ import SelectRol from '../roles/Components/SelectRol';
 import Model from '../../../Model';
 import staff from '../../staff';
 import Config from '../../../Config';
+import PBarraFooter from '../../../Components/PBarraFooter';
 
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
     return <SView row >
@@ -265,7 +266,8 @@ export default class MoveStaff extends Component {
     render() {
         let permiso_habilitar = Model.usuarioPage.Action.getPermiso({ url: "/company/profile/users", permiso: "habilitar", user_data: { key_company: this.key_company } })
 
-        return <SPage tile={""} disableScroll>
+        return <SPage tile={""} disableScroll
+        footer={<PBarraFooter url={'/'} />}>
             <SView col={"xs-12"} height backgroundColor={STheme.color.background} withoutFeedback>
                 <DinamicTable
                     loadInitialState={async () => {

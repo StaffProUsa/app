@@ -8,11 +8,14 @@ import TableIcon from '../../Components/Table/TableIcon';
 
 import BoxMenuTimeSheets from '../../Components/Popups/BoxMenuTimeSheets';
 import Config from '../../Config';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 
 // type DataType = typeof DATATEST[0]
 type DataType = any
 const Col = DinamicTable.Col<DataType>
+
+
 
 
 const ImageLabel = ({ label, src, textStyle }) => {
@@ -80,7 +83,8 @@ export default class timeSheets extends Component {
   render() {
 
 
-    return <SPage title={"Time Sheets"} disableScroll>
+    return <SPage title={"Time Sheets"} disableScroll
+    footer={<PBarraFooter url={'/'} />}>
       <SView col={"xs-12"} flex>
         <DinamicTable
           loadInitialState={async () => {

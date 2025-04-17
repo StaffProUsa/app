@@ -6,6 +6,7 @@ import Model from '../../../Model';
 import SelectRol from '../roles/Components/SelectRol';
 import { connect } from 'servisofts-page';
 import PermisoNotFound from '../../../Components/PermisoNotFound';
+import PBarraFooter from '../../../Components/PBarraFooter';
 
 
 
@@ -201,9 +202,10 @@ class root extends Component {
         let permiso_habilitar = Model.usuarioPage.Action.getPermiso({ url: "/company/profile/users", permiso: "habilitar", user_data: { key_company: this.key_company } })
         return <SPage titleLanguage={{
             es: "Usuarios",
-            en: "Users"
-        }} disableScroll>
-            <SView col={"xs-12"} height={20} row>
+            en: "Users"        
+        }}  disableScroll                  
+        footer={<PBarraFooter url={'/'} />}>        
+            <SView col={"xs-12"}  height={20} row flex>
                 <SText card style={{
                     opacity: this.state.show_disabled ? 1 : 0.6,
                 }} fontSize={10} center padding={4} onPress={() => {
