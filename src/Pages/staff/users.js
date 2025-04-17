@@ -346,26 +346,25 @@ export default class users extends Component {
         })
         if (selecteds.length <= 0) return;
 
-        return <SView card padding={2} col={"xs-8 sm-4 md-2"} row
+        return <SView card padding={2} row width={110}
             style={{
                 backgroundColor: STheme.color.secondary,
                 position: "absolute",
-                top: -8,
-                right: -0,
-              
+                top: -24,
+                // right: -0,
             }}
             onPress={() => {
                 this.handleInvitarArray(selecteds)
-            }}>
+            }} center>
             <SView width={54} height={20} style={{ borderColor: STheme.color.white, borderRightWidth: 1 }} center row>
                 <SText center color={STheme.color.white} bold > {selecteds.length}</SText>
                 <SView width={4} />
                 <SIcon name='invite2' fill={STheme.color.white} width={15} height={15} />
                 <SView width={4} />
             </SView>
-            <SView width={4} />      
-            {(selecteds.length > 1) ? <SText color={STheme.color.white} bold language={{ es: "Invitar", en: "Invite all" }} /> :
-                <SText color={STheme.color.white} bold language={{ es: "Invitar", en: "Invite" }} />
+            <SView width={4} />
+            {(selecteds.length > 1) ? <SText fontSize={12} style={{ paddingLeft: 2 }} color={STheme.color.white} bold language={{ es: "Invitar", en: "Invite all" }} /> :
+                <SText color={STheme.color.white} style={{ paddingLeft: 2 }} fontSize={12} bold language={{ es: "Invitar", en: "Invite" }} />
             }
 
         </SView>
@@ -376,11 +375,11 @@ export default class users extends Component {
         if (selecteds.length <= 0) return;
 
 
-        return <SView card padding={4} width={100} center row
+        return <SView card padding={2} width={110} center row
             style={{
                 backgroundColor: STheme.color.warning,
                 position: "absolute",
-                top: -20
+                top: -23
             }}
             onPress={() => {
                 SNavigation.navigate("/company/roles", {
@@ -407,6 +406,13 @@ export default class users extends Component {
             <SText bold > {selecteds.length}</SText>
         </SView>
     }
+
+    calculador_hora(hora_inicio, hora_fin) {
+        if (!hora_inicio) return "";
+        const time = new SDate(hora_inicio, "yyyy-MM-ddThh:mm:ssTZD").diffTime(new SDate(hora_fin, "yyyy-MM-ddThh:mm:ssTZD"))
+        return isNaN(time) ? "" : time / 1000 / 60 / 60;
+    }
+
     render() {
         let lenguaje = SLanguage.language;
         // console.log(this.state.data_disponibles)
@@ -422,7 +428,7 @@ export default class users extends Component {
                 }
             }}
         >
-            <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8,marginTop:10 }} >
+            <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8, marginTop: 10 }} >
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
                 <SView width={6} />
                 <SView width={16} />
@@ -468,7 +474,7 @@ export default class users extends Component {
                 }} /> : null}
 
                 <SHr />
-                <SView col={"xs-12"} row>
+                <SView col={"xs-12"} style={{ alignItems: "flex-end" }}>
                     {/* <SView row>
                         <SView style={{
                             borderWidth: 1,
@@ -480,18 +486,18 @@ export default class users extends Component {
                         </SView>
                     </SView>
                     <SView width={7} /> */}
-                    <SView row>
-                        {/* <SText fontSize={12} bold color={STheme.color.gray}>Se requiere:</SText> */}
-                        {/* <SView width={6} /> */}
-                        <SView style={{
-                            borderWidth: 1,
-                            borderColor: STheme.color.warning,
-                            borderRadius: 4,
-                            padding: 5,
-                        }} center>
-                            <SText fontSize={14} color={STheme.color.warning}> {SLanguage.select({ es: "Nivel de inglés: ", en: "English level: " })} {this.state?.data?.nivel_ingles}</SText>
-                        </SView>
+                    {/* <SView row col={"xs-12"} > */}
+                    {/* <SText fontSize={12} bold color={STheme.color.gray}>Se requiere:</SText> */}
+                    {/* <SView width={6} /> */}
+                    <SView flex style={{
+                        borderWidth: 1,
+                        borderColor: STheme.color.warning,
+                        borderRadius: 4,
+                        padding: 5,
+                    }} center>
+                        <SText fontSize={12} color={STheme.color.warning}> {SLanguage.select({ es: "Nivel de inglés: ", en: "English level: " })} {this.state?.data?.nivel_ingles}</SText>
                     </SView>
+                    {/* </SView> */}
                     <SView flex />
                 </SView>
             </SView>
@@ -878,18 +884,18 @@ export default class users extends Component {
                                     // },
 
                                     {
-                                        key: "eventos_duplicados", 
+                                        key: "eventos_duplicados",
                                         label: SLanguage.select({
                                             en: "Avail.",
                                             es: "Disp."
-                                        }), 
+                                        }),
                                         width: 300,
                                         component: (a) => {
                                             let color = STheme.color.warning;
                                             if (!a || !a.length) return null;
-                                        
+
                                             return (
-                                                <SView 
+                                                <SView
                                                     onPress={() => {
                                                         SPopup.confirm({
                                                             title: "Are you sure?",
@@ -912,13 +918,13 @@ export default class users extends Component {
                                                                 }).catch(console.error);
                                                             }
                                                         });
-                                                    }} 
+                                                    }}
                                                     row
                                                     center
                                                     col={"xs-12"}
                                                     style={{ padding: 4, borderRadius: 8 }}
                                                 >
-                                                    
+
                                                     <SView col={"xs-2"} row center>
                                                         <SIcon name="noDispo" fill={color} width={18} height={18} />
                                                         <SView width={60} center>
@@ -934,32 +940,32 @@ export default class users extends Component {
                                                             />
                                                         </SView>
                                                     </SView>
-                                        
-                                                 
+
+
                                                     <SView col={"xs-9"} style={{ paddingLeft: 6 }}>
                                                         {a.map(p => (
-                                                            
-                                                            <SView key={p.key_staff_usuario} style={{ marginBottom: 6 }}>
-                                                                     
 
-                                                                    <SView row style={{ gap: 4, marginTop: -5,marginLeft: 1 }}>
-                                                                    <SText fontSize={7} color={STheme.color.text} style={{maxWidth:100}} numberOfLines={1} language={{es: `Evento ${p.evento}`, en: `Event ${p.evento}`}}></SText>
+                                                            <SView key={p.key_staff_usuario} style={{ marginBottom: 6 }}>
+
+
+                                                                <SView row style={{ gap: 4, marginTop: -5, marginLeft: 1 }}>
+                                                                    <SText fontSize={7} color={STheme.color.text} style={{ maxWidth: 100 }} numberOfLines={1} language={{ es: `Evento ${p.evento}`, en: `Event ${p.evento}` }}></SText>
                                                                     <SText fontSize={7} color={STheme.color.text}>{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
                                                                     <SText fontSize={7} color={STheme.color.text}>-</SText>
                                                                     <SText fontSize={7} color={STheme.color.text}>{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
                                                                 </SView>
-                                                                <SView row style={{ gap: 2, marginBottom:-8}}>
-                                                                    <SView style={{color:STheme.color.text,borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4 , backgroundColor:STheme.color.primary }} >
-                                                                    <ItemImage src={SSocket.api.root + "staff_tipo/" + p.key_staff_tipo} label={p.descripcion_staff_tipo} />
+                                                                <SView row style={{ gap: 2, marginBottom: -8 }}>
+                                                                    <SView style={{ color: STheme.color.text, borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4, backgroundColor: STheme.color.primary }} >
+                                                                        <ItemImage src={SSocket.api.root + "staff_tipo/" + p.key_staff_tipo} label={p.descripcion_staff_tipo} />
                                                                     </SView>
-                                                                    <SView style={{color:STheme.color.text,borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4,backgroundColor:STheme.color.primary}} >
-                                                                    <ItemImage src={SSocket.api.root + "cliente/" + p.key_cliente} label={p.descripcion_cliente} />
+                                                                    <SView style={{ color: STheme.color.text, borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4, backgroundColor: STheme.color.primary }} >
+                                                                        <ItemImage src={SSocket.api.root + "cliente/" + p.key_cliente} label={p.descripcion_cliente} />
                                                                     </SView>
                                                                 </SView>
-                                                             
-                                                           
-                                                                
-                                                          
+
+
+
+
                                                             </SView>
                                                         ))}
                                                     </SView>
@@ -1142,6 +1148,18 @@ export default class users extends Component {
                                             es: "Salida"
                                         }), width: 80,
                                         render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH"),
+                                    },
+                                    {
+                                        key: "staff_usuario", label: SLanguage.select({
+                                            en: "Times",
+                                            es: "Horas"
+                                        }), width: 80,
+                                        // render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH"),
+                                        render: (staff_usuario) => {
+                                            if (!staff_usuario.fecha_ingreso || !staff_usuario.fecha_salida) return "";
+                                            let hora44 = this.calculador_hora(staff_usuario.fecha_ingreso, staff_usuario.fecha_salida);
+                                            return (hora44).toFixed(2);
+                                        }
                                     },
                                     {
                                         key: "-edit", label: SLanguage.select({
