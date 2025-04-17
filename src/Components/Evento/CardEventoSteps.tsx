@@ -135,8 +135,10 @@ export default class CardEventoSteps extends Component<{ data: ObjectStaffUsuari
 
         if (!!data?.staff_usuario?.fecha_aprobacion_invitacion) {
             ns = 2
+            console.log(data)
             const fi = new SDate(data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD");
-            if (fi.isBefore(new SDate())) {
+            console.log("fi", fi);
+            if (fi.getTime() < new SDate().getTime()) {
                 ns = 3;
             }
             if (data.staff_usuario.fecha_ingreso) {

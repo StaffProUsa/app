@@ -145,21 +145,21 @@ export default class MarcarPorCodigoEvento extends Component {
         // console.log(this.props?.dataTrabajo)
 
         // dataWork = this.props?.dataTrabajo
-        
-            // Object.entries(dataWork).map(([key, value]) => {
-            //     const fechaIngreso = value?.staff_usuario?.fecha_ingreso;
-            //     console.log(fechaIngreso)
-            //     return (
-            //         <View key={key}>
-            //             {fechaIngreso == null ? (
-            //                 <Text>Sin fecha de ingreso</Text>
-            //             ) : (
-            //                 <Text>Fecha de ingreso: {fechaIngreso}</Text>
-            //             )}
-            //         </View>
-            //     );
-            // })
-        
+
+        // Object.entries(dataWork).map(([key, value]) => {
+        //     const fechaIngreso = value?.staff_usuario?.fecha_ingreso;
+        //     console.log(fechaIngreso)
+        //     return (
+        //         <View key={key}>
+        //             {fechaIngreso == null ? (
+        //                 <Text>Sin fecha de ingreso</Text>
+        //             ) : (
+        //                 <Text>Fecha de ingreso: {fechaIngreso}</Text>
+        //             )}
+        //         </View>
+        //     );
+        // })
+
 
 
         // Object.keys(dataWork).map((key) => {
@@ -180,14 +180,13 @@ export default class MarcarPorCodigoEvento extends Component {
         return <SView col={"xs-12"} center >
             <SHr h={20} />
 
-            {(this.props?.dataJefe) ? <SText fontSize={20} center bold color={STheme.color.text} >{SLanguage.select({
+            {(this.props?.dataJefe) ? <SText fontSize={20} center bold color={STheme.color.text} language={{
                 en: "You have been assigned as event leader",
                 es: "Has sido asignado como jefe del evento"
-            })}</SText> : <SText fontSize={20} center bold color={STheme.color.text} >{SLanguage.select({
-                es: "Ingresa el código para marcar asistencia en el evento",
-                en: "Enter the code to mark attendance at the event"
-                
-            })}</SText>}
+            }} />: <SText fontSize={20} center bold color={STheme.color.text} language={{
+                 es: "Consulta el codigo con tu jefe de evento",
+                en: "Check the code with your event manager"
+            }} />}
 
 
             <SHr h={10} />
@@ -228,13 +227,19 @@ export default class MarcarPorCodigoEvento extends Component {
                         this.setState({ reload: false })
                     })
                     MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
-                    SNavigation.goBack();
                     SNotification.send({
                         key: "asistencia",
                         title: "Exito",
                         body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
                         time: 5000
                     })
+                    if (this.props.onChange) {
+                        this.props.onChange();
+                    }
+                    else {
+                        SNavigation.goBack();
+
+                    }
                     // SNavigation.navigate("/token/exito")
                 }).catch(e => {
                     SNotification.send({

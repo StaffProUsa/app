@@ -7,6 +7,8 @@ import Mapa from "./Evento/Components/Mapa";
 import MarcarPorCodigoEvento from "../Components/Asistencia/MarcarPorCodigoEvento";
 import CardEventoSteps from "../Components/Evento/CardEventoSteps";
 
+const fontz = 16
+
 export default class cd extends React.Component {
 
     key_staff_usuario = SNavigation.getParam("key_staff_usuario")
@@ -22,14 +24,131 @@ export default class cd extends React.Component {
             key: this.key_staff_usuario,
 
         }).then(e => {
-            this.setState({ data: e.data })
+
+
+            if (e.data.key_usuario_atiende == null) {
+                this.setState({ data: e.data })
+
+            } else {
+                this.getUsuario(e.data.key_usuario_atiende).then((data) => {
+                    e.data.usuario_atiende = data;
+                    this.setState({ data: e.data })
+
+                })
+            }
+
+
+            // let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))
+
+
         })
     }
 
+    getUsuario = async (key_usuario) => {
+        const request = {
+            version: "2.0",
+            service: "usuario",
+            component: "usuario",
+            type: "getAllKeys",
+            keys: [key_usuario],
+        }
+        const response = await SSocket.sendPromise(request)
+        const data = Object.values(response.data).map((a) => a.usuario);
+        return data[0];
 
+    }
+
+    getEstado() {
+        if (!this.state.data) return null;
+        const data = this.state.data;
+        const fecha_inicio = new SDate(data.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD");
+        const fecha_fin = new SDate(data.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD");
+        const curdate = new SDate();
+
+        if (data.fecha_salida) {
+            const fecha_ingreso = new SDate(data.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD");
+            const fecha_salida = new SDate(data.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD");
+            const since = fecha_ingreso.timeSince(fecha_salida);
+            return < ItemEstado fontSize={fontz} language={{
+                es: "Asististe al evento " + since,
+                en: "You attended the event " + since,
+            }} tipo={4} color={STheme.color.success} />
+        }
+        if (data.fecha_ingreso) {
+            const fecha_ingreso = new SDate(data.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD");
+            const since = fecha_ingreso.timeSince(curdate);
+            return < ItemEstado fontSize={fontz} language={{
+                es: "Estas trabajando hace " + since,
+                en: "You are working " + since,
+            }} tipo={2} color={STheme.color.success} />
+        }
+
+
+        if (curdate.getTime() < fecha_inicio.getTime()) {
+            const since = curdate.timeSince(fecha_inicio);
+            return < ItemEstado fontSize={fontz} language={{
+                es: "Faltan " + since,
+                en: "Missing " + since
+            }} color={STheme.color.lightGray} />
+        }
+
+        if (curdate.getTime() > fecha_fin.getTime()) {
+            const since = fecha_inicio.timeSince(curdate);
+            return < ItemEstado fontSize={fontz} language={{
+                es: "No asististe al evento",
+                en: "You did not attend the event",
+            }} color={STheme.color.danger} />
+        }
+
+        if (curdate.getTime() >= fecha_inicio.getTime()) {
+            const since = fecha_inicio.timeSince(curdate);
+            return < ItemEstado fontSize={fontz} language={{
+                es: "Retrasado por " + since,
+                en: "Delayed by " + since,
+            }} color={STheme.color.warning} />
+        }
+
+
+        return < ItemEstado fontSize={fontz} language={{
+            es: "NO DEBERIA ENTRAR ACA",
+            en: "SHOULD NOT ENTER HERE",
+        }} />
+
+    }
+
+    isVisibleMarcacion() {
+        if (!this.state.data) return null;
+        const data = this.state.data;
+        const fecha_inicio = new SDate(data.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD");
+        const fecha_fin = new SDate(data.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD");
+        const curdate = new SDate();
+        if (data.fecha_salida) {
+            const fecha_ingreso = new SDate(data.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD");
+            const fecha_salida = new SDate(data.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD");
+            return false
+        }
+        if (data.fecha_ingreso) {
+            const fecha_ingreso = new SDate(data.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD");
+            return true
+        }
+
+        if (curdate.getTime() < fecha_inicio.getTime()) {
+            return true
+        }
+        if (curdate.getTime() > fecha_fin.getTime()) {
+            return false
+        }
+
+        if (curdate.getTime() >= fecha_inicio.getTime()) {
+            return true
+        }
+
+
+        return false
+
+    }
     render() {
 
-        const fontz = 16
 
 
         console.log("PINTO DATA", this.state.data)
@@ -107,7 +226,8 @@ export default class cd extends React.Component {
                         }}
                     /> */}
                     <CardEventoSteps colorPrimary={STheme.color.secondary} colorSecondary={STheme.color.white} data={{
-                        staff_usuario: this.state?.data
+                        staff_usuario: this.state?.data,
+                        staff: this.state?.data?.staff,
                     }} />
                     <SHr />
                 </Container>
@@ -134,9 +254,32 @@ export default class cd extends React.Component {
                         <ItemImage src={SSocket.api.root + "cliente/" + this.state.data?.cliente.key} label={this.state.data?.cliente.descripcion} />
                         <ItemImage src={SSocket.api.root + "staff_tipo/" + this.state.data?.staff_tipo.key} label={this.state.data?.staff_tipo.descripcion} />
                     </SView>
-                    <SHr h={16} />
+                    <SHr h={15} />
 
-                    <SHr />
+                    {this.getEstado()}
+                    {/* < ItemEstado
+                        fontSize={fontz}
+                        label={"Estas retrazado 5 minutos"}
+                        tipo={3}
+                        />
+                        < ItemEstado
+                        fontSize={fontz}
+                        label={"Vas trabajando 5 horas"}
+                        tipo={3}
+                        />
+                        < ItemEstado
+                        fontSize={fontz}
+                        label={"Trabajaste 10 horas"}
+                        tipo={4}
+                        />
+                        < ItemEstado
+                        fontSize={fontz}
+                        label={"No asististe al evento"}
+                        tipo={5}
+                        /> */}
+                    <SHr h={20} />
+
+
                     {/* <SText fontSize={fontz} color={STheme.color.lightGray} >{
                         new SDate(this.state?.data?.evento?.fecha, "yyyy-MM-dd").toString("dd de MONTH del yyyy")
                         + " desde las "}
@@ -168,26 +311,28 @@ export default class cd extends React.Component {
                     </SView>
                     <SHr h={20} />
                     <SView row col="xs-12" >
-                    <SText fontSize={fontz} col={"xs-6"} language={{
-                        es: "Nivel de ingles",
-                        en: "Level of english",
-                    }}></SText>
-                    <SText fontSize={fontz} col={"xs-6"}  >{this.state?.data?.staff?.nivel_ingles}</SText>
-                </SView>
-                <SHr h={20} />
-                <SView row col="xs-12">
-                    <SText fontSize={fontz} col={"xs-6"} language={{
-                        es: "Dirección",
-                        en: "Address",
+                        <SText width={120} fontSize={fontz} language={{
+                            es: "Nivel de ingles:",
+                            en: "Level of english:",
+                        }}></SText>
+                        <SText flex fontSize={fontz}  >{this.state?.data?.staff?.nivel_ingles}</SText>
+                    </SView>
+                    <SHr h={20} />
+                    <SView row col="xs-12">
+                        <SText width={120} fontSize={fontz} language={{
+                            es: "Dirección:",
+                            en: "Address:",
 
-                    }}></SText>
-                    <SText fontSize={fontz * .95} col={"xs-6"}  >{this.state?.data?.cliente.direccion}</SText>
-                </SView>
+                        }}></SText>
+                        <SText flex fontSize={fontz * .95}  >{this.state?.data?.cliente.direccion}</SText>
+                    </SView>
 
-                   <SText fontSize={fontz*1.5} bold language={{
-                    es: "Datos del jefe",
-                    en: "Boss data",
-                   }}></SText>
+                    <SHr h={30} />
+
+                    <SText fontSize={fontz * 1.5} bold language={{
+                        es: "Datos del jefe",
+                        en: "Boss data",
+                    }}></SText>
 
                 </SView>
                 <SHr h={3} />
@@ -198,36 +343,78 @@ export default class cd extends React.Component {
                 }}>
 
                 </SView>
-                <SHr />
-                <SHr />
-                 <SView row col="xs-12">
-                        <SView style={{
-                            width: 80,
-                            height: 80,
-                            borderRadius: 100,
-                            overflow: 'hidden',
-                            backgroundColor: STheme.color.card
-                        }} >
+                <SHr h={30} />
 
+                {
+                    !!this.state?.data?.key_usuario_atiende ?
+                        <SView row col="xs-12">
+                            <SView style={{
+                                width: 80,
+                                height: 80,
+                                borderRadius: 100,
+                                overflow: 'hidden',
+                                backgroundColor: STheme.color.card
+                            }} >
+                                <SImage src={SSocket.api.root + "usuario/" + this.state?.data?.key_usuario_atiende} />
+                            </SView>
+                            <SView style={{ width: 15 }} />
+                            <SView style={{ flex: 1, justifyContent: "center" }}>
+                                <SText>
+                                    {this.state?.data?.usuario_atiende?.Nombres} {this.state?.data?.usuario_atiende?.Apellidos}
+                                </SText>
+                                <SHr h={10} />
 
+                                <SView row>
+                                    <SText>Teléfono:</SText>
+                                    <SView width={10} />
+                                    <SText
+                                        style={{
+                                            color: STheme.color.link,
+                                            textDecorationLine: "underline",
+                                        }}
+                                        onPress={() => {
+                                            let telefono = this.state?.data?.usuario_atiende?.Telefono;
+                                            let url = "https://api.whatsapp.com/send?phone=" + telefono.replace("+", "") + "&text=Hola, estoy interesado en el evento " + this.state?.data?.evento?.descripcion;
+                                            SNavigation.openURL(url);
+                                        }}
+                                    >
+                                        {this.state?.data?.usuario_atiende?.Telefono}
+                                    </SText>
+                                </SView>
+
+                                <SHr h={10} />
+                                <SText color={STheme.color.lightGray}>
+                                    Contacta a tu jefe para conseguir tu código
+                                </SText>
+                            </SView>
                         </SView>
-                        <SView style={{
-                            width: 15,
-                        }}></SView>
-                        <SView>
-                            <SText language={{
-                                es: "Nombre del jefe:",
-                                en: "Boss name:",
-                            }}></SText>
-                            <SHr h={16} />
-                            <SText language={{
-                                es: "Telefono del jefe:",
-                                en: "Boss phone:",
-                            }}></SText>
-                            
+                        :
+                        <SView col="xs-12" center style={{
+                            padding: 16,
+                            backgroundColor: STheme.color.warning + "30", // fondo amarillo suave
+                            borderRadius: 16,
+                            borderWidth: 1,
+                            borderColor: STheme.color.warning,
+                            marginTop: 8,
+                        }}>
+                            <SView row center>
+                                <SView style={{
+                                    width: 20,
+                                    height: 20,
+                                    borderRadius: 12,
+                                    backgroundColor: STheme.color.warning,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginRight: 8,
+                                }}>
+                                    <SText color={STheme.color.white} fontSize={16}>!</SText>
+                                </SView>
+                                <SText bold color={STheme.color.warning} fontSize={16}>
+                                    ESTE EVENTO NO TIENE JEFE
+                                </SText>
+                            </SView>
                         </SView>
-                    </SView>
-
+                }
                 <SHr h={30} />
 
                 {/* <SHr h={15} />
@@ -259,15 +446,23 @@ export default class cd extends React.Component {
                     </SView>
                 </SView> */}
                 {/* <SHr h={50} /> */}
-                <MarcarPorCodigoEvento
-                    key_evento={this.state?.data?.evento?.key}
-                // dataJefe={this.state?.dataJefe}
-                />
+                {
+                    this.isVisibleMarcacion() ?
+                        <MarcarPorCodigoEvento
+                            key_evento={this.state?.data?.evento?.key}
+                            onChange={() => {
+                                this.componentDidMount();
+                            }}
+                        // dataJefe={this.state?.dataJefe}
+                        /> : null
+                }
+
                 <SHr color={STheme.color.card} h={1} />
                 <SHr h={15} />
                 <SView center row col={"xs-12"}>
                     <SIcon name="iubicacion" fill={STheme.color.text} width={15} height={18} />
                     <SView width={5} />
+
                     <SText bold style={{
                         fontSize: fontz,
                     }} language={{
@@ -347,3 +542,24 @@ const ItemImage = ({ src, label }) => {
         <SText fontSize={12} bold color={STheme.color.lightGray}>{label}</SText>
     </SView>
 }
+
+const ItemEstado = ({ fontSize, language, color }) => {
+
+    return <SView center style={{
+        width: "100%",
+        margin: 4,
+        padding: 4,
+    }}>
+        <SText center border style={{
+
+            fontSize: fontSize,
+            margin: 7,
+            padding: 4,
+            borderColor: color,
+            //backgroundColor: STheme.color.secondary,
+            borderRadius: 8,
+
+        }} language={language} />
+    </SView>
+}
+
