@@ -25,6 +25,12 @@ export default class EstadoEvento extends Component {
         })
     }
 
+    getColorPorcentaje = (porcentaje) => {
+        if (porcentaje === 100) return STheme.color.success;
+        if (porcentaje >= 50) return "#FBBC04"; // Color amarillo
+        return STheme.color.danger;
+    };
+
 
     render() {
         const arr = Object.values(this.state.data) ?? [];
@@ -43,6 +49,10 @@ export default class EstadoEvento extends Component {
         if (eventosFuturos.length == 0) {
             pasado = true;
         }
+
+        //obteniendo el promedio de los porcentajes de los eventos futuros
+        const total = eventosFuturos.reduce((acc, item) => acc + (item.porcentaje_reclutas ?? 0), 0);
+        const promedio = eventosFuturos.length ? total / eventosFuturos.length : 0;
         return <>
             {(!pasado) ? <SView center style={{
                 backgroundColor: STheme.color.warning,
@@ -53,12 +63,14 @@ export default class EstadoEvento extends Component {
                 right: 42,
                 top: 0,
                 zIndex: 999,
+                borderWidth: 1,
+                borderColor: STheme.color.white,
             }}><SText color={STheme.color.white} bold fontSize={9}>{eventosFuturos.length}</SText>
             </SView> : null}
 
             <SView width={30} height={30} center style={{
                 borderRadius: 7,
-                backgroundColor: pasado ? STheme.color.lightGray : STheme.color.success,
+                backgroundColor: pasado ? STheme.color.lightGray : this.getColorPorcentaje(promedio),
                 justifyContent: "center",
                 alignItems: "center"
             }}>
