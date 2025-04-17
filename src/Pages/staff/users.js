@@ -448,7 +448,7 @@ export default class users extends Component {
                     SNavigation.goBack();
                 }
             }}
-            footer={<PBarraFooter url={'/'} />}
+            footer={<PBarraFooter url={'/company'} />}
         >
             <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8, marginTop: 10 }} >
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>

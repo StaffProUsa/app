@@ -84,7 +84,7 @@ export default class timeSheets extends Component {
 
 
     return <SPage title={"Time Sheets"} disableScroll
-    footer={<PBarraFooter url={'/'} />}>
+    footer={<PBarraFooter url={'/company'} />}>
       <SView col={"xs-12"} flex>
         <DinamicTable
           loadInitialState={async () => {

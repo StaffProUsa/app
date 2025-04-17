@@ -39,7 +39,7 @@ export default class dashboard extends Component {
   render() {
 
     return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll
-      footer={<PBarraFooter url={'/'} />}
+      footer={<PBarraFooter url={'/company'} />}
     >
       <SView col={"xs-12"} flex>
         <DinamicTable
