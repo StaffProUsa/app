@@ -60,12 +60,14 @@ export default class users extends Component {
         // }
     }
     loadData() {
+        let nivelIngles = "";
         SSocket.sendPromise({
             component: "staff",
             type: "getByKeyDetalle",
             key: this.pk,
             key_usuario: Model.usuario.Action.getKey(),
         }).then(e => {
+            nivelIngles = e.data.nivel_ingles;
             this.setState({ data: e.data })
             SSocket.sendPromise({
                 component: "company",
@@ -132,7 +134,24 @@ export default class users extends Component {
                     }
                 });
 
-                this.setState({ data_disponibles: e.data })
+                //validar nivel de ingles
+                let arrayNivelIngles = [];
+                if (nivelIngles == "NONE") {
+                    arrayNivelIngles = ["NONE", "BASIC", "BASICO","MEDIUM","MEDIO", "ADVANCED"]
+                } else if (nivelIngles == "BASIC") {
+                    arrayNivelIngles = ["BASIC", "BASICO","MEDIUM","MEDIO", "ADVANCED"]
+                } else if (nivelIngles == "MEDIUM") {
+                    arrayNivelIngles = ["MEDIUM", "MEDIO","ADVANCED"]
+                } else if (nivelIngles == "ADVANCED") {
+                    arrayNivelIngles = ["ADVANCED"]
+                }
+                const filtrados = e.data.filter(item =>
+                    item.usuario &&
+                    arrayNivelIngles.includes(item.usuario.nivel_ingles)
+                );
+
+                // this.setState({ data_disponibles: e.data })
+                this.setState({ data_disponibles: filtrados })
 
             })
 
