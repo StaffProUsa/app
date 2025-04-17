@@ -315,7 +315,7 @@ class index extends Component {
                             {this.getForm()}
                             <SView height={5} />
                             {/* aptitud */}
-                            <SView row style={{ alignItems: "flex-end", maxWidth: "350px" }} card padding={15} onPress={() => {
+                            {/* <SView row style={{ alignItems: "flex-end", maxWidth: "350px" }} card padding={15} onPress={() => {
                                 SNavigation.navigate("/perfil/staff_tipo")
                             }}>
                                 <SIcon name={"aptitud"} fill={STheme.color.text} width={20} height={20} />
@@ -324,7 +324,7 @@ class index extends Component {
                                     es: "EDITAR MIS APTITUDES O EXPERIENCIAS",
                                     en: "EDIT MY SKILLS OR EXPERIENCES"
                                 }} />
-                            </SView>
+                            </SView> */}
                             <SView height={26} />
 
                             <SView col={"xs-12"} row center>
