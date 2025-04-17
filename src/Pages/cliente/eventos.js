@@ -3,6 +3,7 @@ import { SDate, SHr, SIcon, SLanguage, SList, SNavigation, SNotification, SPage,
 import SSocket from "servisofts-socket";
 import { Container } from "../../Components";
 import FloatButtom from "../../Components/FloatButtom";
+import { SelectEntreFechas } from "../../Components/Fechas";
 
 const getColorFromPercentage = (percentage) => {
     // Asegurarse de que el valor esté entre 0 y 100
@@ -32,18 +33,71 @@ export default class Eventos extends React.Component {
 
     }
 
-    componentDidMount() {
-        Eventos.INSTANCE = this;
-        this.setState({ loading: true })
+    // componentDidMount() {
+    //     Eventos.INSTANCE = this;
+    //     this.setState({ loading: true })
+    //     SSocket.sendPromise({
+    //         component: "evento",
+    //         type: "getEstadoEventos",
+    //         key_cliente: this.key_cliente
+    //     }).then(e => {
+    //         this.setState({ data: e.data, loading: false })
+    //     }).catch(e => {
+    //         this.setState({ loading: false })
+    //     })
+    // }
+
+    loadData({ fecha_inicio, fecha_fin }) {
         SSocket.sendPromise({
             component: "evento",
+            // type: "getMisTrabajos",
             type: "getEstadoEventos",
-            key_cliente: this.key_cliente
+            key_cliente: this.key_cliente,
+
         }).then(e => {
-            this.setState({ data: e.data, loading: false })
+            // Object.values(e.data).map((obj) => {
+            // const f = new SDate(obj.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd")
+            // const hi = new SDate(obj.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")
+            // const hf = new SDate(obj.staff.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("hh:mm:ss")
+            // obj._fecha_inicio = f + "T" + hi
+            // if (obj.staff.fecha_fin) {
+            //     obj._fecha_fin = f + "T" + hf
+            // }
+
+            // })
+            console.log(fecha_inicio, fecha_fin)
+            const hoy = new SDate().toString("yyyy-MM-dd"); // fecha actual
+            const eventosFiltrados = Object.values(e.data).filter(evento => {
+                const fechaEvento = new SDate(evento.fecha).toString("yyyy-MM-dd");
+                if (this.props.pasadoSelect) {
+                    return fechaEvento >= fecha_inicio && fechaEvento <= fecha_fin && fechaEvento >= hoy;
+                } else {
+                    return fechaEvento >= fecha_inicio && fechaEvento <= fecha_fin && fechaEvento < hoy;
+                }
+            });
+            // this.setState({ data: e.data })
+
+
+
+            this.setState({ data: eventosFiltrados })
+            console.log("Eventos filtrados:", eventosFiltrados);
         }).catch(e => {
-            this.setState({ loading: false })
+            console.error(e);
         })
+
+
+        // SSocket.sendPromise({
+        //     component: "staff_usuario",
+        //     // type: "getHistorico",
+        //     type: "getHistoricoEntreFechas",
+        //     fecha_inicio: fecha_inicio,
+        //     fecha_fin: fecha_fin,
+        //     key_usuario: Model.usuario.Action.getKey()
+        // }).then(e => {
+        //     this.setState({ dataResumen: e.data })
+        // }).catch(e => {
+        //     console.error(e);
+        // })
     }
 
     renderBarra({ porcentaje, color, key }) {
@@ -184,24 +238,38 @@ export default class Eventos extends React.Component {
             {/* <SText>{obj.}</SText> */}
         </SView>
     }
+
+
     render() {
         let pasadoSelectOk = this.props.pasadoSelect ?? true;
-        return <SList
-            buscador
-            space={16}
-            data={this.state?.data}
-            order={[{ key: "fecha", order: "desc" }]}
-            filter={d => {
-                let fechaEvento = new Date(d.fecha);
-                let hoy = new Date();
-                hoy.setHours(0, 0, 0, 0); // Ignorar la hora, solo comparar fechas
-                if (!pasadoSelectOk) {
-                    return fechaEvento < hoy; // Solo eventos pasados
-                } else {
-                    return fechaEvento >= hoy; // Solo eventos futuros
-                }
-            }}
-            render={this.renderItem.bind(this)}
-        />
+        console.log("pasadoSelectOk", pasadoSelectOk)
+        // this.props.pasadoSelect ? null : this.loadData({ fecha_inicio: this.state.fecha_inicio, fecha_fin: this.state.fecha_fin });
+        return <>
+            <SelectEntreFechas
+                fecha_inicio={new SDate().setDay(1).toString("yyyy-MM-dd")}
+                onChange={e => {
+                    this.entrefecha = e;
+                    this.loadData(e)
+                    this.setState({ fecha_inicio: e.fecha_inicio, fecha_fin: e.fecha_fin })
+                }}
+            />
+            <SList
+                buscador
+                space={16}
+                data={this.state?.data}
+                order={[{ key: "fecha", order: "desc" }]}
+                // filter={d => {
+                //     let fechaEvento = new Date(d.fecha);
+                //     let hoy = new Date();
+                //     hoy.setHours(0, 0, 0, 0); // Ignorar la hora, solo comparar fechas
+                //     if (!pasadoSelectOk) {
+                //         return fechaEvento < hoy; // Solo eventos pasados
+                //     } else {
+                //         return fechaEvento >= hoy; // Solo eventos futuros
+                //     }
+                // }}
+                render={this.renderItem.bind(this)}
+            />
+        </>
     }
 }
