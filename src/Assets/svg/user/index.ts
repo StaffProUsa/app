@@ -19,8 +19,9 @@ import party, { ReactComponent as partyw } from './party.svg';
 import hisCompleted, { ReactComponent as hisCompletedw } from './hisCompleted.svg';
 import hisEvent, { ReactComponent as hisEventw } from './hisEvent.svg';
 import move, { ReactComponent as movew } from './move.svg';
-
-
+import userDisponible, { ReactComponent as userDisponiblew } from './userDisponible.svg';
+import userNew, { ReactComponent as userNeww } from './userNew.svg';
+import userDeshabilitado, { ReactComponent as userDeshabilitadoW } from './userDeshabilitado.svg';
 
 
 const Assets = {
@@ -46,6 +47,9 @@ const Assets = {
 	"hisCompleted": { Native: hisCompleted, Web: hisCompletedw },
 	"hisEvent": { Native: hisEvent, Web: hisEventw },
 	"move": { Native: move, Web: movew },
+	"userDisponible": { Native: userDisponible, Web: userDisponiblew },
+	"userNew": { Native: userNew, Web: userNeww },
+	"userDeshabilitado": { Native: userDeshabilitado, Web: userDeshabilitadoW },
 }
 
 export default Assets;

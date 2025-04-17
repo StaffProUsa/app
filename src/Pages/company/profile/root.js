@@ -85,10 +85,10 @@ class index extends DPA.profile {
             ]}>
                 <MenuButtom label={SLanguage.select({ en: "Client", es: "Cliente" })} url='/cliente' params={{ key_company: this.pk }} icon={<SIcon name='ubicacionesA' />} />
                 <MenuButtom label={SLanguage.select({ en: "Type Staff", es: "Staff Tipo" })} url='/company/profile/staff_tipo' params={{ pk: this.pk }} icon={<SIcon name='staffTipoA' />} />
-                <MenuButtom label={SLanguage.select({ en: "Users", es: "Usuarios" })} url='/company/profile/users' params={{ pk: this.pk }} icon={<SIcon name='usuariosA' />} />
-                <MenuButtom label={SLanguage.select({ en: "Enabled Users", es:"Usuarios Habilitados"})} url='/company/profile/users' params={{pk:this.pk, filter:"enabled"}} icon={<SIcon name='usuariosA'/>}/>
-                <MenuButtom label={SLanguage.select({ en: "Disabled Users", es:"Usuarios Deshabilitados"})} url='/company/profile/users' params={{pk:this.pk,filter:"disabled"}} icon={<SIcon name='usuariosA'/>}/>
-                <MenuButtom label={SLanguage.select({ en: "New Users", es:"Usuarios Nuevos"})} url='/company/profile/users' params={{pk:this.pk,filter:"nuevo"}} icon={<SIcon name='usuariosA'/>}/>
+
+                <MenuButtom label={SLanguage.select({ en: "Enabled Users", es:"Usuarios Habilitados"})} url='/company/profile/users' params={{pk:this.pk, filter:"enabled"}} icon={<SIcon name='userDisponible'/>}/>
+                <MenuButtom label={SLanguage.select({ en: "Disabled Users", es:"Usuarios Deshabilitados"})} url='/company/profile/users' params={{pk:this.pk,filter:"disabled"}} icon={<SIcon name='userDeshabilitado'/>}/>
+                <MenuButtom label={SLanguage.select({ en: "New Users", es:"Usuarios Nuevos"})} url='/company/profile/users' params={{pk:this.pk,filter:"news"}} icon={<SIcon name='userNew'/>}/>
                 <SHr />
                 {/* <MenuButtom label={SLanguage.select({ en: "Report", es: "Reporte" })} url='/company/profile/report' params={{ pk: this.pk }} icon={<SIcon name='Excel' />} /> */}
 

@@ -451,7 +451,7 @@ export default class users extends Component {
             footer={<PBarraFooter url={'/company'} />}
         >
             <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8, marginTop: 10 }} >
-                <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
+                <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} holaa </SText>
                 <SView width={6} />
                 <SView width={16} />
                 <SText onPress={() => { window.location.reload() }}><SIcon name='Reload' width={20} height={20} fill={STheme.color.text} />{" Reload"}</SText>
