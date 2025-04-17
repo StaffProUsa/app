@@ -6,6 +6,7 @@ import { DinamicTable } from 'servisofts-table'
 import BoxMenu from '../../Components/Popups/BoxMenu';
 import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
 import Config from '../../Config';
+import PBarraFooter from '../../Components/PBarraFooter';
 
 type DataType = any
 const Col = DinamicTable.Col<DataType>
@@ -37,7 +38,9 @@ export default class dashboard extends Component {
 
   render() {
 
-    return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll>
+    return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll
+      footer={<PBarraFooter url={'/'} />}
+    >
       <SView col={"xs-12"} flex>
         <DinamicTable
           language={SLanguage.language}
