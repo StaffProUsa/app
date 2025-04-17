@@ -86,6 +86,12 @@ export default class timeSheets extends Component {
           loadInitialState={async () => {
 
             let filters: ExporterStateType["filters"] = [];
+            filters.push({
+              "col": "state",
+              "type": "string",
+              "operator": "!=",
+              "value":"PENDING"
+            })
             if (this.key_cliente_) {
               const clientResp: any = await SSocket.sendPromise({
                 component: "cliente",
