@@ -166,22 +166,8 @@ export default class cd extends React.Component {
                         </SView>
 
                     </SView>
-                    {/* <SHr color={STheme.color.card} h={1} /> */}
-                </SView>
-                <SHr h={30} />
-                <SView row col="xs-12" style={{
-                    borderBottomWidth: 1,
-                    borderColor: STheme.color.card,
-                    paddingBottom: 4
-                }}>
-                    <SText fontSize={fontz * 1.2} col={"xs-12"} bold language={{
-                        es: "Requerimientos",
-                        en: "Requirements",
-                    }}></SText>
-                </SView>
-                <SHr />
-                <SHr />
-                <SView row col="xs-12" >
+                    <SHr h={20} />
+                    <SView row col="xs-12" >
                     <SText fontSize={fontz} col={"xs-6"} language={{
                         es: "Nivel de ingles",
                         en: "Level of english",
@@ -197,7 +183,52 @@ export default class cd extends React.Component {
                     }}></SText>
                     <SText fontSize={fontz * .95} col={"xs-6"}  >{this.state?.data?.cliente.direccion}</SText>
                 </SView>
-                <SHr h={40} />
+
+                   <SText fontSize={fontz*1.5} bold language={{
+                    es: "Datos del jefe",
+                    en: "Boss data",
+                   }}></SText>
+
+                </SView>
+                <SHr h={3} />
+                <SView row col="xs-12" style={{
+                    borderBottomWidth: 1,
+                    borderColor: STheme.color.card,
+                    paddingBottom: 4
+                }}>
+
+                </SView>
+                <SHr />
+                <SHr />
+                 <SView row col="xs-12">
+                        <SView style={{
+                            width: 80,
+                            height: 80,
+                            borderRadius: 100,
+                            overflow: 'hidden',
+                            backgroundColor: STheme.color.card
+                        }} >
+
+
+                        </SView>
+                        <SView style={{
+                            width: 15,
+                        }}></SView>
+                        <SView>
+                            <SText language={{
+                                es: "Nombre del jefe:",
+                                en: "Boss name:",
+                            }}></SText>
+                            <SHr h={16} />
+                            <SText language={{
+                                es: "Telefono del jefe:",
+                                en: "Boss phone:",
+                            }}></SText>
+                            
+                        </SView>
+                    </SView>
+
+                <SHr h={30} />
 
                 {/* <SHr h={15} />
                 <SView row col="xs-12">

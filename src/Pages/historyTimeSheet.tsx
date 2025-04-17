@@ -242,9 +242,9 @@ export default class historyAlvaro extends Component {
               }, 0);
               console.log(total);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor='#000' >
-                <SText fontSize={6}>{"Sum:"}</SText>
-                <SText col={"xs-12"} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{borderWidth:1, borderColor:"#99999965", borderTopWidth:0}} >
+                <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
+                <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
             }}
           />
@@ -270,9 +270,9 @@ export default class historyAlvaro extends Component {
               }, 0);
               console.log(total);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor='#000' >
-                <SText fontSize={6}>{"Sum:"}</SText>
-                <SText col={"xs-12"} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{borderRightWidth:1, borderColor:"#99999965", borderBottomWidth:1}} >
+                <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
+                <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
             }}
           />

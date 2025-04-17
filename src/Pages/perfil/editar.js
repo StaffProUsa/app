@@ -45,7 +45,7 @@ class index extends Component {
         let telefono = "Teléfono";
         let nivel_ingles = "Nivel de inglés";
         let papeles = "¿Está autorizado para trabajar en los Estados Unidos?";
-        let otros_idiomas = "Escoja una opción";
+        let otros_idiomas = "Estatus legal";
         let mensaje1 = "Por favor completa toda la información solicitada en el formulario para que podamos enviarte las ofertas de trabajo. Si no proporciona esta información, es posible que no podamos compartir las oportunidades disponibles con usted (subir foto de perfil nítida en la que se vea claramente tu rostro)."
 
         if (lenguaje == "en") {
@@ -55,7 +55,7 @@ class index extends Component {
             nivel_ingles = "English level";
             papeles = "Are you authorized to work in the United States?";
             correo = "Email";
-            otros_idiomas = "Choose an option";
+            otros_idiomas = "Legal Status";
             mensaje1 = "Please complete all the information requested in the form so that we can send you job offers. If you do not provide this information, we may not be able to share the available opportunities with you (upload a clear profile photo showing your face clearly)."
 
         }
@@ -206,7 +206,7 @@ class index extends Component {
                     }
                 },
                 otros_idiomas: {
-                    placeholder: SLanguage.select({ es: "Escoja una opción", en: "Choose an option" }),
+                    placeholder: SLanguage.select({ es: "Estatus Legal", en: "Legal Status" }),
                     label: otros_idiomas,
                     // type: "select",
                     isRequired: true,
@@ -315,7 +315,7 @@ class index extends Component {
                             {this.getForm()}
                             <SView height={5} />
                             {/* aptitud */}
-                            <SView row style={{ alignItems: "flex-end", maxWidth: "350px" }} card padding={15} onPress={() => {
+                            {/* <SView row style={{ alignItems: "flex-end", maxWidth: "350px" }} card padding={15} onPress={() => {
                                 SNavigation.navigate("/perfil/staff_tipo")
                             }}>
                                 <SIcon name={"aptitud"} fill={STheme.color.text} width={20} height={20} />
@@ -324,7 +324,7 @@ class index extends Component {
                                     es: "EDITAR MIS APTITUDES O EXPERIENCIAS",
                                     en: "EDIT MY SKILLS OR EXPERIENCES"
                                 }} />
-                            </SView>
+                            </SView> */}
                             <SView height={26} />
 
                             <SView col={"xs-12"} row center>

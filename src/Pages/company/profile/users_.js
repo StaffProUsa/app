@@ -323,8 +323,8 @@ class root extends Component {
                         },
                         {
                             key: "usuario/otros_idiomas", label: SLanguage.select({
-                                en: "Other Languages",
-                                es: "Otros idiomas"
+                                en: "Legal Status",
+                                es: "Estatus legal"
                             }), width: 150
                         },
                         {
