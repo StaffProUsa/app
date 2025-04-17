@@ -346,11 +346,13 @@ export default class users extends Component {
         })
         if (selecteds.length <= 0) return;
 
-        return <SView card padding={2} width={123} row
+        return <SView card padding={2} col={"xs-8 sm-4 md-2"} row
             style={{
                 backgroundColor: STheme.color.secondary,
                 position: "absolute",
-                top: -8
+                top: -8,
+                right: -0,
+              
             }}
             onPress={() => {
                 this.handleInvitarArray(selecteds)
@@ -361,7 +363,7 @@ export default class users extends Component {
                 <SIcon name='invite2' fill={STheme.color.white} width={15} height={15} />
                 <SView width={4} />
             </SView>
-            <SView width={4} />
+            <SView width={4} />      
             {(selecteds.length > 1) ? <SText color={STheme.color.white} bold language={{ es: "Invitar", en: "Invite all" }} /> :
                 <SText color={STheme.color.white} bold language={{ es: "Invitar", en: "Invite" }} />
             }
@@ -420,11 +422,11 @@ export default class users extends Component {
                 }
             }}
         >
-            <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8 }} >
+            <SView col={"xs-12"} row style={{ alignItems: "flex-end", paddingRight: 8, paddingLeft: 8,marginTop:10 }} >
                 <SText bold fontSize={16}>{this.state?.data?.evento?.descripcion} </SText>
                 <SView width={6} />
                 <SView width={16} />
-                <SText onPress={() => { window.location.reload() }}><SIcon name='Reload' width={15} height={15} fill={STheme.color.text} />{" Reload"}</SText>
+                <SText onPress={() => { window.location.reload() }}><SIcon name='Reload' width={20} height={20} fill={STheme.color.text} />{" Reload"}</SText>
                 <SHr />
                 <SView col={"xs-12"} row>
                     <ItemImage src={SSocket.api.root + "company/" + this.state?.data?.evento?.key_company} label={this.state?.data_company?.descripcion} />
@@ -881,7 +883,7 @@ export default class users extends Component {
                                             en: "Avail.",
                                             es: "Disp."
                                         }), 
-                                        width: 250, 
+                                        width: 300,
                                         component: (a) => {
                                             let color = STheme.color.warning;
                                             if (!a || !a.length) return null;
@@ -914,11 +916,11 @@ export default class users extends Component {
                                                     row
                                                     center
                                                     col={"xs-12"}
-                                                    style={{ padding: 4, backgroundColor: "#333", borderRadius: 8 }}
+                                                    style={{ padding: 4, borderRadius: 8 }}
                                                 >
-                                                    {/* Botón Transferir */}
-                                                    <SView col={"xs-3"} row center>
-                                                        <SIcon name="noDispo" fill={color} width={20} height={20} />
+                                                    
+                                                    <SView col={"xs-2"} row center>
+                                                        <SIcon name="noDispo" fill={color} width={18} height={18} />
                                                         <SView width={60} center>
                                                             <SText
                                                                 center
@@ -933,20 +935,31 @@ export default class users extends Component {
                                                         </SView>
                                                     </SView>
                                         
-                                                    {/* Detalles del usuario */}
-                                                    <SView col={"xs-9"} style={{ paddingLeft: 8 }}>
+                                                 
+                                                    <SView col={"xs-9"} style={{ paddingLeft: 6 }}>
                                                         {a.map(p => (
+                                                            
                                                             <SView key={p.key_staff_usuario} style={{ marginBottom: 6 }}>
-                                                                <SView row style={{ gap: 4 }}>
+                                                                     
+
+                                                                    <SView row style={{ gap: 4, marginTop: -5,marginLeft: 1 }}>
+                                                                    <SText fontSize={7} color={STheme.color.text} style={{maxWidth:100}} numberOfLines={1} language={{es: `Evento ${p.evento}`, en: `Event ${p.evento}`}}></SText>
+                                                                    <SText fontSize={7} color={STheme.color.text}>{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
+                                                                    <SText fontSize={7} color={STheme.color.text}>-</SText>
+                                                                    <SText fontSize={7} color={STheme.color.text}>{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
+                                                                </SView>
+                                                                <SView row style={{ gap: 2, marginBottom:-8}}>
+                                                                    <SView style={{color:STheme.color.text,borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4 , backgroundColor:STheme.color.primary }} >
                                                                     <ItemImage src={SSocket.api.root + "staff_tipo/" + p.key_staff_tipo} label={p.descripcion_staff_tipo} />
+                                                                    </SView>
+                                                                    <SView style={{color:STheme.color.text,borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4,backgroundColor:STheme.color.primary}} >
                                                                     <ItemImage src={SSocket.api.root + "cliente/" + p.key_cliente} label={p.descripcion_cliente} />
+                                                                    </SView>
                                                                 </SView>
-                                                                <SView row style={{ gap: 4, marginTop: 2 }}>
-                                                                    <SText fontSize={9} color={"#fff"}>{p.evento}</SText>
-                                                                    <SText fontSize={9} color={"#fff"}>{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
-                                                                    <SText fontSize={9} color={"#fff"}> - </SText>
-                                                                    <SText fontSize={9} color={"#fff"}>{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
-                                                                </SView>
+                                                             
+                                                           
+                                                                
+                                                          
                                                             </SView>
                                                         ))}
                                                     </SView>
