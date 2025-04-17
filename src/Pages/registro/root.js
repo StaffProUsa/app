@@ -192,8 +192,8 @@ class root extends Component {
                                     // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
                                 },
                                 otros_idiomas: {
-                                    label: SLanguage.select({ es: "Escoja una opción", en: "Choose an option" }),
-                                    placeholder: SLanguage.select({ es: "Escoja una opción", en: "Choose an option" }),
+                                    label: SLanguage.select({ es: "Estatus legal", en: "Legal Status" }),
+                                    placeholder: SLanguage.select({ es: "Estatus legal", en: "Legal Status" }),
                                     // type: "select",
                                     isRequired: true,
                                     defaultValue: "",

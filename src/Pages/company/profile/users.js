@@ -362,7 +362,7 @@ export default class MoveStaff extends Component {
                     <DinamicTable.Col key={"estadoCivil"} data={p => p.row.usuario.estado_civil} label='Estado civil' />
                     <DinamicTable.Col key={"nacimiento"} data={p => new SDate(p.row.usuario.fecha_nacimiento).toString("MONTH dd, yyyy")} label='Fecha de Nac.' />
                     <DinamicTable.Col key={"direccion"} data={p => p.row.usuario.direccion} label='Dirección' />
-                    <DinamicTable.Col key={"idiomas"} data={p => p.row.usuario.otros_idiomas} label='Otros idiomas' />
+                    <DinamicTable.Col key={"idiomas"} width={130} data={p => p.row.usuario.otros_idiomas} label='Estatus legal' />
                     <DinamicTable.Col key={"alta"} width={130} data={p => new SDate(p.row.fecha_on).toString("MONTH dd, yyyy")} label='Fecha de alta' />
                     <DinamicTable.Col key={"position"} label='Posición' width={50}
                         data={e => ""}

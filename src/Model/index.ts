@@ -34,7 +34,7 @@ Usuario.init({
         "Correo": { type: "text", label: "Email", notNull: true, editable: true },
         "direccion": { type: "text", label: "Home Address", editable: true , notNull: true,},
         "nivel_ingles": { type: "text", label: "English level", editable: true ,notNull: true},
-        "otros_idiomas": { type: "text", label: "Languages Spoken", editable: true,notNull: true },
+        "otros_idiomas": { type: "text", label: "Legal Status", editable: true,notNull: true },
         "papeles": { type: "text", label: "Are you legally authorized to work in the United State?", editable: true },
         "Password": { type: "text",  editable: true },
     },
