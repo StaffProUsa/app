@@ -12,13 +12,13 @@ import PBarraFooter from '../../../Components/PBarraFooter';
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
     return <SView row >
         <SView width={16} height={16} style={{ borderRadius: 100, overflow: "hidden", backgroundColor: STheme.color.card }}>
-            
+
             <SImage src={src} style={{
                 resizeMode: "cover"
             }} />
         </SView>
         <SView width={4} />
-        
+
         <Text style={[textStyle, { flex: 1 }]} numberOfLines={!wrap ? 0 : 1} >{label}</Text>
     </SView>
 }
@@ -34,6 +34,9 @@ export default class MoveStaff extends Component {
         };
         this.key_company = SNavigation.getParam("pk");
         this.filter = SNavigation.getParam("filter") || null;
+        this.isEnable = this.filter == "enabled" ? true : false;
+        this.isDisable = this.filter == "disabled" ? true : false;
+        this.isNew = this.filter == "news" ? true : false;
     }
 
     onChangeLanguage(language) {
@@ -265,63 +268,95 @@ export default class MoveStaff extends Component {
 
         })
     }
-    
+
     render() {
         let permiso_habilitar = Model.usuarioPage.Action.getPermiso({ url: "/company/profile/users", permiso: "habilitar", user_data: { key_company: this.key_company } })
 
         return <SPage tile={""} disableScroll
-        footer={<PBarraFooter url={'/company'} />}>
-            <SView row style={{ alignContent:"center",gap: 10, justifyContent:"flex-start",marginBottom:10 }}>
-             
+            footer={<PBarraFooter url={'/company'} />}>
+            <SView row style={{ alignContent: "center", gap: 10, justifyContent: "flex-start", marginBottom: 10 }}>
+                <SView width={1} />
 
-
-                <SView style={{borderWidth:2,borderColor:STheme.color.card, borderRadius:8,backgroundColor:STheme.color.success,marginTop:10}} padding={4}>
-               <SText onPress={()=>{
-                this.table.filtros = [{
-                    col: "estado",
-                    type: "text",
-                    operator: "=",
-                    value: [
-                       "enabled"
-                    ]
-                }]               
-                this.table.applyFilter()
-            }}>{"Habilitado"}</SText>
+                <SView style={{
+                    borderWidth: 2,
+                    borderColor: STheme.color.card,
+                    borderRadius: 8,
+                    backgroundColor: this.isEnable ? STheme.color.success: STheme.color.lightGray,
+                    marginTop: 10
+                }}
+                    padding={4}>
+                    <SText color={STheme.color.white} onPress={() => {
+                        this.table.filtros = [{
+                            col: "estado",
+                            type: "text",
+                            operator: "=",
+                            value: [
+                                "enabled"
+                            ]
+                        }]
+                        this.table.applyFilter()
+                        this.isEnable = true
+                        this.isDisable = false
+                        this.isNew = false
+                        this.setState({ ...this.state })
+                    }}>{"Habilitado"}</SText>
                 </SView>
 
-                <SView style={{borderWidth:2,borderColor:STheme.color.card, borderRadius:8,backgroundColor:STheme.color.danger,marginTop:10}} padding={4}>
-               <SText onPress={()=>{
-                this.table.filtros = [{
-                    col: "estado",
-                    type: "text",
-                    operator: "=",
-                    value: [
-                       "disabled"
-                    ]
-                }]
-                this.table.applyFilter()
-            }}>{"Deshabilitados"}</SText>
-            </SView>
-            <SView style={{borderWidth:2,borderColor:STheme.color.card, borderRadius:8,backgroundColor:STheme.color.warning,marginTop:10}} padding={4}>
-            <SText onPress={()=>{
-                this.table.filtros = [{
-                    col: "nuevo",
-                    type: "text",
-                    operator: "=",
-                    value: [
-                       "true"
-                    ]
-                }]
-                this.table.applyFilter()               
-            }}>
-                {"Nuevos"}</SText>
+                <SView style={{
+                    borderWidth: 2,
+                    borderColor: STheme.color.card,
+                    borderRadius: 8,
+                    backgroundColor: this.isDisable ? STheme.color.danger: STheme.color.lightGray,
+                    marginTop: 10
+                }}
+                    padding={4}>
+                    <SText color={STheme.color.white} onPress={() => {
+                        this.table.filtros = [{
+                            col: "estado",
+                            type: "text",
+                            operator: "=",
+                            value: [
+                                "disabled"
+                            ]
+                        }]
+                        this.table.applyFilter()
+                        this.isEnable = false
+                        this.isDisable = true
+                        this.isNew = false
+                        this.setState({ ...this.state })
+                    }}>{"Deshabilitados"}</SText>
                 </SView>
-           
+                <SView style={{
+                    borderWidth: 2,
+                    borderColor: STheme.color.card,
+                    borderRadius: 8,
+                    backgroundColor: this.isNew ? STheme.color.warning: STheme.color.lightGray ,
+                    marginTop: 10
+                }}
+                    padding={4}>
+                    <SText color={STheme.color.white} onPress={() => {
+                        this.table.filtros = [{
+                            col: "nuevo",
+                            type: "text",
+                            operator: "=",
+                            value: [
+                                "true"
+                            ]
+                        }]
+                        this.table.applyFilter()
+                        this.isEnable = false
+                        this.isDisable = false
+                        this.isNew = true
+                        this.setState({ ...this.state })
+                    }}>
+                        {"Nuevos"}</SText>
+                </SView>
+
             </SView>
 
             <SView col={"xs-12"} height backgroundColor={STheme.color.background} withoutFeedback>
                 <DinamicTable
-                ref={ref => this.table = ref}
+                    ref={ref => this.table = ref}
                     loadInitialState={async () => {
 
                         const filters = []
@@ -353,13 +388,13 @@ export default class MoveStaff extends Component {
                                     type: "text",
                                     operator: "=",
                                     value: [
-                                       "true"
+                                        "true"
                                     ]
                                 })
                                 break;
                         }
                         return {
-                            "filters":filters,
+                            "filters": filters,
                             "sorters": [
                                 {
                                     "key": "alta",
