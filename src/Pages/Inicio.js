@@ -154,7 +154,8 @@ export default class Inicio extends Component {
   render() {
     return <SPage
       // titleLanguage={{ es: "Próximos eventos", en: "Next events" }} 
-      preventBack footer={<PBarraFooter url={'/'} />} >
+      preventBack 
+      footer={<PBarraFooter url={'/'} />} >
       <Container>
         <SView col={"xs-12"}>
           {this.state.invitaciones && this.state.invitaciones.length > 0 && <>
