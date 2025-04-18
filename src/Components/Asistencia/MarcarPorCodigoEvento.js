@@ -176,6 +176,7 @@ export default class MarcarPorCodigoEvento extends Component {
         //     }
         // });
         // console.log(dataValid?.staff_usuario?.fecha_ingreso)
+        console.log("dataJefe", this.props?.dataJefe)
         let lenguaje = SLanguage.language;
         return <SView col={"xs-12"} center >
             <SHr h={20} />
@@ -183,8 +184,8 @@ export default class MarcarPorCodigoEvento extends Component {
             {(this.props?.dataJefe) ? <SText fontSize={20} center bold color={STheme.color.text} language={{
                 en: "You have been assigned as event leader",
                 es: "Has sido asignado como jefe del evento"
-            }} />: <SText fontSize={20} center bold color={STheme.color.text} language={{
-                 es: "Consulta el codigo con tu jefe de evento",
+            }} /> : <SText fontSize={20} center bold color={STheme.color.text} language={{
+                es: "Consulta el codigo con tu jefe de evento",
                 en: "Check the code with your event manager"
             }} />}
 

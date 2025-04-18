@@ -156,7 +156,9 @@ export default class event_in_progress extends Component {
                         renderItem={({ item }) => {
                             if (item._type == "boss") {
                                 return <CardBoss data={item} onPress={() => {
-                                    SNavigation.navigate("/evento", { key: item?.evento?.key })
+                                    // SNavigation.navigate("/evento", { key: item?.evento?.key })
+                                    console.log("item", item);
+                                    SNavigation.navigate("/cdboss", { key_staff: item?.staff?.key, key_boss: Model.usuario.Action.getKey() })
                                 }} />
                             }
                             return <CardEvento data={item} onPress={() => {

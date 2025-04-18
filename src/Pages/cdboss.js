@@ -13,87 +13,36 @@ const fontz = 16
 
 // create a component
 class cdboss extends Component {
+    key_staff = SNavigation.getParam("key_staff");
+    key_boss = SNavigation.getParam("key_boss");
     state = {
-        data: {
+        data: null,
+    }
+    componentDidMount() {
+        console.log("asdadas 1")
+        SSocket.sendPromise({
+            component: "staff",
+            type: "getPerfilBoss",
+            key_staff: this.key_staff,
+            key_boss: this.key_boss,
+        }).then(res => {
+            console.log("asdadas con otro 2")
+            this.setState({
+                data: res.data
+            })
+            // this.state.data = res.data
+            // this.forceUpdate();
+        }).catch(err => {
 
-            "cliente": {
-                "descripcion": "Calistenia",
-                "estado": 1,
-                "key_company": "b8118596-9980-4a27-aa4e-a48384095350",
-                "contacto": "Jose Miguel",
-                "key_usuario": "1e2ef5fd-4fb5-40ff-84df-30f34a2b162e",
-                "nivel_ingles": null,
-                "fecha_on": "2025-03-07T02:39:11.993",
-                "latitude": -17.767878304597797,
-                "direccion": "Calle Padre Ceferino Mussani, La Santa Cruz, Municipio Santa Cruz de la Sierra, Provincia Andrés Ibáñez, Santa Cruz, Bolivia",
-                "index": null,
-                "papeles": false,
-                "telefono": "+1 (787) 986-7867",
-                "key": "a86e1cce-2a1e-4e9e-95ed-78c123d9d0d9",
-                "observacion": "En este espacio, podrás encontrar todos los requerimientos que el cliente ha solicitado para el proyecto. \n📝 Es importante que revises cada detalle cuidadosamente, ya que aquí se plasman todas las necesidades y expectativas que debemos cumplir para garantizar un resultado óptimo. 🎯\nRecuerda que cualquier modificación o actualización será comunicada a través de este mismo apartado, para que siempre estemos alineados con lo que el cliente espera. \n🛠️👉 Por favor, mantén este espacio siempre actualizado y asegúrate de verificar los requerimientos antes de iniciar cualquier tarea.\n¡Gracias por tu colaboración! 😊                          ",
-                "longitude": -63.18432695108003
-            },
-            "evento": {
-                "descripcion": "Ice cream bar ",
-                "fecha": "2025-04-17T00:00:00",
-                "estado": 1,
-                "key_company": "b8118596-9980-4a27-aa4e-a48384095350",
-                "key_usuario": "99bbf5bf-cb7e-424b-a65e-5ec9c73c1121",
-                "fecha_on": "2025-04-17T13:13:04.718",
-                "estado_venta": 0,
-                "key_cliente": "a86e1cce-2a1e-4e9e-95ed-78c123d9d0d9",
-                "key": "d3f4018d-6f19-4b07-9aec-86b4ed4ad160",
-                "observacion": "event on 4/24 for Earth Day/Bring your Child to Work Day and are expecting upwards of 200 guests (+ children!)"
-            },
-            "staff": {
-                "descripcion": "event on 4/24 for Earth Day/Bring your Child to Work Day and are expecting upwards of 200 guests (+ children!)",
-                "estado": 1,
-                "key_usuario": "99bbf5bf-cb7e-424b-a65e-5ec9c73c1121",
-                "nivel_ingles": "BASIC",
-                "key_staff_tipo": "0302e259-477b-4873-af37-35d9dfe0a2c3",
-                "fecha_on": "2025-04-17T13:13:35.178",
-
-                "fecha_inicio": "2025-04-18T10:00:00-04:00",
-                "fecha_fin": "2025-04-18T20:00:00-04:00",
-
-                "cantidad": 1,
-                "key_evento": "d3f4018d-6f19-4b07-9aec-86b4ed4ad160",
-                "key": "bae00f8e-d4ae-40ee-9e6d-5309bed75934",
-                "observacion": null
-            },
-            "company": {
-                "descripcion": "Servisofts",
-                "estado": 1,
-                "contacto": "",
-                "key_usuario": "798994df-71c1-4850-b45d-6fc2642e6fb3",
-                "fecha_on": "2024-11-11T23:55:06.306",
-                "latitude": null,
-                "direccion": "",
-                "telefono": "+1 ",
-                "key": "b8118596-9980-4a27-aa4e-a48384095350",
-                "observacion": "Empresa de desarrollo",
-                "email": "",
-                "longitude": null
-            },
-            "staff_tipo": {
-                "descripcion": "Admin",
-                "estado": 1,
-                "key_usuario": "8d086bcf-df5e-4f5d-b5fa-fe45b0b2b87d",
-                "color": null,
-                "fecha_on": "2024-10-29T23:34:39.000009",
-                "key": "0302e259-477b-4873-af37-35d9dfe0a2c3",
-                "observacion": null
-            },
-            "_type": "boss"
-
-        }
+        })
+        console.log("asdadas con otro 3")
     }
     render() {
 
 
         return <SPage>
             <SHr h={16} />
-            <Container>
+            <Container loading={!this.state.data} >
 
                 <SView style={{
                     width: "100%",
@@ -152,7 +101,9 @@ class cdboss extends Component {
                 backgroundColor: STheme.color.secondary,
                 height: 55,
             }} center>
-                <MensajeEstado data={this.state.data} />
+                <Container loading={!this.state.data} >
+                    <MensajeEstado data={this.state.data} />
+                </Container>
             </SView>
 
             <SHr height={30} />
@@ -245,7 +196,7 @@ class cdboss extends Component {
                 <SHr h={20} />
                 <SView row col="xs-12">
 
-                    <CuadradoInfo height={50} label={"Personas en el evento"}
+                    <CuadradoInfo number={this.state?.data?.cantidad_total ?? 0} height={50} label={"Personas en el evento"}
                         onPress={() => SNavigation.navigate("/boss")}
                         color={STheme.color.lightGray}
                     />
@@ -254,6 +205,7 @@ class cdboss extends Component {
                 </SView><SHr height={16} />
                 <SView row col={"xs-12"} >
                     <CuadradoInfo label={"Numero de personas sin clock in"}
+                        number={this.state?.data?.not_clockin ?? 0}
                         onPress={() => SNavigation.navigate("/boss")}
                         color={STheme.color.danger}
                     />
@@ -261,17 +213,19 @@ class cdboss extends Component {
                         width: 16
                     }} />
                     <CuadradoInfo label={"Numero de personas trabajando"} color={STheme.color.warning}
+                        number={this.state?.data?.cantidad_en_curso ?? 0}
                         onPress={() => SNavigation.navigate("/boss")} />
                     <SView style={{
                         width: 16
                     }} />
                     <CuadradoInfo label={"Numero de personas que trabajaron"} color={STheme.color.success}
+                        number={this.state?.data?.cantidad_clockout ?? 0}
                         onPress={() => SNavigation.navigate("/boss")} />
                 </SView>
                 <SHr h={12} />
                 {/* <SText onPress={() => SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText> */}
                 <MarcarPorCodigoEvento
-                    dataJefe={"this.state.data"}
+                    dataJefe={true}
                     key_evento={this.state?.data?.evento?.key}
                     onChange={() => {
                         this.componentDidMount();
@@ -325,7 +279,7 @@ const ItemImage = ({ src, label }) => {
 
 }
 
-const CuadradoInfo = ({ onPress, height, color, label }) => {
+const CuadradoInfo = ({ onPress, height, color, label, number }) => {
     return <SView onPress={onPress} style={{
 
         flex: 1,
@@ -337,7 +291,7 @@ const CuadradoInfo = ({ onPress, height, color, label }) => {
         backgroundColor: color + "55",
 
     }} center>
-        <SText center fontSize={22} bold>{"10"}</SText>
+        <SText center fontSize={22} bold>{number}</SText>
         <SText center>{label}</SText>
 
     </SView>
