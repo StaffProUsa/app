@@ -326,7 +326,15 @@ export default class cd extends React.Component {
                         }}></SText>
                         <SText flex fontSize={fontz * .95}  >{this.state?.data?.cliente.direccion}</SText>
                     </SView>
+                    <SHr h={20} />
+                    <SView row col="xs-12">
+                        <SText width={120} fontSize={fontz} language={{
+                            es: "Requerimientos del cliente:",
+                            en: "Customer requirements:",
 
+                        }}></SText>
+                        <SText flex fontSize={fontz * .95}  >{this.state?.data?.cliente.observacion}</SText>
+                    </SView>
                     <SHr h={30} />
 
                     <SText fontSize={fontz * 1.5} bold language={{
@@ -550,12 +558,14 @@ const ItemEstado = ({ fontSize, language, color }) => {
         margin: 4,
         padding: 4,
     }}>
-        <SText center border style={{
+        <SText center border clean style={{
 
             fontSize: fontSize,
             margin: 7,
-            padding: 4,
+            padding: 16,
+            backgroundColor: color + "44",
             borderColor: color,
+            borderWidth: 1,
             //backgroundColor: STheme.color.secondary,
             borderRadius: 8,
 

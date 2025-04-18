@@ -262,7 +262,6 @@ export default class MarcarPorCodigoEvento extends Component {
 
 
             <SHr h={30} />
-            {(this.props?.dataJefe) ? <SText onPress={() => SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText> : null}
 
             <SHr h={16} />
         </SView>

@@ -72,6 +72,7 @@ import event_in_progress from './event_in_progress';
 import historyTimeSheet from './historyTimeSheet';
 
 import cd from "./cd"
+import cdboss from './cdboss';
 const NewPages = SPage.combinePages("/", {
    "": Carga,
    "inicio": Inicio,
@@ -115,7 +116,8 @@ const NewPages = SPage.combinePages("/", {
    event_in_progress,
    ...invitacion,
    "history/timesheet": historyTimeSheet,
-   cd
+   cd,
+   cdboss
 
 })
 const Pages: SPageListProps = {
