@@ -6,6 +6,7 @@ import { DinamicTable } from 'servisofts-table';
 import FloatButtom from '../../../Components/FloatButtom';
 import { component } from '../../../Services/Usuario/Components/datoCabecera';
 import Config from '../../../Config';
+import Model from '../../../Model';
 
 export default class usuarios_bloqueados extends Component {
     constructor(props) {
@@ -27,7 +28,10 @@ export default class usuarios_bloqueados extends Component {
             key_cliente: this.key_cliente
         })
 
-        let keys = [...new Set(Object.values(resp.data).map((a) => a.key_usuario).filter(key => key !== null))]
+        let ks = Object.values(resp.data).map((a) => a.key_usuario).filter(key => key !== null);
+        ks = [...ks, ...Object.values(resp.data).map((a) => a.key_usuario_bloqueado).filter(key => key !== null)]
+        let keys = [...new Set(ks.filter(key => key !== null))]
+
 
         const request = {
             version: "2.0",
@@ -40,11 +44,12 @@ export default class usuarios_bloqueados extends Component {
         const dataUsuarios = Object.values(response.data).map((a) => a.usuario);
 
         const data = Object.values(resp.data).map((a) => {
+            let usuario_bloqueado = dataUsuarios.find((b) => b.key == a.key_usuario_bloqueado);
             let usuario = dataUsuarios.find((b) => b.key == a.key_usuario);
-            if (!usuario) return null;
             return {
                 ...a,
                 usuario: usuario,
+                usuario_bloqueado: usuario_bloqueado,
             }
         })
 
@@ -91,27 +96,31 @@ export default class usuarios_bloqueados extends Component {
                 <DinamicTable.Col key="Nombres" label={SLanguage.select({
                     es: "Nombres",
                     en: "First Name"
-                })} data={a => a.row?.usuario?.Nombres} />
+                })} data={a => a.row?.usuario_bloqueado?.Nombres} />
                 <DinamicTable.Col key="Apellidos" label={SLanguage.select({
                     es: "Apellidos",
                     en: "Last Name"
-                })} data={a => a.row?.usuario?.Apellidos} />
+                })} data={a => a.row?.usuario_bloqueado?.Apellidos} />
                 <DinamicTable.Col key="Correo" label={SLanguage.select({
                     es: "Correo",
                     en: "Email"
                 })} width={180}
-                    data={a => a.row?.usuario?.Correo} />
+                    data={a => a.row?.usuario_bloqueado?.Correo} />
                 <DinamicTable.Col key="Telefono" label={SLanguage.select({
                     es: "Telefono",
                     en: "Phone"
                 })} width={100}
-                    data={a => a.row?.usuario?.Telefono} />
+                    data={a => a.row?.usuario_bloqueado?.Telefono} />
                 <DinamicTable.Col key={"fecha"}
                     label={SLanguage.select({ es: "Fecha de bloqueo", en: "Date of block" })}
                     width={140}
                     dataType='date'
                     data={e => new SDate(e.row?.fecha_on, "yyyy-MM-ddThh:mm:ss").date}
                     format={e => new SDate(e.data).toString("yyyy-MM-dd hh:mm:ss")} />
+                <DinamicTable.Col key={"bloqueado_por"}
+                    label={SLanguage.select({ es: "Bloqueado por", en: "Blocked by" })}
+                    width={140}
+                    data={e => e.row?.usuario?.Nombres + " " + e.row?.usuario?.Apellidos} />
             </DinamicTable>
             <FloatButtom onPress={() => {
                 SNavigation.navigate("/company/profile/users", {
@@ -125,6 +134,7 @@ export default class usuarios_bloqueados extends Component {
                             data: {
                                 key_cliente: this.key_cliente,
                                 key_usuario: a.key_usuario,
+                                key_usuario_bloqueado: Model.usuario.Action.getKey(),
                                 estado: 1
                             }
                         }).then(e => {
