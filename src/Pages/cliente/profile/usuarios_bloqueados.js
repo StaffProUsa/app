@@ -133,8 +133,8 @@ export default class usuarios_bloqueados extends Component {
                             type: "registro",
                             data: {
                                 key_cliente: this.key_cliente,
-                                key_usuario: a.key_usuario,
-                                key_usuario_bloqueado: Model.usuario.Action.getKey(),
+                                key_usuario: Model.usuario.Action.getKey(),
+                                key_usuario_bloqueado: a.key_usuario,
                                 estado: 1
                             }
                         }).then(e => {
