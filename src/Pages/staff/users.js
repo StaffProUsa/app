@@ -147,8 +147,8 @@ export default class users extends Component {
                     arrayNivelIngles = ["ADVANCED"]
                 }
                 const filtrados = e.data.filter(item =>
-                    item.usuario &&
-                    arrayNivelIngles.includes(item.usuario.nivel_ingles)
+                    item.usuario 
+                    // && arrayNivelIngles.includes(item.usuario.nivel_ingles)
                 );
 
                 // this.setState({ data_disponibles: e.data })
