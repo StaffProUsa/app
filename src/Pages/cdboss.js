@@ -302,7 +302,8 @@ const MensajeEstado = ({ data }) => {
     const curdate = new SDate();
 
     if (curdate.getTime() < fecha_inicio.getTime()) {
-        return <SText>Estado futuro</SText>
+    const since = fecha_inicio.timeSince(fecha_fin)
+        return <SText>{"Faltan "+ since }</SText>
     }
     if (curdate.getTime() > fecha_fin.getTime()) {
         return <SText>Estado pasado</SText>
