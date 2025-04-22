@@ -8,6 +8,8 @@ import InputHora from '../Components/NuevoInputs/InputHora';
 import InputFloat from '../Components/NuevoInputs/InputFloat';
 import { DinamicTable } from 'servisofts-table';
 import Config from '../Config';
+import TableIcon from '../Components/Table/TableIcon';
+import Col from 'servisofts-table/DinamicTable/Col';
 
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
     return <SView row >
@@ -29,6 +31,7 @@ class boss extends Component {
         };
     }
     key_staff = SNavigation.getParam("key_staff")
+    sta  = SNavigation.getParam("sta")
     componentDidMount() {
         // this.loadData()
     }
@@ -38,10 +41,31 @@ class boss extends Component {
             component: "staff_usuario",
             type: "getMisTrabajadoresBoss",
             key_usuario: Model.usuario.Action.getKey(),
-            key_staff:this.key_staff
+            key_staff: this.key_staff
         })
         // return resp.data
-        return Object.values(resp.data)
+        let ks = Object.values(resp.data).map((a) => a.key_usuario).filter(key => key !== null);
+        let keys = [...new Set(ks.filter(key => key !== null))]
+
+        const request = {
+            version: "2.0",
+            service: "usuario",
+            component: "usuario",
+            type: "getAllKeys",
+            keys: keys,
+        }
+        const response = await SSocket.sendPromise(request)
+        const dataUsuarios = Object.values(response.data).map((a) => a.usuario);
+
+        const data = Object.values(resp.data).map((a) => {
+            let usuario = dataUsuarios.find((b) => b.key == a.key_usuario);
+            return {
+                ...a,
+                usuario: usuario,
+            }
+        })
+
+        return data
         // return ["asdsa", "ASdsad", "fgdghe", "$35345"]
     }
 
@@ -149,17 +173,17 @@ class boss extends Component {
     //     </SView>
     //   }
 
-     calculador_hora(hora_inicio, hora_fin) {
+    calculador_hora(hora_inicio, hora_fin) {
         if (!hora_inicio) return "";
         const time = new SDate(hora_inicio, "yyyy-MM-ddThh:mm:ssTZD").diffTime(new SDate(hora_fin, "yyyy-MM-ddThh:mm:ssTZD"))
         return isNaN(time) ? "" : time / 1000 / 60 / 60;
-    
-    
-    
-      }
+
+
+
+    }
 
     render() {
-        const users = Model.usuario.Action.getAll() ?? {};
+        //const users = Model.usuario.Action.getAll() ?? {};
         return <SPage titleLanguage={{ en: "Boss", es: "Jefe" }} disableScroll
         // header={<SView col={"xs-12"} height={24} style={{
         //     justifyContent: "center"
@@ -179,18 +203,20 @@ class boss extends Component {
             <SView col={"xs-12"} height backgroundColor={STheme.color.background} withoutFeedback>
                 <DinamicTable
                     loadInitialState={async () => {
-                        return {
-                            "filters": [
-                                {
-                                    // "col": "estado",
-                                    // "operator": "=",
-                                    // "type": "date",
-                                    // "value": [
-                                    //     "enabled"
-                                    // ]
-                                },
+                        const filter = []
+                        if(this.sta){
+                            filter.push({
+                                "col": "state",
+                                "operator": "=",
+                                "type": "string",
+                                "value": [
+                                    this.sta
+                                ]
+                            })
+                        }
 
-                            ],
+                        return {
+                            "filters": filter,
                             "sorters": [
                                 {
                                     // "key": "alta",
@@ -249,7 +275,7 @@ class boss extends Component {
                         }}
 
                     />
-                    <DinamicTable.Col key={"status"} label={SLanguage.select({ en: "Status", es: "Estado" })} width={200}
+                    <DinamicTable.Col key={"status"} label={SLanguage.select({ en: "Status", es: "Estado" })} width={140}
                         data={e => {
                             let CONT = <SText color={STheme.color.gray} fontSize={10}>{"--"}</SText>
 
@@ -338,61 +364,166 @@ class boss extends Component {
 
 
                     />
-                    <DinamicTable.Col key={"key_usuario"} label={SLanguage.select({ en: "Name", es: "Nombre" })} width={100}
-                        data={e => { return users[e.row.key_usuario]?.Nombres + " " + users[e.row.key_usuario]?.Apellidos }}
-                    />
-                    <DinamicTable.Col key={"key_usuario_"} label={SLanguage.select({ en: "Employee Number", es: "Número de empleado" })} width={120}
-                        data={e => { return users[e.row.key_usuario]?.employee_number }}
-                    />
-                    <DinamicTable.Col key={"eventoFecha"} label={SLanguage.select({ en: "Date", es: "Fecha" })} width={120}
-                        data={e => new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("MONTH dd, yyyy")}
-                    />
-                    <DinamicTable.Col key={"start"} label={SLanguage.select({ en: "Start", es: "Inicio" })} width={120}
-                        data={e => !e.row.staff.fecha_inicio ? null : new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}
-                    />
-                    <DinamicTable.Col key={"end"} label={SLanguage.select({ en: "End", es: "Fin" })} width={120}
-                        data={e => !e.row.staff.fecha_fin ? null : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}
-                    />
-                    <DinamicTable.Col key={"clock_in"} label={SLanguage.select({ en: "Clock In", es: "Entrada" })} width={120}
-                        data={e => e.row.fecha_ingreso ? new SDate(e.row.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") : null}
-                    />
-                    <DinamicTable.Col key={"clock_out"} label={SLanguage.select({ en: "Clock Out", es: "Salida" })} width={120}
-                        data={e => e.row.fecha_salida ? new SDate(e.row.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") : null}
-                    />
+                    <Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
+                                data={e => {
+                    
+                                  if (e.row?.fecha_salida) {
+                                    return "COMPLETED"
+                                  }
+                    
+                                  if (e.row?.fecha_ingreso) {
+                                    return "READY"
+                                  }
+                    
+                                  //if (new SDate(e.row?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").getTime() < new SDate().getTime()) {
+                                   // return "FINISHED"
+                                  //}
+                    
+                                  return "PENDING"
+                    
+                                }}
+                    
+                                customComponent={e => {
+                                  let color = STheme.color.primary;
+                                  switch (e.dataFormat) {
+                                    case "FINISHED":
+                                      color = STheme.color.danger;
+                                      break;
+                                    case "READY":
+                                      color = STheme.color.warning;
+                                      break;
+                                    case "PENDING":
+                                      color = STheme.color.lightGray;
+                                      break;
+                                    case "COMPLETED":
+                                      color = STheme.color.success;
+                                      break;
+                                  }
+                    
+                                  return <SView col={"xs-12"} center >
+                                    <SView padding={3} center style={{
+                                      backgroundColor: color,
+                                      borderRadius: 4,
+                                    }}>
+                                      <Text style={[e.textStyle, { color: "#fff", fontSize: 10 }]} >{e.dataFormat}</Text>
+                                    </SView>
+                                  </SView>
+                                }} />
 
-                    <DinamicTable.Col key={"hour"} label={SLanguage.select({ en: "Hours", es: "Horas" })} width={120}
-                        data={e => {
-                            // if (!e.row.fecha_ingreso) {
-                            //     return "";
-                            // }
-                            // const fi = new SDate(e.row.fecha_ingreso, "yyyy-MM-ddThh:mm:ss.sssTZD")
-                            // const fs = e.row.salida ? new SDate(e.row.fecha_salida, "yyyy-MM-ddThh:mm:ss.sssTZD") : new SDate()
-                            // const disf = fi.diffTime(fs);
-                            // return ((disf / 1000) / 60 / 60).toFixed(2);
-                            if (!e.row.fecha_ingreso || !e.row.fecha_salida) return "";
-                            let hora44 = this.calculador_hora(e.row?.fecha_ingreso, e.row?.fecha_salida);
-                            return hora44;
-                        }}
+                    <DinamicTable.Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
+                        dataType='date'
+                        data={e => new SDate(e.row.evento.fecha, "yyyy-MM-dd").date}
+                        format={e => new SDate(e.data).toString("yyyy-MM-dd")}
+                    // textStyle={{ color: STheme.color.success }}
                     />
                     <DinamicTable.Col key={"cliente"} label={SLanguage.select({ en: "Client", es: "Cliente" })} width={100}
                         data={e => e.row.cliente.descripcion}
+                        labelIcon={<TableIcon name='icliente' />}
                         customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "cliente/" + e.row?.cliente?.key} textStyle={e.textStyle} />}
+                        
                     />
                     <DinamicTable.Col key={"evento"} label={SLanguage.select({ en: "Event", es: "Evento" })} width={100}
                         data={e => e.row.evento.descripcion}
-                        customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "evento/" + e.row?.evento?.key} textStyle={e.textStyle} />}
+
                     />
-                    <DinamicTable.Col key={"posicion"} label={SLanguage.select({ en: "Position", es: "Posición" })} width={100}
+
+                    <DinamicTable.Col key={"employee_number"} label={SLanguage.select({ en: "Employee Number", es: "Número de empleado" })} width={70}
+                        data={e => { return e.row?.usuario_company?.employee_number }}
+                    />
+                    <DinamicTable.Col key={"nombre"} label={SLanguage.select({ en: "User", es: "Usuario" })} width={100}
+                        data={e => { return e.row?.usuario?.Nombres + " " + e.row?.usuario?.Apellidos }
+                        
+                    }
+                        
+                    />
+                    <DinamicTable.Col key={"salario"} label={SLanguage.select({ en: "Salary", es: "Salario" })}
+                        width={100}
+                        data={e =>e.row?.salario_hora}
+                    />
+                    <DinamicTable.Col key={"staff"}
+                        labelIcon={<TableIcon name='iposition' />}
+                        label={SLanguage.select({ es: "Posición", en: "Position" })} width={100}
                         data={e => e.row.staff_tipo.descripcion}
+                        customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
                     />
-                    <DinamicTable.Col key={"descrip"} label={SLanguage.select({ en: "Description", es: "Descripción" })} width={100}
-                        data={e => e.row.staff.descripcion}
+
+                    <DinamicTable.Col key={"inicio"} label={SLanguage.select({ es: "Hora inicio", en: "Clock In" })} width={80}
+                        dataType='date'
+                        data={e => (!e.row.fecha_ingreso) ? null : new SDate(e.row.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").date}
+                        // format={e => new SDate(e.data).toString("HH")}
+                        dateFormat='HH'
                     />
+
+                    <DinamicTable.Col key={"fin"} label={SLanguage.select({ es: "Hora fin", en: "Clock Out" })} width={80}
+                        dataType='date'
+                        data={e => (!e.row.fecha_salida) ? null : new SDate(e.row.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").date}
+                        dateFormat='HH'
+                    />
+                    <DinamicTable.Col key={"horas"} label={SLanguage.select({ es: "Horas", en: "Times" })} width={60}
+                        dataType='number'
+                        data={e => {
+                            if (!e.row.fecha_ingreso || !e.row.fecha_salida) return 0;
+                            let hora44 = this.calculador_hora(e.row.fecha_ingreso, e.row.fecha_salida);
+                            return hora44;
+                        }}
+
+                        format={a => !a.data ? null : a.data.toFixed(2)}
+                        cellStyle={{ alignItems: "flex-end" }}
+                        sumExcel
+                        excelFormat='0.00'
+                        renderFooter={(p) => {
+                            if (!p.dinamicTable.dataFiltrada) return null;
+                            if (p.dinamicTable.dataFiltrada.length == 0) return null;
+                            const total = p.dinamicTable.dataFiltrada.reduce((acc: number, e: any) => {
+                                return acc + (e.horas ?? 0);
+                            }, 0);
+                            console.log(total);
+                            // console.log(p.dinamicTable.dataFiltrada);
+                            return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderWidth: 1, borderColor: "#99999965", borderTopWidth: 0 }} >
+                                <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
+                                <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
+                            </SView>
+                        }}
+                    // format={e => e.data.toFixed(2)}
+                    />
+                    <DinamicTable.Col key={"subtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
+                        dataType='number'
+                        data={e => {
+                            if (!e.row.fecha_ingreso || !e.row.fecha_salida) return 0;
+                            let hora44: any = this.calculador_hora(e.row.fecha_ingreso, e.row.fecha_salida);
+                            let dadda = parseFloat(hora44 ?? "") * e.row?.salario_hora;
+                            return dadda;
+                        }}
+                        format={a => !a.data ? null : a.data.toFixed(2)}
+                        cellStyle={{ alignItems: "flex-end" }}
+                        excelFormat='0.00'
+                        sumExcel
+                        renderFooter={(p) => {
+                            if (!p.dinamicTable.dataFiltrada) return null;
+                            if (p.dinamicTable.dataFiltrada.length == 0) return null;
+                            console.log(p.dinamicTable.dataFiltrada);
+                            const total = p.dinamicTable.dataFiltrada.reduce((acc: number, e: any) => {
+                                return acc + (e.subtotal ?? 0);
+                            }, 0);
+                            // console.log(p.dinamicTable.dataFiltrada);
+                            return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderRightWidth: 1, borderColor: "#99999965", borderBottomWidth: 1 }} >
+                                <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
+                                <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
+                            </SView>
+                        }}
+                    // format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
+                    />
+
+
+
                 </DinamicTable>
             </SView >
         </SPage>
     }
 }
+
+
+
 
 const initStates = (state) => {
     return { state };

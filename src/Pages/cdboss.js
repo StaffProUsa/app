@@ -213,7 +213,7 @@ class cdboss extends Component {
                        
                     }} label={"Numero de personas sin clock in"}
                         number={this.state?.data?.not_clockin ?? 0}
-                        onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff })}
+                        onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff ,sta:"PENDING"})}
                         color={STheme.color.danger}
                     />
                     <SView style={{
@@ -224,7 +224,7 @@ class cdboss extends Component {
                         en: "Number of people working",
                     }} label={"Numero de personas trabajando"} color={STheme.color.warning}
                         number={this.state?.data?.cantidad_en_curso ?? 0}
-                        onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff })} />
+                        onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff ,sta:"READY"})} />
                     <SView style={{
                         width: 16
                     }} />
@@ -233,7 +233,7 @@ class cdboss extends Component {
                         en: "Number of people who worked",
                     }} label={"Numero de personas que trabajaron"} color={STheme.color.success}
                         number={this.state?.data?.cantidad_clockout ?? 0}
-                        onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff })} />
+                        onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff ,sta:"COMPLETED"})} />
                 </SView>
                 <SHr h={12} />
                 {/* <SText onPress={() => SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText> */}
