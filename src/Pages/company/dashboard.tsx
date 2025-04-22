@@ -7,6 +7,8 @@ import BoxMenu from '../../Components/Popups/BoxMenu';
 import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
 import Config from '../../Config';
 import PBarraFooter from '../../Components/PBarraFooter';
+import { SelectEntreFechas } from '../../Components/Fechas';
+import { Container } from '../../Components';
 
 type DataType = any
 const Col = DinamicTable.Col<DataType>
@@ -41,6 +43,17 @@ export default class dashboard extends Component {
     return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll
       footer={<PBarraFooter url={'/company'} />}
     >
+      <Container>
+        <SelectEntreFechas
+          fecha_fin={new SDate().addDay(1).toString("yyyy-MM-dd")}
+          fecha_inicio={new SDate().setDay(1).toString("yyyy-MM-dd")}
+          onChange={e => {
+            //this.entrefecha = e;
+            //this.loadData(e)
+            // this.setState({ fecha_inicio: e.fecha_inicio, fecha_fin: e.fecha_fin })
+          }}
+        />
+      </Container>
       <SView col={"xs-12"} flex>
         <DinamicTable
           language={SLanguage.language}
