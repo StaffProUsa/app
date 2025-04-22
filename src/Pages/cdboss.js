@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 import { View, Text, StyleSheet } from 'react-native';
-import { SDate, SHr, SIcon, SImage, SNavigation, SPage, SText, STheme, SView } from 'servisofts-component';
+import { SDate, SHr, SIcon, SImage, SNavigation, SPage, SText, STheme, SView, SLanguage } from 'servisofts-component';
 import { Container } from '../Components';
 import SSocket from 'servisofts-socket';
 import evento from '../Services/Casagrandeadmin/Components/evento';
@@ -26,7 +26,7 @@ class cdboss extends Component {
             key_staff: this.key_staff,
             key_boss: this.key_boss,
         }).then(res => {
-            
+
             this.setState({
                 data: res.data
             })
@@ -35,7 +35,7 @@ class cdboss extends Component {
         }).catch(err => {
 
         })
-        
+
     }
     render() {
 
@@ -153,7 +153,7 @@ class cdboss extends Component {
                     <SHr h={20} />
                     <SView row col="xs-12" >
                         <SText width={120} fontSize={fontz} language={{
-                            es: "Nivel de ingles:",
+                            es: "Nivel de inglés:",
                             en: "Level of english:",
                         }}></SText>
                         <SText flex fontSize={fontz}  >{this.state?.data?.staff?.nivel_ingles}</SText>
@@ -196,7 +196,7 @@ class cdboss extends Component {
                 <SHr h={20} />
                 <SView row col="xs-12">
 
-                    <CuadradoInfo number={this.state?.data?.cantidad_total ?? 0} height={50} label={"Personas en el evento"}
+                    <CuadradoInfo number={this.state?.data?.cantidad_total ?? 0} height={60} label_espanol={"Personas registradas en el evento"} label_ingles={"People registered for the event"}
                         onPress={() => SNavigation.navigate("/boss")}
                         color={STheme.color.lightGray}
                     />
@@ -204,7 +204,7 @@ class cdboss extends Component {
 
                 </SView><SHr height={16} />
                 <SView row col={"xs-12"} >
-                    <CuadradoInfo label={"Numero de personas sin clock in"}
+                    <CuadradoInfo label_espanol={"Personas que no realizaron el Clock In"} label_ingles={"People who did not clock in"}
                         number={this.state?.data?.not_clockin ?? 0}
                         onPress={() => SNavigation.navigate("/boss")}
                         color={STheme.color.danger}
@@ -212,13 +212,13 @@ class cdboss extends Component {
                     <SView style={{
                         width: 16
                     }} />
-                    <CuadradoInfo label={"Numero de personas trabajando"} color={STheme.color.warning}
+                    <CuadradoInfo label_espanol={"Personas actualmente trabajando"} label_ingles={"People currently working"} color={STheme.color.warning}
                         number={this.state?.data?.cantidad_en_curso ?? 0}
                         onPress={() => SNavigation.navigate("/boss")} />
                     <SView style={{
                         width: 16
                     }} />
-                    <CuadradoInfo label={"Numero de personas que trabajaron"} color={STheme.color.success}
+                    <CuadradoInfo label_espanol={"Personas que completaron su jornada"} label_ingles={"People who completed their shift"} color={STheme.color.success}
                         number={this.state?.data?.cantidad_clockout ?? 0}
                         onPress={() => SNavigation.navigate("/boss")} />
                 </SView>
@@ -279,21 +279,24 @@ const ItemImage = ({ src, label }) => {
 
 }
 
-const CuadradoInfo = ({ onPress, height, color, label, number }) => {
+const CuadradoInfo = ({ onPress, height, color, label_espanol, label_ingles, number }) => {
     return <SView onPress={onPress} style={{
 
         flex: 1,
-        height: height ?? 90,
+        height: height ?? 95,
         borderRadius: 8,
         borderWidth: 2,
         borderColor: color,
         overflow: 'hidden',
         backgroundColor: color + "55",
 
-    }} center>
+    }} center padding={5} >
         <SText center fontSize={22} bold>{number}</SText>
-        <SText center>{label}</SText>
-
+        <SText language={{
+                            es: label_espanol,
+                            en: label_ingles,
+                        }} center></SText> 
+        <SHr height={5} />
     </SView>
 }
 const MensajeEstado = ({ data }) => {
@@ -302,30 +305,31 @@ const MensajeEstado = ({ data }) => {
     const curdate = new SDate();
 
     if (curdate.getTime() < fecha_inicio.getTime()) {
-    const since = fecha_inicio.timeSince(fecha_fin)
-        return <SText style={{
+        const since = fecha_inicio.timeSince(fecha_fin)
+        return <SText color={STheme.color.white} style={{
             fontSize: fontz * 1.5,
-            }}language={{
-                es: "El evento inicia en " + since,
-                en: "The event starts in " + since,
-            }}></SText>
+        }} language={{
+            es: "El evento inicia en " + since,
+            en: "The event starts in " + since,
+        }}></SText>
     }
     if (curdate.getTime() > fecha_fin.getTime()) {
-        return <SText style={{
+        return <SText color={STheme.color.white} style={{
             fontSize: fontz * 1.5,
-        
-           }}>El evento ah finalizado</SText>
+
+        }}>El evento ha finalizado</SText>
     }
     if (curdate.getTime() > fecha_inicio.getTime() && curdate.getTime() < fecha_fin.getTime()) {
         const since = fecha_inicio.timeSince(curdate)
-        return <SText language={{
+        return <SText color={STheme.color.white} language={{
             es: "Inicio hace " + since,
             en: "Started " + since,
-        }}style={{
+        }} style={{
             fontSize: fontz * 1.5,
-        
-           }}></SText>
-5   }
+
+        }}></SText>
+        5
+    }
     return <SText>Estado actual</SText>
 }
 //make this component available to the app

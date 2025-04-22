@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { SNavigation, SNotification, SStorage, SThread } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
+import MDL from '../MDL';
 
 
 
@@ -27,22 +28,23 @@ export default class onLogin extends Component {
             }
         })
 
-        SSocket.sendPromise({
-            component: "staff_tipo_favorito",
-            type: "getAll",
-            key_usuario: Model.usuario.Action.getKey()
-        }).then(e => {
-            if (!this.state.pasar) return;
-            if (e.data) {
-                if (Object.values(e.data).length <= 0) {
-                    // SNotification.send({ title: "entro a staff_tipo" })
-                    SNavigation.replace("/perfil/staff_tipo")
-                    this.state.pasar = false;
-                }
-            }
-        }).catch(e => {
+        // SSocket.sendPromise({
+        //     component: "staff_tipo_favorito",
+        //     type: "getAll",
+        //     key_usuario: Model.usuario.Action.getKey()
+        // }).then(e => {
+        //     if (!this.state.pasar) return;
+        //     if (e.data) {
+        //         if (Object.values(e.data).length <= 0) {
+        //             // SNotification.send({ title: "entro a staff_tipo" })
+        //             SNavigation.replace("/perfil/staff_tipo")
+        //             this.state.pasar = false;
+        //         }
+        //     }
+        // }).catch(e => {
 
-        })
+        // })
+
 
 
         new SThread(2000, "pasar", true).start(() => {
@@ -50,7 +52,9 @@ export default class onLogin extends Component {
             // SNotification.send({ title: "volvio" })
             SNavigation.goBack();
         })
-        // SNavigation.goBack();
+    }
+    componentWillUnmount() {
+        MDL.validaciones.componentDidMount();
     }
     render() {
         return (

@@ -407,7 +407,7 @@ export default class cd extends React.Component {
                                 <SHr h={10} />
                                 {this.isVisibleMarcacion() ?
                                     <SText color={STheme.color.lightGray} language={{
-                                        es: "Contacta a tu jefe para consultar el codigo",
+                                        es: "Contacta a tu jefe para consultar el código",
                                         en: "Contact your boss to consult the code",
                                     }}>
                                         
@@ -496,12 +496,12 @@ export default class cd extends React.Component {
                     <SView
                         col={"xs-12"}
                         center
-                        backgroundColor={STheme.color.darkGray} // Fondo más oscuro para modo oscuro
+                        backgroundColor={STheme.getTheme() == 'dark' ? STheme.color.darkGray: STheme.color.card} // Fondo más oscuro para modo oscuro
                         padding={16}
                         style={{
                             borderRadius: 16,
                             borderWidth: 2,
-                            borderColor: STheme.color.black,
+                            borderColor:  STheme.color.black+"35",
                             shadowColor: "#000",
                             shadowOffset: { width: 0, height: 4 },
                             shadowOpacity: 0.3,
@@ -550,13 +550,13 @@ export default class cd extends React.Component {
                                 style={{
                                     paddingVertical: 10,
                                     borderBottomWidth: index !== 4 ? 1 : 0,
-                                    borderBottomColor: STheme.color.black,
+                                    borderBottomColor: STheme.color.lightBlack,
                                 }}
                             >
                                 <SView row alignItems="center">
                                     <SIcon name={item.icon} width={18} height={18} fill={item.color} />
                                     <SView width={8} />
-                                    <SText fontSize={fontz * 0.85} color={STheme.color.white} language={item.label} />
+                                    <SText fontSize={fontz * 0.85} color={STheme.color.text} language={item.label} />
                                 </SView>
                                 <SView flex />
                                 <SText fontSize={fontz * 0.85} color={item.color}>

@@ -78,6 +78,7 @@ class Mapa extends Component<MapaPropsType> {
                                 es: "Dirección:",
                                 en: "Address: "
                             }} />
+                            <SView width={5} />
                             <SText clean fontSize={14} color={STheme.color.gray}>
                                 {cliente?.direccion ?? ""}
                             </SText>
