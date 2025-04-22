@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { SHr, SIcon, SImage, SNavigation, SText, STheme, SUtil, SView, SLanguage, SDate, SScrollView2, SPopup, SNotification, SLoad } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import event from '../event';
-const getColorFromPercentage = (percentage) => {
+const getColorFromPercentage = (percentage,alpha = 1) => {
   // Asegurarse de que el valor esté entre 0 y 100
   percentage = Math.max(0, Math.min(percentage, 100));
 
@@ -20,7 +20,7 @@ const getColorFromPercentage = (percentage) => {
   }
 
   // El color siempre tiene el componente azul en 0
-  return `rgb(${r}, ${g}, 0)`;
+  return `rgba(${r}, ${g}, 0, ${alpha})`;
 }
 
 export default class Reclutas extends Component {
@@ -104,13 +104,13 @@ export default class Reclutas extends Component {
           </SView>
         </SView>
         <SView col={"xs-12"} style={{
-          height: 4,
+          height: 6,
           borderRadius: 100,
-          backgroundColor: STheme.color.card,
+          backgroundColor:  getColorFromPercentage(obj.porcentaje ?? 0,0.2),
           overflow: 'hidden',
         }} >
           <SView
-            width={(obj.porcentaje ?? 0) + "%"}
+            width={((obj.porcentaje ?? 0)+2) + "%"}
             style={{
               height: "100%",
               // backgroundColor: obj.color ?? STheme.colorFromText(obj.key_tipo_staff)

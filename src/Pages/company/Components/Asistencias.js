@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { SHr, SImage, SNavigation, SScrollView2, SText, STheme, SUtil, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
-const getColorFromPercentage = (percentage) => {
+const getColorFromPercentage = (percentage,alpha) => {
  // Asegurarse de que el valor esté entre 0 y 100
  percentage = Math.max(0, Math.min(percentage, 100));
 
@@ -19,7 +19,7 @@ const getColorFromPercentage = (percentage) => {
  }
 
  // El color siempre tiene el componente azul en 0
- return `rgb(${r}, ${g}, 0)`;
+ return `rgba(${r}, ${g}, 0, ${alpha})`;
 }
 export default class Asistencias extends Component {
  constructor(props) {
@@ -71,9 +71,9 @@ export default class Asistencias extends Component {
      </SView>
     </SView>
     <SView col={"xs-12"} style={{
-     height: 4,
+     height: 6,
      borderRadius: 100,
-     backgroundColor: STheme.color.card,
+     backgroundColor:  getColorFromPercentage(parseFloat(obj.porcentaje ?? 0),0.2),
      overflow: 'hidden',
     }} >
      <SView

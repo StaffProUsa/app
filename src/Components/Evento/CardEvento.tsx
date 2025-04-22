@@ -31,6 +31,7 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
     renderItemStatus() {
         const { data } = this.props;
         const fi = new SDate(data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD")
+        const ff = new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD")
         let lbl = {
             en: "Begins in " + new SDate().timeSince(fi),
             es: "Comienza en " + new SDate().timeSince(fi)
@@ -49,6 +50,20 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
             //     en: "IN PROGRESS",
             //     es: "EN PROGRESO"
             // }
+        }
+
+        if(!!data.staff_usuario.fecha_ingreso &&!data.staff_usuario.fecha_salida){
+            styles.color = STheme.color.success
+            lbl = {
+                en: "working",
+                es: "trabajando"
+            }
+        }else if (ff.isBefore(new SDate())) {
+            styles.color = STheme.color.danger
+            lbl = {
+                en: "FINISHED",
+                es: "TERMINADO"
+            }
         }
         return <SView height={18} style={{
             // alignItems: "flex-end",

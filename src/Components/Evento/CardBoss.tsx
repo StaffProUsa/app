@@ -31,6 +31,8 @@ export default class CardBoss extends Component<{ data: ObjectStaffUsuario, onPr
     renderItemStatus() {
         const { data } = this.props;
         const fi = new SDate(data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD")
+        const ff = new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD")
+        
         let lbl = {
             en: "Begins in " + new SDate().timeSince(fi),
             es: "Comienza en " + new SDate().timeSince(fi)
@@ -49,6 +51,13 @@ export default class CardBoss extends Component<{ data: ObjectStaffUsuario, onPr
             //     en: "IN PROGRESS",
             //     es: "EN PROGRESO"
             // }
+        }
+        if (ff.isBefore(new SDate())) {
+            styles.color = STheme.color.danger
+            lbl = {
+                en: "FINISHED",
+                es: "TERMINADO"
+            }
         }
         return <SView height={18} style={{
             // alignItems: "flex-end",

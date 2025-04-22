@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextStyle } from 'react-native';
-import { SDate, SIcon, SNotification, SPage, SPopup, STable2, SText, STheme, SView, SLanguage, SImage } from 'servisofts-component';
+import { SDate, SIcon, SNotification, SPage, SPopup, STable2, SText, STheme, SView, SLanguage, SImage, SNavigation } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
 import { connect } from 'react-redux';
@@ -28,6 +28,7 @@ class boss extends Component {
             data: {}
         };
     }
+    key_staff = SNavigation.getParam("key_staff")
     componentDidMount() {
         // this.loadData()
     }
@@ -35,8 +36,9 @@ class boss extends Component {
     loadData = async () => {
         const resp = await SSocket.sendPromise({
             component: "staff_usuario",
-            type: "getMisTrabajadores",
-            key_usuario: Model.usuario.Action.getKey()
+            type: "getMisTrabajadoresBoss",
+            key_usuario: Model.usuario.Action.getKey(),
+            key_staff:this.key_staff
         })
         // return resp.data
         return Object.values(resp.data)
