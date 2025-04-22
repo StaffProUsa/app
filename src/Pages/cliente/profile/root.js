@@ -88,8 +88,8 @@ class index extends DPA.profile {
         <ImageProfile
           width={60}
           src={SSocket.api.root + "cliente/" + this.pk}
-          // src={ `${SSocket.api.root}cliente/${this.pk}?time=${new Date().getTime()}`}
-         
+        // src={ `${SSocket.api.root}cliente/${this.pk}?time=${new Date().getTime()}`}
+
         />
         <SView width={4} />
         <SView>
@@ -122,6 +122,12 @@ class index extends DPA.profile {
           icon={<SIcon name='Excel' fill={STheme.color.text} />}
           onPress={() => {
             SNavigation.navigation.navigate({ name: "/company/dashboard", params: { key_company: this.data?.key_company, key_cliente: this.pk }, key: Math.random() })
+          }} />
+        <MenuButtom label={SLanguage.select({ es: "Usuarios Bloqueados", en: "Blocked Users" })}
+          // url='/company/dashboard' params={{ key_company: this.data?.key_company, key_cliente: this.pk }}
+          icon={<SIcon name='Lock' fill={STheme.color.text} />}
+          onPress={() => {
+            SNavigation.navigation.navigate({ name: "/cliente/profile/usuarios_bloqueados", params: { key_company: this.data?.key_company, key_cliente: this.pk }, key: Math.random() })
           }} />
 
       </MenuPages>

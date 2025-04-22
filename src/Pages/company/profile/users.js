@@ -37,6 +37,7 @@ export default class MoveStaff extends Component {
         this.isEnable = this.filter == "enabled" ? true : false;
         this.isDisable = this.filter == "disabled" ? true : false;
         this.isNew = this.filter == "news" ? true : false;
+        this.onSelect = SNavigation.getParam("onSelect");
     }
 
     onChangeLanguage(language) {
@@ -281,7 +282,7 @@ export default class MoveStaff extends Component {
                     borderWidth: 2,
                     borderColor: STheme.color.card,
                     borderRadius: 8,
-                    backgroundColor: this.isEnable ? STheme.color.success: STheme.color.lightGray,
+                    backgroundColor: this.isEnable ? STheme.color.success : STheme.color.lightGray,
                     marginTop: 10
                 }}
                     padding={4}>
@@ -306,7 +307,7 @@ export default class MoveStaff extends Component {
                     borderWidth: 2,
                     borderColor: STheme.color.card,
                     borderRadius: 8,
-                    backgroundColor: this.isDisable ? STheme.color.danger: STheme.color.lightGray,
+                    backgroundColor: this.isDisable ? STheme.color.danger : STheme.color.lightGray,
                     marginTop: 10
                 }}
                     padding={4}>
@@ -330,7 +331,7 @@ export default class MoveStaff extends Component {
                     borderWidth: 2,
                     borderColor: STheme.color.card,
                     borderRadius: 8,
-                    backgroundColor: this.isNew ? STheme.color.warning: STheme.color.lightGray ,
+                    backgroundColor: this.isNew ? STheme.color.warning : STheme.color.lightGray,
                     marginTop: 10
                 }}
                     padding={4}>
@@ -408,6 +409,11 @@ export default class MoveStaff extends Component {
                     colors={Config.table.styles()}
                     cellStyle={Config.table.cellStyle()}
                     textStyle={Config.table.textStyle()}
+                    onSelect={(data) => {
+                        if (this.onSelect) {
+                            this.onSelect(data.row)
+                        }
+                    }}
                 >
                     {/* <DinamicTable.Col key={"index"} data={p => p.index} label='#' width={30} /> */}
 
