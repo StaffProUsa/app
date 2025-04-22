@@ -196,31 +196,22 @@ class cdboss extends Component {
                 <SHr h={20} />
                 <SView row col="xs-12">
 
-<<<<<<< HEAD
-                    <CuadradoInfo number={this.state?.data?.cantidad_total ?? 0} height={60} label_espanol={"Personas registradas en el evento"} label_ingles={"People registered for the event"}
-                        onPress={() => SNavigation.navigate("/boss")}
-=======
                     <CuadradoInfo number={this.state?.data?.cantidad_total ?? 0} height={50} language={{
                         es: "Personas en el evento",
                         en: "People in the event",
                     }} label={"Personas en el evento"}
                         onPress={() => SNavigation.navigate("/boss", { key_staff: this.key_staff })}
->>>>>>> edfb72f (xas)
                         color={STheme.color.lightGray}
                     />
 
 
                 </SView><SHr height={16} />
                 <SView row col={"xs-12"} >
-<<<<<<< HEAD
-                    <CuadradoInfo label_espanol={"Personas que no realizaron el Clock In"} label_ingles={"People who did not clock in"}
-=======
                     <CuadradoInfo language={{
                         es: "Numero de personas sin clock in",
                         en: "Number of people without clock in",
                        
                     }} label={"Numero de personas sin clock in"}
->>>>>>> edfb72f (xas)
                         number={this.state?.data?.not_clockin ?? 0}
                         onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff })}
                         color={STheme.color.danger}
@@ -228,27 +219,19 @@ class cdboss extends Component {
                     <SView style={{
                         width: 16
                     }} />
-<<<<<<< HEAD
-                    <CuadradoInfo label_espanol={"Personas actualmente trabajando"} label_ingles={"People currently working"} color={STheme.color.warning}
-=======
                     <CuadradoInfo language={{
                         es: "Numero de personas trabajando",
                         en: "Number of people working",
                     }} label={"Numero de personas trabajando"} color={STheme.color.warning}
->>>>>>> edfb72f (xas)
                         number={this.state?.data?.cantidad_en_curso ?? 0}
                         onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff })} />
                     <SView style={{
                         width: 16
                     }} />
-<<<<<<< HEAD
-                    <CuadradoInfo label_espanol={"Personas que completaron su jornada"} label_ingles={"People who completed their shift"} color={STheme.color.success}
-=======
                     <CuadradoInfo language={{
                         es: "Numero de personas que trabajaron",
                         en: "Number of people who worked",
                     }} label={"Numero de personas que trabajaron"} color={STheme.color.success}
->>>>>>> edfb72f (xas)
                         number={this.state?.data?.cantidad_clockout ?? 0}
                         onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff })} />
                 </SView>
@@ -309,11 +292,7 @@ const ItemImage = ({ src, label }) => {
 
 }
 
-<<<<<<< HEAD
-const CuadradoInfo = ({ onPress, height, color, label_espanol, label_ingles, number }) => {
-=======
 const CuadradoInfo = ({ onPress, height, color, label, language ,number }) => {
->>>>>>> edfb72f (xas)
     return <SView onPress={onPress} style={{
 
         flex: 1,
@@ -326,16 +305,8 @@ const CuadradoInfo = ({ onPress, height, color, label, language ,number }) => {
 
     }} center padding={5} >
         <SText center fontSize={22} bold>{number}</SText>
-<<<<<<< HEAD
-        <SText language={{
-                            es: label_espanol,
-                            en: label_ingles,
-                        }} center></SText> 
-        <SHr height={5} />
-=======
         <SText center language={language}/>
 
->>>>>>> edfb72f (xas)
     </SView>
 }
 const MensajeEstado = ({ data }) => {
