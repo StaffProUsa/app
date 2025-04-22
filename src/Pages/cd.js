@@ -1,11 +1,12 @@
 import React from "react";
-import { SDate, SHr, SIcon, SImage, SLoad, SMapView, SNavigation, SPage, SText, STheme, SView } from "servisofts-component";
+import { SDate, SHr, SIcon, SImage, SLoad, SMapView, SMath, SNavigation, SPage, SText, STheme, SView } from "servisofts-component";
 import { Container } from "../Components";
 import SSocket from "servisofts-socket";
 import { component } from "../Services/Usuario/Components/datoCabecera";
 import Mapa from "./Evento/Components/Mapa";
 import MarcarPorCodigoEvento from "../Components/Asistencia/MarcarPorCodigoEvento";
 import CardEventoSteps from "../Components/Evento/CardEventoSteps";
+
 
 const fontz = 16
 
@@ -150,7 +151,17 @@ export default class cd extends React.Component {
     render() {
 
 
+        const fechaIngreso = new Date(this.state?.data?.fecha_ingreso);
+        const fechaSalida = new Date(this.state?.data?.fecha_salida);
 
+        let horasTrabajadas = 0;
+
+        if (fechaIngreso && fechaSalida && !isNaN(fechaIngreso) && !isNaN(fechaSalida)) {
+            const diferenciaMs = fechaSalida - fechaIngreso;
+            horasTrabajadas = (diferenciaMs / (1000 * 60 * 60)).toFixed(2); // redondea a 2 decimales
+        }
+
+        let ganancia = horasTrabajadas * (this.state?.data?.salario_hora ?? 0);
         console.log("PINTO DATA", this.state.data)
         return <SPage >
             <SHr h={24} />
@@ -373,7 +384,10 @@ export default class cd extends React.Component {
                                 <SHr h={10} />
 
                                 <SView row>
-                                    <SText>Teléfono:</SText>
+                                    <SText language={{
+                                        es: "Telefono:",
+                                        en: "Phone:",
+                                    }}></SText>
                                     <SView width={10} />
                                     <SText
                                         style={{
@@ -391,9 +405,15 @@ export default class cd extends React.Component {
                                 </SView>
 
                                 <SHr h={10} />
-                                <SText color={STheme.color.lightGray}>
-                                    Contacta a tu jefe para conseguir tu código
-                                </SText>
+                                {this.isVisibleMarcacion() ?
+                                    <SText color={STheme.color.lightGray} language={{
+                                        es: "Contacta a tu jefe para consultar el codigo",
+                                        en: "Contact your boss to consult the code",
+                                    }}>
+                                        
+
+                                    </SText> : null
+                                }
                             </SView>
                         </SView>
                         :
@@ -464,6 +484,109 @@ export default class cd extends React.Component {
                         // dataJefe={this.state?.dataJefe}
                         /> : null
                 }
+                <SHr h={20} />
+
+
+
+
+
+                <SView width={12} />
+
+                {!this.isVisibleMarcacion() ?
+                    <SView
+                        col={"xs-12"}
+                        center
+                        backgroundColor={STheme.color.darkGray} // Fondo más oscuro para modo oscuro
+                        padding={16}
+                        style={{
+                            borderRadius: 16,
+                            borderWidth: 2,
+                            borderColor: STheme.color.black,
+                            shadowColor: "#000",
+                            shadowOffset: { width: 0, height: 4 },
+                            shadowOpacity: 0.3,
+                            shadowRadius: 6,
+                            elevation: 6,
+                        }}
+                    >
+                        {[
+                            {
+                                label: { es: "Fecha ingreso:", en: "Entry date:" },
+                                value: new SDate(this.state?.data?.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("dd/MM/yyyy hh:mm"),
+                                icon: "CalendarCheck",
+                                color: STheme.color.lightGray,
+                            },
+                            {
+                                label: { es: "Fecha salida:", en: "Exit date:" },
+                                value: new SDate(this.state?.data?.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("dd/MM/yyyy hh:mm"),
+                                icon: "CalendarX",
+                                color: STheme.color.lightGray,
+                            },
+                            {
+                                label: { es: "Horas trabajadas:", en: "Worked hours:" },
+                                value: horasTrabajadas,
+                                icon: "Clock",
+                                color: STheme.color.success,
+                            },
+                            {
+                                label: { es: "Salario por hora:", en: "Salary per hour:" },
+                                value: `$${this.state?.data?.salario_hora ?? 0}`,
+                                icon: "DollarSign",
+                                color: STheme.color.warning,
+                            },
+                            {
+                                label: { es: "Ganancia:", en: "Earnings:" },
+                                value: "$" + SMath.formatMoney(ganancia),
+                                icon: "TrendingUp",
+                                color: STheme.color.danger,
+                            },
+                        ].map((item, index) => (
+                            <SView
+                                key={index}
+                                row
+                                col={"xs-12"}
+                                alignItems="center"
+                                justifyContent="space-between"
+                                style={{
+                                    paddingVertical: 10,
+                                    borderBottomWidth: index !== 4 ? 1 : 0,
+                                    borderBottomColor: STheme.color.black,
+                                }}
+                            >
+                                <SView row alignItems="center">
+                                    <SIcon name={item.icon} width={18} height={18} fill={item.color} />
+                                    <SView width={8} />
+                                    <SText fontSize={fontz * 0.85} color={STheme.color.white} language={item.label} />
+                                </SView>
+                                <SView flex />
+                                <SText fontSize={fontz * 0.85} color={item.color}>
+                                    {item.value}
+                                </SText>
+                            </SView>
+                        ))}
+                    </SView>
+                    : null
+                }
+
+
+
+
+
+
+                <SHr h={12} />
+
+                <SView row col={"xs-12"} style={{
+
+
+
+                }}>
+
+                    {/* <HorasTrabajadas data={this.state?.data} color={STheme.color.danger} label={"Ganancia"} number={ganancia} /> */}
+                </SView>
+
+                <SHr h={16} />
+
+
 
                 <SHr color={STheme.color.card} h={1} />
                 <SHr h={15} />
@@ -572,4 +695,24 @@ const ItemEstado = ({ fontSize, language, color }) => {
         }} language={language} />
     </SView>
 }
+const HorasTrabajadas = ({ number, height, data, color, label, children }) => {
 
+    if (!data.fecha_salida) return null
+
+    return <SView style={{
+
+        flex: 1,
+        height: height ?? 90,
+        borderRadius: 8,
+        borderWidth: 2,
+        borderColor: color,
+        overflow: 'hidden',
+        backgroundColor: color + "55",
+    }
+
+    } center>
+        <SText center fontSize={22} bold>{number}</SText>
+        <SText center>{label}</SText>
+        {children}
+    </SView>
+}

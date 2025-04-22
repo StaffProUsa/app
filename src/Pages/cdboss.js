@@ -26,7 +26,7 @@ class cdboss extends Component {
             key_staff: this.key_staff,
             key_boss: this.key_boss,
         }).then(res => {
-            console.log("asdadas con otro 2")
+            
             this.setState({
                 data: res.data
             })
@@ -35,7 +35,7 @@ class cdboss extends Component {
         }).catch(err => {
 
         })
-        console.log("asdadas con otro 3")
+        
     }
     render() {
 
@@ -303,14 +303,29 @@ const MensajeEstado = ({ data }) => {
 
     if (curdate.getTime() < fecha_inicio.getTime()) {
     const since = fecha_inicio.timeSince(fecha_fin)
-        return <SText>{"Faltan "+ since }</SText>
+        return <SText style={{
+            fontSize: fontz * 1.5,
+            }}language={{
+                es: "El evento inicia en " + since,
+                en: "The event starts in " + since,
+            }}></SText>
     }
     if (curdate.getTime() > fecha_fin.getTime()) {
-        return <SText>Estado pasado</SText>
+        return <SText style={{
+            fontSize: fontz * 1.5,
+        
+           }}>El evento ah finalizado</SText>
     }
     if (curdate.getTime() > fecha_inicio.getTime() && curdate.getTime() < fecha_fin.getTime()) {
-        return <SText>Estado presente</SText>
-    }
+        const since = fecha_inicio.timeSince(curdate)
+        return <SText language={{
+            es: "Inicio hace " + since,
+            en: "Started " + since,
+        }}style={{
+            fontSize: fontz * 1.5,
+        
+           }}></SText>
+5   }
     return <SText>Estado actual</SText>
 }
 //make this component available to the app
