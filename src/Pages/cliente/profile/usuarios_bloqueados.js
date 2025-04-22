@@ -138,7 +138,7 @@ export default class usuarios_bloqueados extends Component {
                                 estado: 1
                             }
                         }).then(e => {
-                            console.log(e);
+                            console.log(e); this.table.loadData();
                         }).catch(e => {
                             console.error(e);
                         })
