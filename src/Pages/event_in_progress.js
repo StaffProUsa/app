@@ -173,6 +173,7 @@ export default class event_in_progress extends Component {
                 </SView>
 
             </Container>
+            <SHr h={20} />
         </SPage>
     }
 }

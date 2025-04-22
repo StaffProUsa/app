@@ -185,7 +185,7 @@ export default class MarcarPorCodigoEvento extends Component {
                 en: "You have been assigned as event leader",
                 es: "Has sido asignado como jefe del evento"
             }} /> : <SText fontSize={20} center bold color={STheme.color.text} language={{
-                es: "Consulta el codigo con tu jefe de evento",
+                es: "Consulta el código con tu jefe de evento",
                 en: "Check the code with your event manager"
             }} />}
 
@@ -198,7 +198,7 @@ export default class MarcarPorCodigoEvento extends Component {
                 if (code.length < 6) {
                     SNotification.send({
                         title: "Error",
-                        body: (lenguaje == "es") ? "El código debe ser de 6 digitos" : "The code must be 6 digits",
+                        body: (lenguaje == "es") ? "El código debe ser de 6 dígitos" : "The code must be 6 digits",
                         color: STheme.color.danger,
                         time: 5000
                     })
