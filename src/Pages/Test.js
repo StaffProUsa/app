@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { SBuscador, SPage, STable, STable2, SText, SView } from 'servisofts-component';
+import { SBuscador, SButtom, SInput, SPage, STable, STable2, SText, STheme, SView } from 'servisofts-component';
 import DatePickerCalendar from "servisofts-table/Components/DatePickerCalendar";
 import { Container } from '../Components';
 
@@ -19,10 +19,43 @@ export default class Test extends Component {
     };
   }
 
+  inputtext: SInput;
+  inputemail: SInput;
   render() {
     return <SPage >
-      {/* <DatePickerCalendar /> */}
+
+      <SView></SView>
+      <SText></SText>
       <Container>
+        <SInput ref={ref => this.inputtext = ref} label="text" type='text' />
+        <SInput label="number" type='number' />
+        <SInput ref={ref => this.inputemail = ref} label="email" type='email' required />
+        <SInput label="phone" type='phone' required />
+        <SInput label="textArea" type='textArea' />
+        <SInput label="color" type='color' defaultValue={"#ff0000"} />
+        <SInput label="checkBox" type='checkBox' />
+        <SInput label="date" type='date' />
+        <SInput label="date_my" type='date_my' />
+        <SInput label="hour" type='hour' />
+        <SInput label="money" type='money' />
+        <SInput label="password" type='password' />
+        <SInput label="select" type='select' options={["opcion1", "opcion2", "carlos", "juan"]} />
+        <SInput label="select Mejorado" type='select' options={[
+          { key: "opt", component: <SText color={STheme.color.success}>opcion1</SText> },
+          { key: "opt2", component: <SText color={STheme.color.danger}>opcion2</SText> },
+        ]} />
+        <SInput label="image" type='image' />
+        <SInput label="file" type='file' />
+        <SInput label="files" type='files' />
+        <SButtom onPress={() => {
+
+          const valText = this.inputtext.getValue();
+          this.inputemail.setValue(valText);
+          console.log("este es el valor", valText);
+        }}>APRETAR</SButtom>
+      </Container>
+      {/* <DatePickerCalendar /> */}
+      {/* <Container>
         <SBuscador onChange={e => this.setState({ find: e })} />
         <FlatList
           data={SBuscador.filter({ data: DATA, txt: this.state.find })}
@@ -30,7 +63,10 @@ export default class Test extends Component {
             <SText>{item.title}</SText>
           </SView>}
         />
-      </Container>
+      </Container> */}
     </SPage>
   }
 }
+
+
+
