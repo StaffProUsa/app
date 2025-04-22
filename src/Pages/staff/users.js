@@ -9,6 +9,7 @@ import ResizeDualPanel from '../../Components/ResizeDualPanel';
 import EditClock from './Components/EditClock';
 import MoveStaff from './Components/MoveStaff';
 import PBarraFooter from '../../Components/PBarraFooter';
+import EditSueldo from './Components/EditSueldo';
 
 
 const ItemImage = ({ src, label }) => {
@@ -138,16 +139,16 @@ export default class users extends Component {
                 //validar nivel de ingles
                 let arrayNivelIngles = [];
                 if (nivelIngles == "NONE") {
-                    arrayNivelIngles = ["NONE", "BASIC", "BASICO","MEDIUM","MEDIO", "ADVANCED"]
+                    arrayNivelIngles = ["NONE", "BASIC", "BASICO", "MEDIUM", "MEDIO", "ADVANCED"]
                 } else if (nivelIngles == "BASIC") {
-                    arrayNivelIngles = ["BASIC", "BASICO","MEDIUM","MEDIO", "ADVANCED"]
+                    arrayNivelIngles = ["BASIC", "BASICO", "MEDIUM", "MEDIO", "ADVANCED"]
                 } else if (nivelIngles == "MEDIUM") {
-                    arrayNivelIngles = ["MEDIUM", "MEDIO","ADVANCED"]
+                    arrayNivelIngles = ["MEDIUM", "MEDIO", "ADVANCED"]
                 } else if (nivelIngles == "ADVANCED") {
                     arrayNivelIngles = ["ADVANCED"]
                 }
                 const filtrados = e.data.filter(item =>
-                    item.usuario 
+                    item.usuario
                     // && arrayNivelIngles.includes(item.usuario.nivel_ingles)
                 );
 
@@ -250,6 +251,30 @@ export default class users extends Component {
         return;
     }
 
+    handleEditarSueldo = (post) => {
+        console.log("post",post)
+        SPopup.open({
+            key: "EditSueldo",
+            content: <SView col={"xs-6"} center style={{
+                height: 300,
+                borderRadius: 8,
+                overflow: 'hidden',
+                padding: 8,
+                backgroundColor: STheme.color.background,
+                borderWidth: 1,
+                borderColor: STheme.color.card,
+            }} withoutFeedback>
+                <EditSueldo data={post} key_staff={post.key_staff} staff_usuario_list={[post.key]} onChange={e => {
+                    this.loadData();
+                    SPopup.close("EditSueldo")
+
+                }} />
+            </SView>,
+
+        })
+        return;
+    }
+
     renderStaffUsuario(staff_usuario) {
         const fi = new SDate(staff_usuario.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD")
         const fs = new SDate(staff_usuario.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD")
@@ -273,7 +298,7 @@ export default class users extends Component {
                 <SView width={30} height={30}>
                     <SImage src={SSocket.api.root + "usuario/" + obj.key_usuario} />
                 </SView>
-                <SView>
+                <SView >
                     <SText flex>{obj.key_usuario}</SText>
                     {this.renderStaffUsuario(obj)}
                 </SView>
@@ -439,7 +464,7 @@ export default class users extends Component {
         return <SPage disableScroll titleLanguage={{
             es: "Armando mi STAFF",
             en: "Building my STAFF"
-            
+
         }}
             backAlternative={o => {
                 if (this.state.data.key_evento) {
@@ -1253,10 +1278,33 @@ export default class users extends Component {
                                         }
                                     },
                                     {
-                                        key: "staff_usuario/salario_hora", label: SLanguage.select({
+                                        key: "staff_usuario", label: SLanguage.select({
                                             en: "Salary",
                                             es: "Salario"
                                         }), width: 60,
+                                        component: (obj) => {
+                                            // const user = this.usuarios[obj.salario_hora.key_usuario_atiende]?.usuario
+                                            return <SView col={"xs-12"} row center onPress={() => {
+                                                this.handleEditarSueldo(obj)
+                                                // this.handleEditSalario(obj)
+                                                // SSocket.sendPromise({
+                                                //     component: "cliente",
+                                                //     type: "getByKey",
+                                                //     key: e.data.evento.key_cliente,
+                                                // }).then(e => {
+                                                //     this.setState({ data_cliente: e.data })
+                                                // }
+                                                // ).catch(e => {
+                                                //     console.error(e);
+                                                // })
+                                            }}>
+                                                <SText fontSize={11} color={STheme.color.text} >{obj?.salario_hora}</SText>
+                                                <SView width={3} />
+                                                <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} />
+
+                                            </SView>
+                                        },
+
                                         //  component: (obj) => {
                                         //     const user = this.usuarios
                                         //     console.log(user)
