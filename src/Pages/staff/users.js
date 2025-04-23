@@ -31,6 +31,7 @@ const ItemImage = ({ src, label }) => {
 }
 
 export default class users extends Component {
+    static INSTANCE: users;
     constructor(props) {
         super(props);
         this.state = {
@@ -39,6 +40,7 @@ export default class users extends Component {
         };
         this.pk = SNavigation.getParam("pk");
         this.usuarios = {}
+        users.INSTANCE = this;
     }
     onChangeLanguage(language) {
         this.setState({ ...this.state })
@@ -1195,6 +1197,9 @@ export default class users extends Component {
                                             es: "Salida"
                                         }), width: 80,
                                         render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH"),
+                                        renderExcel: (a) => {
+                                            return a ? new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH") : ""
+                                        }
                                     },
                                     {
                                         key: "staff_usuario", label: SLanguage.select({
@@ -1210,8 +1215,8 @@ export default class users extends Component {
                                     },
                                     {
                                         key: "-edit", label: SLanguage.select({
-                                            en: "Clock Out",
-                                            es: "Salida"
+                                            en: "Clock",
+                                            es: "Clock"
                                         }), width: 80,
                                         component: (o) => {
                                             return <SText onPress={(e) => {
@@ -1223,6 +1228,9 @@ export default class users extends Component {
                                                     }} />
                                                 })
                                             }}>Edit Clock</SText>
+                                        },
+                                        renderExcel: (a) => {
+                                            return "";
                                         }
                                     },
                                     {
@@ -1278,7 +1286,7 @@ export default class users extends Component {
                                         }
                                     },
                                     {
-                                        key: "staff_usuario", label: SLanguage.select({
+                                        key: "staff_usuario-4", label: SLanguage.select({
                                             en: "Salary",
                                             es: "Salario"
                                         }), width: 60,
@@ -1286,24 +1294,16 @@ export default class users extends Component {
                                             // const user = this.usuarios[obj.salario_hora.key_usuario_atiende]?.usuario
                                             return <SView col={"xs-12"} row center onPress={() => {
                                                 this.handleEditarSueldo(obj)
-                                                // this.handleEditSalario(obj)
-                                                // SSocket.sendPromise({
-                                                //     component: "cliente",
-                                                //     type: "getByKey",
-                                                //     key: e.data.evento.key_cliente,
-                                                // }).then(e => {
-                                                //     this.setState({ data_cliente: e.data })
-                                                // }
-                                                // ).catch(e => {
-                                                //     console.error(e);
-                                                // })
                                             }}>
-                                                <SText fontSize={11} color={STheme.color.text} >{obj?.salario_hora}</SText>
+                                                <SText fontSize={11} color={STheme.color.text} >{obj?.salario_hora ?? 0}</SText>
                                                 <SView width={3} />
                                                 <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} />
 
                                             </SView>
                                         },
+                                        renderExcel: (obj) => {
+                                            return obj?.salario_hora ?? 0
+                                        }
 
                                         //  component: (obj) => {
                                         //     const user = this.usuarios

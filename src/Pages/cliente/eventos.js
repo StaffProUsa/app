@@ -100,6 +100,13 @@ export default class Eventos extends React.Component {
         // })
     }
 
+    getColorPorcentaje = (porcentaje) => {
+        if (porcentaje === 100) return STheme.color.success;
+        if (porcentaje >= 50) return "#FFFF00"; // Color amarillo
+        if (porcentaje < 50) return STheme.color.danger; // Color rojo
+        return STheme.color.danger;
+    };
+
     renderBarra({ porcentaje, color, key }) {
         return <SView row col={"xs-12"} >
             <SView flex center>
@@ -114,7 +121,8 @@ export default class Eventos extends React.Component {
                         width={parseFloat(porcentaje ?? 0) + "%"}
                         style={{
                             height: "100%",
-                            backgroundColor: getColorFromPercentage(porcentaje)
+                            // backgroundColor: getColorFromPercentage(porcentaje)
+                            backgroundColor: this.getColorPorcentaje(porcentaje)
                         }} />
                 </SView>
             </SView>
