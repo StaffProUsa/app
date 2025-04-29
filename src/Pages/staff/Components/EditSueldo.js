@@ -1,11 +1,14 @@
 
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SForm, SHr, SImage, SNotification, SText, STheme, SView } from 'servisofts-component';
+import { SDate, SForm, SHr, SImage, SLanguage, SNotification, SPopup, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table';
 import Config from '../../../Config';
 import PButtom from '../../../Components/PButtom';
+import Model from '../../../Model';
+import MDL from '../../../MDL';
+import users from '../users';
 
 export default class EditSueldo extends Component {
     constructor(props) {
@@ -51,12 +54,12 @@ export default class EditSueldo extends Component {
         })
     }
     render() {
-        return <SView col={"xs-12"}  center>
+        return <SView col={"xs-12"} center>
             <SHr height={20} />
 
             <SText fontSize={16} bold center language={{
                 en: "Change salary",
-                es: "Cambiar sueldo"
+                es: "Cambiar salario"
             }} />
             <SHr height={20} />
             <SForm
@@ -69,17 +72,52 @@ export default class EditSueldo extends Component {
                     col: "xs-12",
                 }}
                 inputs={{
-                    salary: {
-                        placeholder: "Salary", type: "double", isRequired: true,
+                    salario_hora: {
+                        placeholder: "Salary", type: "double", isRequired: true, defaultValue: this.props.data.salario_hora,
                     },
                 }}
 
                 onSubmit={(values) => {
-                    // Model.usuario.Action.recuperarPass({ correo: (values.correo + "").toLowerCase() }).then(resp => {
-                    //     SNavigation.navigate("/login/recuperar_codigo");
-                    // }).catch(e => {
-                    //     console.error(e);
-                    // })
+                    SSocket.sendPromise({
+                        component: "staff_usuario",
+                        type: "editar",
+                        key_usuario: this.props.data.key_usuario,
+                        data: {
+                            ...this.props.data,
+                            salario_hora: values.salario_hora,
+                        }
+                    }).then((resp) => {
+                        SNotification.send({
+                            key: "staff-EditSueldo",
+                            title: SLanguage.select({
+                                en: "Successfully applied",
+                                es: "Se aplicó correctamente"
+                            }),
+                            body: SLanguage.select({
+                                es: "Edición exitosa.",
+                                en: "Edit successfully."
+                            }),
+                            color: STheme.color.success,
+                            time: 5000,
+                        })
+
+                        users.INSTANCE.componentDidMount();
+                        SPopup.close("EditSueldo")
+                    }
+                    ).catch((e) => {
+                        console.error(e)
+                        SNotification.send({
+                            key: "staff-EditSueldo-error",
+                            title: "Error",
+                            body: SLanguage.select({
+                                es: "Error al editar.",
+                                en: "Error editing."
+
+                            }),
+                            color: STheme.color.danger,
+                            time: 5000,
+                        })
+                    })
                 }}
             />
             <SHr height={20} />

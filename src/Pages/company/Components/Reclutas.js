@@ -23,6 +23,32 @@ const getColorFromPercentage = (percentage,alpha = 1) => {
   return `rgba(${r}, ${g}, 0, ${alpha})`;
 }
 
+const getColorFromPercentageChange = (percentage,alpha = 1) => {
+  // Asegurarse de que el valor esté entre 0 y 100
+  percentage = Math.max(0, Math.min(percentage, 100));
+
+  let r, g;
+
+  if (percentage < 50) {
+    // De 0 a 50, rojo (255, 0, 0) a amarillo (255, 255, 0)
+    r = 255;
+    // g = Math.floor((percentage / 50) * 255);
+    g = 0;
+  }else if(percentage < 100){
+    // De 0 a 50, rojo (255, 0, 0) a amarillo (255, 255, 0)
+    r = 255;
+    g = 255;
+  } else {
+    // De 50 a 100, amarillo (255, 255, 0) a verde (0, 255, 0)
+    // r = Math.floor(255 - ((percentage - 50) / 50) * 255);
+    r = 0;
+    g = 255;
+  }
+
+  // El color siempre tiene el componente azul en 0
+  return `rgba(${r}, ${g}, 0, ${alpha})`;
+}
+
 export default class Reclutas extends Component {
   constructor(props) {
     super(props);
@@ -106,15 +132,16 @@ export default class Reclutas extends Component {
         <SView col={"xs-12"} style={{
           height: 6,
           borderRadius: 100,
-          backgroundColor:  getColorFromPercentage(obj.porcentaje ?? 0,0.2),
+          // backgroundColor:  getColorFromPercentage(obj.porcentaje ?? 0,0.2),
+          backgroundColor:  getColorFromPercentageChange(obj.porcentaje ?? 0,0.2),
           overflow: 'hidden',
         }} >
           <SView
             width={((obj.porcentaje ?? 0)+2) + "%"}
             style={{
               height: "100%",
-              // backgroundColor: obj.color ?? STheme.colorFromText(obj.key_tipo_staff)
-              backgroundColor: getColorFromPercentage(obj.porcentaje ?? 0)
+              // backgroundColor: getColorFromPercentage(obj.porcentaje ?? 0),
+              backgroundColor: getColorFromPercentageChange(obj.porcentaje ?? 0)
             }} />
         </SView>
       </SView>
