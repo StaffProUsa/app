@@ -491,7 +491,7 @@ export default class add extends Component {
                                         <InputSelect
                                             data={["NONE", "BASIC", "MEDIUM", "ADVANCED"]}
                                             onChange={val => {
-                                                if (this._ref["hora_fin"]) {
+                                                if (this._ref["nivel_ingles"]) {
                                                     this._ref["nivel_ingles"].setValue(val)
                                                 }
                                             }}
