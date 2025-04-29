@@ -70,7 +70,7 @@ import direccion from './direccion';
 import boss from './boss';
 import event_in_progress from './event_in_progress';
 import historyTimeSheet from './historyTimeSheet';
-
+import icons from "./icons"
 import cd from "./cd"
 import cdboss from './cdboss';
 const NewPages = SPage.combinePages("/", {
@@ -117,7 +117,8 @@ const NewPages = SPage.combinePages("/", {
    ...invitacion,
    "history/timesheet": historyTimeSheet,
    cd,
-   cdboss
+   cdboss,
+   icons
 
 })
 const Pages: SPageListProps = {

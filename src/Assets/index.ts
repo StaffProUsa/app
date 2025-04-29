@@ -50,7 +50,7 @@ import iposition, { ReactComponent as ipositionW } from "./svg/StaffProUsa/iposi
 
 import { Use } from 'react-native-svg';
 
-const svg = {
+export const svg = {
 
     "Logo": { Native: Logo, Web: LogoW },
     "Logosolo": { Native: Logosolo, Web: LogosoloW },
