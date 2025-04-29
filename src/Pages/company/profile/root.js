@@ -96,6 +96,7 @@ class index extends DPA.profile {
 
                 {/* para evento */}
                 <MenuButtom label={SLanguage.select({ en: "timeSheets", es: "timeSheets" })} url='/company/timeSheets' params={{ key_company: this.pk }} icon={<SIcon name='itimesheet' fill={STheme.color.text} />} />
+                <MenuButtom label={SLanguage.select({ en: "horario", es: "horario" })} url='/company/horario'  icon={<SIcon name='eventA' />} />
                 <MenuButtom label={SLanguage.select({ en: "dashBoard", es: "dashBoard" })}
                     // url='/company/dashboard' params={{ key_company: this.pk }}
                     onPress={() => {

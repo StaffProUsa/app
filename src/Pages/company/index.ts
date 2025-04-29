@@ -13,6 +13,8 @@ import detalle_asistencia from "./detalle_asistencia";
 import invite from "./invite";
 import dashboard from "./dashboard"
 import timeSheets from "./timeSheets";
+import horario from "./horario";
+
 const model = Model.company;
 export const Parent = {
     name: "company",
@@ -34,4 +36,6 @@ export default SPage.combinePages(Parent.name, {
     dashboard,
     timeSheets,
     ...roles,
+    horario
+
 })
