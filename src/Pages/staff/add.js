@@ -11,7 +11,7 @@ import InputFloat from '../../Components/NuevoInputs/InputFloat';
 import InputHora from '../../Components/NuevoInputs/InputHora';
 import InputSelect from '../../Components/NuevoInputs/InputSelect';
 import PBarraFooter from '../../Components/PBarraFooter';
-import Horario from '../company/horario';   
+import Horario from '../company/horario';
 
 
 
@@ -82,7 +82,7 @@ const timeToMinutes = (time: any) => {
     return hh * 60 + mm;
 };
 export default class add extends Component {
-    
+
 
     filterHorario(e: string) {
         // Permitir solo números y el carácter ':'
@@ -131,8 +131,8 @@ export default class add extends Component {
             key_evento: SNavigation.getParam("key_evento"),
             key_company: SNavigation.getParam("key_company"),
             fecha: SNavigation.getParam("fecha"),
-            startTime:SNavigation.getParam("startTime"),
-            endTime:SNavigation.getParam("endTime"),
+            startTime: SNavigation.getParam("startTime"),
+            endTime: SNavigation.getParam("endTime"),
             loading: false
         };
     }
@@ -202,6 +202,9 @@ export default class add extends Component {
         SLanguage.removeListener(this.onChangeLanguage)
     }
     handlePress() {
+
+
+
         const val = {}
         let valid = true;
 
@@ -241,28 +244,18 @@ export default class add extends Component {
             // this.setState({ loading: true })
         }
         this.setState({ loading: true })
-        val.startTime = this.state.startTime;
-        val.endTime = this.state.endTime;
-
-        const tz = new SDate().getTimezone();
-
-     
-        const currentDate = new SDate().toString("yyyy-MM-dd");
-    
-        const fecha_inicio= new SDate(val.startTime,"yyyy-MM-dd");
-        
 
 
-        const endDate = val.endTime < val.startTime
-            ? new SDate(currentDate).addDay(1).toString("yyyy-MM-dd")
-            : currentDate;
-    
+        // const currentDate = new SDate().toString("yyyy-MM-dd");
+        const fecha_inicio = new SDate(this.state.fecha + "T" + this.state.startTime + ":00", "yyyy-MM-ddThh:mm:ss");
+        const fecha_fin = new SDate(this.state.fecha + "T" + this.state.endTime + ":00", "yyyy-MM-ddThh:mm:ss");
+        if (fecha_inicio.getTime() > fecha_fin.getTime()) {
+            fecha_fin.addDay(1);
+        }
 
-        
-        
-    
 
-    
+
+
         if (this.state.pk) {
             // SSocket.sendPromise({
             //     component: "staff",
@@ -291,8 +284,9 @@ export default class add extends Component {
                     ...this.state.data,
                     "descripcion": val.descripcion,
                     "observacion": val.observacion,
-                    "fecha_inicio": `${currentDate} ${formatTime(val.startTime)}`,
-                    "fecha_fin": `${endDate} ${formatTime(val.endTime)}`,
+                    "fecha_inicio": fecha_inicio.toString("yyyy-MM-dd hh:mm"),
+                    "fecha_fin": fecha_fin.toString("yyyy-MM-dd hh:mm"),
+                    // "fecha_fin": `${endDate} ${formatTime(val.endTime)}`,
                     cantidad: val.cantidad,
                     nivel_ingles: val.nivel_ingles,
                     key_staff_tipo: val.key_staff_tipo
@@ -316,8 +310,10 @@ export default class add extends Component {
                     "observacion": val.observacion,
                     "key_evento": this.state.key_evento,
                     "key_staff_tipo": dataTipo.key,
-                    "fecha_inicio": `${currentDate} ${formatTime(val.startTime)}`,
-                    "fecha_fin": `${endDate} ${formatTime(val.endTime)}`,
+                    "fecha_inicio": fecha_inicio.toString("yyyy-MM-dd hh:mmTZD"),
+                    "fecha_fin": fecha_fin.toString("yyyy-MM-dd hh:mmTZD"),
+                    // "fecha_inicio": `${currentDate} ${formatTime(val.startTime)}`,
+                    // "fecha_fin": `${endDate} ${formatTime(val.endTime)}`,
                     // "fecha_fin": !val.hora_fin 
                     // ? new SDate(val.hora_inicio).addDay(1).toString("yyyy-MM-dd") + " " + formatTime(val.hora_inicio ?? "") + tz
                     // : new SDate(val.hora_fin).toString("yyyy-MM-dd") + " " + formatTime(val.hora_fin ?? "") + tz,
@@ -389,7 +385,7 @@ export default class add extends Component {
                 <SView row col={"xs-12"} style={{
                     justifyContent: "space-between"
                 }}>
-                   
+
                     {/* {this.state.pk ? null : <SInput
                         ref={r => this._ref["tipo"] = r}
                         label={tipo_staff}
@@ -464,7 +460,7 @@ export default class add extends Component {
                             this._ref["hora_inicio"].setValue(resp);
                         }
                     })} /> */}
-                                        <Input col={"xs-12 sm-5"} inputStyle={{
+                    <Input col={"xs-12 sm-5"} inputStyle={{
                         height: 40,
                         borderRadius: 4,
                         backgroundColor: STheme.color.card,
@@ -474,9 +470,9 @@ export default class add extends Component {
                         //     color: STheme.color.text,
                         //     fontSize: 12,
                         // }}
-                        
+
                         ref={r => this._ref["nivel_ingles"] = r}
-                        
+
                         label={SLanguage.select({ en: "English level", es: "Nivel de ingles" })}
                         labelStyle={{ color: STheme.color.text, fontSize: 12, fontFamily: "roboto", marginTop: 10 }}
                         placeholder={SLanguage.select({ en: "English level", es: "Nivel de ingles" })}
@@ -490,7 +486,7 @@ export default class add extends Component {
                                     backgroundColor: STheme.color.background
                                 },
                                 render: () => {
-                                    
+
                                     return <SView col={"xs-12"} flex card>
                                         <InputSelect
                                             data={["NONE", "BASIC", "MEDIUM", "ADVANCED"]}
@@ -505,17 +501,17 @@ export default class add extends Component {
                             })
                         }}
                     />
-                    </SView>
-                    <SHr h={20} />
-                    <SView col={"xs-12 sm-18"}  style={{marginLeft:250}}>
+                </SView>
+                <SHr h={20} />
+                <SView col={"xs-12 sm-18"} style={{ marginLeft: 250 }}>
                     <Horario onTimeChange={this.handleHorarioChange} />
-                        </SView>
+                </SView>
 
-                    {/* <SInput ref={r => this._ref["fecha_inicio"] = r} style={{display:"none"}} /> */}
-                    {/* <SInput ref={r => this._ref["fecha_fin"] = r} style={{display:"none"}} /> */}
+                {/* <SInput ref={r => this._ref["fecha_inicio"] = r} style={{display:"none"}} /> */}
+                {/* <SInput ref={r => this._ref["fecha_fin"] = r} style={{display:"none"}} /> */}
 
 
-                    {/* <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
+                {/* <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
                     <SInput ref={r => this._ref["hora_fin"] = r} col={"xs-5.5"} label={" "} defaultValue={"23:59"} placeholder={"hh:mm"} required onChangeText={(e => {
                         const resp = this.filterHorario(e);
                         if (resp != e) {
@@ -524,7 +520,7 @@ export default class add extends Component {
                         }
                         // return this.filterHorario(e);
                     })} /> */}
-                
+
                 <SHr h={16} />
 
                 <SView row col={"xs-12"} center>
