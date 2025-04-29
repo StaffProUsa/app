@@ -483,7 +483,7 @@ export default class add extends Component {
                                 height: 180,
                                 width: 150,
                                 style: {
-                                    backgroundColor: STheme.color.background
+                                    backgroundColor: STheme.color.primary,
                                 },
                                 render: () => {
 
@@ -501,11 +501,19 @@ export default class add extends Component {
                             })
                         }}
                     />
-                </SView>
+                    
                 <SHr h={20} />
-                <SView col={"xs-12 sm-18"} style={{ marginLeft: 250 }}>
+                <SView col={"xs-12 sm-5"} >
                     <Horario onTimeChange={this.handleHorarioChange} />
                 </SView>
+
+                    
+                </SView>
+
+
+
+
+
 
                 {/* <SInput ref={r => this._ref["fecha_inicio"] = r} style={{display:"none"}} /> */}
                 {/* <SInput ref={r => this._ref["fecha_fin"] = r} style={{display:"none"}} /> */}

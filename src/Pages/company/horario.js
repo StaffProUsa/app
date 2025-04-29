@@ -105,17 +105,17 @@ const openPopup = (type) => {
             <SView
                 withoutFeedback
                 style={{
-
-                    width: 270,
+                    color: STheme.color.text,
+                    width: 140,
                     height: 300,
                     justifyContent: "center",
                     alignItems: "center",
-                    backgroundColor: STheme.color.primary,
+                    backgroundColor: STheme.color.background,
                     borderRadius: 10,
                     padding: 10,
                     alignSelf: "center",
                     marginTop: type === "start" ? 535 :675,
-                    marginLeft: -250,
+                    marginLeft: -280,
                 }}
             >
                 <ScrollView
@@ -162,7 +162,7 @@ const openPopup = (type) => {
            
                 <SView style={{  width: "90%", maxWidth: 300 }}>
                     
-                    <SText style={{ color:STheme.color.white, fontSize: 11, marginBottom: 3,fontWeight:'bold' }}>Hora de Inicio</SText>
+                    <SText style={{ color:STheme.color.text, fontSize: 11, marginBottom: 3,fontWeight:'bold' }}>Hora de Inicio</SText>
                     
                         
                         <SInput
@@ -181,7 +181,7 @@ const openPopup = (type) => {
                     
                     <SHr height={10} />
 
-                    <SText style={{ color:STheme.color.white,fontSize: 11, marginBottom: 3,fontWeight:'bold' }}>Hora Final</SText>
+                    <SText style={{ color:STheme.color.text,fontSize: 11, marginBottom: 3,fontWeight:'bold' }}>Hora Final</SText>
                     
                         
                         <SInput style={{ backgroundColor: STheme.color.card, borderRadius: 12, padding: 5, marginBottom: 12 }}

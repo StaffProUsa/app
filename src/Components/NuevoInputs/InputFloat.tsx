@@ -38,7 +38,7 @@
                         height: height,
                         left: left,
                         top: top,
-                        backgroundColor: STheme.color.card,
+                        backgroundColor: STheme.color.secondary,
                     }, props.style]}>
                         {props.render()}
                     </SView>
