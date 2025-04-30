@@ -124,11 +124,11 @@ export default class invitationDetail extends React.Component {
                     }} />
                     <SText fontSize={15} color={STheme.color.gray} center >{obj?.staff?.nivel_ingles}</SText>
                     <SHr height={15} />
-                    <SText fontSize={15} color={STheme.color.gray} center language={{
+                    {/* <SText fontSize={15} color={STheme.color.gray} center language={{
                       es: "* Autorización para trabajar en USA: ",
                       en: " Authorization to work in USA: "
                     }} />
-                    <SText fontSize={15} color={STheme.color.gray} center >{(obj?.cliente?.papeles) ? "YES" : "NO"}</SText>
+                    <SText fontSize={15} color={STheme.color.gray} center >{(obj?.cliente?.papeles) ? "YES" : "NO"}</SText> */}
                   </SView>
                   <SHr height={15} />
                   <SView col={'xs-12'}  >

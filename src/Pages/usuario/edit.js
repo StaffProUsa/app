@@ -12,7 +12,7 @@ class index extends DPA.edit {
  constructor(props) {
   super(props, {
    Parent: Parent,
-   excludes: (!SNavigation.getParam("key_company")) ? ["salario_hora", "employee_number"] : []
+   excludes: (!SNavigation.getParam("key_company")) ? ["salario_hora", "employee_number","papeles"] : ["papeles"]
   });
   this.key_company = SNavigation.getParam("key_company")
  }
@@ -57,7 +57,7 @@ class index extends DPA.edit {
   inputs["Password"].type = "password"
   inputs["Correo"].type = "email"
   inputs["Telefono"].type = "phone"
-  inputs["papeles"].type = "checkBox"
+  // inputs["papeles"].type = "checkBox"
   // inputs["salario_hora"].type = "money"
 
   // inputs["salario_hora"].setValues = SMath.formatMoney(this.state?.usuario_company?.salario_hora) ?? ""
@@ -102,6 +102,26 @@ class index extends DPA.edit {
     }
    })
   }
+  inputs["otros_idiomas"].onPress = (e) => {
+    InputFloat.open({
+     e: e,
+     height: 180,
+     width: 150,
+     style: {
+      backgroundColor: STheme.color.background
+     },
+     render: () => {
+      return <SView col={"xs-12"} flex card>
+       <InputSelect
+        data={["US CITIZEN", "GREEN CARD", "WOK PERMIT", "TAX ID OR ITIN", "NONE"]}
+        onChange={val => {
+         this.form.setValues({ "otros_idiomas": val })
+        }}
+        ITEM_HEIGHT={30} />
+      </SView>
+     }
+    })
+   }
   return inputs;
  }
  $onSubmit(data) {

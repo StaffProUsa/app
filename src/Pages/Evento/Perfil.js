@@ -497,7 +497,7 @@ class Perfil extends React.Component {
                 <SText fontSize={18} justify>{new SDate(DATA?.fecha).toString("MONTH dd, yyyy")}</SText>
               </SView>
 
-              <SView col={"xs-6"} style={{
+              {/* <SView col={"xs-6"} style={{
                 borderLeftWidth: 1,
                 borderLeftColor: STheme.color.lightGray
               }}>
@@ -508,7 +508,7 @@ class Perfil extends React.Component {
                   paddingLeft: 5
                 }} />
                 <SText center fontSize={18} justify>{(DATA?.cliente?.papeles) ? SLanguage.select({ es: "SÍ", en: "YES" }) : "NO"}</SText>
-              </SView>
+              </SView> */}
             </SView>
 
             <SHr height={20} />
