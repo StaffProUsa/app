@@ -255,6 +255,7 @@ export default class Eventos extends React.Component {
         return <>
             <SelectEntreFechas
                 fecha_inicio={new SDate().setDay(1).toString("yyyy-MM-dd")}
+                fecha_fin={new SDate().addMonth(1).toString("yyyy-MM-dd")}
                 onChange={e => {
                     this.entrefecha = e;
                     this.loadData(e)
