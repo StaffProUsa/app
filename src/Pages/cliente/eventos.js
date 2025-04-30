@@ -28,10 +28,23 @@ const getColorFromPercentage = (percentage) => {
 export default class Eventos extends React.Component {
     static INSTANCE = null;
 
+     constructor(props) {
+        super(props);
+        this.state = {
+        };
+        Eventos.INSTANCE = this;
+      }
+
     key_cliente = this.props.key_cliente ?? SNavigation.getParam("key_cliente")
     state = {
 
     }
+    // componentDidMount() {
+    //     Eventos.INSTANCE = this;
+    //     this.loadData({ fecha_inicio: new SDate().setDay(1).toString("yyyy-MM-dd"), fecha_fin: new SDate().addMonth(1).toString("yyyy-MM-dd") })
+    // }
+
+    
 
     // componentDidMount() {
     //     Eventos.INSTANCE = this;
@@ -46,6 +59,12 @@ export default class Eventos extends React.Component {
     //         this.setState({ loading: false })
     //     })
     // }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.pasadoSelect !== this.props.pasadoSelect) {
+          this.loadData({ fecha_inicio: this.state.fecha_inicio, fecha_fin: this.state.fecha_fin });
+        }
+      }
 
     loadData({ fecha_inicio, fecha_fin }) {
         SSocket.sendPromise({
@@ -250,7 +269,7 @@ export default class Eventos extends React.Component {
 
     render() {
         let pasadoSelectOk = this.props.pasadoSelect ?? true;
-        console.log("pasadoSelectOk", pasadoSelectOk)
+        // this.props.pasadoSelect ? null : this.loadData({ fecha_inicio: this.state.fecha_inicio, fecha_fin: this.state.fecha_fin });
         // this.props.pasadoSelect ? null : this.loadData({ fecha_inicio: this.state.fecha_inicio, fecha_fin: this.state.fecha_fin });
         return <>
             <SelectEntreFechas

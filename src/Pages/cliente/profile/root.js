@@ -140,6 +140,7 @@ class index extends DPA.profile {
         }}
           onPress={() => {
             this.setState({ pasadoSelect: true })
+            //  if (Eventos.INSTANCE) Eventos.INSTANCE.loadData;
           }}>
           <SText language={{ en: "Ongoing", es: "En curso" }} fontSize={12} bold color={this.state.pasadoSelect ? STheme.color.white : "#646464"} />
         </SView>
