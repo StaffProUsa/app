@@ -26,6 +26,12 @@ const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
   </SView>
 }
 export default class dashboard extends Component {
+  state:any={
+    fecha_inicio:'',
+    fecha_fin:'',
+  }
+  table:DinamicTable<any>|any=null;
+
   params = SNavigation.getAllParams();
   async loadData() {
 
@@ -37,29 +43,47 @@ export default class dashboard extends Component {
     return resp.data;
   }
 
+  handleDateChange = (e: { fecha_inicio: string | String; fecha_fin: string | String }) => {
+    this.state.fecha_inicio = e.fecha_inicio;
+    this.state.fecha_fin = e.fecha_fin;
+    this.table.componentDidMount();
+  
+    
+};
 
   render() {
 
     return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll
       footer={<PBarraFooter url={'/company'} />}
     >
-      <Container>
-        <SelectEntreFechas
-          fecha_fin={new SDate().addDay(1).toString("yyyy-MM-dd")}
-          fecha_inicio={new SDate().setDay(1).toString("yyyy-MM-dd")}
-          onChange={e => {
-            //this.entrefecha = e;
-            //this.loadData(e)
-            // this.setState({ fecha_inicio: e.fecha_inicio, fecha_fin: e.fecha_fin })
-          }}
-        />
-      </Container>
+      <SView col={"xs-8 sm-6 md-4"} row center>
+
+      <SelectEntreFechas
+                        onChange={this.handleDateChange}
+                        fecha_inicio=''
+                        fecha_fin=''
+                        
+                    />
+                    
+      </SView>
       <SView col={"xs-12"} flex>
         <DinamicTable
+          ref={ref=>this.table=ref}
           language={SLanguage.language}
           loadInitialState={async () => {
 
             let filters: ExporterStateType["filters"] = [];
+            if (this.state.fecha_inicio && this.state.fecha_fin) {
+                        filters.push({
+                          "col": "fecha",
+                          "type": "date",
+                          "operator": "between",
+                          value: [
+                            new SDate(this.state.fecha_inicio).toString("yyyy-MM-dd"),
+                            new SDate(this.state.fecha_fin).toString("yyyy-MM-dd")
+                          ]
+                        })
+                        }
             if (this.params.key_company) {
               const companyResp: any = await SSocket.sendPromise({
                 component: "company",

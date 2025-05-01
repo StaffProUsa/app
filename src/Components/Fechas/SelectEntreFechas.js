@@ -7,7 +7,9 @@ type DataType = {
     fecha_fin: String,
 }
 type SelectEntreFechasProps = {
-    onChange: (data: DataType) => void
+    onChange: (e: { fecha_inicio: string; fecha_fin: string }) => void;
+    fecha_inicio: string;
+    fecha_fin: string;
 } & DataType
 export default class SelectEntreFechas extends Component<SelectEntreFechasProps> {
     constructor(props) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TextStyle, View } from 'react-native';
-import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView, } from 'servisofts-component';
+import { SButtom, SDate, SHr, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView, } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
@@ -9,11 +9,16 @@ import TableIcon from '../../Components/Table/TableIcon';
 import BoxMenuTimeSheets from '../../Components/Popups/BoxMenuTimeSheets';
 import Config from '../../Config';
 import PBarraFooter from '../../Components/PBarraFooter';
+import { SelectEntreFechas } from '../../Components/Fechas';
+import InputFecha from '../../Components/NuevoInputs/InputFecha';
 
 
 // type DataType = typeof DATATEST[0]
+
+
 type DataType = any
 const Col = DinamicTable.Col<DataType>
+
 
 
 
@@ -30,6 +35,14 @@ const ImageLabel = ({ label, src, textStyle }) => {
   </SView>
 }
 export default class timeSheets extends Component {
+  state:any =  {
+    fecha_inicio: '',
+    fecha_fin: '',
+  }
+
+table: DinamicTable<any> | any = null;
+
+
 
   key_company_ = SNavigation.getParam("key_company")
   key_cliente_ = SNavigation.getParam("key_cliente")
@@ -77,25 +90,58 @@ export default class timeSheets extends Component {
     return isNaN(time) ? "" : time / 1000 / 60 / 60;
 
 
-
   }
+  handleDateChange = (e: { fecha_inicio: string | String; fecha_fin: string | String }) => {
+    this.state.fecha_inicio = e.fecha_inicio;
+    this.state.fecha_fin = e.fecha_fin;
+    this.table.componentDidMount();
+  
+    
+};
+
+
 
   render() {
 
-
     return <SPage title={"Time Sheets"} disableScroll
+    
     footer={<PBarraFooter url={'/company'} />}>
+      
+      <SView col={"xs-8 sm-6 md-4"} row center>
+
+      <SelectEntreFechas
+                        onChange={this.handleDateChange}
+                        fecha_inicio=''
+                        fecha_fin=''
+                        
+                    />
+                    
+      </SView>
+      
+
+   
+      
+      
       <SView col={"xs-12"} flex>
-        <DinamicTable
+        <DinamicTable  
+
+          ref={ref=> this.table = ref}
           loadInitialState={async () => {
 
             let filters: ExporterStateType["filters"] = [];
+           
+            
+            if (this.state.fecha_inicio && this.state.fecha_fin) {
             filters.push({
-              "col": "state",
-              "type": "string",
-              "operator": "!=",
-              "value":"PENDING"
+              "col": "fecha",
+              "type": "date",
+              "operator": "between",
+              value: [
+                new SDate(this.state.fecha_inicio).toString("yyyy-MM-dd"),
+                new SDate(this.state.fecha_fin).toString("yyyy-MM-dd")
+              ]
             })
+            }
             if (this.key_cliente_) {
               const clientResp: any = await SSocket.sendPromise({
                 component: "cliente",
