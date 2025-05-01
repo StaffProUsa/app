@@ -9,7 +9,7 @@ class index extends DPA.table {
     constructor(props) {
         super(props, {
             Parent: Parent,
-            excludes: ["key", "Password"]
+            excludes: ["key", "Password","papeles"]
         });
     }
     
