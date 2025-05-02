@@ -186,6 +186,7 @@ table: DinamicTable<any> | any = null;
           loadData={this.loadData.bind(this)}
           colors={Config.table.styles()}
           cellStyle={Config.table.cellStyle()}
+          iconSize={Config.table.iconSize()}
           textStyle={Config.table.textStyle()}
 
           selectType='single'
