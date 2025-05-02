@@ -55,7 +55,7 @@ class root extends Component {
         let password = "Password";
         let repPassword = "Repetir password";
         let nivel_ingles = "Nivel de inglés";
-        let papeles = "¿Está autorizado para trabajar en los Estados Unidos?";
+        let papeles = "Escoja una de las siguientes opciones";
         if (lenguaje == "en") {
             titleHeader = "Staff registration";
             nombre = "Name";
@@ -66,7 +66,7 @@ class root extends Component {
             password = "Password";
             repPassword = "Repeat password";
             nivel_ingles = "English level";
-            papeles = "Are you authorized to work in the United States?";
+            papeles = "Choose one of the following options";
         }
         return (
             <SPage  >
@@ -192,8 +192,8 @@ class root extends Component {
                                     // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
                                 },
                                 otros_idiomas: {
-                                    label: SLanguage.select({ es: "Estatus legal", en: "Legal Status" }),
-                                    placeholder: SLanguage.select({ es: "Estatus legal", en: "Legal Status" }),
+                                    label: SLanguage.select({ es: "Escoja una de las siguientes opciones", en: "Choose one of the following points" }),
+                                    placeholder: SLanguage.select({ es: "Escoja una de las siguientes opciones", en: "Choose one of the following points" }),
                                     // type: "select",
                                     isRequired: true,
                                     defaultValue: "",

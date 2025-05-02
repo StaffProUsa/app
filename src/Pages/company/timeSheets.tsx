@@ -209,7 +209,7 @@ table: DinamicTable<any> | any = null;
 
 
         >
-          <Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
+          {/*<Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
             data={e => {
 
               if (e.row?.staff_usuario?.fecha_salida) {
@@ -254,13 +254,14 @@ table: DinamicTable<any> | any = null;
                 </SView>
               </SView>
             }} />
+          */}
           <Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
             dataType='date'
             data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-dd").date}
             format={e => new SDate(e.data).toString("yyyy-MM-dd")}
           // textStyle={{ color: STheme.color.success }}
           />
-
+            
 
 
 
@@ -275,8 +276,8 @@ table: DinamicTable<any> | any = null;
 
           />
 
-
-          <Col key={"key_evento"}
+          
+          {/*<Col key={"key_evento"}
             labelIcon={<TableIcon name='ievento' />}
             label={SLanguage.select({ es: "Evento", en: "Event" })} width={100}
             data={e => {
@@ -284,6 +285,7 @@ table: DinamicTable<any> | any = null;
             }}
 
           />
+          */}
 
           <Col key={"employee_number"} label={SLanguage.select({ es: "Numero empleado", en: "Employee number" })} width={70}
             data={e => {
@@ -296,7 +298,8 @@ table: DinamicTable<any> | any = null;
             data={e => `${e.row.usuario?.Nombres} ${e.row.usuario?.Apellidos}`}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
           />
-          <Col key={"salario_hora"} label={SLanguage.select({ es: "Salario", en: "Salary" })} width={60}
+
+          {/*<Col key={"salario_hora"} label={SLanguage.select({ es: "Salario", en: "Salary" })} width={60}
             dataType='number'
 
             data={e => {
@@ -309,6 +312,7 @@ table: DinamicTable<any> | any = null;
             data={e => `${e.row.usuario_atiende?.Nombres ?? ""} ${e.row.usuario_atiende?.Apellidos ?? ""}`}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario_atiende?.key} textStyle={e.textStyle} />}
           />
+          */}
 
           <Col key={"staff"}
             labelIcon={<TableIcon name='iposition' />}
@@ -349,7 +353,7 @@ table: DinamicTable<any> | any = null;
               }, 0);
               console.log(total);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{borderWidth:1, borderColor:"#99999965", borderTopWidth:0}} >
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{borderWidth:1, borderColor:"#99999965"}} >
                 <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
@@ -358,7 +362,7 @@ table: DinamicTable<any> | any = null;
           />
 
 
-          <Col key={"subtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
+          {/*<Col key={"subtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
             dataType='number'
             data={e => {
               if (!e.row.staff_usuario.fecha_ingreso || !e.row.staff_usuario.fecha_salida) return 0;
@@ -385,6 +389,7 @@ table: DinamicTable<any> | any = null;
             }}
           // format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
           />
+          */}
 
 
 
