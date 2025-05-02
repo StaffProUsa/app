@@ -108,7 +108,15 @@ export default class historyAlvaro extends Component {
                   order: "desc",
                   type: "date"
                 },
-              ]
+              ],
+              cols: {
+                "state": { hidden: true, },
+                "key_evento": { hidden: true, },
+                "usuario_atiende": { hidden: true, },
+                // "salario_hora": { hidden: true, },
+                // "subtotal": { hidden: true, },
+
+              }
             }
           }}
           loadData={this.loadData1111.bind(this)}
@@ -191,10 +199,7 @@ export default class historyAlvaro extends Component {
             data={e => `${e.row?.usuario?.Nombres} ${e.row?.usuario?.Apellidos}`}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
           />
-          <Col key={"salario_hora"} label={SLanguage.select({ es: "Salario", en: "Salary" })} width={60}
-            dataType='number'
-            data={e => { return e.row?.staff_usuario?.salario_hora; }}
-            format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)} />
+
 
           <Col key={"usuario_atiende"} label={SLanguage.select({ es: "Jefe", en: "Boss" })} width={80}
             data={e => `${e.row?.usuario_atiende?.Nombres ?? ""} ${e.row?.usuario_atiende?.Apellidos ?? ""}`}
@@ -242,13 +247,17 @@ export default class historyAlvaro extends Component {
               }, 0);
               console.log(total);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{borderWidth:1, borderColor:"#99999965", borderTopWidth:0}} >
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderWidth: 1, borderColor: "#99999965", borderTopWidth: 0 }} >
                 <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
             }}
           />
 
+          <Col key={"salario_hora"} label={SLanguage.select({ es: "Salario", en: "Salary" })} width={60}
+            dataType='number'
+            data={e => { return e.row?.staff_usuario?.salario_hora; }}
+            format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)} />
           <Col key={"subtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
             dataType='number'
             data={e => {
@@ -270,7 +279,7 @@ export default class historyAlvaro extends Component {
               }, 0);
               console.log(total);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{borderRightWidth:1, borderColor:"#99999965", borderBottomWidth:1}} >
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderRightWidth: 1, borderColor: "#99999965", borderBottomWidth: 1 }} >
                 <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>

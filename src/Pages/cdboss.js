@@ -9,6 +9,7 @@ import evento from '../Services/Casagrandeadmin/Components/evento';
 import CardEventoSteps from '../Components/Evento/CardEventoSteps';
 import MarcarPorCodigoEvento from '../Components/Asistencia/MarcarPorCodigoEvento';
 import Mapa from "./Evento/Components/Mapa";
+import PBarraFooter from '../Components/PBarraFooter';
 const fontz = 16
 
 // create a component
@@ -40,7 +41,9 @@ class cdboss extends Component {
     render() {
 
 
-        return <SPage>
+        return <SPage
+            footer={<PBarraFooter url={'/'} />}
+        >
             <SHr h={16} />
             <Container loading={!this.state.data} >
 

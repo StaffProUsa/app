@@ -35,12 +35,12 @@ const ImageLabel = ({ label, src, textStyle }) => {
   </SView>
 }
 export default class timeSheets extends Component {
-  state:any =  {
+  state: any = {
     fecha_inicio: '',
     fecha_fin: '',
   }
 
-table: DinamicTable<any> | any = null;
+  table: DinamicTable<any> | any = null;
 
 
 
@@ -95,52 +95,52 @@ table: DinamicTable<any> | any = null;
     this.state.fecha_inicio = e.fecha_inicio;
     this.state.fecha_fin = e.fecha_fin;
     this.table.componentDidMount();
-  
-    
-};
+
+
+  };
 
 
 
   render() {
 
     return <SPage title={"Time Sheets"} disableScroll
-    
-    footer={<PBarraFooter url={'/company'} />}>
-      
+
+      footer={<PBarraFooter url={'/company'} />}>
+
       <SView col={"xs-8 sm-6 md-4"} row center>
 
-      <SelectEntreFechas
-                        onChange={this.handleDateChange}
-                        fecha_inicio=''
-                        fecha_fin=''
-                        
-                    />
-                    
+        <SelectEntreFechas
+          onChange={this.handleDateChange}
+          fecha_inicio=''
+          fecha_fin=''
+
+        />
+
       </SView>
-      
 
-   
-      
-      
+
+
+
+
       <SView col={"xs-12"} flex>
-        <DinamicTable  
+        <DinamicTable
 
-          ref={ref=> this.table = ref}
+          ref={ref => this.table = ref}
           loadInitialState={async () => {
 
             let filters: ExporterStateType["filters"] = [];
-           
-            
+
+
             if (this.state.fecha_inicio && this.state.fecha_fin) {
-            filters.push({
-              "col": "fecha",
-              "type": "date",
-              "operator": "between",
-              value: [
-                new SDate(this.state.fecha_inicio).toString("yyyy-MM-dd"),
-                new SDate(this.state.fecha_fin).toString("yyyy-MM-dd")
-              ]
-            })
+              filters.push({
+                "col": "fecha",
+                "type": "date",
+                "operator": "between",
+                value: [
+                  new SDate(this.state.fecha_inicio,"yyyy-MM-dd").toString("yyyy-MM-dd")+"T00:00:00",
+                  new SDate(this.state.fecha_fin,"yyyy-MM-dd").toString("yyyy-MM-dd")+"T23:59:59"
+                ]
+              })
             }
             if (this.key_cliente_) {
               const clientResp: any = await SSocket.sendPromise({
@@ -179,7 +179,15 @@ table: DinamicTable<any> | any = null;
                   order: "desc",
                   type: "date"
                 },
-              ]
+              ],
+              cols: {
+                "state": { hidden: true, },
+                "key_evento": { hidden: true, },
+                "usuario_atiende": { hidden: true, },
+                "salario_hora": { hidden: true, },
+                "subtotal": { hidden: true, },
+
+              }
             }
           }}
 
@@ -210,7 +218,8 @@ table: DinamicTable<any> | any = null;
 
 
         >
-          {/*<Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
+          <Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
+
             data={e => {
 
               if (e.row?.staff_usuario?.fecha_salida) {
@@ -255,14 +264,14 @@ table: DinamicTable<any> | any = null;
                 </SView>
               </SView>
             }} />
-          */}
+
           <Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
             dataType='date'
             data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-dd").date}
             format={e => new SDate(e.data).toString("yyyy-MM-dd")}
           // textStyle={{ color: STheme.color.success }}
           />
-            
+
 
 
 
@@ -277,8 +286,8 @@ table: DinamicTable<any> | any = null;
 
           />
 
-          
-          {/*<Col key={"key_evento"}
+
+          <Col key={"key_evento"}
             labelIcon={<TableIcon name='ievento' />}
             label={SLanguage.select({ es: "Evento", en: "Event" })} width={100}
             data={e => {
@@ -286,7 +295,7 @@ table: DinamicTable<any> | any = null;
             }}
 
           />
-          */}
+
 
           <Col key={"employee_number"} label={SLanguage.select({ es: "Numero empleado", en: "Employee number" })} width={70}
             data={e => {
@@ -300,20 +309,12 @@ table: DinamicTable<any> | any = null;
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
           />
 
-          {/*<Col key={"salario_hora"} label={SLanguage.select({ es: "Salario", en: "Salary" })} width={60}
-            dataType='number'
-
-            data={e => {
-              return e.row?.staff_usuario?.salario_hora;
-            }}
-            format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
-          />
 
           <Col key={"usuario_atiende"} label={SLanguage.select({ es: "Jefe", en: "Boss" })} width={80}
             data={e => `${e.row.usuario_atiende?.Nombres ?? ""} ${e.row.usuario_atiende?.Apellidos ?? ""}`}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario_atiende?.key} textStyle={e.textStyle} />}
           />
-          */}
+
 
           <Col key={"staff"}
             labelIcon={<TableIcon name='iposition' />}
@@ -354,7 +355,7 @@ table: DinamicTable<any> | any = null;
               }, 0);
               console.log(total);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{borderWidth:1, borderColor:"#99999965"}} >
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderWidth: 1, borderColor: "#99999965" }} >
                 <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
@@ -362,8 +363,16 @@ table: DinamicTable<any> | any = null;
           // format={e => e.data.toFixed(2)}
           />
 
+          <Col key={"salario_hora"} label={SLanguage.select({ es: "Salario", en: "Salary" })} width={60}
+            dataType='number'
 
-          {/*<Col key={"subtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
+            data={e => {
+              return e.row?.staff_usuario?.salario_hora;
+            }}
+            format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
+          />
+
+          <Col key={"subtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
             dataType='number'
             data={e => {
               if (!e.row.staff_usuario.fecha_ingreso || !e.row.staff_usuario.fecha_salida) return 0;
@@ -383,14 +392,14 @@ table: DinamicTable<any> | any = null;
                 return acc + (e.subtotal ?? 0);
               }, 0);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{borderRightWidth:1, borderColor:"#99999965", borderBottomWidth:1}} >
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderRightWidth: 1, borderColor: "#99999965", borderBottomWidth: 1 }} >
                 <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
             }}
           // format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
           />
-          */}
+
 
 
 

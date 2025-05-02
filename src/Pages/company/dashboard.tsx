@@ -26,11 +26,11 @@ const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
   </SView>
 }
 export default class dashboard extends Component {
-  state:any={
-    fecha_inicio:'',
-    fecha_fin:'',
+  state: any = {
+    fecha_inicio: '',
+    fecha_fin: '',
   }
-  table:DinamicTable<any>|any=null;
+  table: DinamicTable<any> | any = null;
 
   params = SNavigation.getAllParams();
   async loadData() {
@@ -47,9 +47,9 @@ export default class dashboard extends Component {
     this.state.fecha_inicio = e.fecha_inicio;
     this.state.fecha_fin = e.fecha_fin;
     this.table.componentDidMount();
-  
-    
-};
+
+
+  };
 
   render() {
 
@@ -58,32 +58,32 @@ export default class dashboard extends Component {
     >
       <SView col={"xs-8 sm-6 md-4"} row center>
 
-      <SelectEntreFechas
-                        onChange={this.handleDateChange}
-                        fecha_inicio=''
-                        fecha_fin=''
-                        
-                    />
-                    
+        <SelectEntreFechas
+          onChange={this.handleDateChange}
+          fecha_inicio=''
+          fecha_fin=''
+
+        />
+
       </SView>
       <SView col={"xs-12"} flex>
         <DinamicTable
-          ref={ref=>this.table=ref}
+          ref={ref => this.table = ref}
           language={SLanguage.language}
           loadInitialState={async () => {
 
             let filters: ExporterStateType["filters"] = [];
             if (this.state.fecha_inicio && this.state.fecha_fin) {
-                        filters.push({
-                          "col": "fecha",
-                          "type": "date",
-                          "operator": "between",
-                          value: [
-                            new SDate(this.state.fecha_inicio).toString("yyyy-MM-dd"),
-                            new SDate(this.state.fecha_fin).toString("yyyy-MM-dd")
-                          ]
-                        })
-                        }
+              filters.push({
+                "col": "fecha",
+                "type": "date",
+                "operator": "between",
+                value: [
+                  new SDate(this.state.fecha_inicio, "yyyy-MM-dd").toString("yyyy-MM-dd") + "T00:00:00",
+                  new SDate(this.state.fecha_fin, "yyyy-MM-dd").toString("yyyy-MM-dd") + "T23:59:59"
+                ]
+              })
+            }
             if (this.params.key_company) {
               const companyResp: any = await SSocket.sendPromise({
                 component: "company",

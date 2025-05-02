@@ -151,7 +151,8 @@ class index extends Component {
                                 if (isInvitation) {
                                     SNavigation.navigate("/invitationDetail", { key: k?.staff_usuario?.key })
                                 } else {
-                                    SNavigation.navigate("/evento", { key: k?.key })
+                                    // SNavigation.navigate("/evento", { key: k?.key })
+                                    SNavigation.navigate("/cd", { key_staff_usuario: k?.staff_usuario?.key })
                                 }
 
                             }}>

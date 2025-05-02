@@ -6,6 +6,7 @@ import { component } from "../Services/Usuario/Components/datoCabecera";
 import Mapa from "./Evento/Components/Mapa";
 import MarcarPorCodigoEvento from "../Components/Asistencia/MarcarPorCodigoEvento";
 import CardEventoSteps from "../Components/Evento/CardEventoSteps";
+import PBarraFooter from "../Components/PBarraFooter";
 
 
 const fontz = 16
@@ -163,7 +164,9 @@ export default class cd extends React.Component {
 
         let ganancia = horasTrabajadas * (this.state?.data?.salario_hora ?? 0);
         console.log("PINTO DATA", this.state.data)
-        return <SPage >
+        return <SPage
+            footer={<PBarraFooter url={'/'} />}
+        >
             <SHr h={24} />
             <Container loading={!this?.state?.data}>
 
@@ -410,7 +413,7 @@ export default class cd extends React.Component {
                                         es: "Contacta a tu jefe para consultar el código",
                                         en: "Contact your boss to consult the code",
                                     }}>
-                                        
+
 
                                     </SText> : null
                                 }
@@ -496,12 +499,12 @@ export default class cd extends React.Component {
                     <SView
                         col={"xs-12"}
                         center
-                        backgroundColor={STheme.getTheme() == 'dark' ? STheme.color.darkGray: STheme.color.card} // Fondo más oscuro para modo oscuro
+                        backgroundColor={STheme.getTheme() == 'dark' ? STheme.color.darkGray : STheme.color.card} // Fondo más oscuro para modo oscuro
                         padding={16}
                         style={{
                             borderRadius: 16,
                             borderWidth: 2,
-                            borderColor:  STheme.color.black+"35",
+                            borderColor: STheme.color.black + "35",
                             shadowColor: "#000",
                             shadowOffset: { width: 0, height: 4 },
                             shadowOpacity: 0.3,
