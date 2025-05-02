@@ -26,5 +26,8 @@ export default {
         return {
             fontSize: 12,
         }
+    },
+    iconSize: () => {
+        return 30
     }
 }

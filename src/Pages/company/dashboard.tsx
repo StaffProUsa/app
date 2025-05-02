@@ -159,6 +159,7 @@ export default class dashboard extends Component {
           colors={Config.table.styles()}
           cellStyle={Config.table.cellStyle()}
           textStyle={Config.table.textStyle()}
+          iconSize={Config.table.iconSize()}
           selectType='single'
 
           onSelect={(e) => {
