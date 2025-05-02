@@ -991,7 +991,7 @@ export default class users extends Component {
                                                     </SView>
 
 
-                                                    <SView col={"xs-9"} style={{ paddingLeft: 6 }}>
+                                                    <SView col={"xs-10"} style={{ paddingLeft: 6 }}>
                                                         {a.map(p => (
 
                                                             <SView key={p.key_staff_usuario} style={{ marginBottom: 6 }}>
