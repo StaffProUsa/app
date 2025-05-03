@@ -254,8 +254,10 @@ export default class dashboard extends Component {
               textAlign: "right"
             }}
             dataType='date'
-            data={e => new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").date}
-            dateFormat='MONTH dd, yyyy'
+            // data={e => new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").date}
+            // dateFormat='MONTH dd, yyyy'
+            data={e => new SDate(e.row.evento.fecha, "yyyy-MM-dd").date}
+            format={e => new SDate(e.data).toString("yyyy-MM-dd")}
           // format={e => new SDate(e.data).toString("MONTH dd, yyyy")}
 
           />

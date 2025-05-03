@@ -379,6 +379,8 @@ export default class history extends Component {
                 <SHr height={25} />
                 <SelectEntreFechas
                     fecha_inicio={new SDate().setDay(1).toString("yyyy-MM-dd")}
+                    // fecha_inicio=''
+                    // fecha_fin=''
                     onChange={e => {
                         this.entrefecha = e;
                         this.loadData(e)
