@@ -486,7 +486,7 @@ export default class MoveStaff extends Component {
                     <DinamicTable.Col key={"alta"} width={130} data={p => new SDate(p.row.fecha_on).toString("MONTH dd, yyyy")} label='Fecha de alta' />
                     <DinamicTable.Col key={"position"} label='Posición' width={50}
                         data={e => ""}
-                        customComponent={e => <SView height={20} onPress={() => { SNavigation.navigate("/perfil/staff_tipo", { key_usuario: e.row.key_usuario, key_company: this.key_company }) }}><SIcon name='iposition' width={20} height={20} fill={STheme.color.text} /></SView>}
+                        customComponent={e => <SView height={20} onPress={() => { SNavigation.navigate("/perfil/staff_tipo_adm", { key_usuario: e.row.key_usuario, key_company: this.key_company }) }}><SIcon name='iposition' width={20} height={20} fill={STheme.color.text} /></SView>}
                     />
                     <DinamicTable.Col
                         key={"posicion"}
