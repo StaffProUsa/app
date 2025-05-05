@@ -162,7 +162,7 @@ export default class Registro extends React.Component {
               }).then(e => {
                 this.setState({ loading: false })
 
-                if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount()
+                if (eventos.INSTANCE) eventos.INSTANCE.loadData()
                 if (event.INSTANCE) event.INSTANCE.componentDidMount()
                 SNavigation.goBack(this.backAlternative.bind(this));
               }).catch(e => {
@@ -185,8 +185,17 @@ export default class Registro extends React.Component {
               }).then(e => {
                 this.setState({ loading: false })
 
-                if (eventos.INSTANCE) eventos.INSTANCE.componentDidMount()
-                SNavigation.replace("/company/event", { key_evento: e.data.key })
+                try {
+                  if (eventos.INSTANCE) eventos.INSTANCE.loadData({
+                    fecha_inicio: new SDate().toString("yyyy-MM-dd"),
+                    fecha_fin: new SDate().addMonth(1).toString("yyyy-MM-dd"),
+                  })
+
+                  SNavigation.replace("/company/event", { key_evento: e.data.key })
+                } catch (error) {
+
+                }
+
                 // SNavigation.goBack(this.backAlternative.bind(this));
               }).catch(e => {
                 this.setState({ loading: false })

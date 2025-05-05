@@ -66,7 +66,11 @@ export default class event extends Component {
           },
           key_usuario: Model.usuario.Action.getKey()
         }).then(e => {
-          if (eventosPage.INSTANCE) eventosPage.INSTANCE.componentDidMount();
+          try {
+            if (eventosPage.INSTANCE) eventosPage.INSTANCE.loadData();
+          } catch (error) {
+            
+          }
           SNavigation.goBack();
         }).catch(e => {
           SNotification.send({

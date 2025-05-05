@@ -26,7 +26,7 @@ const getColorFromPercentage = (percentage) => {
 }
 
 export default class Eventos extends React.Component {
-    static INSTANCE = null;
+    static INSTANCE:Eventos = null;
 
      constructor(props) {
         super(props);
@@ -67,6 +67,14 @@ export default class Eventos extends React.Component {
       }
 
     loadData({ fecha_inicio, fecha_fin }) {
+        console.log("entro aca")
+        if(!fecha_inicio || !fecha_fin) {
+            fecha_inicio = this.state.fecha_inicio ?? new SDate().setDay(1).toString("yyyy-MM-dd");
+            fecha_fin = this.state.fecha_fin ?? new SDate().addMonth(1).toString("yyyy-MM-dd");
+        }
+        this.state.fecha_inicio = fecha_inicio;
+        this.state.fecha_fin = fecha_fin;
+
         SSocket.sendPromise({
             component: "evento",
             // type: "getMisTrabajos",
