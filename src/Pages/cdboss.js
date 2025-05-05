@@ -211,32 +211,32 @@ class cdboss extends Component {
                 </SView><SHr height={16} />
                 <SView row col={"xs-12"} >
                     <CuadradoInfo language={{
-                        es: "Numero de personas sin clock in",
+                        es: "Número de personas sin clock in",
                         en: "Number of people without clock in",
-                       
-                    }} label={"Numero de personas sin clock in"}
+
+                    }} label={"Número de personas sin clock in"}
                         number={this.state?.data?.not_clockin ?? 0}
-                        onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff ,sta:"PENDING"})}
+                        onPress={() => SNavigation.navigate("/boss", { key_staff: this.key_staff, sta: "PENDING" })}
                         color={STheme.color.danger}
                     />
                     <SView style={{
                         width: 16
                     }} />
                     <CuadradoInfo language={{
-                        es: "Numero de personas trabajando",
+                        es: "Número de personas trabajando",
                         en: "Number of people working",
-                    }} label={"Numero de personas trabajando"} color={STheme.color.warning}
+                    }} label={"Número de personas trabajando"} color={STheme.color.warning}
                         number={this.state?.data?.cantidad_en_curso ?? 0}
-                        onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff ,sta:"READY"})} />
+                        onPress={() => SNavigation.navigate("/boss", { key_staff: this.key_staff, sta: "READY" })} />
                     <SView style={{
                         width: 16
                     }} />
                     <CuadradoInfo language={{
-                        es: "Numero de personas que trabajaron",
+                        es: "Número de personas que trabajaron",
                         en: "Number of people who worked",
-                    }} label={"Numero de personas que trabajaron"} color={STheme.color.success}
+                    }} label={"Número de personas que trabajaron"} color={STheme.color.success}
                         number={this.state?.data?.cantidad_clockout ?? 0}
-                        onPress={() => SNavigation.navigate("/boss",{ key_staff: this.key_staff ,sta:"COMPLETED"})} />
+                        onPress={() => SNavigation.navigate("/boss", { key_staff: this.key_staff, sta: "COMPLETED" })} />
                 </SView>
                 <SHr h={12} />
                 {/* <SText onPress={() => SNavigation.navigate("/boss")}>{"GO TO BOSS"}</SText> */}
@@ -265,7 +265,7 @@ class cdboss extends Component {
                 <SHr h={30} />
                 <Mapa height={400} data={this.state.data} />
 
-
+                <SHr h={110} />
             </Container>
 
 
@@ -295,7 +295,7 @@ const ItemImage = ({ src, label }) => {
 
 }
 
-const CuadradoInfo = ({ onPress, height, color, label, language ,number }) => {
+const CuadradoInfo = ({ onPress, height, color, label, language, number }) => {
     return <SView onPress={onPress} style={{
 
         flex: 1,
@@ -308,7 +308,7 @@ const CuadradoInfo = ({ onPress, height, color, label, language ,number }) => {
 
     }} center padding={5} >
         <SText center fontSize={22} bold>{number}</SText>
-        <SText center language={language}/>
+        <SText center language={language} />
 
     </SView>
 }

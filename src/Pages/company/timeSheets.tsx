@@ -25,8 +25,8 @@ const Col = DinamicTable.Col<DataType>
 
 const ImageLabel = ({ label, src, textStyle }) => {
   return <SView row >
-    <SView width={16} height={16} style={{ borderRadius: 100, overflow: "hidden", backgroundColor: STheme.color.card }}>
-      <SImage src={src} style={{
+    <SView width={20} height={20} style={{ borderRadius: 100, overflow: "hidden", backgroundColor: STheme.color.card }}>
+      <SImage enablePreview src={src} style={{
         resizeMode: "cover"
       }} />
     </SView>

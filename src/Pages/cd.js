@@ -440,9 +440,11 @@ export default class cd extends React.Component {
                                 }}>
                                     <SText color={STheme.color.white} fontSize={16}>!</SText>
                                 </SView>
-                                <SText bold color={STheme.color.warning} fontSize={16}>
-                                    ESTE EVENTO NO TIENE JEFE
-                                </SText>
+                                <SText bold color={STheme.color.warning} fontSize={16} language={{
+                                    es: "No tienes jefe asignado para este evento",
+                                    en: "You do not have a boss assigned for this event",
+                                }}/>
+                                   
                             </SView>
                         </SView>
                 }
@@ -648,7 +650,7 @@ export default class cd extends React.Component {
             }}></SText> */}
 
 
-            {/* <SHr h={100} /> */}
+            <SHr h={80} />
 
         </SPage >
     }

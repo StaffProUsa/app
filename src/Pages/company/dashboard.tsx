@@ -16,8 +16,8 @@ const Col = DinamicTable.Col<DataType>
 
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
   return <SView row >
-    <SView width={16} height={16} style={{ borderRadius: 100, overflow: "hidden", backgroundColor: STheme.color.card }}>
-      <SImage src={src} style={{
+    <SView width={20} height={20} style={{ borderRadius: 100, overflow: "hidden", backgroundColor: STheme.color.card }}>
+      <SImage enablePreview src={src} style={{
         resizeMode: "cover"
       }} />
     </SView>
@@ -254,8 +254,10 @@ export default class dashboard extends Component {
               textAlign: "right"
             }}
             dataType='date'
-            data={e => new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").date}
-            dateFormat='MONTH dd, yyyy'
+            // data={e => new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").date}
+            // dateFormat='MONTH dd, yyyy'
+            data={e => new SDate(e.row.evento.fecha, "yyyy-MM-dd").date}
+            format={e => new SDate(e.data).toString("yyyy-MM-dd")}
           // format={e => new SDate(e.data).toString("MONTH dd, yyyy")}
 
           />
