@@ -136,10 +136,10 @@ export default class add extends Component {
             loading: false
         };
     }
-    handleHorarioChange = ({ startTime, endTime }) => {
-        this.setState({ startTime, endTime }); // Actualizar el estado con las horas seleccionadas
-        console.log("startTime", startTime, "endTime", endTime);
-    };
+    // handleHorarioChange = ({ startTime, endTime }) => {
+    //     this.setState({ startTime, endTime }); // Actualizar el estado con las horas seleccionadas
+    //     console.log("startTime", startTime, "endTime", endTime);
+    // };
 
 
 
@@ -173,14 +173,17 @@ export default class add extends Component {
             if (e.data.fecha_inicio) {
                 const hi = new SDate(e.data.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD")
                 this._ref["hora_inicio"].setValue(hi.toString("HH"))
-                console.log(hi);
+                this.state.startTime = hi.toString("hh:mm")
+                this.state.fecha = hi.toString("yyyy-MM-dd")
+                // console.log(hi);
             }
             // this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
             if (e.data.fecha_fin) {
                 this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"))
+                this.state.endTime = new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm")
             }
             this._ref["nivel_ingles"].setValue(e.data.nivel_ingles)
-            console.log(e);
+            // console.log(e);
 
             SSocket.sendPromise({
                 component: "staff_tipo",
@@ -248,7 +251,11 @@ export default class add extends Component {
 
         // const currentDate = new SDate().toString("yyyy-MM-dd");
         const fecha_inicio = new SDate(this.state.fecha + "T" + this.state.startTime + ":00", "yyyy-MM-ddThh:mm:ss");
-        const fecha_fin = new SDate(this.state.fecha + "T" + this.state.endTime + ":00", "yyyy-MM-ddThh:mm:ss");
+        let fecha_fin = new SDate(this.state.fecha + "T" + this.state.endTime + ":00", "yyyy-MM-ddThh:mm:ss");
+        if( !this.state.endTime ){
+            fecha_fin = new SDate(this.state.fecha + "T" + this.state.startTime + ":00", "yyyy-MM-ddThh:mm:ss");
+            fecha_fin.addDay(1);   
+        }
         if (fecha_inicio.getTime() > fecha_fin.getTime()) {
             fecha_fin.addDay(1);
         }
@@ -284,8 +291,8 @@ export default class add extends Component {
                     ...this.state.data,
                     "descripcion": val.descripcion,
                     "observacion": val.observacion,
-                    "fecha_inicio": fecha_inicio.toString("yyyy-MM-dd hh:mm"),
-                    "fecha_fin": fecha_fin.toString("yyyy-MM-dd hh:mm"),
+                    "fecha_inicio": fecha_inicio.toString("yyyy-MM-dd hh:mmTZD"),
+                    "fecha_fin": fecha_fin.toString("yyyy-MM-dd hh:mmTZD"),
                     // "fecha_fin": `${endDate} ${formatTime(val.endTime)}`,
                     cantidad: val.cantidad,
                     nivel_ingles: val.nivel_ingles,
@@ -459,7 +466,7 @@ export default class add extends Component {
 
                             this._ref["hora_inicio"].setValue(resp);
                         }
-                    })} /> */}
+                    })} />  */}
                     <Input col={"xs-12 sm-5"} inputStyle={{
                         height: 40,
                         borderRadius: 4,
@@ -501,33 +508,116 @@ export default class add extends Component {
                             })
                         }}
                     />
-                    
-                <SHr h={20} />
-                <SView col={"xs-12 sm-5"} >
-                    <Horario onTimeChange={this.handleHorarioChange} />
+
+                    <SHr h={10} />
+
+                    {/* <SView col={"xs-12 sm-5"} >
+                        <Horario onTimeChange={this.handleHorarioChange} />
+                    </SView> */}
+
+
+
+
+                    <Input col={"xs-12 sm-6"} inputStyle={{
+                        height: 40,
+                        borderRadius: 4,
+                        backgroundColor: STheme.color.card,
+                        color: STheme.color.text,
+                    }}
+                        // infoStyle={{
+                        //     color: STheme.color.text,
+                        //     fontSize: 12,
+                        // }}
+                        required
+                        ref={r => this._ref["hora_inicio"] = r}
+                        keyboardType="numeric"
+                        label={hora_inicio}
+                        labelStyle={{ color: STheme.color.text, fontSize: 12, fontFamily: "roboto", marginTop: 10 }}
+                        placeholder="HH:MM"
+                        // filter={this.filterHorario.bind(this)}
+                        onPress={(e) => {
+                            InputFloat.open({
+                                e: e, width: 120, height: 160,
+                                style: {
+                                    backgroundColor: STheme.color.background,
+                                    borderRadius: 4
+                                },
+                                render: () => {
+                                    return <SView flex height card>
+                                        <InputHora defaultValue={formatTime(this._ref["hora_inicio"].getValue())} onChange={val => {
+                                            this.state.startTime = val;
+
+                                            if (this._ref["hora_inicio"]) {
+                                                console.log(val);
+                                                this._ref["hora_inicio"].setValue(new SDate(val, "hh:mm").toString("HH"))
+                                            }
+                                        }} />
+                                    </SView>
+                                }
+                            });
+                        }}
+                    // onChangeText={e => {
+                    //     // this._ref["hora_inicio"].setValue(e);
+                    //     this.state.hora_fin = e
+                    // }}
+                    />
+
+                    <Input col={"xs-12 sm-5"} inputStyle={{
+                        height: 40,
+                        borderRadius: 4,
+                        backgroundColor: STheme.color.card,
+                        color: STheme.color.text,
+                    }}
+                        // infoStyle={{
+                        //     color: STheme.color.text,
+                        //     fontSize: 12,
+                        // }}
+                        ref={r => this._ref["hora_fin"] = r}
+                        //   required
+                        keyboardType="numeric"
+                        label={hora_fin}
+                        labelStyle={{ color: STheme.color.text, fontSize: 12, fontFamily: "roboto", marginTop: 10 }}
+                        placeholder="HH:MM"
+                        filter={this.filterHorario.bind(this)}
+                        onPress={(e) => {
+                            InputFloat.open({
+                                e: e, width: 120, height: 160,
+                                style: {
+                                    backgroundColor: STheme.color.background,
+                                    borderRadius: 4
+                                },
+                                render: () => {
+                                    return <SView flex height card>
+                                        <InputHora defaultValue={formatTime(this._ref["hora_fin"].getValue())} onChange={val => {
+                                            this.state.endTime = val;
+
+                                            if (this._ref["hora_fin"]) {
+                                                this._ref["hora_fin"].setValue(new SDate(val, "hh:mm").toString("HH"))
+                                                // this._ref["hora_fin"].setValue(val)
+                                            }
+                                        }} />
+                                    </SView>
+                                }
+                            });
+                        }}
+                    />
+
                 </SView>
-
-                    
-                </SView>
-
-
-
-
 
 
                 {/* <SInput ref={r => this._ref["fecha_inicio"] = r} style={{display:"none"}} /> */}
                 {/* <SInput ref={r => this._ref["fecha_fin"] = r} style={{display:"none"}} /> */}
 
 
-                {/* <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} />
-                    <SInput ref={r => this._ref["hora_fin"] = r} col={"xs-5.5"} label={" "} defaultValue={"23:59"} placeholder={"hh:mm"} required onChangeText={(e => {
-                        const resp = this.filterHorario(e);
-                        if (resp != e) {
+                {/* <SInput ref={r => this._ref["fecha_fin"] = r} defaultValue={this.state.fecha} col={"xs-5.5"} type='date' label={"Fecha Fin"} required placeholder={"yyyy-MM-dd"} /> */}
+                {/* <SInput ref={r => this._ref["hora_fin"] = r} col={"xs-5.5"} label={" "} defaultValue={"23:59"} placeholder={"hh:mm"} required onChangeText={(e => {
+                    const resp = this.filterHorario(e);
+                    if (resp != e) {
 
-                            this._ref["hora_fin"].setValue(resp);
-                        }
-                        // return this.filterHorario(e);
-                    })} /> */}
+                        this._ref["hora_fin"].setValue(resp);
+                    }
+                    // return this.filterHorario(e);
+                })} /> */}
 
                 <SHr h={16} />
 

@@ -67,9 +67,9 @@ export default class event extends Component {
           key_usuario: Model.usuario.Action.getKey()
         }).then(e => {
           try {
-            if (eventosPage.INSTANCE) eventosPage.INSTANCE.loadData();
+            if (eventosPage.INSTANCE) eventosPage.INSTANCE.loadData({});
           } catch (error) {
-            
+            console.log("error", error);
           }
           SNavigation.goBack();
         }).catch(e => {
