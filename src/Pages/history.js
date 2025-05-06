@@ -385,7 +385,7 @@ export default class history extends Component {
                     fecha_inicio={""} 
                     fecha_fin={""}    
                     onChange={e => {
-                        this.entrefecha = e;
+                        
                         this.loadData(e)
                         // this.setState({ fecha_inicio: e.fecha_inicio, fecha_fin: e.fecha_fin })
                     }}
