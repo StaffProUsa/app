@@ -121,6 +121,7 @@ export default class historyAlvaro extends Component {
           }}
           loadData={this.loadData1111.bind(this)}
           colors={Config.table.styles()}
+          iconSize={Config.table.iconSize()}
           cellStyle={Config.table.cellStyle()}
           textStyle={Config.table.textStyle()}
         >
