@@ -137,8 +137,8 @@ export default class timeSheets extends Component {
                 "type": "date",
                 "operator": "between",
                 value: [
-                  new SDate(this.state.fecha_inicio,"yyyy-MM-dd").toString("yyyy-MM-dd")+"T00:00:00",
-                  new SDate(this.state.fecha_fin,"yyyy-MM-dd").toString("yyyy-MM-dd")+"T23:59:59"
+                  new SDate(this.state.fecha_inicio, "yyyy-MM-dd").toString("yyyy-MM-dd") + "T00:00:00",
+                  new SDate(this.state.fecha_fin, "yyyy-MM-dd").toString("yyyy-MM-dd") + "T23:59:59"
                 ]
               })
             }
@@ -404,6 +404,7 @@ export default class timeSheets extends Component {
 
 
         </DinamicTable>
+        <SHr height={70} />
       </SView>
     </SPage>
   }

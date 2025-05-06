@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Text, TextStyle, View } from 'react-native';
-import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SText, STheme, SView, } from 'servisofts-component';
+import { SDate, SHr, SIcon, SImage, SLanguage, SNavigation, SPage, SText, STheme, SView, } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import Model from '../Model';
 import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
 import TableIcon from '../Components/Table/TableIcon';
 import Config from '../Config';
+import PBarraFooter from '../Components/PBarraFooter';
 
 // type DataType = typeof DATATEST[0]
 type DataType = any
@@ -87,7 +88,7 @@ export default class historyAlvaro extends Component {
 
   render() {
     // console.log("cliee " + this.key_cliente_)
-    return <SPage titleLanguage={{ es: "Reporte de asistencia", en: "Timesheet" }} disableScroll>
+    return <SPage titleLanguage={{ es: "Reporte de asistencia", en: "Timesheet" }} disableScroll  footer={<PBarraFooter url={'/company'} />}>
       <SView col={"xs-12"} flex>
         <DinamicTable
           loadInitialState={async () => {
@@ -288,6 +289,7 @@ export default class historyAlvaro extends Component {
           />
 
         </DinamicTable>
+        <SHr height={70} />
       </SView>
     </SPage>
   }

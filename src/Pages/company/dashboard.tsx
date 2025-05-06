@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TextStyle, View } from 'react-native';
-import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView, } from 'servisofts-component';
+import { SDate, SHr, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView, } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
 import BoxMenu from '../../Components/Popups/BoxMenu';
@@ -301,6 +301,7 @@ export default class dashboard extends Component {
                         data={e => e.row.apellido}
                         customComponent={e => <Text style={[e.textStyle as TextStyle, { color: "#f0f" }]} >{e.dataFormat}</Text>} /> */}
         </DinamicTable>
+        <SHr height={70} />
       </SView>
     </SPage>
   }
