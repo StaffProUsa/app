@@ -20,6 +20,7 @@ export default class history extends Component {
     }
     componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
+        this.loadData({fecha_inicio:"2010-01-01", fecha_fin: "3000-01-01"})
 
 
 
@@ -46,8 +47,8 @@ export default class history extends Component {
             // type: "getMisTrabajos",
             type: "getMisTrabajosEntreFechas",
             key_usuario: Model.usuario.Action.getKey(),
-            fecha_inicio: fecha_inicio,
-            fecha_fin: fecha_fin
+            fecha_inicio: fecha_inicio||null,
+            fecha_fin: fecha_fin||null,
         }).then(e => {
             Object.values(e.data).map((obj) => {
                 const f = new SDate(obj.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd")
@@ -69,8 +70,8 @@ export default class history extends Component {
             component: "staff_usuario",
             // type: "getHistorico",
             type: "getHistoricoEntreFechas",
-            fecha_inicio: fecha_inicio,
-            fecha_fin: fecha_fin,
+            fecha_inicio: fecha_inicio||null,
+            fecha_fin: fecha_fin||null,
             key_usuario: Model.usuario.Action.getKey()
         }).then(e => {
             this.setState({ dataResumen: e.data })
@@ -378,9 +379,11 @@ export default class history extends Component {
                 {this.getPerfil()}
                 <SHr height={25} />
                 <SelectEntreFechas
-                    fecha_inicio={new SDate().setDay(1).toString("yyyy-MM-dd")}
+                    //fecha_inicio={new SDate().setDay(1).toString("yyyy-MM-dd")}
                     // fecha_inicio=''
                     // fecha_fin=''
+                    fecha_inicio={""} 
+                    fecha_fin={""}    
                     onChange={e => {
                         this.entrefecha = e;
                         this.loadData(e)
