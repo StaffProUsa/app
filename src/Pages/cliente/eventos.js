@@ -223,7 +223,8 @@ export default class Eventos extends React.Component {
                                         color: STheme.color.success,
                                         time: 5000,
                                     })
-                                    this.componentDidMount();
+                                    // this.componentDidMount();
+                                    this.loadData({ fecha_inicio: this.state.fecha_inicio, fecha_fin: this.state.fecha_fin })
                                 }).catch(e => {
                                     SNotification.send({
                                         title: (lenguaje == "es") ? "Error" : "Error",

@@ -41,7 +41,7 @@ const ItemImage = ({ src, label }) => {
             }} />
         </SView>
         <SView width={4} />
-        <SText fontSize={12} bold color={STheme.color.lightGray}>{label}</SText>
+        <SText fontSize={12} bold color={STheme.color.text}>{label}</SText>
         <SView width={15} />
         <SView row onPress={() => {
 
