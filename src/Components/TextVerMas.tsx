@@ -13,7 +13,7 @@ export default (props: STextProps & { limitString: number }) => {
             onPress={() => {
                 setActive(!active)
             }}
-        >{!active ? SLanguage.select({ en: "View more", es: "Ver mas" }) : SLanguage.select({ en: "View less", es: "Ver menos" })}</SText>
+        >{!active ? SLanguage.select({ en: "View more", es: "Ver más" }) : SLanguage.select({ en: "View less", es: "Ver menos" })}</SText>
         if (active) {
             return <SText {...props}>{txt}{"\n"}{verMas}</SText>
         } else {

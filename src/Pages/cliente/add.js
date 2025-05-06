@@ -125,6 +125,7 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                   // "Correo": { col: "xs-9.5", type: "email", label: "Correo", placeholder: "correo@example.com" },
                   // "Telefono": { col: "xs-5.8", type: "telefono", label: "Telefono", defaultValue: "+1 " },
                }} onSubmit={(val) => {
+                 
 
                   if (this.state.loading) {
                      return;
@@ -173,6 +174,12 @@ Recuerda que cualquier modificación o actualización será comunicada a través
                      if (this.key_company) {
                         val.key_company = this.key_company;
                      }
+                     console.log("OBSERVACIONES");
+                     console.log(val.observacion);
+                     // let observacion = val.observacion.replace(/\\n/g, '\n')
+                     let observacion = val.observacion.replace(/\\(?!n)/g, '')
+                     val.observacion = observacion
+                     // val.observacion = val.observacion.replace(/\\(?!n)/g, '')
                      // this.form.uploadFiles(
                      //     SSocket.api.root + 'upload/' + actividad.component + '/' + e.data.key
                      //   );
