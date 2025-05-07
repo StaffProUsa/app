@@ -190,7 +190,7 @@ export default class staff_tipo_adm_detail extends Component {
                     </SView>
                     <SHr width={20} />
                     <SText col={"xs-6"} fontSize={16} bold>Sueldo</SText>
-                    <SInput col={"xs-6"} defaultValue={this.state.data?.sueldo} onChangeText={(text) => {
+                    <SInput col={"xs-4"} defaultValue={this.state.data?.sueldo} onChangeText={(text) => {
                         this.state.data.sueldo = text;
                         this.setState({ ...this.state })
                     }} fontSize={16} />
