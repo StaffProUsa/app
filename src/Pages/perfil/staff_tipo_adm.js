@@ -75,7 +75,7 @@ const Item = ({ data, onChange }) => {
                     }}
                 />
             </SView>
-            <SHr width={40} />
+            
             <SView width={4} />
             <SText
                 onPress={() => {
@@ -97,6 +97,7 @@ const Item = ({ data, onChange }) => {
                     <SInput col={"xs-5"} />
 
                     <SHr height={20} />
+                
                     <SText col={"xs-12"} fontSize={14} color={STheme.color.text}>
                         {SLanguage.select({ en: "Blocked for:", es: "Bloqueado para:" })}
                     </SText>
@@ -105,8 +106,9 @@ const Item = ({ data, onChange }) => {
                         <SView width={30} height={30} onPress={() => { }}>
                             <SIcon name="Add" />
                         </SView>
+                        
                     </SView>
-
+                    
                     <SView
                         col={"xs-12"}
                         row
