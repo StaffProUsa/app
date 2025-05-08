@@ -8,6 +8,7 @@ export default {
             text: STheme.color.gray,
             // accent: STheme.color.secondary,
             // background: STheme.color.secondary,
+            // accent: STheme.color.secondary,
             header: STheme.color.barColor,
             background: STheme.color.background,
             card: card,

@@ -471,7 +471,7 @@ class boss extends Component {
                         cellStyle={{ alignItems: "flex-end" }}
                         sumExcel
                         excelFormat='0.00'
-                        renderFooter={(p) => {
+                        listFooterComponent={(p) => {
                             if (!p.dinamicTable.dataFiltrada) return null;
                             if (p.dinamicTable.dataFiltrada.length == 0) return null;
                             const total = p.dinamicTable.dataFiltrada.reduce((acc: number, e: any) => {
@@ -498,7 +498,7 @@ class boss extends Component {
                         cellStyle={{ alignItems: "flex-end" }}
                         excelFormat='0.00'
                         sumExcel
-                        renderFooter={(p) => {
+                        listFooterComponent={(p) => {
                             if (!p.dinamicTable.dataFiltrada) return null;
                             if (p.dinamicTable.dataFiltrada.length == 0) return null;
                             console.log(p.dinamicTable.dataFiltrada);
