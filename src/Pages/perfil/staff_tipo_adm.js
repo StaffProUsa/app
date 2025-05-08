@@ -5,12 +5,13 @@ import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
 import MDL from '../../MDL';
+import PButtom from '../../Components/PButtom';
 
 
 const ItemImage = ({ src, label, onRemove }) => {
     return (
         <SView
-            col={"xs-6"}
+            col={"xs-5"}
             style={{
                 padding: 6,
                 marginBottom: 8,
@@ -90,44 +91,95 @@ const Item = ({ data, onChange }) => {
             </SText>
 
             {data.staff_tipo_favorito && (
-                <SView col={"xs-12"} row style={{ marginTop: 10 }}>
-                    <SText col={"xs-6"} fontSize={14} color={STheme.color.text}>
-                        {SLanguage.select({ en: "Salary:", es: "Sueldo:" })} {data.sueldo}
-                    </SText>
-                    <SInput col={"xs-5"} />
+                <SView col={"xs-12"} style={{
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: STheme.color.card,
+    marginTop: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 2
+}}>
 
-                    <SHr height={20} />
-                
-                    <SText col={"xs-12"} fontSize={14} color={STheme.color.text}>
-                        {SLanguage.select({ en: "Blocked for:", es: "Bloqueado para:" })}
-                    </SText>
+    {/* Sueldo y guardar */}
+    <SView row style={{ alignItems: "center", gap: 8 }}>
+    <SText fontSize={14} color={STheme.color.text}>
+        {SLanguage.select({ en: "Salary:", es: "Sueldo:" })}
+    </SText>
+    <SInput
+        style={{
+            flex: 1,
+            height: 40, // altura igual al botón
+            borderRadius: 8,
+            paddingHorizontal: 8,
+            justifyContent: "center"
+        }}
+    />
+<SView style={{ marginTop: 10 }}> {/* Contenedor externo con margen */}
+    <PButtom
+        style={{
+            height: 44,
+            padding:10,
+            paddingHorizontal: 10,
+            borderRadius: 8,
+            justifyContent: "center",
+            backgroundColor: STheme.color.secondary,
+        }}
+        props={{ type: "danger" }}
+        onPress={() => {
+            // Acción del botón
+        }}
+    >
+        {SLanguage.select({ es: "GUARDAR", en: "SAVE" })}
+    </PButtom>
+</SView>
+</SView>
 
-                    <SView col={"xs-12"} row style={{ marginTop: 8, alignItems: "center" }}>
-                        <SView width={30} height={30} onPress={() => { }}>
-                            <SIcon name="Add" />
-                        </SView>
-                        
-                    </SView>
-                    
-                    <SView
-                        col={"xs-12"}
-                        row
-                        style={{
-                            flexWrap: "wrap",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                         
-                            padding: 8,
-                            borderRadius: 8,
-                        }}
-                    >
-                    <ItemImage src={SSocket.api.root + "cliente/" + "a86e1cce-2a1e-4e9e-95ed-78c123d9d0d9"} label={"Cliente 1"} />
-                    <ItemImage src={SSocket.api.root + "cliente/" + "a86e1cce-2a1e-4e9e-95ed-78c123d9d0d9"} label={"Cliente 2"} />
-                    <ItemImage src={SSocket.api.root + "cliente/" + "a86e1cce-2a1e-4e9e-95ed-78c123d9d0d9"} label={"Cliente 3"} />
-                    <ItemImage src={SSocket.api.root + "cliente/" + "a86e1cce-2a1e-4e9e-95ed-78c123d9d0d9"} label={"Cliente 4"} />
-                    <ItemImage src={SSocket.api.root + "cliente/" + "a86e1cce-2a1e-4e9e-95ed-78c123d9d0d9"} label={"Cliente 5"} />
-                    </SView>
-                </SView>
+    {/* Bloqueo */}
+    <SHr height={20} />
+    <SText fontSize={14} color={STheme.color.text}>
+        {SLanguage.select({ en: "Blocked for:", es: "Bloqueado para:" })}
+    </SText>
+
+    <SHr height={8} />
+    <SView row justifyContent="flex-start">
+        <SView
+            style={{
+                borderWidth: 1,
+                borderColor: STheme.color.white,
+                paddingHorizontal: 16,
+                paddingVertical: 8,
+                borderRadius: 8,
+                backgroundColor: STheme.color.card
+            }}
+            onPress={() => { }}
+        >
+            <SText fontSize={14}>{SLanguage.select({ en: "Add lock", es: "Agregar bloqueo" })}</SText>
+        </SView>
+    </SView>
+
+    {/* Lista de clientes */}
+    <SHr height={16} />
+    <SView
+        col={"xs-12"}
+        row
+        style={{
+            flexWrap: "wrap",
+            gap: 10,
+            justifyContent: "flex-start"
+        }}
+    >
+        {[1, 2, 3, 4, 5].map(i => (
+            <ItemImage
+                key={i}
+                src={`${SSocket.api.root}cliente/a86e1cce-2a1e-4e9e-95ed-78c123d9d0d9`}
+                label={`Cliente ${i}`}
+            />
+        ))}
+    </SView>
+</SView>
             )}
         </SView>
     );
@@ -193,7 +245,7 @@ export default class staff_tipo_adm extends Component {
     )}
     contentContainerStyle={{
         flexDirection: "column",
-        width: "100%",
+        width: "90%",
         flexWrap: "wrap",
         padding: 10, // Espaciado general
     }}
