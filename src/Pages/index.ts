@@ -73,6 +73,7 @@ import historyTimeSheet from './historyTimeSheet';
 import icons from "./icons"
 import cd from "./cd"
 import cdboss from './cdboss';
+import PDF from '../Components/PDF';
 const NewPages = SPage.combinePages("/", {
    "": Carga,
    "inicio": Inicio,
@@ -118,7 +119,9 @@ const NewPages = SPage.combinePages("/", {
    "history/timesheet": historyTimeSheet,
    cd,
    cdboss,
-   icons
+   icons,
+   "pdf/factura": PDF.factura,
+   // "pdf/timeSheet": PDF.timeSheet,
 
 })
 const Pages: SPageListProps = {

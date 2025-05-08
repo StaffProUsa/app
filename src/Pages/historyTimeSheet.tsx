@@ -88,7 +88,7 @@ export default class historyAlvaro extends Component {
 
   render() {
     // console.log("cliee " + this.key_cliente_)
-    return <SPage titleLanguage={{ es: "Reporte de asistencia", en: "Timesheet" }} disableScroll  footer={<PBarraFooter url={'/company'} />}>
+    return <SPage titleLanguage={{ es: "Reporte de asistencia", en: "Timesheet" }} disableScroll footer={<PBarraFooter url={'/company'} />}>
       <SView col={"xs-12"} flex>
         <DinamicTable
           loadInitialState={async () => {
@@ -125,6 +125,7 @@ export default class historyAlvaro extends Component {
           iconSize={Config.table.iconSize()}
           cellStyle={Config.table.cellStyle()}
           textStyle={Config.table.textStyle()}
+          listFooterComponent={() => <SHr height={70} />}
         >
 
           <Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
@@ -168,7 +169,7 @@ export default class historyAlvaro extends Component {
                   backgroundColor: color,
                   borderRadius: 4,
                 }}>
-                  <Text style={[e.textStyle as TextStyle, { color: "#fff", fontWeight: "bold", fontSize: 10 }]} >{e.dataFormat}</Text>
+                  <Text style={[e.textStyle as TextStyle, { color: "#fff", fontWeight: "bold", fontSize: 10, }]} >{e.dataFormat}</Text>
                 </SView>
               </SView>
             }} />
@@ -241,7 +242,7 @@ export default class historyAlvaro extends Component {
             cellStyle={{ alignItems: "flex-end" }}
             sumExcel
             excelFormat='0.00'
-            renderFooter={(p) => {
+            footerComponent={(p) => {
               if (!p.dinamicTable.dataFiltrada) return null;
               if (p.dinamicTable.dataFiltrada.length == 0) return null;
               const total = p.dinamicTable.dataFiltrada.reduce((acc: number, e: any) => {
@@ -249,7 +250,7 @@ export default class historyAlvaro extends Component {
               }, 0);
               console.log(total);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderWidth: 1, borderColor: "#99999965", borderTopWidth: 0 }} >
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderWidth: 1, borderColor: "#99999965", borderTopWidth: 0, bottom: 64 }} >
                 <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
@@ -273,7 +274,8 @@ export default class historyAlvaro extends Component {
             cellStyle={{ alignItems: "flex-end" }}
             sumExcel
             excelFormat='0.00'
-            renderFooter={(p) => {
+            footerComponent={(p) => {
+              // listFooterComponent={(p) => {
               if (!p.dinamicTable.dataFiltrada) return null;
               if (p.dinamicTable.dataFiltrada.length == 0) return null;
               const total = p.dinamicTable.dataFiltrada.reduce((acc: number, e: any) => {
@@ -281,7 +283,7 @@ export default class historyAlvaro extends Component {
               }, 0);
               console.log(total);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderRightWidth: 1, borderColor: "#99999965", borderBottomWidth: 1 }} >
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderRightWidth: 1, borderColor: "#99999965", borderBottomWidth: 1, bottom: 64 }} >
                 <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
@@ -289,7 +291,6 @@ export default class historyAlvaro extends Component {
           />
 
         </DinamicTable>
-        <SHr height={70} />
       </SView>
     </SPage>
   }

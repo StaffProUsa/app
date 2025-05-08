@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TextStyle, View } from 'react-native';
+import { Dimensions, Text, TextStyle, View } from 'react-native';
 import { SDate, SHr, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView, } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
@@ -161,14 +161,22 @@ export default class dashboard extends Component {
           textStyle={Config.table.textStyle()}
           iconSize={Config.table.iconSize()}
           selectType='single'
-
+          
+          listFooterComponent={() => {
+            return <SView height={80} />
+          }}
           onSelect={(e) => {
+            let top = e.evt.nativeEvent.pageY;
+            const zz = 170
+            if (e.evt.nativeEvent.pageY + zz > Dimensions.get("window").height) {
+              top = Dimensions.get("window").height - zz
+            }
             SPopup.open({
               key: "popup_menu_alvaro",
               type: "2",
               content: <SView withoutFeedback style={[{
                 position: "absolute",
-                top: e.evt.nativeEvent.pageY,
+                top: top,
                 left: e.evt.nativeEvent.pageX,
                 width: 230,
               }
@@ -301,7 +309,7 @@ export default class dashboard extends Component {
                         data={e => e.row.apellido}
                         customComponent={e => <Text style={[e.textStyle as TextStyle, { color: "#f0f" }]} >{e.dataFormat}</Text>} /> */}
         </DinamicTable>
-        <SHr height={70} />
+        {/* <SHr height={70} /> */}
       </SView>
     </SPage>
   }

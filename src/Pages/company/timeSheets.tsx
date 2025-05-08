@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TextStyle, View } from 'react-native';
+import { Dimensions, Text, TextStyle, View } from 'react-native';
 import { SButtom, SDate, SHr, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView, } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table'
@@ -11,6 +11,7 @@ import Config from '../../Config';
 import PBarraFooter from '../../Components/PBarraFooter';
 import { SelectEntreFechas } from '../../Components/Fechas';
 import InputFecha from '../../Components/NuevoInputs/InputFecha';
+import PDF from '../../Components/PDF';
 
 
 // type DataType = typeof DATATEST[0]
@@ -107,14 +108,19 @@ export default class timeSheets extends Component {
 
       footer={<PBarraFooter url={'/company'} />}>
 
-      <SView col={"xs-8 sm-6 md-4"} row center>
-
+      <SView col={"xs-12"} row >
         <SelectEntreFechas
           onChange={this.handleDateChange}
           fecha_inicio=''
           fecha_fin=''
 
         />
+        <SView card padding={8} onPress={() => {
+          console.log(this.table.dataFiltrada);
+          PDF.timeSheet.handlePress(this.table.dataFiltrada);
+        }}>
+          <SText clean>{"PDF"}</SText>
+        </SView>
 
       </SView>
 
@@ -192,19 +198,26 @@ export default class timeSheets extends Component {
           }}
 
           loadData={this.loadData.bind(this)}
-          colors={Config.table.styles()}
+          // colors={Config.table.styles()}
           cellStyle={Config.table.cellStyle()}
           iconSize={Config.table.iconSize()}
           textStyle={Config.table.textStyle()}
 
           selectType='single'
+          listFooterComponent={() => {
+            return <SView height={80} />
+          }}
           onSelect={(e) => {
+            let top = e.evt.nativeEvent.pageY;
+            if (e.evt.nativeEvent.pageY + 140 > Dimensions.get("window").height) {
+              top = Dimensions.get("window").height - 140
+            }
             SPopup.open({
               key: "popup_menu_alvaro",
               type: "2",
               content: <SView withoutFeedback style={[{
                 position: "absolute",
-                top: e.evt.nativeEvent.pageY,
+                top: top,
                 left: e.evt.nativeEvent.pageX,
                 width: 230,
               }
@@ -212,7 +225,8 @@ export default class timeSheets extends Component {
                 <BoxMenuTimeSheets data={{ ...(e.row as any), key_company: this.key_company_ }}></BoxMenuTimeSheets>
               </SView>
             })
-          }}
+          }
+          }
 
 
 
@@ -347,7 +361,7 @@ export default class timeSheets extends Component {
             cellStyle={{ alignItems: "flex-end" }}
             sumExcel
             excelFormat='0.00'
-            renderFooter={(p) => {
+            footerComponent={(p) => {
               if (!p.dinamicTable.dataFiltrada) return null;
               if (p.dinamicTable.dataFiltrada.length == 0) return null;
               const total = p.dinamicTable.dataFiltrada.reduce((acc: number, e: any) => {
@@ -355,7 +369,7 @@ export default class timeSheets extends Component {
               }, 0);
               console.log(total);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderWidth: 1, borderColor: "#99999965" }} >
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.background} style={{ borderWidth: 1, borderColor: "#99999965", position: "absolute", bottom: 64 }} >
                 <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
@@ -384,7 +398,7 @@ export default class timeSheets extends Component {
             cellStyle={{ alignItems: "flex-end" }}
             excelFormat='0.00'
             sumExcel
-            renderFooter={(p) => {
+            listFooterComponent={(p) => {
               if (!p.dinamicTable.dataFiltrada) return null;
               if (p.dinamicTable.dataFiltrada.length == 0) return null;
               console.log(p.dinamicTable.dataFiltrada);
@@ -392,8 +406,8 @@ export default class timeSheets extends Component {
                 return acc + (e.subtotal ?? 0);
               }, 0);
               // console.log(p.dinamicTable.dataFiltrada);
-              return <SView col={"xs-12"} center backgroundColor={STheme.color.barColor} style={{ borderRightWidth: 1, borderColor: "#99999965", borderBottomWidth: 1 }} >
-                <SText fontSize={7} color={STheme.color.text}>{"Sum:"}</SText>
+              return <SView col={"xs-12"} center backgroundColor={STheme.color.background} style={{ borderRightWidth: 1, borderColor: "#99999965", borderBottomWidth: 1, bottom: 64 }} >
+                <SText fontSize={7} color={STheme.color.text}>{SLanguage.select({ es: "Subtotal", en: "Subtotal" })}</SText>
                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
               </SView>
             }}
@@ -404,8 +418,7 @@ export default class timeSheets extends Component {
 
 
         </DinamicTable>
-        <SHr height={70} />
-      </SView>
-    </SPage>
+      </SView >
+    </SPage >
   }
 }
