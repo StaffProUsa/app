@@ -9,235 +9,235 @@ import * as SPDF from 'servisofts-rn-spdf'
 const fontSize = 14;
 
 const textStyle = {
- fontSize: fontSize,
- font: "Roboto",
- paddingBottom: 4,
+    fontSize: fontSize,
+    font: "Roboto",
+    paddingBottom: 4,
 }
 
 
 
 export default class factura extends Component {
- constructor(props) {
-  super(props);
-  this.state = {
-  };
+    constructor(props) {
+        super(props);
+        this.state = {
+        };
 
- }
+    }
 
- componentDidMount() {
-  this.handlePress();
- }
+    componentDidMount() {
+        this.handlePress();
+    }
 
- espacio() {
-  return <SPDF.View style={{ width: "100%" }}>
-   <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
+    espacio() {
+        return <SPDF.View style={{ width: "100%" }}>
+            <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
 
-   <SPDF.Text style={{ width: "100%", fontSize: 14, fontWeight: "bold", }}>{"- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"}</SPDF.Text>
-   <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
+            <SPDF.Text style={{ width: "100%", fontSize: 14, fontWeight: "bold", }}>{"- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"}</SPDF.Text>
+            <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
 
-  </SPDF.View>
- }
- espacioPunto() {
-  return <SPDF.View style={{ width: "100%" }}>
-   <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
-   <SPDF.Text style={{ width: "100%", fontSize: fontSize * 1.2, fontWeight: "bold", }}>{"......................................................................................................."}</SPDF.Text>
-  </SPDF.View>
- }
+        </SPDF.View>
+    }
+    espacioPunto() {
+        return <SPDF.View style={{ width: "100%" }}>
+            <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
+            <SPDF.Text style={{ width: "100%", fontSize: fontSize * 1.2, }}>{"......................................................................................................."}</SPDF.Text>
+        </SPDF.View>
+    }
 
- handlePress = () => {
-  SPDF.create(<SPDF.Page style={{ width: 464, height: 1500, margin: 24, padding: 0, borderWidth: 0 }} >
-   <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
-
-
-
-
-   <SPDF.View style={{ width: "100%", alignItems: "center", }}>
-    <SPDF.Text style={{ ...textStyle, fontWeight: "bold", }}>FACTURA</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>CON DERECHO A CRÉDITO FISCAL</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle, }}>COMERCIAL TORRICO</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle, }}>CASA MATRIZ</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle, }}>No. Punto de Venta 0</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle, }}>c/ Diego de Bazan s/n comercial minorista, artesanos</SPDF.Text>
-    <SPDF.View style={{ width: "100%", height: 12 }}></SPDF.View>
-    <SPDF.Text style={{ ...textStyle, }}>Tel. +591 70838928</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle, }}>Casa Matriz</SPDF.Text>
-   </SPDF.View>
-   {this.espacio()}
-   <SPDF.View style={{ width: "100%", alignItems: "center", }}>
-    <SPDF.Text style={{ ...textStyle, fontWeight: "bold", }}>NIT</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle, }}>818134019</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle, fontWeight: "bold", }}>N° FACTURA</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle }}>4807</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle, fontWeight: "bold", }}>COD. AUTORIZACION</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle }}>37FA9FD2B704F673DBF7808CF009D5</SPDF.Text>
-    <SPDF.Text style={{ ...textStyle }}>18FAA84366688C822B3F69B1F74</SPDF.Text>
-   </SPDF.View>
-   {this.espacio()}
-
-   <SPDF.View style={{ width: "100%", alignItems: "center", }}>
-    <SPDF.View style={{ width: "100%", flexDirection: "row", }} >
-     <SPDF.View style={{ width: "50%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>NOMBRE/RAZÓN SOCIAL: </SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "50%" }}>
-      <SPDF.Text style={{ ...textStyle, width: "100%" }}>HOTEL RODMOR INVERSIONES S.R.L.</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-    <SPDF.View style={{ width: "100%", flexDirection: "row", }} >
-     <SPDF.View style={{ width: "50%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>NIT/CI/CEX: </SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "50%" }}>
-      <SPDF.Text style={{ ...textStyle }}>419332024</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-    <SPDF.View style={{ width: "100%", flexDirection: "row", }} >
-     <SPDF.View style={{ width: "50%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>COD. CLIENTE: </SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "50%" }}>
-      <SPDF.Text style={{ ...textStyle }}>529408</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-    <SPDF.View style={{ width: "100%", flexDirection: "row", }} >
-     <SPDF.View style={{ width: "50%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>FECHA DE EMISIÓN: </SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "50%" }}>
-      <SPDF.Text style={{ ...textStyle }}>02/05/2025 13:44 PM</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-   </SPDF.View>
-   {this.espacio()}
-   <SPDF.View style={{ width: "100%", alignItems: "center" }}>
-    <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>DETALLE</SPDF.Text>
-    <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
-   </SPDF.View>
-
-   <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-BROCHA 2"}</SPDF.Text>
-   <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-    <SPDF.View style={{ width: "50%" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"1.000 X 12.00"}</SPDF.Text>
-    </SPDF.View>
-    <SPDF.View style={{ width: "50%", alignItems: "end" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"12.00"}</SPDF.Text>
-    </SPDF.View>
-   </SPDF.View>
-
-   <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-BLANCO SINTETICO LITRO"}</SPDF.Text>
-   <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-    <SPDF.View style={{ width: "50%" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"2.000 X 50.00"}</SPDF.Text>
-    </SPDF.View>
-    <SPDF.View style={{ width: "50%", alignItems: "end" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"100.00"}</SPDF.Text>
-    </SPDF.View>
-   </SPDF.View>
-
-   <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-GRIS OSCURO SINTETICO"}</SPDF.Text>
-   <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-    <SPDF.View style={{ width: "50%" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"1.000 X 50.00"}</SPDF.Text>
-    </SPDF.View>
-    <SPDF.View style={{ width: "50%", alignItems: "end" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"50.00"}</SPDF.Text>
-    </SPDF.View>
-   </SPDF.View>
-
-   <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-RODILLO ATLAS"}</SPDF.Text>
-   <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-    <SPDF.View style={{ width: "50%" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"2.000 X 18.00"}</SPDF.Text>
-    </SPDF.View>
-    <SPDF.View style={{ width: "50%", alignItems: "end" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"36.00"}</SPDF.Text>
-    </SPDF.View>
-   </SPDF.View>
-
-   <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-LIJA 220"}</SPDF.Text>
-   <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-    <SPDF.View style={{ width: "50%" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"1.000 X 4.00"}</SPDF.Text>
-    </SPDF.View>
-    <SPDF.View style={{ width: "50%", alignItems: "end" }}>
-     <SPDF.Text style={{ ...textStyle, }}>{"4.00"}</SPDF.Text>
-    </SPDF.View>
-   </SPDF.View>
-   {this.espacioPunto()}
-   <SPDF.View style={{ width: "100%", }}>
-    <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-     <SPDF.View style={{ width: "70%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, }}>{"SUBTOTAL Bs. "}</SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "30%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, }}>{"202.00"}</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-    <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-     <SPDF.View style={{ width: "70%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, }}>{"DESCUENTO Bs. "}</SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "30%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, }}>{"0.00"}</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-    <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-     <SPDF.View style={{ width: "70%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, }}>{"TOTAL Bs. "}</SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "30%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, }}>{"202.00"}</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-    <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-     <SPDF.View style={{ width: "70%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, }}>{"MONTO GIFT CARD Bs. "}</SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "30%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, }}>{"0.00"}</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-    <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-     <SPDF.View style={{ width: "70%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"MONTO A PAGAR Bs. "}</SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "30%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"202.00"}</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-    <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
-     <SPDF.View style={{ width: "70%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"IMPORTE BASE CRÉDITO FISCAL Bs. "}</SPDF.Text>
-     </SPDF.View>
-     <SPDF.View style={{ width: "30%", alignItems: "end" }}>
-      <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"202.00"}</SPDF.Text>
-     </SPDF.View>
-    </SPDF.View>
-    <SPDF.View style={{ width: "100%", height: 24 }}></SPDF.View>
-    <SPDF.Text style={{ ...textStyle }}>SON: DOSCIENTOS DOS 00/100 BOLIVIANOS.</SPDF.Text>
-   </SPDF.View>
-   {this.espacio()}
-   <SPDF.View style={{ width: "100%", height: 8 }}></SPDF.View>
-
-
-   <SPDF.View style={{ width: "100%", justifyContent: "center" }}>
-    <SPDF.Text style={{ ...textStyle, width: "90%", }}>{"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS, EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE ACUERDO A LEY."}</SPDF.Text>
-    <SPDF.View style={{ width: "100%", height: 12 }}></SPDF.View>
-    <SPDF.Text style={{ ...textStyle, width: "80%", }}>{"Ley N° 453: Tienes derecho a un trato equitativo sin discriminación en la oferta de productos."}</SPDF.Text>
-    <SPDF.View style={{ width: "100%", height: 12 }}></SPDF.View>
-    {/* <SPDF.Text style={{ ...textStyle, width: "60%", textAlign: "center", }}> */}
-    <SPDF.Text style={{ ...textStyle, textAlign: "center", width: "80%", }}>{"'Este Documento es la Representación Gráfica de un Documento Fiscal Digital emitido en una modalidad de facturacion en linea."}</SPDF.Text>
-   </SPDF.View>
+    handlePress = () => {
+        SPDF.create(<SPDF.Page style={{ width: 464, margin: 24, padding: 0, borderWidth: 0 }} >
+            <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
 
 
 
 
-  </SPDF.Page >)
- }
+            <SPDF.View style={{ width: "100%", alignItems: "center", }}>
+                <SPDF.Text style={{ ...textStyle, fontWeight: "bold", }}>FACTURA</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>CON DERECHO A CRÉDITO FISCAL</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle, }}>COMERCIAL TORRICO</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle, }}>CASA MATRIZ</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle, }}>No. Punto de Venta 0</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle, }}>c/ Diego de Bazan s/n comercial minorista, artesanos</SPDF.Text>
+                <SPDF.View style={{ width: "100%", height: 12 }}></SPDF.View>
+                <SPDF.Text style={{ ...textStyle, }}>Tel. +591 70838928</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle, }}>Casa Matriz</SPDF.Text>
+            </SPDF.View>
+            {this.espacio()}
+            <SPDF.View style={{ width: "100%", alignItems: "center", }}>
+                <SPDF.Text style={{ ...textStyle, fontWeight: "bold", }}>NIT</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle, }}>818134019</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle, fontWeight: "bold", }}>N° FACTURA</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle }}>4807</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle, fontWeight: "bold", }}>COD. AUTORIZACION</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle }}>37FA9FD2B704F673DBF7808CF009D5</SPDF.Text>
+                <SPDF.Text style={{ ...textStyle }}>18FAA84366688C822B3F69B1F74</SPDF.Text>
+            </SPDF.View>
+            {this.espacio()}
 
- render() {
-  return <SView onPress={this.handlePress.bind(this)}>
-   <Text> Export PDF </Text>
-  </SView>
- }
+            <SPDF.View style={{ width: "100%", alignItems: "center", }}>
+                <SPDF.View style={{ width: "100%", flexDirection: "row", }} >
+                    <SPDF.View style={{ width: "50%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>NOMBRE/RAZÓN SOCIAL: </SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "50%" }}>
+                        <SPDF.Text style={{ ...textStyle, width: "100%" }}>HOTEL RODMOR INVERSIONES S.R.L.</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", flexDirection: "row", }} >
+                    <SPDF.View style={{ width: "50%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>NIT/CI/CEX: </SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "50%" }}>
+                        <SPDF.Text style={{ ...textStyle }}>419332024</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", flexDirection: "row", }} >
+                    <SPDF.View style={{ width: "50%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>COD. CLIENTE: </SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "50%" }}>
+                        <SPDF.Text style={{ ...textStyle }}>529408</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", flexDirection: "row", }} >
+                    <SPDF.View style={{ width: "50%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>FECHA DE EMISIÓN: </SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "50%" }}>
+                        <SPDF.Text style={{ ...textStyle }}>02/05/2025 13:44 PM</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+            </SPDF.View>
+            {this.espacio()}
+            <SPDF.View style={{ width: "100%", alignItems: "center" }}>
+                <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>DETALLE</SPDF.Text>
+                <SPDF.View style={{ width: "100%", height: 4 }}></SPDF.View>
+            </SPDF.View>
+
+            <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-BROCHA 2"}</SPDF.Text>
+            <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                <SPDF.View style={{ width: "50%" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"1.000 X 12.00"}</SPDF.Text>
+                </SPDF.View>
+                <SPDF.View style={{ width: "50%", alignItems: "end" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"12.00"}</SPDF.Text>
+                </SPDF.View>
+            </SPDF.View>
+
+            <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-BLANCO SINTETICO LITRO"}</SPDF.Text>
+            <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                <SPDF.View style={{ width: "50%" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"2.000 X 50.00"}</SPDF.Text>
+                </SPDF.View>
+                <SPDF.View style={{ width: "50%", alignItems: "end" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"100.00"}</SPDF.Text>
+                </SPDF.View>
+            </SPDF.View>
+
+            <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-GRIS OSCURO SINTETICO"}</SPDF.Text>
+            <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                <SPDF.View style={{ width: "50%" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"1.000 X 50.00"}</SPDF.Text>
+                </SPDF.View>
+                <SPDF.View style={{ width: "50%", alignItems: "end" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"50.00"}</SPDF.Text>
+                </SPDF.View>
+            </SPDF.View>
+
+            <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-RODILLO ATLAS"}</SPDF.Text>
+            <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                <SPDF.View style={{ width: "50%" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"2.000 X 18.00"}</SPDF.Text>
+                </SPDF.View>
+                <SPDF.View style={{ width: "50%", alignItems: "end" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"36.00"}</SPDF.Text>
+                </SPDF.View>
+            </SPDF.View>
+
+            <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"621649-LIJA 220"}</SPDF.Text>
+            <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                <SPDF.View style={{ width: "50%" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"1.000 X 4.00"}</SPDF.Text>
+                </SPDF.View>
+                <SPDF.View style={{ width: "50%", alignItems: "end" }}>
+                    <SPDF.Text style={{ ...textStyle, }}>{"4.00"}</SPDF.Text>
+                </SPDF.View>
+            </SPDF.View>
+            {this.espacioPunto()}
+            <SPDF.View style={{ width: "100%", }}>
+                <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                    <SPDF.View style={{ width: "70%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, }}>{"SUBTOTAL Bs. "}</SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "30%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, }}>{"202.00"}</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                    <SPDF.View style={{ width: "70%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, }}>{"DESCUENTO Bs. "}</SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "30%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, }}>{"0.00"}</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                    <SPDF.View style={{ width: "70%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, }}>{"TOTAL Bs. "}</SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "30%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, }}>{"202.00"}</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                    <SPDF.View style={{ width: "70%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, }}>{"MONTO GIFT CARD Bs. "}</SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "30%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, }}>{"0.00"}</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                    <SPDF.View style={{ width: "70%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"MONTO A PAGAR Bs. "}</SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "30%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"202.00"}</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", flexDirection: "row" }} >
+                    <SPDF.View style={{ width: "70%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"IMPORTE BASE CRÉDITO FISCAL Bs. "}</SPDF.Text>
+                    </SPDF.View>
+                    <SPDF.View style={{ width: "30%", alignItems: "end" }}>
+                        <SPDF.Text style={{ ...textStyle, fontWeight: "bold" }}>{"202.00"}</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", height: 24 }}></SPDF.View>
+                <SPDF.Text style={{ ...textStyle }}>SON: DOSCIENTOS DOS 00/100 BOLIVIANOS.</SPDF.Text>
+            </SPDF.View>
+            {this.espacio()}
+            <SPDF.View style={{ width: "100%", height: 8 }}></SPDF.View>
+
+
+            <SPDF.View style={{ width: "100%", alignItems: "center", }}>
+                <SPDF.Text style={{ ...textStyle, width: "80%", textAlign: "center", }}>{"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAÍS, EL USO ILÍCITO SERÁ SANCIONADO PENALMENTE DE ACUERDO A LEY."}</SPDF.Text>
+                <SPDF.View style={{ width: "100%", height: 12 }}></SPDF.View>
+                <SPDF.Text style={{ ...textStyle, width: "80%", textAlign: "center", }}>{"Ley N° 453: Tienes derecho a un trato equitativo sin discriminación en la oferta de productos."}</SPDF.Text>
+                <SPDF.View style={{ width: "100%", height: 12 }}></SPDF.View>
+                {/* <SPDF.Text style={{ ...textStyle, width: "60%", textAlign: "center", }}> */}
+                <SPDF.Text style={{ ...textStyle, textAlign: "center", width: "80%", }}>{"'Este Documento es la Representación Gráfica de un Documento Fiscal Digital emitido en una modalidad de facturacion en linea."}</SPDF.Text>
+            </SPDF.View>
+
+
+
+
+        </SPDF.Page >)
+    }
+
+    render() {
+        return <SView onPress={this.handlePress.bind(this)}>
+            <Text> Export PDF </Text>
+        </SView>
+    }
 }

@@ -4,7 +4,7 @@ import { SText, SView } from 'servisofts-component';
 import * as SPDF from 'servisofts-rn-spdf'
 
 const cols = [
-    { key: "index", label: "#", width: 30 },
+    { key: "index", label: "#", width: 30, },
     { key: "fecha", label: "DATE", width: 65 },
     { key: "name", label: "NAME", width: 170 },
     { key: "arrived", label: "ARRIVED", width: 70 },
