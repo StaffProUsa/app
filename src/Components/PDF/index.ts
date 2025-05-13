@@ -1,9 +1,7 @@
 import timeSheet from "./timeSheet"
 import factura from "./factura"
-import test from "./test"
 const PDF  = {
     timeSheet,
-    factura,
-    test
+    factura
 }
 export default PDF

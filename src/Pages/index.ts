@@ -74,8 +74,8 @@ import icons from "./icons"
 import cd from "./cd"
 import cdboss from './cdboss';
 import PDF from '../Components/PDF';
-import ricky from './ricky';
 
+import testjuampy from './testjuampy';
 const NewPages = SPage.combinePages("/", {
    "": Carga,
    "inicio": Inicio,
@@ -123,8 +123,7 @@ const NewPages = SPage.combinePages("/", {
    cdboss,
    icons,
    "pdf/factura": PDF.factura,
-   "pdf/test": PDF.test,
-   ricky
+   testjuampy
    // "pdf/timeSheet": PDF.timeSheet,
 
 })
