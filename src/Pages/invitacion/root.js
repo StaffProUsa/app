@@ -21,9 +21,10 @@ export default class root extends React.Component {
 
     let ki = SNavigation.getParam("pk")
 
-    let key_inv = ki.replace(/^"|"$/g, "");
+    // let key_inv = ki.replace(/^"|"$/g, "");
 
-    this.key_invitacion = key_inv;
+    // this.key_invitacion = key_inv;
+    this.key_invitacion = ki;
     // this.key_invitacion = SNavigation.getParam("pk");
     // this.key_invitacion = "d62fafb2-7b7d-4125-bd6c-568d72f92431"
   }

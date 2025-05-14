@@ -106,11 +106,7 @@ class Login extends Component {
                 Model.usuario.Action.loginByKey({
                     usuario: usuario.id,
                 }).then(resp => {
-                    // Model.empresa.Action.setEmpresa(null)
-                    // SNavigation.reset("/");
                     this.handleLogin(resp.data, true)
-                    // SNavigation.goBack();
-                    // SNavigation.goBack();
                 }).catch(e => {
                     SPopup.alert("Error al iniciar con el nuevo usuario");
                 })
@@ -130,8 +126,6 @@ class Login extends Component {
                                     usuario: usuario.id,
                                 }).then(resp => {
                                     this.handleLogin(resp.data, true)
-                                    // Model.empresa.Action.setEmpresa(null)
-                                    // SNavigation.goBack();
                                 }).catch(e => {
                                     SPopup.alert("Error al iniciar con el nuevo usuario");
                                 })
@@ -142,8 +136,6 @@ class Login extends Component {
                         }
                     }
                 }
-                // SPopup.alert("Error al registrar usuario");
-                // console.error(e);
             })
         })
     }

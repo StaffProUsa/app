@@ -12,6 +12,7 @@ import {
   SView
 } from 'servisofts-component';
 import Model from '../Model';
+import MDL from '../MDL';
 // import usuario from '../Services/Usuario/Components/usuario';
 
 class Carga extends Component {
@@ -29,9 +30,11 @@ class Carga extends Component {
     const key_usuario = Model.usuario.Action.getKey();
     if(!key_usuario){
       SNavigation.replace('/login');
+      //AQUI BORRÉ
       return;
     }
     SNavigation.replace('/inicio');
+    // MDL.validaciones.componentDidMount();
   }
   componentDidMount() {
     this.hilo();

@@ -5,6 +5,7 @@ import { Platform } from "react-native";
 import { SNavigation, SNotification, STheme, SLanguage } from "servisofts-component";
 import packageInfo from "../../../package.json";
 import Model from "../../Model";
+import Usuario from 'servisofts-rn-usuario';
 
 
 export default class validaciones extends MDLAbstract<EventListener> {
@@ -14,8 +15,10 @@ export default class validaciones extends MDLAbstract<EventListener> {
     async componentDidMount() {
         try {
             await this.validateVersion();
+            await this.validarDatos();
             await this.verificarImagen();
             await this.getStaffTipoFavorito();
+            // SNavigation.replace("/inicio");
 
         } catch (e: any) {
             SNotification.send({
@@ -51,7 +54,7 @@ export default class validaciones extends MDLAbstract<EventListener> {
                 }
                 resolve(true)
             }).catch(e => {
-                resolve(true) // Sin me da error el server igual lo dejo pasar
+                resolve(true) // Sin me da error el server igual lo dejo pasar.
                 console.error(e)
             })
         })
@@ -84,6 +87,43 @@ export default class validaciones extends MDLAbstract<EventListener> {
             })
         }
     };
+
+    validarDatos() {
+        return new Promise((resolve, reject) => {
+            if (!Model.usuario.Action.getKey()) {
+                resolve(true);
+                return;
+            }
+            SSocket.sendPromise({
+                version: "2.0",
+                service: "usuario",
+                component: "usuario",
+                type: "getAllKeys",
+                keys: [Model.usuario.Action.getKey()],
+            }).then((e: any) => {
+                // this.setState({ StaffTipoFavorito: e.data })
+                let user = e.data[Model.usuario.Action.getKey()]?.usuario
+
+                if (!user?.estado_civil || !user?.nivel_ingles ) {
+                    SNavigation.navigate("/registro/redes")
+                    reject(SLanguage.select({
+                        es: "Complete su información.",
+                        en: "Complete your information.",
+                    }))
+                    // reject("No hay staff tipo favorito")
+                    return;
+                    // throw new Error("Imagen no existe");
+                }
+                resolve(true)
+            }).catch(e => {
+                resolve(true)
+                console.error(e);
+            })
+        })
+
+
+    }
+
 
     getStaffTipoFavorito() {
         return new Promise((resolve, reject) => {

@@ -22,7 +22,7 @@ class foto extends Component {
     }
 
     componentWillUnmount() {
-        MDL.validaciones.componentDidMount();
+        // MDL.validaciones.componentDidMount();
     }
 
     icon = (name) => {

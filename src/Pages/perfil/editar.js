@@ -22,6 +22,32 @@ class index extends Component {
     }
     componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
+         this.data = {}
+        SSocket.sendPromise({
+            version: "2.0",
+            service: "usuario",
+            component: "usuario",
+            type: "getAllKeys",
+            keys: [Model.usuario.Action.getKey()],
+        }).then((e ) => {
+            // this.setState({ StaffTipoFavorito: e.data })
+            this.data = e.data[Model.usuario.Action.getKey()].usuario
+            console.log("user", this.data)
+            // this.data = user;
+            // if (!user.Telefono || !user.nivel_ingles) {
+            //     SNavigation.navigate("/registro/redes")
+            //     reject(SLanguage.select({
+            //         es: "Complete su información.",
+            //         en: "Complete your information.",
+            //     }))
+            //     return;
+            // }
+            // resolve(true)
+            this.setState({data: e.data[Model.usuario.Action.getKey()].usuario})
+        }).catch(e => {
+            // resolve(true)
+            console.error(e);
+        })
     }
     componentWillUnmount() {
         SLanguage.removeListener(this.onChangeLanguage)
@@ -29,13 +55,43 @@ class index extends Component {
 
 
     load_data() {
-        this.data = Model.usuario.Action.getUsuarioLog();
-        return this.data;
+        // this.data = Model.usuario.Action.getAllBy({filter:Model.usuario.Action.getKey()});
+        // this.data = Model.usuario.Action.getAllByKey(Model.usuario.Action.getKey());
+        // console.log("this.data", this.data)
+        // this.data = Model.usuario.Action.getUsuarioLog();
+        this.data = {}
+        SSocket.sendPromise({
+            version: "2.0",
+            service: "usuario",
+            component: "usuario",
+            type: "getAllKeys",
+            keys: [Model.usuario.Action.getKey()],
+        }).then((e ) => {
+            // this.setState({ StaffTipoFavorito: e.data })
+            this.data = e.data[Model.usuario.Action.getKey()].usuario
+            console.log("user", this.data)
+            // this.data = user;
+            // if (!user.Telefono || !user.nivel_ingles) {
+            //     SNavigation.navigate("/registro/redes")
+            //     reject(SLanguage.select({
+            //         es: "Complete su información.",
+            //         en: "Complete your information.",
+            //     }))
+            //     return;
+            // }
+            // resolve(true)
+        }).catch(e => {
+            // resolve(true)
+            console.error(e);
+        })
+
+        return this.data
     }
 
     getForm() {
-        if (!this.load_data()) return <SLoad />
-        // var isApi = this.data.gmail_key || this.data.facebook_key
+        // if (!this.load_data()) return
+        // var isApi = this.state?.data?.gmail_key || this.state?.data?.facebook_key
+        if (!this.state.data) return <SLoad />;
 
         // VALIDANDO IDIOMA FORMULARIO
         let lenguaje = SLanguage.language;
@@ -61,17 +117,16 @@ class index extends Component {
         }
 
         //VERFICANDO SI FORMULARIO ESTÁ COMPLETO
-        if (!this.data.Nombres || !this.data.Apellidos || !this.data.Correo || !this.data.Telefono || !this.data.nivel_ingles || !this.data.otros_idiomas) {
+        if (!this.state?.data?.Nombres || !this.state?.data?.Apellidos || !this.state?.data?.Correo || !this.state?.data?.Telefono || !this.state?.data?.nivel_ingles || !this.state?.data?.otros_idiomas) {
 
             SPopup.alert(mensaje1)
 
-            // SNavigation.goBack();
         }
 
 
 
-        console.log((SSocket.api.root + "usuario/" + this.data?.key) + " fff")
-        console.log(this.data)
+        // console.log((SSocket.api.root + "usuario/" + this.data?.key) + " fff")
+        // console.log(this.data)
         return <SForm
             ref={(ref) => { this.form = ref; }}
             style={{
@@ -87,7 +142,7 @@ class index extends Component {
                     placeholder: SLanguage.select({ es: "Nombres", en: "First Name" }),
                     label: SLanguage.select({ es: "Nombres", en: "First Name" }),
                     isRequired: true,
-                    defaultValue: this.data.Nombres,
+                    defaultValue: this.state?.data?.Nombres,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
@@ -95,11 +150,11 @@ class index extends Component {
                     placeholder: SLanguage.select({ es: "Apellidos", en: "Last Name" }),
                     label: SLanguage.select({ es: "Apellidos", en: "Last Name" }),
                     isRequired: true,
-                    defaultValue: this.data.Apellidos,
+                    defaultValue: this.state?.data?.Apellidos,
                     icon: <SIcon name={'InputUser'} fill={STheme.color.text} width={20} height={20} />,
                     height: 54
                 },
-                fecha_nacimiento: { label: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), isRequired: true, placeholder: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), defaultValue: this.data.fecha_nacimiento, type: "date", },
+                fecha_nacimiento: { label: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), isRequired: true, placeholder: SLanguage.select({ es: "Fecha de nacimiento", en: "Date of Birth" }), defaultValue: this.state?.data?.fecha_nacimiento, type: "date", },
                 estado_civil: {
                     label: SLanguage.select({ es: "Estado civil", en: "Marital Status" }),
                     placeholder: SLanguage.select({ es: "Estado civil", en: "Marital Status" }),
@@ -107,7 +162,7 @@ class index extends Component {
                     isRequired: true,
                     defaultValue: "",
                     editable: false,
-                    defaultValue: this.data.estado_civil,
+                    defaultValue: this.state?.data?.estado_civil,
                     onPress: e => {
 
 
@@ -127,7 +182,7 @@ class index extends Component {
                                 return <SView col={"xs-12"} flex card>
                                     <InputSelect
                                         data={["SINGLE", "MARRIED", "DIVORCED", "WIDOWED", "SEPARATED", "OTHER"]}
-                                        defaultValue={this.data.estado_civil}
+                                        defaultValue={this.state?.data?.estado_civil}
                                         onChange={val => {
                                             this.form.setValues({ "estado_civil": val })
                                         }}
@@ -159,7 +214,8 @@ class index extends Component {
                 "Telefono": {
                     placeholder: SLanguage.select({ es: "Teléfono", en: "Phone" }),
                     label: SLanguage.select({ es: "Teléfono", en: "Phone" }),
-                    defaultValue: this.data['Telefono'],
+                    defaultValue: this.state?.data?.Telefono,
+                    // defaultValue: this.state.data['Telefono'],
                     type: 'phone',
                     isRequired: true,
                     height: 54
@@ -169,19 +225,19 @@ class index extends Component {
                     label: SLanguage.select({ es: "Correo electrónico", en: "Email" }),
                     type: 'email',
                     isRequired: true,
-                    defaultValue: this.data.Correo,
+                    defaultValue: this.state?.data?.Correo,
                     icon: <SIcon name={'InputEmail'} fill={STheme.color.text} width={20} height={30} />,
                     height: 54
                 },
                 direccion: {
-                    label: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), isRequired: true, placeholder: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), defaultValue: this.data.direccion,
+                    label: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), isRequired: true, placeholder: SLanguage.select({ es: "Dirección de domicilio", en: "Home Address" }), defaultValue: this.state?.data?.direccion,
                 },
                 nivel_ingles: {
                     placeholder: SLanguage.select({ es: "Nivel de inglés", en: "English level" }),
                     label: nivel_ingles,
                     // type: "select",
                     isRequired: true,
-                    defaultValue: this.data.nivel_ingles,
+                    defaultValue: this.state?.data?.nivel_ingles,
                     editable: false,
                     onPress: e => {
                         InputFloat.open({
@@ -194,7 +250,7 @@ class index extends Component {
                             render: () => {
                                 return <SView col={"xs-12"} flex card>
                                     <InputSelect
-                                        defaultValue={this.data.nivel_ingles}
+                                        defaultValue={this.state?.data?.nivel_ingles}
                                         data={["NONE", "BASIC", "MEDIUM", "ADVANCED"]}
                                         onChange={val => {
                                             this.form.setValues({ "nivel_ingles": val })
@@ -210,7 +266,7 @@ class index extends Component {
                     label: otros_idiomas,
                     // type: "select",
                     isRequired: true,
-                    defaultValue: this.data.otros_idiomas,
+                    defaultValue: this.state?.data?.otros_idiomas,
                     editable: false,
                     onPress: e => {
                         InputFloat.open({
@@ -223,7 +279,7 @@ class index extends Component {
                             render: () => {
                                 return <SView col={"xs-12"} flex card>
                                     <InputSelect
-                                        defaultValue={this.data.otros_idiomas}
+                                        defaultValue={this.state?.data?.otros_idiomas}
                                         data={["US CITIZEN", "GREEN CARD", "WOK PERMIT", "TAX ID OR ITIN", "NONE"]}
                                         onChange={val => {
                                             this.form.setValues({ "otros_idiomas": val })
@@ -238,13 +294,13 @@ class index extends Component {
                 //  placeholder: papeles,
                 //  label: papeles,
                 //  type: 'checkBox',
-                //  defaultValue: this.data.papeles ? this.data.papeles != "false" : false,
+                //  defaultValue: this.state?.data?.papeles ? this.state?.data?.papeles != "false" : false,
                 //  height: 54
                 // },
 
                 // ...(isApi ? {} : {
-                //     Password: { label: "Contraseña", type: "password", isRequired: true, defaultValue: this.data.Password, icon: <SIcon name={"InputPassword"} width={40} height={30} /> },
-                //     RepPassword: { label: "Repetir contraseña", type: "password", isRequired: true, defaultValue: this.data.Password, icon: <SIcon name={"InputRePassword"} width={40} height={30} /> }
+                //     Password: { label: "Contraseña", type: "password", isRequired: true, defaultValue: this.state?.data?.Password, icon: <SIcon name={"InputPassword"} width={40} height={30} /> },
+                //     RepPassword: { label: "Repetir contraseña", type: "password", isRequired: true, defaultValue: this.state?.data?.Password, icon: <SIcon name={"InputRePassword"} width={40} height={30} /> }
                 // }),
             }}
             onSubmit={(values) => {
@@ -252,7 +308,7 @@ class index extends Component {
                     ...this.data,
                     ...values
                 }
-                this.form.uploadFiles(Model.usuario._get_image_upload_path(SSocket.api, this.data.key), "foto_p");
+                this.form.uploadFiles(Model.usuario._get_image_upload_path(SSocket.api, this.state?.data?.key), "foto_p");
                 Model.usuario.Action.editar({
                     data: finalObj,
                     key_usuario: Model.usuario.Action.getKey()

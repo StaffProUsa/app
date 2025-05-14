@@ -393,7 +393,7 @@ export default class users extends Component {
         })
         if (selecteds.length <= 0) return;
 
-        return <SView card padding={2} row width={110}
+        return <SView card padding={2} row width={120}
             style={{
                 backgroundColor: STheme.color.secondary,
                 position: "absolute",
