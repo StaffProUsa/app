@@ -15,7 +15,7 @@ const cols = [
     { key: "location", label: "LOCATION", width: 90 },
 ]
 
-const HEIGHT = 14;
+const HEIGHT = 16;
 const BorderColor = "#CCCCCC"
 const fontSize = 10;
 export default class timeSheet {
@@ -39,31 +39,63 @@ export default class timeSheet {
                     // borderWidth: 1,
                     // borderColor: BorderColor,
                     // borderRadius: 8,
-                    alignItems: "center", justifyContent: "center"
+                    alignItems: "center", justifyContent: "center",
                 }}>
                     <SPDF.Text style={{
                         fontSize: fontSize,
                         font: "Roboto",
                         fontWeight: "bold",
+                        height: HEIGHT + 3,
                     }}>{col.label}</SPDF.Text>
                 </SPDF.View>
             })}
         </SPDF.View>
     }
     static renderItem = (index, obj) => {
+
+
         return <SPDF.View style={{ width: "100%", flexDirection: "row", borderWidth: 1, borderColor: BorderColor }}>
             {cols.map((col, i) => {
-                // let val = col.label;
-                return <SPDF.View key={i} style={{
-                    width: col.width, height: HEIGHT, alignItems: "center", justifyContent: "center",
-                    borderLeftWidth: i == 0 ? 0 : 1,
-                    borderColor: BorderColor,
-                }}>
-                    <SPDF.Text style={{
+                let dato = obj[col.key];
+                if (i == 1) {
+                    let fecha = new Date(dato);
+
+                    let dia = String(fecha.getUTCDate()).padStart(2, '0');
+                    let mes = String(fecha.getUTCMonth() + 1).padStart(2, '0'); // los meses van de 0 a 11
+                    let anio = fecha.getUTCFullYear();
+                    let fechaFormateada = `${dia}-${mes}-${anio}`;
+                    return <SPDF.View key={i} style={{
+                        width: col.width, height: HEIGHT, alignItems: "center", justifyContent: "center",
+                        borderLeftWidth: i == 0 ? 0 : 1,
+                        borderColor: BorderColor,
+                    }}>
+                        <SPDF.Text style={{
+                            fontSize: fontSize,
+                            font: "Roboto",
+                            height: HEIGHT + 3,
+                        }}>{fechaFormateada ?? " "}</SPDF.Text>
+                    </SPDF.View>
+                } else {
+
+
+                    // let val = col.label;
+                    return <SPDF.View key={i} style={{
+                        width: col.width, height: HEIGHT, alignItems: "center", justifyContent: "center",
+                        borderLeftWidth: i == 0 ? 0 : 1,
+                        borderColor: BorderColor,
+                    }}>
+                        {/* <SPDF.Text style={{
                         fontSize: fontSize,
                         font: "Roboto",
-                    }}>{obj[col.key] ?? " "}</SPDF.Text>
-                </SPDF.View>
+                        height: HEIGHT + 3,
+                    }}>{obj[col.key] ?? " "}</SPDF.Text> */}
+                        <SPDF.Text style={{
+                            fontSize: fontSize,
+                            font: "Roboto",
+                            height: HEIGHT + 3,
+                        }}>{dato ?? " "}</SPDF.Text>
+                    </SPDF.View>
+                }
             })}
         </SPDF.View>
     }
