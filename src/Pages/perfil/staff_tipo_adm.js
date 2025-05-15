@@ -131,7 +131,7 @@ const Item = ({ data, onChange }) => {
             />
         
         <SView style={{ marginTop: 10 }}>
-            <PButtom
+            <PButtom withe
                 style={{
                     height: 43.5,
                     padding: 10,
@@ -195,7 +195,7 @@ const Item = ({ data, onChange }) => {
             ))}
         </SView>
         <SHr height={10} />
-        <PButtom
+        <PButtom withe
                 style={{
                     height: 40,
                     padding: 10,
