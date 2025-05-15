@@ -28,16 +28,6 @@ const inputHandler = (text, nro) => {
   }
 };
 
-// const actualizarParametro = () => {
-//   const params = new URLSearchParams(window.location.search);
-//   console.log("nuevaUrlparams", params);
-//   params.set('key', this.state.key);
-//   console.log("nuevaUrlparams", params);
-//   const nuevaUrl = `${window.location.pathname}?${params.toString()}`;
-//   window.history.pushState({}, '', nuevaUrl);
-//   console.log("nuevaUrl", nuevaUrl);
-// };
-
 export default class Registro extends React.Component {
   _ref;
   _ref2;
@@ -50,7 +40,6 @@ export default class Registro extends React.Component {
     this._ref = {};
     this._ref2 = {};
   }
-
   onChangeLanguage(language) {
     this.setState({ ...this.state })
   }
@@ -64,7 +53,6 @@ export default class Registro extends React.Component {
         key: this.key
       }).then(e => {
         this.setState({ data: e.data })
-        this.setState({ keyEvento: this.key })
       }).catch(e => {
 
       })
@@ -72,13 +60,6 @@ export default class Registro extends React.Component {
   }
   componentWillUnmount() {
     SLanguage.removeListener(this.onChangeLanguage)
-  }
-
-  actualizarUrl(key) {
-    const params = new URLSearchParams(window.location.search);
-    params.set('key', key);
-    const nuevaUrl = `${window.location.pathname}?${params.toString()}`;
-    window.history.pushState({}, '', nuevaUrl);
   }
   getregistro() {
     let data = {};
@@ -204,21 +185,13 @@ export default class Registro extends React.Component {
                 key_usuario: Model.usuario.Action.getKey(),
               }).then(e => {
                 this.setState({ loading: false })
-                this.setState({ keyEvento: e.data.key })
-                this.actualizarUrl(e.data.key);
-                SNotification.send({
-                  title: (lenguaje == "es") ? "Registro exitoso" : "Successful registration",
-                  body: (lenguaje == "es") ? "El evento se ha registrado correctamente" : "The event has been registered successfully",
-                  color: STheme.color.success,
-                  time: 5000,
-                })
 
                 try {
                   if (eventos.INSTANCE) eventos.INSTANCE.loadData({
 
                   })
 
-                  // SNavigation.replace("/company/event", { key_evento: e.data.key })
+                  SNavigation.replace("/company/event", { key_evento: e.data.key })
                 } catch (error) {
                 }
 
@@ -249,32 +222,6 @@ export default class Registro extends React.Component {
       SNavigation.goBack();
     }
   }
-  staffTipo() {
-    return (<>
-      <SHr height={30} />
-      <SView style={{
-        borderBottomWidth: 2,
-        borderColor: STheme.color.card,
-      }} />
-      <SView col={'xs-12'} backgroundColor={'transparent'} center row>
-        <SHr height={20} />
-        <SView
-          col={'xs-11 sm-10 md-8 lg-6 xl-4'}
-          backgroundColor={'transparent'}>
-          <SText fontSize={18} font={'Roboto'} bold language={{
-            en: "Staff type",
-            es: "Tipo de personal"
-          }} />
-          {/* {this.getregistro()} */}
-
-        </SView>
-      </SView>
-    </>
-    )
-  }
-
-
-
   render() {
     // var reducer = this.props.state[evento.component + 'Reducer'];
     // if (reducer.type == 'registro' || reducer.type == 'editar') {
@@ -326,22 +273,6 @@ export default class Registro extends React.Component {
                 <SText color={STheme.color.white} font={'Roboto'} fontSize={14} bold language={{ en: this.key ? "SAVE" : "REGISTER", es: this.key ? "GUARDAR" : "REGISTRAR" }} />
               }    </SView>
           </SView>
-
-          {/* STAFF - TIPO */}
-          {this.state.keyEvento ?
-            // <SView col={'xs-12'} center >
-            //   <Staff.SelectTipo
-            //     key_evento={this.state.keyEvento}
-            //     ref={(ref) => this._ref2 = ref}
-            //     onChange={(e) => {
-            //       console.log(e);
-            //     }} />
-            // </SView>
-            this.staffTipo()
-            : null}
-          {/* STAFF - TIPO */}
-
-
           <SHr height={105} />
         </SPage>
       </>
