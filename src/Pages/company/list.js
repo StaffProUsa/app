@@ -72,7 +72,7 @@ class index extends DPA.list {
         return data.estado != 0
     }
 
-    $menu(){
+    $menu() {
         let menu = super.$menu();
         // menu.push({
         //     key: "report",
@@ -81,15 +81,17 @@ class index extends DPA.list {
         //     onPress: (data) => {
         //         SNavigation.navigate("/reportes/reportCompany")
         //     }
-        // })
-        menu.push({
-            key: "dasboard",
-            icon: "Excel",
-            label:"Dashboard",
-            onPress: (data) => {
-                SNavigation.navigate("/company/dashboard")
-            }
-        })
+        // }) 
+        if (Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "dashboard" })) {
+            menu.push({
+                key: "dasboard",
+                icon: "Excel",
+                label: "Dashboard",
+                onPress: (data) => {
+                    SNavigation.navigate("/company/dashboard")
+                }
+            })
+        }
         return menu;
     }
 
