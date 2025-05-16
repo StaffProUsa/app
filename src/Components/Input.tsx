@@ -11,6 +11,7 @@ const font = 'Montserrat'
 
 type InputProps = {
     label?: string,
+    value?: any,
     info?: string,
     placeholder?: string,
     col?: any,
@@ -71,6 +72,11 @@ const Input = forwardRef((props: InputProps, ref) => {
         },
     }));
 
+    if (props.value != undefined) {
+        if (props.value != value) {
+            setValue(props.value);
+        }
+    }
     return <SView col={props.col}>
         {!props.label ? null : <>
             <SText fontSize={12} font={"Montserrat"} color={color} style={props.labelStyle}>{props.label}</SText>

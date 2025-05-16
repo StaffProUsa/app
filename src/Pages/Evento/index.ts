@@ -11,6 +11,7 @@ export const Parent = {
 }
 export default SPage.combinePages(Parent.name, {
     "": Perfil,
-    registro,
-    registro2
+    // "registro": registro,
+    "registro": registro2,
+    // registro2
 })
