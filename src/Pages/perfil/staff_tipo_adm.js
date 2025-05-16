@@ -56,167 +56,53 @@ const ItemImage = ({ src, label, onRemove }) => {
  );
 };
 
+
+
+
+
+
 const Item = ({ data, onChange }) => {
  if (!data.descripcion) return null;
  const isChecked = !!data.staff_tipo_favorito;
 
  return (
-  <SView padding={10} row center
-   style={{
-    height: isChecked ? "auto" : 35,
-    overflow: "hidden",
-
-   }}>
-   <SView width={20} height={20}>
-    <SInput
-     type="checkBox"
-     defaultValue={!!data.staff_tipo_favorito}
-     onChangeText={(value) => {
-      onChange(value);
-     }}
-     width={20}
-     height={20}
-     style={{
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: STheme.color.gray,
-      overflow: "hidden",
-     }}
-    />
+  <>
+   <SView col={"xs-12"} padding={10} row center style={{ height: isChecked ? "auto" : 40, overflow: "hidden" }}>
+    <SView col={"xs-12"} row>
+     <SView flex backgroundColor='transparent' onPress={() => { isChecked ? onChange(false) : onChange(true); }}>
+      <SText fontSize={16} color={STheme.color.text}>{data.descripcion}</SText>
+     </SView>
+     <SView width={25} height={25} backgroundColor={!isChecked ? "transparent" : "#1F05B0"} border="white" style={{ borderRadius: 2, }} />
+    </SView>
    </SView>
+  </>
+ );
+};
 
-   <SView width={4} />
-   <SText
-    onPress={() => {
-     SNavigation.navigate("/perfil/staff_tipo_detail", {
-      key: data.key,
-      key_usuario: SNavigation.getParam("key_usuario"),
-     });
-    }}
-    fontSize={16}
-   >
-    {data.descripcion}
-   </SText>
+const Item2 = ({ data, onChange }) => {
+ if (!data.descripcion) return null;
+ const isChecked = !!data.staff_tipo_favorito;
 
-
-
-   {data.staff_tipo_favorito && (
-    <SView col={"xs-12"} style={{
-     padding: 16,
-     borderRadius: 12,
-     backgroundColor: STheme.color.card,
-     marginTop: 16,
-     shadowColor: "#000",
-     shadowOffset: { width: 0, height: 2 },
-     shadowOpacity: 0.1,
-     shadowRadius: 6,
-     elevation: 2
-    }}>
-     <SView row style={{ alignItems: "center", gap: 8 }}>
-      <SText fontSize={14} color={STheme.color.text}>
-       {SLanguage.select({ en: "Salary:", es: "Sueldo:" })}
-      </SText>
-      <SInput
-       values={data.staff_tipo_favorito.sueldo}
-       type="money"
-       onChangeText={(value) => {
-        data.staff_tipo_favorito.sueldo = value;
-       }}
-       style={{
-        flex: 1,
-        height: 40,
-        borderRadius: 8,
-        paddingHorizontal: 8,
-        justifyContent: "center"
-       }}
-      />
-
-      <SView style={{ marginTop: 10 }}>
-       <PButtom withe
-        style={{
-         height: 43.5,
-         padding: 10,
-         paddingHorizontal: 10,
-         borderRadius: 8,
-         justifyContent: "center",
-         backgroundColor: STheme.color.secondary,
-        }}
-        props={{ type: "danger" }}
-        onPress={() => {
-         // Acción del botón
-        }}
-       >
-        {SLanguage.select({ es: "Guardar", en: "Save" })}
-       </PButtom>
-      </SView>
+ return (
+  <>
+   <SView col={"xs-12 md-10"} center row style={{ height: 55, overflow: "hidden" }} backgroundColor='#2D2D2D' >
+    <SView col={"xs-9.5"} center row   >
+     <SView flex  >
+      <SText fontSize={14} color={"#777777"} style={{ textAlign: 'right' }}> {SLanguage.select({ en: "Salary:", es: "Sueldo:" })} </SText>
+     </SView>
+     <SView flex center  >
+      <SInput type="money" height={34} color={STheme.color.text} />
      </SView>
     </SView>
-   )}
 
-
-   <SHr height={0} />
-
-   {/* oculta */}
-   {data.staff_tipo_favorito && (
-    <SView
-     col={"xs-12"}
-     style={{
-      padding: 16,
-      borderRadius: 12,
-      backgroundColor: STheme.color.card,
-      marginTop: 16,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
-      elevation: 2,
-     }}
-    >
-     <SView row style={{ alignItems: "center", justifyContent: "space-between" }}>
-      <SText style={{ marginBottom: 8 }} fontSize={14} color={STheme.color.text}>
-       {SLanguage.select({ en: "Blocked for:", es: "Bloqueado para:" })}
-      </SText>
-
+    <SView col={"xs-2.5"} center    >
+     <SView width={50} height={16} center onPress={() => { }}>
+      <PButtom small style={{ backgroundColor: "#5A5A5A", borderRadius: 2, }} fontSize={14} color={"#5A5A5A"} onPress={() => { }}> {SLanguage.select({ es: "Guardar", en: "Save" })} </PButtom>
      </SView>
-
-
-     <SView
-      col={"xs-14"}
-      row
-      style={{
-       flexWrap: "wrap",
-       gap: 10,
-       justifyContent: "flex-start",
-      }}
-     >
-      {[1, 2, 3, 4, 5].map((i) => (
-       <ItemImage
-        key={i}
-        src={`${SSocket.api.root}cliente/a86e1cce-2a1e-4e9e-95ed-78c123d9d0d9`}
-        label={`Cliente ${i}`}
-       />
-      ))}
-     </SView>
-     <SHr height={10} />
-     <PButtom withe
-      style={{
-       height: 40,
-       padding: 10,
-       paddingHorizontal: 10,
-       borderRadius: 8,
-       justifyContent: "center",
-       backgroundColor: STheme.color.secondary,
-      }}
-      props={{ type: "danger" }}
-      onPress={() => {
-       // Acción del botón
-      }}
-     >
-      {SLanguage.select({ es: "Agregar bloqueo", en: "Add block" })}
-     </PButtom>
     </SView>
-   )}
-  </SView>
+
+   </SView>
+  </>
  );
 };
 
@@ -268,13 +154,8 @@ export default class staff_tipo_adm extends Component {
   let lenguaje = SLanguage.language;
   const datafilter = SBuscador.filter({ data: this.state.data ?? {}, txt: this.state.filter })
 
-  // let text = "Select the staff's skills:";
-  // let text = 'Select the staff\'s skills:';
-  // {lenguaje === "es" ? "Seleccione las habilidades del staff" : "Select the staff's skills:"}
-
   return <SPage title={"Staff Tipo"} disableScroll center>
    <SHr height={40} />
-
    <Container flex center>
     <SText col="xs-12" justify={true} fontSize={18} bold={true}> {(lenguaje === "es") ? "Seleccione las habilidades del staff:" : 'Select the staffs skills:'}</SText>
     <SHr height={20} />
@@ -288,13 +169,16 @@ export default class staff_tipo_adm extends Component {
       const isEmpty = !item.descripcion;
 
       return (
-       <SView col={"xs-12"} style={{ padding: 10, height: isEmpty ? 0 : "auto" }} center >
-        <SView col={"xs-12 md-9"}>
+       <SView col={"xs-12"} style={{ padding: 10, height: isEmpty ? 0 : "auto" }} center row >
+        <SView col={"xs-12 md-10"}>
          <SView
           style={{
            backgroundColor: STheme.color.card,
-           borderRadius: 8,
-           padding: 15,
+           borderTopRightRadius: 4,
+           borderTopLeftRadius: 4,
+           borderBottomRightRadius: !item.staff_tipo_favorito ? 4 : 0,
+           borderBottomLeftRadius: !item.staff_tipo_favorito ? 4 : 0,
+           padding: 4,
            elevation: 3,
            shadowColor: "#000",
            shadowOffset: { width: 0, height: 2 },
@@ -302,10 +186,8 @@ export default class staff_tipo_adm extends Component {
            shadowRadius: 4,
            height: isEmpty ? 50 : "auto",
           }}
-          border={"cyan"}
          >
-
-          <Item
+          <Item col={"xs-12 "} row center
            data={item}
            onChange={(bol) => {
             this.setState((prevState) => {
@@ -373,6 +255,7 @@ export default class staff_tipo_adm extends Component {
           />
          </SView>
         </SView>
+        {item.staff_tipo_favorito ? <Item2 data={item} ></Item2> : null}
        </SView>)
      }
      }
@@ -403,6 +286,6 @@ export default class staff_tipo_adm extends Component {
      <SIcon name={'next2'} fill={STheme.color.text} style={{ width: 50, height: 50 }} />
     </SView>
    </Container>
-  </SPage>
+  </SPage >
  }
 }
