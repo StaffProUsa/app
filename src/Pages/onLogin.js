@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SNavigation, SNotification, SStorage, STheme, SThread } from 'servisofts-component';
+import { SIcon, SNavigation, SNotification, SPage, SStorage, SText, STheme, SThread, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import Model from '../Model';
 import MDL from '../MDL';
+import PButtom from '../Components/PButtom';
 
 
 
@@ -33,7 +34,7 @@ export default class onLogin extends Component {
             if (!this.state.pasar) return;
             console.log("PASAR 2");
             // SNavigation.goBack();
-             MDL.validaciones.componentDidMount();
+            MDL.validaciones.componentDidMount();
         })
     }
     componentWillUnmount() {
@@ -41,9 +42,23 @@ export default class onLogin extends Component {
     }
     render() {
         return (
-            <View>
-                <Text style={{color:STheme.color.text}}> onLogin </Text>
-            </View>
+            <SPage disableScroll center>
+                <SView col="xs-12" center onPress={() => {
+                    SNavigation.navigate("/")
+                }}>
+                    <SText style={{ color: STheme.color.text }} language={{
+                        en: "Welcome to",
+                        es: "Bienvenido a"
+                    }} />
+                    <SIcon name="Logo" width={100} height={100} fill={STheme.color.text} />
+                    <PButtom rojo small onPress={() => {
+                        SNavigation.navigate("/")
+                    }}><SText color={STheme.color.white} language={{
+                        es: "IR A INICIO",
+                        en: "GO HOME"
+                    }} /></PButtom>
+                </SView>
+            </SPage>
         );
     }
 }

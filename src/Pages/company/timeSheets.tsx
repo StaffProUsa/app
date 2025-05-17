@@ -81,7 +81,6 @@ export default class timeSheets extends Component {
       return a;
     })
 
-
     return resp.data;
   }
 
@@ -116,7 +115,7 @@ export default class timeSheets extends Component {
 
         />
         <SView card padding={8} onPress={() => {
-          console.log("this.table.dataFiltrada",this.table.dataFiltrada);
+          console.log("this.table.dataFiltrada", this.table.dataFiltrada);
           PDF.timeSheet.handlePress(this.table.dataFiltrada);
         }}>
           <SText clean>{"PDF"}</SText>
