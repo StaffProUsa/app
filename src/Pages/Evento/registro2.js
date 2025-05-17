@@ -23,6 +23,18 @@ export default class registro2 extends Component {
         ],
     }
 
+    onChangeLanguage(language) {
+        this.setState({ ...this.state })
+    }
+
+    componentDidMount() {
+        SLanguage.addListener(this.onChangeLanguage.bind(this))
+    }
+
+    componentWillUnmount() {
+        SLanguage.removeListener(this.onChangeLanguage)
+    }
+
     data = {}
     handlePress() {
         if (this.inpDescripcion.verify() == false) return;
@@ -233,6 +245,7 @@ export default class registro2 extends Component {
                             <SIconApp name='Add' />
                         </SView> */}
                     </SView>
+                    <SHr height={15} />
                     {this.state.bookings.map((item, index) => <InputPosition
                         key={index + "booking"}
                         key_company={this.key_company}
@@ -243,18 +256,31 @@ export default class registro2 extends Component {
                             this.setState({ bookings: this.state.bookings })
                         }}
                     />)}
-                    <SHr />
-                    <SView width={30} height={30} onPress={() => {
-                        this.state.bookings.push(this.createDefaultStaff());
-                        this.setState({ bookings: this.state.bookings })
-                    }} >
-                        <SIconApp name='Add' />
+                    {/* <SHr /> */}
+                    <SView col={"xs-12"} style={{ alignItems: "flex-end" }}>
+                        <SView width={100} height={35} onPress={() => {
+                            this.state.bookings.push(this.createDefaultStaff());
+                            this.setState({ bookings: this.state.bookings })
+                        }} row center
+                        style={{
+                            backgroundColor: STheme.color.danger,
+                            borderRadius: 4,
+                            // padding: 8,
+                            // justifyContent: "center",
+                            // alignItems: "center",
+                        }}
+                        >
+                            <SIconApp name='iconAdd' width={15} height={15} fill={STheme.color.white}/>
+                            <SView width={5} />
+                            <SText fontSize={14} color={STheme.color.white} >{SLanguage.select({ es: "Posición", en: "Position" })}</SText>
+                        </SView>
                     </SView>
                 </SView>
                 <SHr h={64} />
                 <SButtom onPress={this.handlePress.bind(this)} type='secondary'>
                     {this.state.loading ? <SLoad /> : <SText color={STheme.color.white} language={{ es: "GUARDAR", en: "SAVE" }} />}
                 </SButtom>
+                 <SHr h={20} />
             </Container>
         </SPage>
     }
@@ -393,10 +419,26 @@ class InputPosition extends Component {
         return <SView col={"xs-12"} row style={{
             justifyContent: "space-between",
             alignItems: "center",
-            borderBottomWidth: 1,
-            borderBottomColor: STheme.color.card,
-            paddingBottom: 16,
+            // borderBottomWidth: 1,
+            // borderBottomColor: STheme.color.card,
+            // paddingBottom: 16,
+            paddingBottom: 15,
+            paddingLeft: 15,
+            paddingRight: 15,
+            backgroundColor: STheme.color.card,
+            borderRadius: 8,
+            marginBottom: 25
         }}>
+            <SView width={30} style={{
+                position: "absolute",
+                top: -45,
+                right: -10,
+            }} >
+                <SHr h={36} />
+                <SView width={30} height={30} onPress={this.props.onDelete}>
+                    <SIconApp name='iconDelete' fill={STheme.color.danger} />
+                </SView>
+            </SView>
             <SInput
                 ref={r => this._ref["tipo"] = r}
                 label={SLanguage.select({
@@ -585,16 +627,11 @@ class InputPosition extends Component {
                 }}
             />
             <SView flex />
-            <SView width={30} >
-                <SHr h={36} />
-                <SView width={30} height={30} onPress={this.props.onDelete}>
-                    <SIconApp name='Delete' />
-                </SView>
-            </SView>
+
             <SInput
                 ref={r => this._ref["descripcion"] = r}
                 required
-                label={"Descripcion"} type='textArea' value={this.props?.staff?.descripcion} onChangeText={e => {
+                label={SLanguage.select({ es: "Descripción", en: "Description" })} type='textArea' value={this.props?.staff?.descripcion} onChangeText={e => {
                     this.props.staff.descripcion = e;
                     this.forceUpdate();
                 }} />

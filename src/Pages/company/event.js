@@ -128,7 +128,7 @@ export default class event extends Component {
         </SView>
         <SView width={32} />
         {(this.EsFechaMenorOIgual(new Date(fecha))) ? null : <SView width={30} height={30} onPress={() => {
-          SNavigation.navigate('/evento/registro', { key_company: this.state?.data?.key_company, key: this.key_evento });
+          SNavigation.navigate('/evento/editar', { key_company: this.state?.data?.key_company, key: this.key_evento });
         }}>
           <SIcon name='Edit' />
         </SView>}

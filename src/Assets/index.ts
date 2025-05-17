@@ -45,6 +45,8 @@ import istaff, { ReactComponent as istaffW } from "./svg/StaffProUsa/istaff.svg"
 import itimesheet, { ReactComponent as itimesheetW } from "./svg/StaffProUsa/itimesheet.svg";
 import iusuario, { ReactComponent as iusuarioW } from "./svg/StaffProUsa/iusuario.svg";
 import iposition, { ReactComponent as ipositionW } from "./svg/StaffProUsa/iposition.svg";
+import iconDelete, { ReactComponent as iconDeleteW } from "./svg/StaffProUsa/iconDelete.svg";
+import iconAdd, { ReactComponent as iconAddW } from "./svg/StaffProUsa/iconAdd.svg";
 
 
 
@@ -88,6 +90,8 @@ export const svg = {
     "itimesheet": { Native: itimesheet, Web: itimesheetW },
     "iusuario": { Native: iusuario, Web: iusuarioW },
     "iposition": { Native: iposition, Web: ipositionW },
+    "iconDelete": { Native: iconDelete, Web: iconDeleteW },
+    "iconAdd": { Native: iconAdd, Web: iconAddW },
 }
 
 const Assets: SAssets = {
