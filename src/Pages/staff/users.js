@@ -886,12 +886,25 @@ export default class users extends Component {
                                     },
 
                                     {
-                                        key: "salario_hora", label: SLanguage.select({
+                                        key: "-salario_hora", label: SLanguage.select({
                                             en: "Salary",
                                             es: "Salario"
-                                        }), width: 60, component: (obj) => {
-                                            const user = this.usuarios
-                                            console.log(user)
+                                        }), width: 60,
+                                     render: (a) => {
+
+                                      console.log("ddaa ",this.state.data)
+                                      console.log("favorito ",a)
+                                      // console.log("ddaa ",this.state.data.key_staff_tipo)
+                                      // console.log("salario  ",this.state.data.staff_usuario.salario_hora)
+                                      const arr = a.tipos_staff_favoritos.find((tipo) => {
+                                       return (tipo.key == this.state.data.key_staff_tipo)
+                                      })
+                                      return arr?.staff_tipo_favorito?.salario ?? 0
+                                      // console.log(a)
+                                     },
+                                     component: (obj) => {
+                                          //  const user = this.usuarios
+                                        //    console.log(user)
                                             return <SView col={"xs-12"} row
                                                 onPress={() => {
                                                     // // this.handleEditSalario(obj)
@@ -910,11 +923,6 @@ export default class users extends Component {
                                                 <SView width={3} />
                                                 <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
                                             </SView>
-                                        },
-                                        renderExcel: (obj) => {
-                                            const user = this.usuarios[obj.key_usuario_atiende]?.usuario
-                                            return user ? `${user.Nombres} ${user.Apellidos}` : "Sin jefe"
-                                            // return a.map(b => b.descripcion)
                                         }
                                     },
 

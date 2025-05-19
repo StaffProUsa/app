@@ -81,8 +81,12 @@ export default class root extends Component {
                 console.log(resp)
                 this.state.data = {}
                 Object.values(e.data).map(o => {
-                    o.usuario = resp.data[o.key_usuario]?.usuario;
+                 o.usuario = resp.data[o.key_usuario]?.usuario;
+
                 })
+
+             const arrdata = Object.values(e.data).filter(a=>!!a.usuario)
+
 
                 // SSocket.sendPromise({
                 //     service: "roles_permisos",
@@ -105,7 +109,7 @@ export default class root extends Component {
                 //     console.error(e);
                 // })
 
-                this.setState({ data: e.data })
+             this.setState({ data: arrdata })
             }).catch(e2 => {
                 console.error(e);
             })

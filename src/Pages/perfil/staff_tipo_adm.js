@@ -56,51 +56,75 @@ const ItemImage = ({ src, label, onRemove }) => {
  );
 };
 
-
-
-
-
-
 const Item = ({ data, onChange }) => {
  if (!data.descripcion) return null;
  const isChecked = !!data.staff_tipo_favorito;
 
- return (
-  <>
-   <SView col={"xs-12"} padding={10} row center style={{ height: isChecked ? "auto" : 40, overflow: "hidden" }}>
-    <SView col={"xs-12"} row>
-     <SView flex backgroundColor='transparent' onPress={() => { isChecked ? onChange(false) : onChange(true); }}>
-      <SText fontSize={16} color={STheme.color.text}>{data.descripcion}</SText>
-     </SView>
-     <SView width={25} height={25} backgroundColor={!isChecked ? "transparent" : "#1F05B0"} border="white" style={{ borderRadius: 2, }} />
-    </SView>
-   </SView>
-  </>
+ return (<SView col={"xs-12"} padding={10} row center style={{ height: isChecked ? "auto" : 40, overflow: "hidden" }}>
+
+  <SView width={24} height={24} center>
+   <SImage src={SSocket.api.root + "staff_tipo/" + data.key} style={{ resizeMode: "cover", zIndex: 9, borderRadius:"50%" }} border="red" />
+  </SView>
+  <SView flex onPress={() => { isChecked ? onChange(false) : onChange(true); }}>
+   <SText fontSize={16} color={STheme.color.text}> {data.descripcion}</SText>
+  </SView>
+  <SView width={25} height={25} border="white" style={{ borderRadius: 2, }} center>
+   {!isChecked ? null : <SIcon name='Reservado' width={14} center />}
+  </SView>
+ </SView>
  );
 };
 
 const Item2 = ({ data, onChange }) => {
- if (!data.descripcion) return null;
- const isChecked = !!data.staff_tipo_favorito;
+ if (!data) return null;
+ const [salario, setSalario] = React.useState(data?.salario ?? 0);
+ let lenguaje = SLanguage.language;
 
  return (
   <>
-   <SView col={"xs-12 md-10"} center row style={{ height: 55, overflow: "hidden" }} backgroundColor='#2D2D2D' >
-    <SView col={"xs-9.5"} center row   >
-     <SView flex  >
-      <SText fontSize={14} color={"#777777"} style={{ textAlign: 'right' }}> {SLanguage.select({ en: "Salary:", es: "Sueldo:" })} </SText>
+   <SView col={"xs-12"} center row style={{ height: 55, overflow: "hidden" }} backgroundColor='#2D2D2D' >
+    <SView col={"xs-9.5 md-9"} center row backgroundColor='transparent' >
+     <SView col={"xs-6"}>
+      <SText fontSize={14} color={"#777777"} style={{ textAlign: 'right' }}>{SLanguage.select({ en: "Salary:", es: "Sueldo:" })} </SText>
      </SView>
-     <SView flex center  >
-      <SInput type="money" height={34} color={STheme.color.text} />
-     </SView>
-    </SView>
-
-    <SView col={"xs-2.5"} center    >
-     <SView width={50} height={16} center onPress={() => { }}>
-      <PButtom small style={{ backgroundColor: "#5A5A5A", borderRadius: 2, }} fontSize={14} color={"#5A5A5A"} onPress={() => { }}> {SLanguage.select({ es: "Guardar", en: "Save" })} </PButtom>
+     <SView col={"xs-6"} center>
+      <SInput value={salario ?? 0} type="money" height={34} color={STheme.color.text} defaultValue={data?.salario ?? 0} onChangeText={(e) => { setSalario(e); }} />
      </SView>
     </SView>
 
+    <SView col={"xs-2.5 md-3"} row center style={{ borderRadius: 2, paddingVertical: 4 }}>
+     <SView col={"xs-12"} center style={{ paddingVertical: 4 }}>
+      <PButtom small style={{ backgroundColor: "#5A5A5A", borderRadius: 2, paddingLeft: 4, paddingRight: 4 }} fontSize={12} color={"#5A5A5A"} onPress={() => {
+
+       SSocket.sendPromise({
+        component: "staff_tipo_favorito",
+        type: "editar",
+        data: {
+         key: data.key,
+         estado: 1,
+         salario: salario,
+        },
+        key_usuario: Model.usuario.Action.getKey(),
+       })
+        .then((e) => {
+         SNotification.send({
+          title: lenguaje === "es" ? "Éxito" : "Success",
+          body: lenguaje === "es" ? "Se guardaron los cambios" : "Changes saved",
+          time: 5000,
+          color: STheme.color.success,
+         });
+        })
+        .catch((e) => {
+         SNotification.send({
+          title: lenguaje === "es" ? "Error" : "Error",
+          body: e.error ?? (lenguaje === "es" ? "Error desconocido" : "Unknown error"),
+          time: 5000,
+          color: STheme.color.danger,
+         });
+        });
+      }}> {SLanguage.select({ es: "Guardar", en: "Save" })} </PButtom>
+     </SView>
+    </SView>
    </SView>
   </>
  );
@@ -111,9 +135,7 @@ export default class staff_tipo_adm extends Component {
   super(props);
   this.state = {
    key_usuario: SNavigation.getParam("key_usuario", Model.usuario.Action.getKey()),
-
-
-
+   key_company: SNavigation.getParam("key_company"),
   };
  }
  onChangeLanguage(language) {
@@ -129,8 +151,9 @@ export default class staff_tipo_adm extends Component {
     component: "staff_tipo_favorito",
     type: "getAll",
     key_usuario: this.state.key_usuario
+
    }).then(b => {
-    Object.values(b.data).map(a => {
+    Object.values(b.data).filter(a=>a.key_company == this.state.key_company ).map(a => {
      const st = Object.values(e.data).find(x => x.key == a.key_staff_tipo);
      if (st) {
       st.staff_tipo_favorito = a;
@@ -156,38 +179,40 @@ export default class staff_tipo_adm extends Component {
 
   return <SPage title={"Staff Tipo"} disableScroll center>
    <SHr height={40} />
-   <Container flex center>
+   <Container flex center >
     <SText col="xs-12" justify={true} fontSize={18} bold={true}> {(lenguaje === "es") ? "Seleccione las habilidades del staff:" : 'Select the staffs skills:'}</SText>
-    <SHr height={20} />
     <SBuscador onChange={(e) => { this.setState({ filter: e }) }} />
 
     <FlatList
      data={Object.values(datafilter ?? {}).sort((a, b) => (a?.descripcion ?? "").toUpperCase() > (b?.descripcion ?? "").toUpperCase() ? 1 : -1)}
-     contentContainerStyle={{ width: "100%", }}
-
+     style={{ width: "100%" }}
+     contentContainerStyle={{ width: "100%" }}
+     ListHeaderComponent={() => <SHr h={10} />}
+     ItemSeparatorComponent={() => <SHr h={10} />}
+     ListFooterComponent={() => <SHr h={80} />}
      renderItem={({ item }) => {
       const isEmpty = !item.descripcion;
 
       return (
-       <SView col={"xs-12"} style={{ padding: 10, height: isEmpty ? 0 : "auto" }} center row >
-        <SView col={"xs-12 md-10"}>
+       <SView col={"xs-12"} style={{ height: isEmpty ? 0 : "auto" }} center row>
+        <SView col={"xs-12"}>
          <SView
           style={{
            backgroundColor: STheme.color.card,
-           borderTopRightRadius: 4,
-           borderTopLeftRadius: 4,
+           borderRadius: 8,
+           paddingHorizontal: 8,
            borderBottomRightRadius: !item.staff_tipo_favorito ? 4 : 0,
            borderBottomLeftRadius: !item.staff_tipo_favorito ? 4 : 0,
            padding: 4,
-           elevation: 3,
-           shadowColor: "#000",
-           shadowOffset: { width: 0, height: 2 },
+           elevation: 2, // agrega sombra en Android
+           shadowColor: "#000", // agrega sombra en iOS
+           shadowOffset: { width: 0, height: 1 },
            shadowOpacity: 0.2,
-           shadowRadius: 4,
+           shadowRadius: 2,
            height: isEmpty ? 50 : "auto",
           }}
          >
-          <Item col={"xs-12 "} row center
+          <Item col={"xs-12"} row center
            data={item}
            onChange={(bol) => {
             this.setState((prevState) => {
@@ -196,6 +221,7 @@ export default class staff_tipo_adm extends Component {
              return { data: updatedData };
             });
 
+
             if (bol) {
              SSocket.sendPromise({
               component: "staff_tipo_favorito",
@@ -203,6 +229,7 @@ export default class staff_tipo_adm extends Component {
               data: {
                key_usuario: this.state.key_usuario,
                key_staff_tipo: item.key,
+               key_company: this.state.key_company,
               },
               key_usuario: Model.usuario.Action.getKey(),
              })
@@ -214,6 +241,7 @@ export default class staff_tipo_adm extends Component {
                 time: 5000,
                 color: STheme.color.success,
                });
+               this.forceUpdate()
               })
               .catch((e) => {
                SNotification.send({
@@ -223,7 +251,8 @@ export default class staff_tipo_adm extends Component {
                 color: STheme.color.danger,
                });
               });
-            } else {
+            }
+            else {
              SSocket.sendPromise({
               component: "staff_tipo_favorito",
               type: "editar",
@@ -255,36 +284,12 @@ export default class staff_tipo_adm extends Component {
           />
          </SView>
         </SView>
-        {item.staff_tipo_favorito ? <Item2 data={item} ></Item2> : null}
+        {item.staff_tipo_favorito ? <Item2 data={item.staff_tipo_favorito} ></Item2> : null}
        </SView>)
      }
      }
     />
 
-    <SView style={{
-     position: "absolute",
-     right: 8,
-     bottom: 8,
-     height: 50
-    }} onPress={() => {
-
-     let select = Object.values(datafilter).filter(e => e.staff_tipo_favorito).length;
-     if (select <= 0) {
-      SNotification.send({
-       title: "Error",
-       body: SLanguage.select({
-        en: "Please select at least one staff type",
-        es: "Por favor selecciona al menos un tipo de staff"
-       }),
-       // body: "Please select at least one staff type",
-       color: STheme.color.danger,
-      })
-      return;
-     }
-     SNavigation.goBack()
-    }}>
-     <SIcon name={'next2'} fill={STheme.color.text} style={{ width: 50, height: 50 }} />
-    </SView>
    </Container>
   </SPage >
  }
