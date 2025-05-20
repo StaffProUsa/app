@@ -885,46 +885,76 @@ export default class users extends Component {
                                         }), width: 60,
                                     },
 
-                                    {
-                                        key: "-salario_hora", label: SLanguage.select({
-                                            en: "Salary",
-                                            es: "Salario"
-                                        }), width: 60,
-                                     render: (a) => {
+                                 //    {
+                                 //        key: "-salario_hora", label: SLanguage.select({
+                                 //            en: "Salary",
+                                 //            es: "Salario"
+                                 //        }), width: 60,
+                                 //     render: (a) => {
 
-                                      console.log("ddaa ",this.state.data)
-                                      console.log("favorito ",a)
-                                      // console.log("ddaa ",this.state.data.key_staff_tipo)
-                                      // console.log("salario  ",this.state.data.staff_usuario.salario_hora)
-                                      const arr = a.tipos_staff_favoritos.find((tipo) => {
-                                       return (tipo.key == this.state.data.key_staff_tipo)
-                                      })
-                                      return arr?.staff_tipo_favorito?.salario ?? 0
-                                      // console.log(a)
-                                     },
-                                     component: (obj) => {
-                                          //  const user = this.usuarios
-                                        //    console.log(user)
-                                            return <SView col={"xs-12"} row
-                                                onPress={() => {
-                                                    // // this.handleEditSalario(obj)
-                                                    // SSocket.sendPromise({
-                                                    //     component: "cliente",
-                                                    //     type: "getByKey",
-                                                    //     key: e.data.evento.key_cliente,
-                                                    // }).then(e => {
-                                                    //     this.setState({ data_cliente: e.data })
-                                                    // }
-                                                    // ).catch(e => {
-                                                    //     console.error(e);
-                                                    // })
-                                                }} center>
-                                                {/* <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} /> */}
-                                                <SView width={3} />
-                                                <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
-                                            </SView>
-                                        }
-                                    },
+                                 //      console.log("ddaa ",this.state.data)
+                                 //      console.log("favorito ",a)
+                                 //      // console.log("ddaa ",this.state.data.key_staff_tipo)
+                                 //      // console.log("salario  ",this.state.data.staff_usuario.salario_hora)
+                                 //      const arr = a.tipos_staff_favoritos.find((tipo) => {
+                                 //       return (tipo.key == this.state.data.key_staff_tipo)
+                                 //      })
+                                 //      return arr?.staff_tipo_favorito?.salario ?? 50
+                                 //      // console.log(a)
+                                 //     },
+                                 //     component: (obj) => {
+                                 //          //  const user = this.usuarios
+                                 //        //    console.log(user)
+                                 //            return <SView col={"xs-12"} row
+                                 //                onPress={() => {
+                                 //                    // // this.handleEditSalario(obj)
+                                 //                    // SSocket.sendPromise({
+                                 //                    //     component: "cliente",
+                                 //                    //     type: "getByKey",
+                                 //                    //     key: e.data.evento.key_cliente,
+                                 //                    // }).then(e => {
+                                 //                    //     this.setState({ data_cliente: e.data })
+                                 //                    // }
+                                 //                    // ).catch(e => {
+                                 //                    //     console.error(e);
+                                 //                    // })
+                                 //                }} center>
+                                 //                {/* <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} /> */}
+                                 //                <SView width={3} />
+                                 //                <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
+                                 //            </SView>
+                                 //        }
+                                 // },
+
+
+                                 {
+                                  key: "-salario_hora", label: SLanguage.select({
+                                   en: "Salary company",
+                                   es: "Salario compañia"
+                                  }), width: 90,
+                                  render: (a) => {
+                                   const arr = a.tipos_staff_favoritos.find((tipo) => {
+                                    return (tipo.key == this.state.data.key_staff_tipo)
+                                   })
+                                   const salario = arr?.staff_tipo_favorito?.salario;
+                                   return (salario === 0 || salario == null) ? a.salario_hora : salario;
+                                  },
+                                  },
+// salario_hora
+                                 // {
+                                 //     key: "eventos_duplicados", label: SLanguage.select({
+                                 //         en: "Photo",
+                                 //         es: "Enviar"
+                                 //     }), width: 70, component: (usr) => <SView backgroundColor='green' width={70} height={25} center
+                                 //         style={{ borderRadius: 4, overflow: "hidden" }}
+                                 //         onPress={(e) => {
+                                 //             alert("traspasar", e?.key_usuario)
+                                 //         }}
+                                 //     >
+                                 //         <SText fontSize={11} color={STheme.color.text} underLine>traspaso</SText>
+                                 //     </SView>
+                                 // },
+
 
                                     // {
                                     //     key: "eventos_duplicados", label: SLanguage.select({
