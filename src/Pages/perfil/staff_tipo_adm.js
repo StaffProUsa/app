@@ -60,10 +60,9 @@ const Item = ({ data, onChange }) => {
  if (!data.descripcion) return null;
  const isChecked = !!data.staff_tipo_favorito;
 
- return (<SView col={"xs-12"} padding={10} row center style={{ height: isChecked ? "auto" : 40, overflow: "hidden" }}>
-
+ return (<SView col={"xs-12"} padding={10} row center style={{ height: isChecked ? "auto" : 40, overflow: "hidden" }} onPress={() => { isChecked ? onChange(false) : onChange(true); }}>
   <SView width={24} height={24} center>
-   <SImage src={SSocket.api.root + "staff_tipo/" + data.key} style={{ resizeMode: "cover", zIndex: 9, borderRadius:"50%" }} border="red" />
+   <SImage src={SSocket.api.root + "staff_tipo/" + data.key} style={{ resizeMode: "cover", zIndex: 9, borderRadius: "50%" }} border="red" />
   </SView>
   <SView flex onPress={() => { isChecked ? onChange(false) : onChange(true); }}>
    <SText fontSize={16} color={STheme.color.text}> {data.descripcion}</SText>
@@ -153,7 +152,7 @@ export default class staff_tipo_adm extends Component {
     key_usuario: this.state.key_usuario
 
    }).then(b => {
-    Object.values(b.data).filter(a=>a.key_company == this.state.key_company ).map(a => {
+    Object.values(b.data).filter(a => a.key_company == this.state.key_company).map(a => {
      const st = Object.values(e.data).find(x => x.key == a.key_staff_tipo);
      if (st) {
       st.staff_tipo_favorito = a;
@@ -180,7 +179,7 @@ export default class staff_tipo_adm extends Component {
   return <SPage title={"Staff Tipo"} disableScroll center>
    <SHr height={40} />
    <Container flex center >
-    <SText col="xs-12" justify={true} fontSize={18} bold={true}> {(lenguaje === "es") ? "Seleccione las habilidades del staff:" : 'Select the staffs skills:'}</SText>
+    <SText col="xs-12" justify={true} fontSize={18} bold={true}> {(lenguaje === "es") ? "Seleccione las habilidades del staff:" : 'Select the staffsww skills:'}</SText>
     <SBuscador onChange={(e) => { this.setState({ filter: e }) }} />
 
     <FlatList
