@@ -9,163 +9,200 @@ import MDL from '../../MDL';
 
 
 const Item = ({ data, onChange }) => {
-    if (!data.descripcion) return null;
-    return <SView padding={10} row center>
-        <SView width={20} height={20} >
-            <SInput type='checkBox' defaultValue={!!data.staff_tipo_favorito} onChangeText={onChange} width={20} height={20} style={{
-                borderRadius: 5,
-                borderWidth: 1,
-                borderColor: STheme.color.gray,
-                overflow: 'hidden',
-            }} />
-        </SView>
-        <SView width={4} />
-        <SText fontSize={16}>{data.descripcion}</SText>
-    </SView>
+ if (!data.descripcion) return null;
+ // console.log("data ", data)
+ // console.log("mostra ", data.staff_tipo_favorito + " descripcion " + data.descripcion)
+ return <SView padding={10} row center>
+  <SView width={20} height={20} >
+   <SInput type='checkBox' defaultValue={!!data.staff_tipo_favorito} onChangeText={onChange} width={20} height={20} style={{
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: STheme.color.gray,
+    overflow: 'hidden',
+   }} />
+  </SView>
+  <SView width={4} />
+  <SText fontSize={16}>{data.descripcion}</SText>
+ </SView>
 }
 
 export default class staff_tipo extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            key_usuario: SNavigation.getParam("key_usuario", Model.usuario.Action.getKey())
-        };
-    }
-    onChangeLanguage(language) {
-        this.setState({ ...this.state })
-    }
-    componentDidMount() {
-        SLanguage.addListener(this.onChangeLanguage.bind(this))
-        SSocket.sendPromise({
-            component: "staff_tipo",
-            type: "getAll",
-        }).then(e => {
-            SSocket.sendPromise({
-                component: "staff_tipo_favorito",
-                type: "getAll",
-                key_usuario: this.state.key_usuario
-            }).then(b => {
-                Object.values(b.data).map(a => {
-                    const st = Object.values(e.data).find(x => x.key == a.key_staff_tipo);
-                    if (st) {
-                        st.staff_tipo_favorito = a;
-                    }
-                })
-                this.setState({ data: e.data })
-            }).catch(e => {
+ constructor(props) {
+  super(props);
+  this.state = {
+   key_usuario: SNavigation.getParam("key_usuario", Model.usuario.Action.getKey()),
+   key_company: SNavigation.getParam("key_company"),
+  };
+ }
+ onChangeLanguage(language) {
+  this.setState({ ...this.state })
+ }
+ componentDidMount() {
+  SLanguage.addListener(this.onChangeLanguage.bind(this))
 
-            })
 
-        }).catch(e => {
 
+
+  SSocket.sendPromise({
+   component: "staff_tipo",
+   type: "getAll",
+  }).then(e => {
+   SSocket.sendPromise({
+    component: "staff_tipo_favorito",
+    type: "getAll",
+    key_usuario: this.state.key_usuario,
+   }).then(b => {
+    Object.values(b.data).map(a => {
+     const st = Object.values(e.data).find(x => x.key == a.key_staff_tipo);
+     if (st) {
+      st.staff_tipo_favorito = a;
+      return st;
+     }
+    })
+    this.setState({ data: e.data })
+   }).catch(e => {
+   })
+  }).catch(e => {
+  });
+
+  SSocket.sendPromise({
+   component: "staff_tipo",
+   type: "getAll",
+  }).then(e => {
+   SSocket.sendPromise({
+    component: "staff_tipo_company",
+    type: "getAll",
+    key_company: this.state.key_company
+   }).then(b => {
+    Object.values(b.data).map(a => {
+     const st = Object.values(e.data).find(x => x.key == a.key_staff_tipo);
+     if (st) {
+      st.staff_tipo_favorito = a;
+      return st;
+     }
+    })
+    this.setState({ dataCompanyStaff: e.data })
+   }).catch(e => {
+   })
+  }).catch(e => {
+  });
+
+ }
+
+
+
+ componentWillUnmount() {
+  MDL.validaciones.componentDidMount();
+  SLanguage.removeListener(this.onChangeLanguage)
+ }
+
+ render() {
+  let lenguaje = SLanguage.language;
+  const datafilter = SBuscador.filter({ data: this.state.data ?? {}, txt: this.state.filter })
+  const datafilterStaffCompany = SBuscador.filter({ data: this.state.dataCompanyStaff ?? {}, txt: this.state.filterStaffCompany })
+
+  // console.log("la company ",datafilterStaffCompany)
+
+  return <SPage title={"Staff Tipo"} disableScroll>
+   <SHr height={40} />
+   <Container flex>
+    <SText col={"sm-12"} justify fontSize={18} bold>{(lenguaje == "es") ? "Selecciona tus habilidades o tipos de staff favoritos:" : "Select your favorite skills or staff typesddd:"}</SText>
+    <SHr height={20} />
+    <SBuscador onChange={(e) => {
+     // this.setState({ filter: e })
+     this.setState({ filterStaffCompany: e })
+    }} />
+    <FlatList data={Object.values(datafilterStaffCompany ?? {}).filter(predicate => predicate.staff_tipo_favorito).sort((a, b) => (a?.descripcion ?? "").toUpperCase() > (b?.descripcion ?? "").toUpperCase() ? 1 : -1)}
+    // <FlatList data={Object.values(datafilter ?? {}).sort((a, b) => (a?.descripcion ?? "").toUpperCase() > (b?.descripcion ?? "").toUpperCase() ? 1 : -1)}
+     contentContainerStyle={{
+      flexDirection: "row",
+      width: "100%",
+      flexWrap: "wrap"
+     }}
+     renderItem={({ item }) => <Item data={item} onChange={(bol => {
+      if (bol) {
+       SSocket.sendPromise({
+        component: "staff_tipo_favorito",
+        type: "registro",
+        data: {
+         key_usuario: this.state.key_usuario,
+         key_staff_tipo: item.key,
+        },
+        key_usuario: Model.usuario.Action.getKey()
+       }).then(e => {
+        item.staff_tipo_favorito = e.data;
+        SNotification.send({
+         title: (lenguaje == "es") ? "Éxito" : "Success",
+         body: (lenguaje == "es") ? "Se guardaron los cambios" : "Changes saved",
+         time: 5000,
+         color: STheme.color.success
         })
-    }
-    componentWillUnmount() {
-        MDL.validaciones.componentDidMount();
-        SLanguage.removeListener(this.onChangeLanguage)
-    }
+       }).catch(e => {
+        SNotification.send({
+         title: (lenguaje == "es") ? "Error" : "Error",
+         body: e.error ?? (lenguaje == "es") ? "Error desconocido" : "Unknown error",
+         time: 5000,
+         color: STheme.color.danger
+        })
 
-    render() {
-        let lenguaje = SLanguage.language;
-        const datafilter = SBuscador.filter({ data: this.state.data ?? {}, txt: this.state.filter })
-        return <SPage title={"Staff Tipo"} disableScroll>
-            <SHr height={40} />
-            <Container flex>
-                <SText col={"sm-12"} justify fontSize={18} bold>{(lenguaje == "es") ? "Selecciona tus habilidades o tipos de staff favoritos:" : "Select your favorite skills or staff types:"}</SText>
-                <SHr height={20} />
-                <SBuscador onChange={(e) => {
-                    this.setState({ filter: e })
-                }} />
-                <FlatList data={Object.values(datafilter ?? {}).sort((a, b) => (a?.descripcion ?? "").toUpperCase() > (b?.descripcion ?? "").toUpperCase() ? 1 : -1)}
-                    contentContainerStyle={{
-                        flexDirection: "row",
-                        width: "100%",
-                        flexWrap: "wrap"
-                    }}
-                    renderItem={({ item }) => <Item data={item} onChange={(bol => {
-                        if (bol) {
-                            SSocket.sendPromise({
-                                component: "staff_tipo_favorito",
-                                type: "registro",
-                                data: {
-                                    key_usuario: this.state.key_usuario,
-                                    key_staff_tipo: item.key,
-                                },
-                                key_usuario: Model.usuario.Action.getKey()
-                            }).then(e => {
-                                item.staff_tipo_favorito = e.data;
-                                SNotification.send({
-                                    title: (lenguaje == "es") ? "Éxito" : "Success",
-                                    body: (lenguaje == "es") ? "Se guardaron los cambios" : "Changes saved",
-                                    time: 5000,
-                                    color: STheme.color.success
-                                })
-                            }).catch(e => {
-                                SNotification.send({
-                                    title: (lenguaje == "es") ? "Error" : "Error",
-                                    body: e.error ?? (lenguaje == "es") ? "Error desconocido" : "Unknown error",
-                                    time: 5000,
-                                    color: STheme.color.danger
-                                })
+       })
+      } else {
+       SSocket.sendPromise({
+        component: "staff_tipo_favorito",
+        type: "editar",
+        data: {
+         key: item.staff_tipo_favorito.key,
+         estado: 0,
+        },
+        key_usuario: Model.usuario.Action.getKey()
+       }).then(e => {
 
-                            })
-                        } else {
-                            SSocket.sendPromise({
-                                component: "staff_tipo_favorito",
-                                type: "editar",
-                                data: {
-                                    key: item.staff_tipo_favorito.key,
-                                    estado: 0,
-                                },
-                                key_usuario: Model.usuario.Action.getKey()
-                            }).then(e => {
+        delete item.staff_tipo_favorito
+        // item.staff_tipo_favorito = null;
+        SNotification.send({
+         title: (lenguaje == "es") ? "Éxito" : "Success",
+         body: (lenguaje == "es") ? "Se guardaron los cambios" : "Changes saved",
+         time: 5000,
+         color: STheme.color.success
+        })
+       }).catch(e => {
+        SNotification.send({
+         title: (lenguaje == "es") ? "Error" : "Error",
+         body: e.error ?? (lenguaje == "es") ? "Error desconocido" : "Unknown error",
+         time: 5000,
+         color: STheme.color.danger
+        })
 
-                                delete item.staff_tipo_favorito
-                                // item.staff_tipo_favorito = null;
-                                SNotification.send({
-                                    title: (lenguaje == "es") ? "Éxito" : "Success",
-                                    body: (lenguaje == "es") ? "Se guardaron los cambios" : "Changes saved",
-                                    time: 5000,
-                                    color: STheme.color.success
-                                })
-                            }).catch(e => {
-                                SNotification.send({
-                                    title: (lenguaje == "es") ? "Error" : "Error",
-                                    body: e.error ?? (lenguaje == "es") ? "Error desconocido" : "Unknown error",
-                                    time: 5000,
-                                    color: STheme.color.danger
-                                })
+       })
+      }
 
-                            })
-                        }
+     })} />} />
 
-                    })} />} />
+    <SView style={{
+     position: "absolute",
+     right: 8,
+     bottom: 8,
+     height: 50
+    }} onPress={() => {
 
-                <SView style={{
-                    position: "absolute",
-                    right: 8,
-                    bottom: 8,
-                    height: 50
-                }} onPress={() => {
-
-                    let select = Object.values(datafilter).filter(e => e.staff_tipo_favorito).length;
-                    if (select <= 0) {
-                        SNotification.send({
-                            title: "Error",
-                            body: SLanguage.select({
-                                en: "Please select at least one staff type",
-                                es: "Por favor selecciona al menos un tipo de staff"
-                            }),
-                            // body: "Please select at least one staff type", 
-                            color: STheme.color.danger,
-                        })
-                        return;
-                    }
-                    SNavigation.goBack()
-                }}>
-                    <SIcon name={'next2'} fill={STheme.color.text} style={{ width: 50, height: 50 }} />
-                </SView>
-            </Container>
-        </SPage>
-    }
+     let select = Object.values(datafilter).filter(e => e.staff_tipo_favorito).length;
+     if (select <= 0) {
+      SNotification.send({
+       title: "Error",
+       body: SLanguage.select({
+        en: "Please select at least one staff type",
+        es: "Por favor selecciona al menos un tipo de staff"
+       }),
+       // body: "Please select at least one staff type",
+       color: STheme.color.danger,
+      })
+      return;
+     }
+     SNavigation.goBack()
+    }}>
+     <SIcon name={'next2'} fill={STheme.color.text} style={{ width: 50, height: 50 }} />
+    </SView>
+   </Container>
+  </SPage>
+ }
 }

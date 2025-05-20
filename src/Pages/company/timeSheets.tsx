@@ -147,6 +147,20 @@ export default class timeSheets extends Component {
                 ]
               })
             }
+            if (this.key_company_) {
+              const clientResp: any = await SSocket.sendPromise({
+                component: "company",
+                type: "getByKey",
+                key: this.key_company_
+              })
+
+              filters.push({
+                "col": "key_company",
+                "type": "string",
+                "operator": "=",
+                "value": clientResp?.data?.descripcion
+              })
+            }
             if (this.key_cliente_) {
               const clientResp: any = await SSocket.sendPromise({
                 component: "cliente",
@@ -187,6 +201,7 @@ export default class timeSheets extends Component {
               ],
               cols: {
                 "state": { hidden: true, },
+                "key_company": { hidden: true, },
                 "key_evento": { hidden: true, },
                 "usuario_atiende": { hidden: true, },
                 "salario_hora": { hidden: true, },
@@ -286,7 +301,16 @@ export default class timeSheets extends Component {
           />
 
 
+          <Col key={"key_company"}
+            labelIcon={<TableIcon name='icompany' />}
+            label={SLanguage.select({ es: "Compañia", en: "Company" })} width={100}
 
+            data={e => {
+              return e.row?.company.descripcion;
+            }}
+            customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "company/" + e.row?.company?.key} textStyle={e.textStyle} />}
+
+          />
 
           <Col key={"key_cliente"}
             labelIcon={<TableIcon name='icliente' />}
