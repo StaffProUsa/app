@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextStyle, Dimensions } from 'react-native';
-import { SDate, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView } from 'servisofts-component';
+import { SDate, SHr, SIcon, SImage, SLanguage, SNavigation, SPage, SPopup, SText, STheme, SView } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table';
 import SelectRol from '../roles/Components/SelectRol';
@@ -409,6 +409,7 @@ export default class MoveStaff extends Component {
                     colors={Config.table.styles()}
                     cellStyle={Config.table.cellStyle()}
                     textStyle={Config.table.textStyle()}
+                    listFooterComponent={() => <SHr h={200} />}
                     onSelect={(data) => {
                         if (this.onSelect) {
                             this.onSelect(data.row)
