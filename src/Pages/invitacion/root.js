@@ -217,7 +217,8 @@ export default class root extends React.Component {
           root.INSTANCE.reload()
         }
         // SNavigation.goBack();
-        SNavigation.replace("/perfil/staff_tipo")
+       SNavigation.replace("/perfil/staff_tipo", { key_company: this.state?.dataInvitacion?.key_company })
+       // SNavigation.replace("/perfil/staff_tipo", { key_company: this.state?.dataInvitacion?.key_company })
       }).catch(e => {
         if (e.error == "existe") {
           SNotification.send({
