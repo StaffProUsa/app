@@ -173,7 +173,7 @@ export default class timeSheet {
                 width: "100%",
                 // borderColor: BorderColor
             }}>
-                <SPDF.View style={{
+                {/* <SPDF.View style={{
                     position: "absolute",
                     width: 65,
                     height: 65,
@@ -181,13 +181,13 @@ export default class timeSheet {
                     borderWidth: 1,
 
                 }}>
-                </SPDF.View>
+                </SPDF.View> */}
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
                 <SPDF.View style={{
                     width: "100%",
                     alignItems: "center"
                 }}>
-                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{"RH STAFFING SIGN SHEET (Eurest Catering)"}</SPDF.Text>
+                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{data[0].key_company}{""}</SPDF.Text>
                 </SPDF.View>
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
 
