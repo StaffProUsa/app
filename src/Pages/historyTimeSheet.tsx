@@ -50,10 +50,12 @@ export default class historyAlvaro extends Component {
 
   async loadData1111() {
 
-    // let fecha_inicio_statatio = "2022-03-01";
-    // let fecha_fin_statatio = new SDate().toString('yyyy-MM-dd');
-    let fecha_inicio_statatio = this.params.fecha_inicio ?? "2022-03-01";
-    let fecha_fin_statatio = this.params.fecha_fin ?? new SDate().toString('yyyy-MM-dd');
+//INFO: ING. ALVARO PASO POR AQUI
+//INFO: Se obtiene la fecha de inicio y fin de los parametros
+   const fecha_inicio_statatio = this.params.fecha_fin?.trim() ? this.params.fecha_fin : "2000-03-01";
+   const fecha_fin_statatio = this.params.fecha_fin?.trim() ? this.params.fecha_fin : "2030-03-01";
+
+    // let fecha_fin_statatio = this.params.fecha_fin ?? new SDate().toString('yyyy-MM-dd');
     const resp: any = await SSocket.sendPromise({
       component: "board",
       type: "timesheet_cliente",

@@ -93,9 +93,10 @@ class staff_tipo extends Component {
         return <SPage title={"Staff Tipo"} disableScroll footer={<PBarraFooter url={'/company'} />}>
             <Container flex>
                 <SHr height={40} />
-                <SBuscador onChange={(e) => {
-                    this.setState({ filter: e })
-                }} />
+          <SBuscador
+           data={Object.values(datafilter ?? {})}
+           onChange={(e) => { this.setState({ filter: e }) }} />
+
                 <FlatList data={Object.values(datafilter ?? {})}
                     contentContainerStyle={{
                         flexDirection: "row",
@@ -161,7 +162,9 @@ class staff_tipo extends Component {
                 <SView style={{
                     position: "absolute",
                     right: 8,
-                    height: 50
+           height: 50,
+           bottom: 100
+
                 }} onPress={() => {
                     SNavigation.goBack()
                 }}>

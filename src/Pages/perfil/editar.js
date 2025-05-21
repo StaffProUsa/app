@@ -164,13 +164,6 @@ class index extends Component {
                     editable: false,
                     defaultValue: this.state?.data?.estado_civil,
                     onPress: e => {
-
-
-                        if (this.state.loading) {
-                            return;
-                        }
-                        this.setState({ loading: true })
-
                         InputFloat.open({
                             e: e,
                             height: 180,

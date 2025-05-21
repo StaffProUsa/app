@@ -107,10 +107,10 @@ export default class staff_tipo extends Component {
             <Container flex>
                 <SText col={"xs-12"} justify fontSize={18} bold>{(lenguaje == "es") ? "Selecciona tus habilidades o tipos de staff favoritos:" : "Select your favorite skills or staff types:"}</SText>
                 <SHr height={20} />
-                <SBuscador onChange={(e) => {
-                    // this.setState({ filter: e })
-                    // this.setState({ filterStaffCompany: e })
-                }} />
+          <SBuscador onChange={(e) => { }}
+           data={this.state.data ?? {}}
+
+          />
                 <FlatList
                     data={this.state.data}
                     // <FlatList data={Object.values(datafilter ?? {}).sort((a, b) => (a?.descripcion ?? "").toUpperCase() > (b?.descripcion ?? "").toUpperCase() ? 1 : -1)}

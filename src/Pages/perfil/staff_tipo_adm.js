@@ -187,7 +187,9 @@ export default class staff_tipo_adm extends Component {
         </SView>
         <SHr height={10} />
         <SText col="xs-12" justify={true} fontSize={18} bold={true}> {(lenguaje === "es") ? "Seleccione las habilidades del staff:" : 'Select the staffsww skills:'}</SText>
-        <SBuscador onChange={(e) => { this.setState({ filter: e }) }} />
+      <SBuscador onChange={(e) => { this.setState({ filter: e }) }}
+       data={Object.values(datafilter ?? {})}
+      />
 
         <FlatList
           data={Object.values(datafilter ?? {}).sort((a, b) => (a?.descripcion ?? "").toUpperCase() > (b?.descripcion ?? "").toUpperCase() ? 1 : -1)}
