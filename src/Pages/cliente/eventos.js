@@ -26,14 +26,14 @@ const getColorFromPercentage = (percentage) => {
 }
 
 export default class Eventos extends React.Component {
-    static INSTANCE:Eventos = null;
+    static INSTANCE: Eventos = null;
 
-     constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {
         };
         Eventos.INSTANCE = this;
-      }
+    }
 
     key_cliente = this.props.key_cliente ?? SNavigation.getParam("key_cliente")
     state = {
@@ -44,7 +44,7 @@ export default class Eventos extends React.Component {
     //     this.loadData({ fecha_inicio: new SDate().setDay(1).toString("yyyy-MM-dd"), fecha_fin: new SDate().addMonth(1).toString("yyyy-MM-dd") })
     // }
 
-    
+
 
     // componentDidMount() {
     //     Eventos.INSTANCE = this;
@@ -62,13 +62,13 @@ export default class Eventos extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.pasadoSelect !== this.props.pasadoSelect) {
-          this.loadData({ fecha_inicio: this.state.fecha_inicio, fecha_fin: this.state.fecha_fin });
+            this.loadData({ fecha_inicio: this.state.fecha_inicio, fecha_fin: this.state.fecha_fin });
         }
-      }
+    }
 
     loadData({ fecha_inicio, fecha_fin }) {
         console.log("entro aca")
-        if(!fecha_inicio || !fecha_fin) {
+        if (!fecha_inicio || !fecha_fin) {
             fecha_inicio = this.state.fecha_inicio ?? new SDate().setDay(1).toString("yyyy-MM-dd");
             fecha_fin = this.state.fecha_fin ?? new SDate().addMonth(1).toString("yyyy-MM-dd");
         }
@@ -284,6 +284,8 @@ export default class Eventos extends React.Component {
             <SelectEntreFechas
                 fecha_inicio={new SDate().setDay(1).toString("yyyy-MM-dd")}
                 fecha_fin={new SDate().addMonth(1).toString("yyyy-MM-dd")}
+                // fecha_inicio=''
+                // fecha_fin=''
                 onChange={e => {
                     this.entrefecha = e;
                     this.loadData(e)

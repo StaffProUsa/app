@@ -121,6 +121,32 @@ export default class users extends Component {
                 keys: keys,
             }).then(resp => {
                 console.log(resp)
+
+                // //VER USUARIOS BLOQUEADOS
+                // SSocket.sendPromise({
+                //     component: "usuario_bloqueado_cliente",
+                //     type: "getAll",
+                //     // key_cliente: this.key_cliente
+                //     key_cliente: this.state?.data?.evento?.key_cliente
+                // }).then(respBloqueados => {
+                //     let bloqueados = []
+                //     if (Object.keys(respBloqueados.data).length != 0) {
+                //         bloqueados = Object.values(respBloqueados.data)
+                //         console.log(e.data)
+                //         console.log("aqui", bloqueados)
+                //         // dataEliminar = bloqueados.flatMap(e => [e.key_usuario])
+                //         // console.log(dataEliminar)
+                //         // e.data = e.data.filter(e => !dataEliminar.includes(e.key_usuario))
+                //         // console.log(e.data)
+                //     }
+
+                // }).catch(e => {
+                //     console.error(e);
+                // })
+
+
+
+
                 Object.values(e.data).map(o => {
                     o.usuario = resp.data[o.key_usuario]?.usuario;
                 })
@@ -151,11 +177,13 @@ export default class users extends Component {
                 }
                 const filtrados = e.data.filter(item =>
                     item.usuario
-                    // && arrayNivelIngles.includes(item.usuario.nivel_ingles)
+                    //validar nivel de ingles
+                    && arrayNivelIngles.includes(item.usuario.nivel_ingles)
                 );
 
                 // this.setState({ data_disponibles: e.data })
                 this.setState({ data_disponibles: filtrados })
+                console.log("filtrados", filtrados)
 
             })
 
@@ -254,7 +282,7 @@ export default class users extends Component {
     }
 
     handleEditarSueldo = (post) => {
-        console.log("post",post)
+        console.log("post", post)
         SPopup.open({
             key: "EditSueldo",
             content: <SView col={"xs-6"} center style={{
@@ -579,7 +607,7 @@ export default class users extends Component {
                             <STable2
                                 key={"Algo"}
                                 data={this.state.data_disponibles}
-                                filter={(a) => (!a.staff_usuario || a?.staff_usuario?.estado == 2) && (!!a?.usuario)}
+                                filter={(a) => (!a.staff_usuario || a?.staff_usuario?.estado == 2) && (!!a?.usuario) && (!a?.bloqueado)}
                                 rowHeight={25}
                                 cellStyle={{
                                     justifyContent: "center",
@@ -885,75 +913,75 @@ export default class users extends Component {
                                         }), width: 60,
                                     },
 
-                                 //    {
-                                 //        key: "-salario_hora", label: SLanguage.select({
-                                 //            en: "Salary",
-                                 //            es: "Salario"
-                                 //        }), width: 60,
-                                 //     render: (a) => {
+                                    //    {
+                                    //        key: "-salario_hora", label: SLanguage.select({
+                                    //            en: "Salary",
+                                    //            es: "Salario"
+                                    //        }), width: 60,
+                                    //     render: (a) => {
 
-                                 //      console.log("ddaa ",this.state.data)
-                                 //      console.log("favorito ",a)
-                                 //      // console.log("ddaa ",this.state.data.key_staff_tipo)
-                                 //      // console.log("salario  ",this.state.data.staff_usuario.salario_hora)
-                                 //      const arr = a.tipos_staff_favoritos.find((tipo) => {
-                                 //       return (tipo.key == this.state.data.key_staff_tipo)
-                                 //      })
-                                 //      return arr?.staff_tipo_favorito?.salario ?? 50
-                                 //      // console.log(a)
-                                 //     },
-                                 //     component: (obj) => {
-                                 //          //  const user = this.usuarios
-                                 //        //    console.log(user)
-                                 //            return <SView col={"xs-12"} row
-                                 //                onPress={() => {
-                                 //                    // // this.handleEditSalario(obj)
-                                 //                    // SSocket.sendPromise({
-                                 //                    //     component: "cliente",
-                                 //                    //     type: "getByKey",
-                                 //                    //     key: e.data.evento.key_cliente,
-                                 //                    // }).then(e => {
-                                 //                    //     this.setState({ data_cliente: e.data })
-                                 //                    // }
-                                 //                    // ).catch(e => {
-                                 //                    //     console.error(e);
-                                 //                    // })
-                                 //                }} center>
-                                 //                {/* <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} /> */}
-                                 //                <SView width={3} />
-                                 //                <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
-                                 //            </SView>
-                                 //        }
-                                 // },
+                                    //      console.log("ddaa ",this.state.data)
+                                    //      console.log("favorito ",a)
+                                    //      // console.log("ddaa ",this.state.data.key_staff_tipo)
+                                    //      // console.log("salario  ",this.state.data.staff_usuario.salario_hora)
+                                    //      const arr = a.tipos_staff_favoritos.find((tipo) => {
+                                    //       return (tipo.key == this.state.data.key_staff_tipo)
+                                    //      })
+                                    //      return arr?.staff_tipo_favorito?.salario ?? 50
+                                    //      // console.log(a)
+                                    //     },
+                                    //     component: (obj) => {
+                                    //          //  const user = this.usuarios
+                                    //        //    console.log(user)
+                                    //            return <SView col={"xs-12"} row
+                                    //                onPress={() => {
+                                    //                    // // this.handleEditSalario(obj)
+                                    //                    // SSocket.sendPromise({
+                                    //                    //     component: "cliente",
+                                    //                    //     type: "getByKey",
+                                    //                    //     key: e.data.evento.key_cliente,
+                                    //                    // }).then(e => {
+                                    //                    //     this.setState({ data_cliente: e.data })
+                                    //                    // }
+                                    //                    // ).catch(e => {
+                                    //                    //     console.error(e);
+                                    //                    // })
+                                    //                }} center>
+                                    //                {/* <SIcon name="Edit" fill={STheme.color.success} width={20} height={20} /> */}
+                                    //                <SView width={3} />
+                                    //                <SText fontSize={11} color={STheme.color.text} >{obj}</SText>
+                                    //            </SView>
+                                    //        }
+                                    // },
 
 
-                                 {
-                                  key: "-salario_hora", label: SLanguage.select({
-                                   en: "Salary company",
-                                   es: "Salario compañia"
-                                  }), width: 90,
-                                  render: (a) => {
-                                   const arr = a.tipos_staff_favoritos.find((tipo) => {
-                                    return (tipo.key == this.state.data.key_staff_tipo)
-                                   })
-                                   const salario = arr?.staff_tipo_favorito?.salario;
-                                   return (salario === 0 || salario == null) ? a.salario_hora : salario;
-                                  },
-                                  },
-// salario_hora
-                                 // {
-                                 //     key: "eventos_duplicados", label: SLanguage.select({
-                                 //         en: "Photo",
-                                 //         es: "Enviar"
-                                 //     }), width: 70, component: (usr) => <SView backgroundColor='green' width={70} height={25} center
-                                 //         style={{ borderRadius: 4, overflow: "hidden" }}
-                                 //         onPress={(e) => {
-                                 //             alert("traspasar", e?.key_usuario)
-                                 //         }}
-                                 //     >
-                                 //         <SText fontSize={11} color={STheme.color.text} underLine>traspaso</SText>
-                                 //     </SView>
-                                 // },
+                                    {
+                                        key: "-salario_hora", label: SLanguage.select({
+                                            en: "Salary company",
+                                            es: "Salario compañia"
+                                        }), width: 90,
+                                        render: (a) => {
+                                            const arr = a.tipos_staff_favoritos.find((tipo) => {
+                                                return (tipo.key == this.state.data.key_staff_tipo)
+                                            })
+                                            const salario = arr?.staff_tipo_favorito?.salario;
+                                            return (salario === 0 || salario == null) ? a.salario_hora : salario;
+                                        },
+                                    },
+                                    // salario_hora
+                                    // {
+                                    //     key: "eventos_duplicados", label: SLanguage.select({
+                                    //         en: "Photo",
+                                    //         es: "Enviar"
+                                    //     }), width: 70, component: (usr) => <SView backgroundColor='green' width={70} height={25} center
+                                    //         style={{ borderRadius: 4, overflow: "hidden" }}
+                                    //         onPress={(e) => {
+                                    //             alert("traspasar", e?.key_usuario)
+                                    //         }}
+                                    //     >
+                                    //         <SText fontSize={11} color={STheme.color.text} underLine>traspaso</SText>
+                                    //     </SView>
+                                    // },
 
 
                                     // {
