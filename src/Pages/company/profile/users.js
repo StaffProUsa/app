@@ -23,7 +23,7 @@ const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
     </SView>
 }
 
-export default class MoveStaff extends Component {
+export default class users extends Component {
     constructor(props) {
         super(props);
         this.state = {
