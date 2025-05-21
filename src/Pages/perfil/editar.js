@@ -400,12 +400,12 @@ class index extends Component {
                                     borderBottomColor: STheme.color.card
                                 }}></SView>
                             <SHr height={30} />
-                            <PButtom rojo fontSize={20} onPress={() => {
+                            {/* <PButtom rojo fontSize={20} onPress={() => {
                                 SNavigation.navigate("/perfil/staff_tipo")
                             }}><SText center fontSize={15} color={STheme.color.white} language={{
                                 es: "EDITAR MIS APTITUDES O EXPERIENCIAS",
                                 en: "EDIT MY SKILLS OR EXPERIENCES"
-                            }} /></PButtom>
+                            }} /></PButtom> */}
                             {/* <SView height={15} /> */}
                             <PButtom rojo fontSize={20} onPress={() => {
                                 SNavigation.navigate("/perfil/changepass")

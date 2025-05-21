@@ -81,19 +81,19 @@ const Item2 = ({ data, onChange }) => {
 
  return (
   <>
-   <SView col={"xs-12"} center row style={{ height: 55, overflow: "hidden" }} backgroundColor='#2D2D2D' >
+   <SView col={"xs-12"} center row style={{ height: 55, overflow: "hidden" }} backgroundColor={"#C7C6C680"}>
     <SView col={"xs-9.5 md-9"} center row backgroundColor='transparent' >
      <SView col={"xs-6"}>
-      <SText fontSize={14} color={"#777777"} style={{ textAlign: 'right' }}>{SLanguage.select({ en: "Salary:", es: "Sueldo:" })} </SText>
+      <SText fontSize={14} color={STheme.color.text} style={{ textAlign: 'right' }}>{SLanguage.select({ en: "Salary:", es: "Sueldo:" })} </SText>
      </SView>
      <SView col={"xs-6"} center>
-      <SInput value={salario ?? 0} type="money" height={34} color={STheme.color.text} defaultValue={data?.salario ?? 0} onChangeText={(e) => { setSalario(e); }} />
+      <SInput value={salario ?? 0} type="money" height={34} color={STheme.color.text} defaultValue={data?.salario ?? 0} onChangeText={(e) => { setSalario(e); }} icon={"USD"} />
      </SView>
     </SView>
 
     <SView col={"xs-2.5 md-3"} row center style={{ borderRadius: 2, paddingVertical: 4 }}>
      <SView col={"xs-12"} center style={{ paddingVertical: 4 }}>
-      <PButtom small style={{ backgroundColor: "#5A5A5A", borderRadius: 2, paddingLeft: 4, paddingRight: 4 }} fontSize={12} color={"#5A5A5A"} onPress={() => {
+      <PButtom small withe style={{ backgroundColor: STheme.color.secondary, borderRadius: 2, paddingLeft: 4, paddingRight: 4 }} fontSize={12} color={STheme.color.white} onPress={() => {
 
        SSocket.sendPromise({
         component: "staff_tipo_favorito",

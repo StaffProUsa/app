@@ -17,7 +17,7 @@ export default class validaciones extends MDLAbstract<EventListener> {
             await this.validateVersion();
             await this.validarDatos();
             await this.verificarImagen();
-            await this.getStaffTipoFavorito();
+            // await this.getStaffTipoFavorito();
             // SNavigation.replace("/inicio");
 
         } catch (e: any) {
@@ -125,38 +125,38 @@ export default class validaciones extends MDLAbstract<EventListener> {
     }
 
 
-    getStaffTipoFavorito() {
-        return new Promise((resolve, reject) => {
-            if (!Model.usuario.Action.getKey()) {
-                resolve(true);
-                return;
-            }
-            SSocket.sendPromise({
-                component: "staff_tipo_favorito",
-                type: "getAll",
-                key_usuario: Model.usuario.Action.getKey()
-            }).then((e: any) => {
-                // this.setState({ StaffTipoFavorito: e.data })
+    // getStaffTipoFavorito() {
+    //     return new Promise((resolve, reject) => {
+    //         if (!Model.usuario.Action.getKey()) {
+    //             resolve(true);
+    //             return;
+    //         }
+    //         SSocket.sendPromise({
+    //             component: "staff_tipo_favorito",
+    //             type: "getAll",
+    //             key_usuario: Model.usuario.Action.getKey()
+    //         }).then((e: any) => {
+    //             // this.setState({ StaffTipoFavorito: e.data })
 
-                if (e.data && Object.keys(e.data).length === 0) {
-                    SNavigation.navigate("/perfil/staff_tipo")
-                    reject(SLanguage.select({
-                        es: "Selecciona tus aptitudes o lo que sabes hacer.",
-                        en: "Select your skills or what you know how to do.",
-                    }))
-                    // reject("No hay staff tipo favorito")
-                    return;
-                    // throw new Error("Imagen no existe");
-                }
-                resolve(true)
-            }).catch(e => {
-                resolve(true)
-                console.error(e);
-            })
-        })
+    //             if (e.data && Object.keys(e.data).length === 0) {
+    //                 SNavigation.navigate("/perfil/staff_tipo")
+    //                 reject(SLanguage.select({
+    //                     es: "Selecciona tus aptitudes o lo que sabes hacer.",
+    //                     en: "Select your skills or what you know how to do.",
+    //                 }))
+    //                 // reject("No hay staff tipo favorito")
+    //                 return;
+    //                 // throw new Error("Imagen no existe");
+    //             }
+    //             resolve(true)
+    //         }).catch(e => {
+    //             resolve(true)
+    //             console.error(e);
+    //         })
+    //     })
 
 
-    }
+    // }
 
 
 
