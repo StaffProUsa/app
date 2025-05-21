@@ -162,7 +162,9 @@ class staff_tipo extends Component {
                 <SView style={{
                     position: "absolute",
                     right: 8,
-                    height: 50
+           height: 50,
+           bottom: 100
+
                 }} onPress={() => {
                     SNavigation.goBack()
                 }}>
