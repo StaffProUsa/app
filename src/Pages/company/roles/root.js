@@ -316,9 +316,9 @@ export default class root extends Component {
                     </SView>
                 </SView>
                 <SHr h={20} />
-                <SBuscador onChange={(e) => {
-                    this.setState({ filter: e })
-                }} />
+          <SBuscador onChange={(e) => { this.setState({ filter: e }) }}
+           data={Object.values(datafilter ?? {})} />
+
                 <SHr h={8} />
                 {this.renderList(datafilter)}
             </Container>

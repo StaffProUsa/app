@@ -7,6 +7,7 @@ import FloatButtom from '../../../Components/FloatButtom';
 import { component } from '../../../Services/Usuario/Components/datoCabecera';
 import Config from '../../../Config';
 import Model from '../../../Model';
+import PBarraFooter from '../../../Components/PBarraFooter';
 
 export default class usuarios_bloqueados extends Component {
     constructor(props) {
@@ -56,7 +57,9 @@ export default class usuarios_bloqueados extends Component {
         return data;
     }
     render() {
-        return <SPage title={"Usuarios bloqueados"} disableScroll>
+     return <SPage title={"Usuarios bloqueados"} disableScroll
+                     footer={<PBarraFooter url={'/company'} />}>
+
             <DinamicTable
                 ref={ref => this.table = ref}
                 loadData={this.loadData.bind(this)}

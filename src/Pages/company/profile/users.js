@@ -12,10 +12,7 @@ import PBarraFooter from '../../../Components/PBarraFooter';
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
     return <SView row >
         <SView width={20} height={20} style={{ borderRadius: 100, overflow: "hidden", backgroundColor: STheme.color.card }}>
-
-            <SImage enablePreview src={src} style={{
-                resizeMode: "cover"
-            }} />
+            <SImage enablePreview src={src} style={{ resizeMode: "cover" }} />
         </SView>
         <SView width={4} />
 
@@ -266,7 +263,6 @@ export default class MoveStaff extends Component {
             obj.estado = e.data.estado;
             this.setState({ ...this.state })
         }).catch(e => {
-
         })
     }
 
@@ -443,8 +439,8 @@ export default class MoveStaff extends Component {
                             }
                             this.handleChangeStatus(p.row)
                         }}>{this.renderEstado(p.row.estado)}</SView>}
+                   />
 
-                    />
                     <DinamicTable.Col
                         key={"nuevo"}
                         label='Nuevo'
@@ -461,9 +457,9 @@ export default class MoveStaff extends Component {
                         }}
 
                         customComponent={p => <SView >{this.renderNew(p.row.fecha_on)}</SView>}
-
                     />
-                    <DinamicTable.Col
+
+                   <DinamicTable.Col
                         key={"rol"}
                         label='Rol en la empresa'
                         data={p => p.row.rol.descripcion}
@@ -472,12 +468,25 @@ export default class MoveStaff extends Component {
 
                     <DinamicTable.Col key={"employee"} data={p => p.row.employee_number ? p.row.employee_number : ""} label='Nro. empleado' />
                     <DinamicTable.Col key={"salario"} data={p => p.row.salario_hora ? p.row.salario_hora : ""} label='Salario' />
+
                     <DinamicTable.Col key={"NombreUser"} label='Nombre usuario' width={150}
                         data={e => e.row.usuario.Nombres + " " + e.row.usuario.Apellidos}
                         customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
-                    />
+                   />
+
                     <DinamicTable.Col key={"telefono"} data={p => p.row?.usuario?.Telefono} label='Teléfono' />
                     <DinamicTable.Col key={"email"} data={p => p.row.usuario.Correo} label='Email' />
+
+
+                    {/* <DinamicTable.Col
+                        key={"posicion"}
+                        label='Posición'
+                        width={500}
+                        data={p => Object.values(p.row.staff_tipo || {}).map(o => o.descripcion).join(", ")}
+                        customComponent={p => <SView row style={{ overflow: "hidden" }}>
+                            {Object.values(p.row.staff_tipo || {}).map(e => this.renderStaffTipo(e))}
+                        </SView>}
+                    /> */}
                     <DinamicTable.Col key={"ingles"} data={p => p.row.usuario.nivel_ingles} label='Nivel de Inglés' />
                     {/* <DinamicTable.Col key={"papeles"} data={p => p.row.usuario.papeles} label='¿Tiene papeles?' /> */}
                     <DinamicTable.Col key={"estadoCivil"} data={p => p.row.usuario.estado_civil} label='Estado civil' />
