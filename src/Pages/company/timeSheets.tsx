@@ -100,7 +100,9 @@ export default class timeSheets extends Component {
   };
 
 
-
+ componentDidMount() {
+  this.loadData();
+ }
   render() {
 
     return <SPage title={"Time Sheets"} disableScroll
@@ -113,11 +115,17 @@ export default class timeSheets extends Component {
           fecha_inicio=''
           fecha_fin=''
 
-        />
-        <SView card padding={8} onPress={() => {
-          console.log("this.table.dataFiltrada", this.table.dataFiltrada);
-          PDF.timeSheet.handlePress(this.table.dataFiltrada);
-        }}>
+      />
+      <SView   card padding={8}
+       onPress={() => {
+        console.log("this.table.dataFiltrada");
+          }}
+       // onPress={() => {
+       //    console.log("this.table.dataFiltrada");
+       //    // PDF.timeSheet.handlePress(this.table.dataFiltrada);s
+       // }}
+
+      >
           <SText clean>{"PDF"}</SText>
         </SView>
 
