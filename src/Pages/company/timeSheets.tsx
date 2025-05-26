@@ -100,9 +100,9 @@ export default class timeSheets extends Component {
   };
 
 
- componentDidMount() {
-  this.loadData();
- }
+  componentDidMount() {
+    this.loadData();
+  }
   render() {
 
     return <SPage title={"Time Sheets"} disableScroll
@@ -114,17 +114,19 @@ export default class timeSheets extends Component {
           onChange={this.handleDateChange}
           fecha_inicio=''
           fecha_fin=''
-      />
-      <SView card padding={8}
-       onPress={() => {
-        console.log("this.table.dataFiltrada"); }} > <SText clean>{"PDF"}</SText>
+        />
+        <SView card padding={8}
+          onPress={() => {
+            // console.log("this.table.dataFiltrada");
+            PDF.timeSheet.handlePress(this.table.dataFiltrada);
+          }} > <SText clean>{"PDF"}</SText>
         </SView>
       </SView>
       <SView col={"xs-12"} flex>
         <DinamicTable
 
-       ref={ref => this.table = ref}
-                 language={SLanguage.language}
+          ref={ref => this.table = ref}
+          language={SLanguage.language}
 
           loadInitialState={async () => {
 
