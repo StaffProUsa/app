@@ -293,7 +293,7 @@ export default class timeSheets extends Component {
           <Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
             dataType='date'
             data={e => new SDate(e.row.staff.fecha_inicio, "yyyy-MM-dd").date}
-            format={e => new SDate(e.data).toString("yyyy-MM-dd")}
+            format={e => new SDate(e.data).toString("MM-dd-yyyy")}
           // textStyle={{ color: STheme.color.success }}
           />
 

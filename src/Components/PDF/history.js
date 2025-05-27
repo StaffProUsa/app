@@ -5,25 +5,21 @@ import * as SPDF from 'servisofts-rn-spdf'
 
 const cols = [
     { key: "index", label: "#", width: 30, },
-    { key: "fecha", label: "DATE", width: 65 },
-    { key: "usuario", label: "NAME", width: 170 },
-     { key: "key_cliente", label: "LOCATION", width: 90 },
-    // { key: "employee_number", label: "EMPLOYEE N°", width: 170 },
-    { key: "arrived", label: "ARRIVED", width: 70 },
-    { key: "staff", label: "POSITION", width: 100 },
+    { key: "fecha", label: "DATE", width: 55 },
+    { key: "key_company", label: "COMPANY", width: 130 },
+    { key: "key_cliente", label: "CLIENT", width: 90 },
+    { key: "staff", label: "POSITION", width: 90 },
     { key: "inicio", label: "TIME IN", width: 60 },
     { key: "fin", label: "TIME OUT", width: 60 },
     { key: "horas", label: "TTL HOURS", width: 65 },
-   
+    { key: "salario_hora", label: "SALARY", width: 65 },
+    { key: "subtotal", label: "SUBTOTAL", width: 65 },
 ]
 
 const HEIGHT = 16;
 const BorderColor = "#CCCCCC"
 const fontSize = 10;
 export default class timeSheet {
-
-
-
 
     static renderHeader = () => {
         return <SPDF.View style={{
@@ -55,7 +51,6 @@ export default class timeSheet {
     }
     static renderItem = (index, obj) => {
         let contador = 0;
-        console.log("obj", obj);
         return <SPDF.View style={{ width: "100%", flexDirection: "row", borderWidth: 1, borderColor: BorderColor }}>
             {cols.map((col, i) => {
                 let dato = obj[col.key];
@@ -66,17 +61,18 @@ export default class timeSheet {
                         break;
                     case 1:
                         let fecha = new Date(dato);
+                        // let fecha = new Date(dato);
                         let dia = String(fecha.getUTCDate()).padStart(2, '0');
                         let mes = String(fecha.getUTCMonth() + 1).padStart(2, '0'); // los meses van de 0 a 11
                         let anio = fecha.getUTCFullYear();
-                        dato = `${dia}-${mes}-${anio}`;
+                        dato = `${mes}-${dia}-${anio}`;
                         break;
 
-                    case 4:
-                        dato = (obj["inicio"] != "") ? "YES" : "NO";
-                        break;
+                    // case 4:
+                    //     dato = (obj["inicio"] != "") ? "YES" : "NO";
+                    //     break;
 
-                    case 6:
+                    case 5:
                         let horaFormateada = new Date(obj["inicio"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -84,7 +80,7 @@ export default class timeSheet {
                         });
                         dato = (obj["inicio"] != "") ? horaFormateada : " ";
                         break;
-                    case 7:
+                    case 6:
                         let horaFormateadaFin = new Date(obj["fin"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -92,58 +88,23 @@ export default class timeSheet {
                         });
                         dato = (obj["fin"] != "") ? horaFormateadaFin : " ";
                         break;
+                    case 7:
+                        dato = obj["horas"].toFixed(2);
+                        break;
                     case 8:
                         dato = obj["horas"].toFixed(2);
                         break;
-                    
+
+                    case 9:
+                        dato = obj["horas"].toFixed(2);
+                        break;
+
                     default:
                         dato = obj[col.key];
+                        // dato = "";
                         break;
                 }
-                // if (i == 0) {
-                //     return <SPDF.View key={i} style={{
-                //         width: col.width, height: HEIGHT, alignItems: "center", justifyContent: "center",
-                //         borderLeftWidth: i == 0 ? 0 : 1,
-                //         borderColor: BorderColor,
-                //     }}>
-                //         <SPDF.Text style={{
-                //             fontSize: fontSize,
-                //             font: "Roboto",
-                //             height: HEIGHT + 3,
-                //         }}>{index ?? " "}</SPDF.Text>
-                //     </SPDF.View>
-                // }
-                // if (i == 1) {
-                //     let fecha = new Date(dato);
 
-                //     let dia = String(fecha.getUTCDate()).padStart(2, '0');
-                //     let mes = String(fecha.getUTCMonth() + 1).padStart(2, '0'); // los meses van de 0 a 11
-                //     let anio = fecha.getUTCFullYear();
-                //     let fechaFormateada = `${dia}-${mes}-${anio}`;
-                //     return <SPDF.View key={i} style={{
-                //         width: col.width, height: HEIGHT, alignItems: "center", justifyContent: "center",
-                //         borderLeftWidth: i == 0 ? 0 : 1,
-                //         borderColor: BorderColor,
-                //     }}>
-                //         <SPDF.Text style={{
-                //             fontSize: fontSize,
-                //             font: "Roboto",
-                //             height: HEIGHT + 3,
-                //         }}>{fechaFormateada ?? " "}</SPDF.Text>
-                //     </SPDF.View>
-                // }else if (i == 0) {
-                //     return <SPDF.View key={i} style={{
-                //         width: col.width, height: HEIGHT, alignItems: "center", justifyContent: "center",
-                //         borderLeftWidth: i == 0 ? 0 : 1,
-                //         borderColor: BorderColor,
-                //     }}>
-                //         <SPDF.Text style={{
-                //             fontSize: fontSize,
-                //             font: "Roboto",
-                //             height: HEIGHT + 3,
-                //         }}>{index ?? " "}</SPDF.Text>
-                //     </SPDF.View>
-                // }
 
 
 
@@ -188,7 +149,7 @@ export default class timeSheet {
                     width: "100%",
                     alignItems: "center"
                 }}>
-                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{data[0].key_company}{""}</SPDF.Text>
+                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{"REPORTE ASISTENCIA"} - {data[0].usuario}</SPDF.Text>
                 </SPDF.View>
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
 

@@ -8,6 +8,7 @@ import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
 import TableIcon from '../Components/Table/TableIcon';
 import Config from '../Config';
 import PBarraFooter from '../Components/PBarraFooter';
+import PDF from '../Components/PDF';
 
 // type DataType = typeof DATATEST[0]
 type DataType = any
@@ -32,6 +33,7 @@ export default class historyAlvaro extends Component {
   // key_cliente_ = SNavigation.getParam("key_cliente")
   // key_evento_ = SNavigation.getParam("key_evento")
   // key_company_ = "b8118596-9980-4a27-aa4e-a48384095350";
+  table: DinamicTable<any> | any = null;
 
   getByKeys = async (keys: string[]) => {
     // let keys = [...new Set(Object.values(e.data).map(a => a.key_usuario).filter(key => key !== null))
@@ -50,10 +52,11 @@ export default class historyAlvaro extends Component {
 
   async loadData1111() {
 
-//INFO: ING. ALVARO PASO POR AQUI
-//INFO: Se obtiene la fecha de inicio y fin de los parametros
-   const fecha_inicio_statatio = this.params.fecha_fin?.trim() ? this.params.fecha_fin : "2000-03-01";
-   const fecha_fin_statatio = this.params.fecha_fin?.trim() ? this.params.fecha_fin : "2030-03-01";
+    //INFO: ING. ALVARO PASO POR AQUI
+    //INFO: Se obtiene la fecha de inicio y fin de los parametros
+    // const fecha_inicio_statatio = this.params.fecha_fin?.trim() ? this.params.fecha_fin : "2000-03-01"; //así estaba antes
+    const fecha_inicio_statatio = this.params.fecha_inicio?.trim() ? this.params.fecha_inicio : "2000-03-01";
+    const fecha_fin_statatio = this.params.fecha_fin?.trim() ? this.params.fecha_fin : "2030-03-01";
 
     // let fecha_fin_statatio = this.params.fecha_fin ?? new SDate().toString('yyyy-MM-dd');
     const resp: any = await SSocket.sendPromise({
@@ -77,6 +80,15 @@ export default class historyAlvaro extends Component {
 
   }
 
+  // async metodoData() {
+  //   const datos = await this.loadData1111();
+  //   this.procesarResultado(datos);
+  // }
+
+  // procesarResultado(data: any[]) {
+  //   console.log("Procesando datos:", data);
+  //   // aquí haces lo que necesites con los datos
+  // }
 
 
   calculador_hora(hora_inicio: string, hora_fin: string) {
@@ -88,11 +100,30 @@ export default class historyAlvaro extends Component {
 
   }
 
+  async metodoPrincipal() {
+    const data = await this.loadData1111();
+    PDF.history.handlePress(data);
+  }
+
   render() {
     // console.log("cliee " + this.key_cliente_)
     return <SPage titleLanguage={{ es: "Reporte de asistencia", en: "Timesheet" }} disableScroll footer={<PBarraFooter url={'/company'} />}>
+      <SView col={"xs-12"} row >
+        <SView card padding={8}
+          onPress={() => {
+            // console.log("this.table.dataFiltrada");
+            // PDF.timeSheet.handlePress(this.table.dataFiltrada);
+            // const dataUser = await this.loadData1111();
+
+            // console.log("datito", this.metodoPrincipal());
+            // this.metodoPrincipal();
+            PDF.history.handlePress(this.table.dataFiltrada)
+          }} > <SText clean>{"Export PDF"}</SText>
+        </SView>
+      </SView>
       <SView col={"xs-12"} flex>
         <DinamicTable
+          ref={ref => this.table = ref}
           loadInitialState={async () => {
             let filters: ExporterStateType["filters"] = [];
             if (this.params.state) {
@@ -181,7 +212,7 @@ export default class historyAlvaro extends Component {
 
             label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
             dataType='date' data={e => new SDate(e.row?.staff.fecha_inicio, "yyyy-MM-dd").date}
-            format={e => new SDate(e.data).toString("yyyy-MM-dd")} />
+            format={e => new SDate(e.data).toString("MM-dd-yyyy")} />
           <Col key={"key_company"}
             labelIcon={<TableIcon name='icompany' />}
             label={SLanguage.select({ es: "Compania", en: "Company" })} width={100}
