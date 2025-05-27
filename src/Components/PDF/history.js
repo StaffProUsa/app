@@ -92,11 +92,11 @@ export default class timeSheet {
                         dato = obj["horas"].toFixed(2);
                         break;
                     case 8:
-                        dato = obj["horas"].toFixed(2);
+                        dato = obj["salario_hora"].toFixed(2);
                         break;
 
                     case 9:
-                        dato = obj["horas"].toFixed(2);
+                        dato = obj["subtotal"].toFixed(2);
                         break;
 
                     default:
