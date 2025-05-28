@@ -517,13 +517,13 @@ export default class cd extends React.Component {
                         {[
                             {
                                 label: { es: "Fecha ingreso:", en: "Entry date:" },
-                                value: new SDate(this.state?.data?.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("dd/MM/yyyy hh:mm"),
+                                value: new SDate(this.state?.data?.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("MM/dd/yyyy hh:mm"),
                                 icon: "CalendarCheck",
                                 color: STheme.color.lightGray,
                             },
                             {
                                 label: { es: "Fecha salida:", en: "Exit date:" },
-                                value: new SDate(this.state?.data?.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("dd/MM/yyyy hh:mm"),
+                                value: new SDate(this.state?.data?.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("MM/dd/yyyy hh:mm"),
                                 icon: "CalendarX",
                                 color: STheme.color.lightGray,
                             },

@@ -69,7 +69,7 @@ export default class timeSheet {
                         let dia = String(fecha.getUTCDate()).padStart(2, '0');
                         let mes = String(fecha.getUTCMonth() + 1).padStart(2, '0'); // los meses van de 0 a 11
                         let anio = fecha.getUTCFullYear();
-                        dato = `${dia}-${mes}-${anio}`;
+                        dato = `${mes}-${dia}-${anio}`;
                         break;
 
                     case 4:

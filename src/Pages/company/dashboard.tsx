@@ -56,7 +56,7 @@ export default class dashboard extends Component {
     return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll
       footer={<PBarraFooter url={'/company'} />}
     >
-      <SView col={"xs-8 sm-6 md-4"} row center>
+      <SView col={"xs-8 sm-6 md-4"} row >
 
         <SelectEntreFechas
           onChange={this.handleDateChange}
@@ -265,7 +265,7 @@ export default class dashboard extends Component {
             // data={e => new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").date}
             // dateFormat='MONTH dd, yyyy'
             data={e => new SDate(e.row.evento.fecha, "yyyy-MM-dd").date}
-            format={e => new SDate(e.data).toString("yyyy-MM-dd")}
+            format={e => new SDate(e.data).toString("MM-dd-yyyy")}
           // format={e => new SDate(e.data).toString("MONTH dd, yyyy")}
 
           />

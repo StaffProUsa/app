@@ -42,7 +42,10 @@ export default class invitationDetail extends React.Component {
     let usuario = this.state.usuario;
     return (
       <>
-        <SPage titleLanguage={{ es: "Invitación", en: "Invitation" }}  >
+        <SPage titleLanguage={{ es: "Invitación", en: "Invitation" }} onRefresh={(res) => {
+            this.componentDidMount();
+            if (res) res()
+        }} >
           <SView col={'xs-12'} >
             <SHr height={25} />
             <Container loading={!this.state.data}>

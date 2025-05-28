@@ -276,11 +276,11 @@ export default class history extends Component {
                             es: "Ingreso: ",
                             en: "Clock In: "
                         })}
-                            {!obj.fecha_ingreso ? "No" : new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH")}</SText>
+                            {!obj.fecha_ingreso ? "No" : new SDate(obj.fecha_ingreso, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd yyyy, HH")}</SText>
                         <SText col={"xs-6"} style={{ paddingLeft: 3 }} fontSize={12}>{SLanguage.select({
                             es: "Salida: ",
                             en: "Clock Out: "
-                        })} {!obj.fecha_salida ? "No" : new SDate(obj.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("yyyy MONTH dd, HH")}</SText>
+                        })} {!obj.fecha_salida ? "No" : new SDate(obj.fecha_salida, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd yyyy, HH")}</SText>
                     </SView>
                     {((obj.fecha_ingreso != null) && (obj.fecha_salida != null)) ? <>
                         <SHr height={10} />

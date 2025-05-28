@@ -119,7 +119,7 @@ export default class usuarios_bloqueados extends Component {
                     width={140}
                     dataType='date'
                     data={e => new SDate(e.row?.fecha_on, "yyyy-MM-ddThh:mm:ss").date}
-                    format={e => new SDate(e.data).toString("yyyy-MM-dd hh:mm:ss")} />
+                    format={e => new SDate(e.data).toString("MM-dd-yyyy hh:mm:ss")} />
                 <DinamicTable.Col key={"bloqueado_por"}
                     label={SLanguage.select({ es: "Bloqueado por", en: "Blocked by" })}
                     width={140}
