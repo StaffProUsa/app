@@ -582,7 +582,7 @@ export default class users extends Component {
                 <ResizeDualPanel
                     startX={(Dimensions.get("window").width / 2) - 8}
                     content1={
-                        <SView flex={1} height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }}>
+                        <SView flex={1} height backgroundColor={STheme.color.info} style={{ borderRadius: 4, paddingBottom: 70 }}>
                             {/* <SView flex={2} height backgroundColor={STheme.color.darkGray} style={{ borderRadius: 4 }}> */}
                             <SHr h={4} />
                             <SText fontSize={12} color={STheme.color.text} center language={{
@@ -609,6 +609,7 @@ export default class users extends Component {
                                 data={this.state.data_disponibles}
                                 filter={(a) => (!a.staff_usuario || a?.staff_usuario?.estado == 2) && (!!a?.usuario) && (!a?.bloqueado)}
                                 rowHeight={25}
+                                limit={1000}
                                 cellStyle={{
                                     justifyContent: "center",
                                     paddingStart: 2,
@@ -1157,7 +1158,7 @@ export default class users extends Component {
                         </SView >
                     }
                     content2={
-                        <SView flex height backgroundColor={STheme.color.info} style={{ borderRadius: 4 }} >
+                        <SView flex height backgroundColor={STheme.color.info} style={{ borderRadius: 4, paddingBottom: 70 }} >
                             <SHr h={4} />
                             <SText center fontSize={12} color={STheme.color.text} language={{
                                 es: "Staff Aceptado",
@@ -1171,6 +1172,7 @@ export default class users extends Component {
                                 headerColor={STheme.color.primary}
                                 filter={(a) => !!a.staff_usuario && a?.staff_usuario?.estado != 2}
                                 rowHeight={25}
+                                limit={1000}
                                 cellStyle={{
                                     justifyContent: "center",
                                     paddingStart: 2,
