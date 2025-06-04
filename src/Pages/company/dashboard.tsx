@@ -9,6 +9,7 @@ import Config from '../../Config';
 import PBarraFooter from '../../Components/PBarraFooter';
 import { SelectEntreFechas } from '../../Components/Fechas';
 import { Container } from '../../Components';
+import PDF from '../../Components/PDF';
 
 type DataType = any
 const Col = DinamicTable.Col<DataType>
@@ -51,19 +52,30 @@ export default class dashboard extends Component {
 
   };
 
+  componentDidMount() {
+    this.loadData();
+  }
+
   render() {
 
     return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll
       footer={<PBarraFooter url={'/company'} />}
     >
-      <SView col={"xs-8 sm-6 md-4"} row >
+      <SView col={"xs-8 sm-6 md-4"}  >
+        <SView col={"xs-12"} row>
+          <SelectEntreFechas
+            onChange={this.handleDateChange}
+            fecha_inicio=''
+            fecha_fin=''
 
-        <SelectEntreFechas
-          onChange={this.handleDateChange}
-          fecha_inicio=''
-          fecha_fin=''
-
-        />
+          />
+          <SView card padding={8}
+            onPress={() => {
+              // console.log("this.table.dataFiltrada");
+              PDF.dashboard.handlePress(this.table.dataFiltrada);
+            }} > <SText clean>{"PDF"}</SText>
+          </SView>
+        </SView>
 
       </SView>
       <SView col={"xs-12"} flex>
@@ -154,14 +166,15 @@ export default class dashboard extends Component {
               ],
             }
           }}
-          loadData={this.loadData}
+          // loadData={this.loadData}
+          loadData={this.loadData.bind(this)}
           keyExtractor={(e: any) => e.staff.key}
           colors={Config.table.styles()}
           cellStyle={Config.table.cellStyle()}
           textStyle={Config.table.textStyle()}
           iconSize={Config.table.iconSize()}
           selectType='single'
-          
+
           listFooterComponent={() => {
             return <SView height={80} />
           }}
@@ -186,6 +199,18 @@ export default class dashboard extends Component {
             })
           }}
         >
+          <Col key={"fecha"} label={SLanguage.select({ en: "Date", es: "Fecha" })} width={80}
+            textStyle={{
+              textAlign: "right"
+            }}
+            dataType='date'
+            // data={e => new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").date}
+            // dateFormat='MONTH dd, yyyy'
+            data={e => new SDate(e.row.evento.fecha, "yyyy-MM-dd").date}
+            format={e => new SDate(e.data).toString("MM-dd-yyyy")}
+          // format={e => new SDate(e.data).toString("MONTH dd, yyyy")}
+
+          />
 
           <Col key={"company"} label={SLanguage.select({ en: "Company", es: "Compañia" })} width={100}
             data={e => e.row.company.descripcion}
@@ -257,18 +282,7 @@ export default class dashboard extends Component {
               </SView>
             }} />
 
-          <Col key={"fecha"} label={SLanguage.select({ en: "Date", es: "Fecha" })} width={130}
-            textStyle={{
-              textAlign: "right"
-            }}
-            dataType='date'
-            // data={e => new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").date}
-            // dateFormat='MONTH dd, yyyy'
-            data={e => new SDate(e.row.evento.fecha, "yyyy-MM-dd").date}
-            format={e => new SDate(e.data).toString("MM-dd-yyyy")}
-          // format={e => new SDate(e.data).toString("MONTH dd, yyyy")}
 
-          />
           <Col key={"inicio"} label={SLanguage.select({ en: "Clock in", es: "Inicio" })} width={80}
             dataType='date'
             disableFilterGroup

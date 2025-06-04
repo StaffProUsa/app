@@ -4,23 +4,24 @@ import { SDate, SText, SView } from 'servisofts-component';
 import * as SPDF from 'servisofts-rn-spdf'
 
 const cols = [
-    { key: "index", label: "#", width: 30, },
-    { key: "fecha", label: "DATE", width: 65 },
-    { key: "usuario", label: "NAME", width: 170 },
-     { key: "key_cliente", label: "LOCATION", width: 90 },
-    // { key: "employee_number", label: "EMPLOYEE N°", width: 170 },
-    { key: "arrived", label: "ARRIVED", width: 70 },
-    { key: "staff", label: "POSITION", width: 100 },
+    { key: "index", label: "#", width: 20, },
+    { key: "fecha", label: "DATE", width: 60 },
+     { key: "company", label: "COMPANY", width: 90 },
+     { key: "cliente", label: "CLIENT", width: 150 },
+     { key: "evento", label: "EVENT", width: 110 },
+    { key: "staff", label: "POSITION", width: 85 },
+     { key: "staff_personal", label: "#N", width: 30 },
+     { key: "state", label: "STATE", width: 50 },
     { key: "inicio", label: "TIME IN", width: 60 },
     { key: "fin", label: "TIME OUT", width: 60 },
-    { key: "horas", label: "TTL HOURS", width: 65 },
+    // { key: "staff_descripcion", label: "DESCRIPTION", width: 65 },
    
 ]
 
 const HEIGHT = 16;
 const BorderColor = "#CCCCCC"
 const fontSize = 10;
-export default class timeSheet {
+export default class dashboard {
 
 
 
@@ -72,11 +73,11 @@ export default class timeSheet {
                         dato = `${mes}-${dia}-${anio}`;
                         break;
 
-                    case 4:
-                        dato = (obj["inicio"] != "") ? "YES" : "NO";
-                        break;
+                    // case 4:
+                    //     dato = (obj["inicio"] != "") ? "YES" : "NO";
+                    //     break;
 
-                    case 6:
+                    case 8:
                         let horaFormateada = new Date(obj["inicio"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -84,7 +85,7 @@ export default class timeSheet {
                         });
                         dato = (obj["inicio"] != "") ? horaFormateada : " ";
                         break;
-                    case 7:
+                    case 9:
                         let horaFormateadaFin = new Date(obj["fin"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -92,9 +93,9 @@ export default class timeSheet {
                         });
                         dato = (obj["fin"] != "") ? horaFormateadaFin : " ";
                         break;
-                    case 8:
-                        dato = obj["horas"].toFixed(2);
-                        break;
+                    // case 8:
+                    //     dato = obj["horas"].toFixed(2);
+                    //     break;
                     
                     default:
                         dato = obj[col.key];
@@ -188,7 +189,7 @@ export default class timeSheet {
                     width: "100%",
                     alignItems: "center"
                 }}>
-                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{"STAFF"}</SPDF.Text>
+                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{"DASHBOARD"}</SPDF.Text>
                 </SPDF.View>
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
 
