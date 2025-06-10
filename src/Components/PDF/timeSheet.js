@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SText, SView } from 'servisofts-component';
+import { SDate, SNavigation, SText, SView } from 'servisofts-component';
 import * as SPDF from 'servisofts-rn-spdf'
 
 const cols = [
     { key: "index", label: "#", width: 30, },
     { key: "fecha", label: "DATE", width: 65 },
     { key: "usuario", label: "NAME", width: 170 },
-     { key: "key_cliente", label: "LOCATION", width: 90 },
+    { key: "key_cliente", label: "LOCATION", width: 90 },
     // { key: "employee_number", label: "EMPLOYEE N°", width: 170 },
     { key: "arrived", label: "ARRIVED", width: 70 },
     { key: "staff", label: "POSITION", width: 100 },
     { key: "inicio", label: "TIME IN", width: 60 },
     { key: "fin", label: "TIME OUT", width: 60 },
     { key: "horas", label: "TTL HOURS", width: 65 },
-   
+
 ]
 
 const HEIGHT = 16;
@@ -95,7 +95,7 @@ export default class timeSheet {
                     case 8:
                         dato = obj["horas"].toFixed(2);
                         break;
-                    
+
                     default:
                         dato = obj[col.key];
                         break;
@@ -169,6 +169,17 @@ export default class timeSheet {
         </SPDF.View>
     }
     static handlePress = (data) => {
+        let key_company_ = SNavigation.getParam("key_company")
+        let key_cliente_ = SNavigation.getParam("key_cliente")
+        let key_evento_ = SNavigation.getParam("key_evento")
+        let titulo = data[0].key_company + " (" + data[0].key_evento + ")";
+        if (key_company_ && key_cliente_ && key_evento_) {
+            titulo = data[0].key_company + " (" + data[0].key_cliente + " / " + data[0].key_evento + ")";
+        } else if (key_company_ && key_cliente_) {
+            titulo = data[0].key_company + " (" + data[0].key_cliente + ")";
+        } else {
+            titulo = data[0].key_company;
+        }
         SPDF.create(<SPDF.Page style={{ width: 791, height: 612, margin: 20, padding: 20, }}
             header={<SPDF.View style={{
                 width: "100%",
@@ -188,7 +199,7 @@ export default class timeSheet {
                     width: "100%",
                     alignItems: "center"
                 }}>
-                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{"STAFF"}</SPDF.Text>
+                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{titulo}</SPDF.Text>
                 </SPDF.View>
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
 

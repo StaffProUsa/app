@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SText, SView } from 'servisofts-component';
+import { SDate, SNavigation, SText, SView } from 'servisofts-component';
 import * as SPDF from 'servisofts-rn-spdf'
 
 const cols = [
     { key: "index", label: "#", width: 20, },
     { key: "fecha", label: "DATE", width: 60 },
-     { key: "company", label: "COMPANY", width: 90 },
-     { key: "cliente", label: "CLIENT", width: 150 },
-     { key: "evento", label: "EVENT", width: 110 },
+    { key: "company", label: "COMPANY", width: 90 },
+    { key: "cliente", label: "CLIENT", width: 150 },
+    { key: "evento", label: "EVENT", width: 110 },
     { key: "staff", label: "POSITION", width: 85 },
-     { key: "staff_personal", label: "#N", width: 30 },
-     { key: "state", label: "STATE", width: 50 },
+    { key: "staff_personal", label: "#N", width: 30 },
+    { key: "state", label: "STATE", width: 50 },
     { key: "inicio", label: "TIME IN", width: 60 },
     { key: "fin", label: "TIME OUT", width: 60 },
     // { key: "staff_descripcion", label: "DESCRIPTION", width: 65 },
-   
+
 ]
 
 const HEIGHT = 16;
@@ -96,7 +96,7 @@ export default class dashboard {
                     // case 8:
                     //     dato = obj["horas"].toFixed(2);
                     //     break;
-                    
+
                     default:
                         dato = obj[col.key];
                         break;
@@ -170,6 +170,37 @@ export default class dashboard {
         </SPDF.View>
     }
     static handlePress = (data) => {
+        let key_company_ = SNavigation.getParam("key_company")
+        let key_cliente_ = SNavigation.getParam("key_cliente")
+        let key_evento_ = SNavigation.getParam("key_evento")
+        let contact = "";
+        let address = "";
+        let phone = "";
+        let email = "";
+        let titulo = "";
+        let imageId = data[0].__original?.company?.key ?? "default.png"; // Default image if not found
+
+        if (key_company_ && key_cliente_ && key_evento_) {//mostrar datos de cliente y evento
+            titulo = data[0].company;
+            contact = data[0].__original?.cliente?.contacto ?? "";
+            address = data[0].__original?.cliente?.direccion ?? "";
+            phone = data[0].__original?.cliente?.telefono ?? "";
+            email = data[0].__original?.cliente?.email ?? "";
+        } else if (key_company_ && key_cliente_) {//mostrar datos de cliente
+            titulo = data[0].company;
+            contact = data[0].__original?.cliente?.contacto ?? "";
+            address = data[0].__original?.cliente?.direccion ?? "";
+            phone = data[0].__original?.cliente?.telefono ?? "";
+            email = data[0].__original?.cliente?.email ?? "";
+        } else if (key_company_) {//mostrar solo datos de empresa
+            titulo = data[0].company;
+            contact = data[0].__original?.company?.contacto ?? "";
+            address = data[0].__original?.company?.direccion ?? "";
+            phone = data[0].__original?.company?.telefono ?? "";
+            email = data[0].__original?.company?.email ?? "";
+        } else {//no mostrar datos de cliente ni evento
+            titulo = "ALL COMPANIES";
+        }
         SPDF.create(<SPDF.Page style={{ width: 791, height: 612, margin: 20, padding: 20, }}
             header={<SPDF.View style={{
                 width: "100%",
@@ -185,13 +216,58 @@ export default class dashboard {
                 }}>
                 </SPDF.View> */}
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
-                <SPDF.View style={{
+                {/* <SPDF.View style={{
                     width: "100%",
                     alignItems: "center"
                 }}>
                     <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{"DASHBOARD"}</SPDF.Text>
                 </SPDF.View>
-                <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
+                <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View> */}
+
+                <SPDF.View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 10, }}>
+                    {/* Columna 1 */}
+                    <SPDF.View style={{ width: "33%" }}>
+                        {/* <SPDF.View style={{
+                            width: "100%",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between", // o "flex-start" si prefieres
+                            marginBottom: 10
+                        }}>
+                            <SPDF.Text style={{ fontSize: 15, marginRight: 10, font: "Roboto" }}>
+                                Company:
+                            </SPDF.Text>
+
+                            <SPDF.Image
+                                source={{ uri: "https://staffprousa.servisofts.com/images/company/b8118596-9980-4a27-aa4e-a48384095350" }}
+                                style={{ width: 40, height: 40, marginHorizontal: 10 }}
+                            />
+
+                            <SPDF.Text style={{ fontSize: 15, font: "Roboto" }}>
+                                {titulo}
+                            </SPDF.Text>
+                        </SPDF.View> */}
+                        <SPDF.Text style={{ fontSize: 10, height: 28, fontWeight: "bold", fontSize: 15, font: "Roboto" }}>Company: {titulo}</SPDF.Text>
+
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Contact name: {contact}</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Address: {address}</SPDF.Text>
+                    </SPDF.View>
+
+                    {/* Columna 2 */}
+                    <SPDF.View style={{ width: "33%", alignItems: "justifyContent" }}>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Request date: {new SDate().toString("MM/dd/yyyy")}</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Phone: {phone}</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Email: {email}</SPDF.Text>
+                    </SPDF.View>
+
+                    {/* Columna 3 */}
+                    <SPDF.View style={{ width: "33%", alignItems: "flex-end" }}>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Bank Account #: 435061329120</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Routing #: 051000017</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>BankName : Bank of America</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>
 
                 {this.renderHeader()}
             </ SPDF.View>}
