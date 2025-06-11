@@ -115,6 +115,7 @@ export default class timeSheets extends Component {
           fecha_inicio=''
           fecha_fin=''
         />
+        <SView width={12} />
         <SView card padding={8}
           onPress={() => {
             // console.log("this.table.dataFiltrada");

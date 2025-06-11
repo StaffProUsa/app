@@ -69,6 +69,7 @@ export default class dashboard extends Component {
             fecha_fin=''
 
           />
+          <SView width={12} />
           <SView card padding={8}
             onPress={() => {
               // console.log("this.table.dataFiltrada");

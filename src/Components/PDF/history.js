@@ -174,35 +174,36 @@ export default class timeSheet {
 
                 <SPDF.View
                     style={{
-                        borderWidth: 1,
+                        borderWidth: 0,
                         borderColor: "#000",
                         borderRadius: 8,
                         padding: 10,
-                        minWidth: 200,
+                        minWidth: 170,
                         backgroundColor: "#f5f5f5",
                         width: "100%",
-                         alignItems: "end"
+                        alignItems: "end",
+                        
                     }}
                 >
-                    <SPDF.View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5, }}>
-                        <SPDF.Text style={{ fontWeight: "bold", fontSize: 12, color: "#000", font: "Roboto" }}>
+                    {/* <SPDF.View style={{  marginBottom: 5, }}> */}
+                        <SPDF.Text style={{  fontSize: 12, color: "#000", font: "Roboto", textAlign: "right" }}>
                             {"Hours worked: "}
                         </SPDF.Text>
-                        <SPDF.Text style={{ fontSize: 12, color: "#000", font: "Roboto"  }}>
+                        <SPDF.Text style={{fontWeight: "bold", fontSize: 12, color: "#000", font: "Roboto" }}>
                             {total.toFixed(2)} hrs
                         </SPDF.Text>
-                    </SPDF.View>
+                    {/* </SPDF.View> */}
 
-                    <SPDF.View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <SPDF.Text style={{ fontWeight: "bold", fontSize: 12, color: "#000", font: "Roboto" }}>
+                    {/* <SPDF.View style={{ flexDirection: "row", justifyContent: "space-between" }}> */}
+                        <SPDF.Text style={{  fontSize: 12, color: "#000", font: "Roboto" }}>
                             {"Total to be paid: "}
                         </SPDF.Text>
-                        <SPDF.Text style={{ fontSize: 12, color: "#28a745", fontWeight: "bold", font: "Roboto" }}>
+                        <SPDF.Text style={{ fontWeight: "bold",fontSize: 12, color: "#28a745", fontWeight: "bold", font: "Roboto" }}>
                             $ {subtotal.toFixed(2)}
                         </SPDF.Text>
-                    </SPDF.View>
-                </SPDF.View>
+                    {/* </SPDF.View> */}
                 {/* </SPDF.View> */}
+                </SPDF.View>
                 <SPDF.View style={{ width: "100%", height: 10 }}></SPDF.View>
                 <SPDF.Text style={{ fontSize: fontSize, }}>{"Page #${current_page}"}</SPDF.Text>
             </SPDF.View>
