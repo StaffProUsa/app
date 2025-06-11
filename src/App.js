@@ -41,7 +41,8 @@ try {
 
 SLanguage.loadStorage();
 
-SMapView.bootstrapURLKeys = { key: "AIzaSyC4rcy6GRVM5_i9ZF0vGFmb1HRc0mXsAdk" }
+SMapView.bootstrapURLKeys = { key: "AIzaSyAuyr4oPz9Q8rouH1F_wMOdotcotdq1gto" }
+// SMapView.bootstrapURLKeys = { key: "AIzaSyC4rcy6GRVM5_i9ZF0vGFmb1HRc0mXsAdk" }
 
 const App = (props) => {
   useEffect(() => {
