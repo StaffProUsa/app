@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SText, SView } from 'servisofts-component';
+import { SDate, SNavBar, SNavigation, SText, SView } from 'servisofts-component';
 import * as SPDF from 'servisofts-rn-spdf'
 
 const cols = [
@@ -140,6 +140,14 @@ export default class timeSheet {
             return acc + (e.subtotal ?? 0);
         }, 0);
         console.log("subtotal", subtotal);
+        let state = SNavigation.getParam("state");
+        if (!state) {
+            state = "Total Events";
+        } else if (state == "FINISHED") {
+            state = "Unattended events";
+        } else if (state == "COMPLETED") {
+            state = "Completed events";
+        }
         SPDF.create(<SPDF.Page style={{ width: 791, height: 612, margin: 20, padding: 20, }}
             header={<SPDF.View style={{
                 width: "100%",
@@ -155,6 +163,14 @@ export default class timeSheet {
                 }}>
                 </SPDF.View> */}
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
+                <SPDF.View style={{
+                    width: "100%",
+                    alignItems: "justify"
+                }}>
+                    <SPDF.Text style={{ fontSize: 12, font: "Roboto" }}>
+                        {`State: ${state}`}
+                    </SPDF.Text>
+                </SPDF.View>
                 <SPDF.View style={{
                     width: "100%",
                     alignItems: "center"
@@ -182,27 +198,27 @@ export default class timeSheet {
                         backgroundColor: "#f5f5f5",
                         width: "100%",
                         alignItems: "end",
-                        
+
                     }}
                 >
                     {/* <SPDF.View style={{  marginBottom: 5, }}> */}
-                        <SPDF.Text style={{  fontSize: 12, color: "#000", font: "Roboto", textAlign: "right" }}>
-                            {"Hours worked: "}
-                        </SPDF.Text>
-                        <SPDF.Text style={{fontWeight: "bold", fontSize: 12, color: "#000", font: "Roboto" }}>
-                            {total.toFixed(2)} hrs
-                        </SPDF.Text>
+                    <SPDF.Text style={{ fontSize: 12, color: "#000", font: "Roboto", textAlign: "right" }}>
+                        {"Hours worked: "}
+                    </SPDF.Text>
+                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 12, color: "#000", font: "Roboto" }}>
+                        {total.toFixed(2)} hrs
+                    </SPDF.Text>
                     {/* </SPDF.View> */}
 
                     {/* <SPDF.View style={{ flexDirection: "row", justifyContent: "space-between" }}> */}
-                        <SPDF.Text style={{  fontSize: 12, color: "#000", font: "Roboto" }}>
-                            {"Total to be paid: "}
-                        </SPDF.Text>
-                        <SPDF.Text style={{ fontWeight: "bold",fontSize: 12, color: "#28a745", fontWeight: "bold", font: "Roboto" }}>
-                            $ {subtotal.toFixed(2)}
-                        </SPDF.Text>
+                    <SPDF.Text style={{ fontSize: 12, color: "#000", font: "Roboto" }}>
+                        {"Total to be paid: "}
+                    </SPDF.Text>
+                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 12, color: "#28a745", fontWeight: "bold", font: "Roboto" }}>
+                        $ {subtotal.toFixed(2)}
+                    </SPDF.Text>
                     {/* </SPDF.View> */}
-                {/* </SPDF.View> */}
+                    {/* </SPDF.View> */}
                 </SPDF.View>
                 <SPDF.View style={{ width: "100%", height: 10 }}></SPDF.View>
                 <SPDF.Text style={{ fontSize: fontSize, }}>{"Page #${current_page}"}</SPDF.Text>
