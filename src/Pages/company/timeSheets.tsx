@@ -119,7 +119,7 @@ export default class timeSheets extends Component {
         <SView card padding={8}
           onPress={() => {
             // console.log("this.table.dataFiltrada");
-            PDF.timeSheet.handlePress(this.table.dataFiltrada);
+            PDF.timeSheet.handlePress(this.table.dataFiltrada, this.state.fecha_inicio, this.state.fecha_fin);
           }} > <SText clean>{"PDF"}</SText>
         </SView>
       </SView>
