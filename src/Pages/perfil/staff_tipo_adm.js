@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { SInput, SNavigation, SPage, SText, STheme, SView, SNotification, SLanguage, SHr, SIcon, SBuscador, SImage } from 'servisofts-component';
+import { SInput, SNavigation, SPage, SText, STheme, SView, SNotification, SLanguage, SHr, SIcon, SBuscador, SImage, SForm, SLoad } from 'servisofts-component';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -143,6 +143,22 @@ export default class staff_tipo_adm extends Component {
   }
   componentDidMount() {
     SLanguage.addListener(this.onChangeLanguage.bind(this))
+
+
+    SSocket.sendPromise({
+      component: "usuario_company",
+      type: "get",
+      key_company: this.state.key_company,
+      key_usuario: this.state.key_usuario
+    }).then(e => {
+
+      this.setState({ usuario_company: e.data })
+      console.log(e);
+    }).catch(e => {
+      console.log(e);
+    })
+
+
     SSocket.sendPromise({
       component: "staff_tipo",
       type: "getAll",
@@ -167,6 +183,8 @@ export default class staff_tipo_adm extends Component {
     }).catch(e => {
 
     })
+
+    
   }
   componentWillUnmount() {
     MDL.validaciones.componentDidMount();
@@ -176,20 +194,86 @@ export default class staff_tipo_adm extends Component {
   render() {
     let lenguaje = SLanguage.language;
     const datafilter = SBuscador.filter({ data: this.state.data ?? {}, txt: this.state.filter })
+    if(!this.state.usuario_company) return <SLoad />
 
     return <SPage title={"Staff Tipo"} disableScroll center>
       <SHr height={40} />
       <Container flex center >
-        <SView col={"xs-12"} row>
-          <SText justify={true} fontSize={15} bold={true}> {(lenguaje === "es") ? "Salario desde perfil:" : "Salary from profile:"}</SText>
+        <SView col={"xs-12"} row center>
+          {/* <SText justify={true} fontSize={15} bold={true}> {(lenguaje === "es") ? "Salario desde perfil:" : "Salary from profile:"}</SText>
           <SView width={4} />
-          <SText justify={true} fontSize={14} >{(this.state.salario_user != null) ? "USD " +this.state.salario_user : "USD 0"}</SText>
+          <SText justify={true} fontSize={14} >{(this.state.salario_user != null) ? "USD " +this.state.salario_user : "USD 0"}</SText> */}
+          <SView col={"xs-6"} row>
+            <SForm
+              center
+              row
+              ref={(form) => {
+                this.form = form;
+              }}
+              style={{
+                justifyContent: 'space-between',
+              }}
+              inputProps={{
+                customStyle: 'romeo',
+                separation: 16,
+
+                color: STheme.color.text
+                // fontSize: 16,
+                // font: "Roboto",
+              }}
+              inputs={{
+                salario_hora: {
+                  label: (lenguaje == "es") ? 'Salario desde perfil' : 'Salary from profile',
+                  type: 'money',
+                  icon: "USD",
+
+                  isRequired: true,
+                  // defaultValue: (this.state.salario_user != null) ? parseFloat(this.state.salario_user ?? 0).toFixed(2) : 0,
+                  defaultValue: parseFloat(this.state.usuario_company?.salario_hora).toFixed(2) ?? 0,
+                },
+
+
+
+              }}
+              // onSubmitName={"Registrar"}
+              onSubmit={(values) => {
+
+                SSocket.sendPromise({
+                  component: "usuario_company",
+                  type: "editar",
+                  data: { ...this.state.usuario_company, ...values },
+                }).then(e => {
+                  console.log(e);
+                  this.setState({ salario_user: values.salario_hora });
+                  SNotification.send({
+                    title: lenguaje === "es" ? "Éxito" : "Success",
+                    body: lenguaje === "es" ? "Se guardaron los cambios" : "Changes saved",
+                    time: 5000,
+                    color: STheme.color.success,
+                  });
+                }).catch(e => {
+                  console.error(e);
+                })
+
+              }}
+            />
+          </SView>
+          <SView col={"xs-6"} style={{alignItems: 'flex-end' }} >
+            <SHr height={20} />
+            <PButtom rojo small
+              onPress={() => {
+                this.form.submit();
+              }}><SText color={STheme.color.white} language={{
+                es: "GUARDAR",
+                en: "SAVE"
+              }} /></PButtom>
+          </SView>
         </SView>
         <SHr height={10} />
         <SText col="xs-12" justify={true} fontSize={18} bold={true}> {(lenguaje === "es") ? "Seleccione las habilidades del staff:" : 'Select the staffsww skills:'}</SText>
-      <SBuscador onChange={(e) => { this.setState({ filter: e }) }}
-       data={Object.values(datafilter ?? {})}
-      />
+        <SBuscador onChange={(e) => { this.setState({ filter: e }) }}
+          data={Object.values(datafilter ?? {})}
+        />
 
         <FlatList
           data={Object.values(datafilter ?? {}).sort((a, b) => (a?.descripcion ?? "").toUpperCase() > (b?.descripcion ?? "").toUpperCase() ? 1 : -1)}
