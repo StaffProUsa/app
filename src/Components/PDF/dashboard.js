@@ -169,7 +169,11 @@ export default class dashboard {
             })}
         </SPDF.View>
     }
-    static handlePress = (data) => {
+    static handlePress = (data, fecha_inicio, fecha_fin) => {
+
+        let fecha_inicio_ = fecha_inicio ? new SDate(fecha_inicio + "T00:00:00").toString("MM/dd/yyyy") : "---";
+        let fecha_fin_ = fecha_fin ? new SDate(fecha_fin + "T23:59:59").toString("MM/dd/yyyy") : "---";
+
         let key_company_ = SNavigation.getParam("key_company")
         let key_cliente_ = SNavigation.getParam("key_cliente")
         let key_evento_ = SNavigation.getParam("key_evento")
@@ -248,23 +252,18 @@ export default class dashboard {
                             </SPDF.Text>
                         </SPDF.View> */}
                         <SPDF.Text style={{ fontSize: 10, height: 28, fontWeight: "bold", fontSize: 15, font: "Roboto" }}>Company: {titulo}</SPDF.Text>
-
-                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Contact name: {contact}</SPDF.Text>
-                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Address: {address}</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Request date: {new SDate().toString("MM/dd/yyyy")}</SPDF.Text>
                     </SPDF.View>
 
                     {/* Columna 2 */}
                     <SPDF.View style={{ width: "33%", alignItems: "justifyContent" }}>
-                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Request date: {new SDate().toString("MM/dd/yyyy")}</SPDF.Text>
-                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Phone: {phone}</SPDF.Text>
-                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Email: {email}</SPDF.Text>
+
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Date from: {fecha_inicio_}</SPDF.Text>
                     </SPDF.View>
 
                     {/* Columna 3 */}
                     <SPDF.View style={{ width: "33%", alignItems: "flex-end" }}>
-                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Bank Account #: 435061329120</SPDF.Text>
-                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Routing #: 051000017</SPDF.Text>
-                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>BankName : Bank of America</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Date to: {fecha_fin_}</SPDF.Text>
                     </SPDF.View>
                 </SPDF.View>
                 <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>

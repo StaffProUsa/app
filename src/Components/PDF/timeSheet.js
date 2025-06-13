@@ -4,12 +4,12 @@ import { SDate, SNavigation, SText, SView } from 'servisofts-component';
 import * as SPDF from 'servisofts-rn-spdf'
 
 const cols = [
-    { key: "index", label: "#", width: 30, },
+    { key: "index", label: "#", width: 25, },
     { key: "fecha", label: "DATE", width: 65 },
     { key: "usuario", label: "NAME", width: 170 },
-    { key: "key_cliente", label: "LOCATION", width: 90 },
+    { key: "key_evento", label: "LOCATION", width: 170 },
     // { key: "employee_number", label: "EMPLOYEE N°", width: 170 },
-    { key: "arrived", label: "ARRIVED", width: 70 },
+    // { key: "arrived", label: "ARRIVED", width: 70 },
     { key: "staff", label: "POSITION", width: 100 },
     { key: "inicio", label: "TIME IN", width: 60 },
     { key: "fin", label: "TIME OUT", width: 60 },
@@ -72,11 +72,11 @@ export default class timeSheet {
                         dato = `${mes}-${dia}-${anio}`;
                         break;
 
-                    case 4:
-                        dato = (obj["inicio"] != "") ? "YES" : "NO";
-                        break;
+                    // case 4:
+                    //     dato = (obj["inicio"] != "") ? "YES" : "NO";
+                    //     break;
 
-                    case 6:
+                    case 5:
                         let horaFormateada = new Date(obj["inicio"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -84,7 +84,7 @@ export default class timeSheet {
                         });
                         dato = (obj["inicio"] != "") ? horaFormateada : " ";
                         break;
-                    case 7:
+                    case 6:
                         let horaFormateadaFin = new Date(obj["fin"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -92,7 +92,7 @@ export default class timeSheet {
                         });
                         dato = (obj["fin"] != "") ? horaFormateadaFin : " ";
                         break;
-                    case 8:
+                    case 7:
                         dato = obj["horas"].toFixed(2);
                         break;
 
@@ -168,17 +168,39 @@ export default class timeSheet {
             })}
         </SPDF.View>
     }
-    static handlePress = (data) => {
+    static handlePress = (data, fecha_inicio, fecha_fin) => {
+
+        let fecha_inicio_ = fecha_inicio ? new SDate(fecha_inicio + "T00:00:00").toString("MM/dd/yyyy") : "---";
+        let fecha_fin_ = fecha_fin ? new SDate(fecha_fin + "T23:59:59").toString("MM/dd/yyyy") : "---";
+
+        //CALCULAR TOTAL DE HORAS
+        const total = data.reduce((acc: number, e: any) => {
+            return acc + (e.horas ?? 0);
+        }, 0);
+
+        
+        let nombreCliente = null;
+
         let key_company_ = SNavigation.getParam("key_company")
         let key_cliente_ = SNavigation.getParam("key_cliente")
         let key_evento_ = SNavigation.getParam("key_evento")
-        let titulo = data[0].key_company + " (" + data[0].key_evento + ")";
+        let titulo = data[0]?.key_company + " (" + data[0]?.key_evento + ")";
         if (key_company_ && key_cliente_ && key_evento_) {
-            titulo = data[0].key_company + " (" + data[0].key_cliente + " / " + data[0].key_evento + ")";
+            titulo = data[0]?.key_company + " (" + data[0]?.key_cliente + " / " + data[0]?.key_evento + ")";
         } else if (key_company_ && key_cliente_) {
-            titulo = data[0].key_company + " (" + data[0].key_cliente + ")";
+            titulo = data[0]?.key_company + " (" + data[0]?.key_cliente + ")";
         } else {
-            titulo = data[0].key_company;
+            titulo = data[0]?.key_company;
+            //AGRUPO POR CLIENTE, CUANDO HAY VARIOS NOMBRES DE CLIENTES
+            const agrupado = data.reduce((acc, item) => {
+                if (!acc[item.key_cliente]) {
+                    acc[item.key_cliente] = [];
+                }
+                acc[item.key_cliente].push(item);
+                return acc;
+            }, {});
+
+            nombreCliente = Object.keys(agrupado).join(', ');
         }
         SPDF.create(<SPDF.Page style={{ width: 791, height: 612, margin: 20, padding: 20, }}
             header={<SPDF.View style={{
@@ -201,6 +223,29 @@ export default class timeSheet {
                 }}>
                     <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{titulo}</SPDF.Text>
                 </SPDF.View>
+                {nombreCliente && <SPDF.View style={{
+                    width: "100%",
+                    alignItems: "justify"
+                }}>
+                    <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>
+                    <SPDF.Text style={{ width: "100%", fontSize: 12, font: "Roboto" }}>Client: {nombreCliente}</SPDF.Text>
+                </SPDF.View>
+                }
+                <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>
+                <SPDF.View style={{
+                    width: "100%",
+                    alignItems: "justify",
+                    flexDirection: "row"
+                }}>
+
+                    <SPDF.Text style={{ fontSize: 12, font: "Roboto" }}>
+                        {`Date from: ${fecha_inicio_}`}
+                    </SPDF.Text>
+                    <SPDF.View style={{ width: 100 }}></SPDF.View>
+                    <SPDF.Text style={{ fontSize: 12, font: "Roboto" }}>
+                        {`Date to: ${fecha_fin_}`}
+                    </SPDF.Text>
+                </SPDF.View>
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
 
                 {this.renderHeader()}
@@ -210,6 +255,31 @@ export default class timeSheet {
                 width: "100%",
                 alignItems: "end"
             }}>
+
+
+                <SPDF.View
+                    style={{
+                        borderWidth: 0,
+                        borderColor: "#000",
+                        borderRadius: 8,
+                        padding: 10,
+                        minWidth: 170,
+                        backgroundColor: "#f5f5f5",
+                        width: "100%",
+                        alignItems: "end",
+
+                    }}
+                >
+                    <SPDF.Text style={{ fontSize: 12, color: "#000", font: "Roboto", textAlign: "right" }}>
+                        {"Total Hours: "}
+                    </SPDF.Text>
+                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 12, color: "#000", font: "Roboto" }}>
+                        {total.toFixed(2)} hrs
+                    </SPDF.Text>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", height: 10 }}></SPDF.View>
+
+
                 <SPDF.Text style={{ fontSize: fontSize, }}>{"Page #${current_page}"}</SPDF.Text>
             </SPDF.View>
             }

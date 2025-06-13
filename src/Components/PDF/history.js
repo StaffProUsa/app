@@ -4,11 +4,11 @@ import { SDate, SNavBar, SNavigation, SText, SView } from 'servisofts-component'
 import * as SPDF from 'servisofts-rn-spdf'
 
 const cols = [
-    { key: "index", label: "#", width: 30, },
-    { key: "fecha", label: "DATE", width: 55 },
-    { key: "key_company", label: "COMPANY", width: 130 },
-    { key: "key_cliente", label: "CLIENT", width: 90 },
-    { key: "staff", label: "POSITION", width: 90 },
+    // { key: "index", label: "#", width: 30, },
+    { key: "fecha", label: "DATE", width: 70 },
+    // { key: "key_company", label: "COMPANY", width: 130 },
+    { key: "key_cliente", label: "CLIENT", width: 210 },
+    { key: "staff", label: "POSITION", width: 120 },
     { key: "inicio", label: "TIME IN", width: 60 },
     { key: "fin", label: "TIME OUT", width: 60 },
     { key: "horas", label: "TTL HOURS", width: 65 },
@@ -56,10 +56,10 @@ export default class timeSheet {
                 let dato = obj[col.key];
                 contador++;
                 switch (i) {
+                    // case 0:
+                    //     dato = index;
+                    //     break;
                     case 0:
-                        dato = index;
-                        break;
-                    case 1:
                         let fecha = new Date(dato);
                         // let fecha = new Date(dato);
                         let dia = String(fecha.getUTCDate()).padStart(2, '0');
@@ -72,7 +72,7 @@ export default class timeSheet {
                     //     dato = (obj["inicio"] != "") ? "YES" : "NO";
                     //     break;
 
-                    case 5:
+                    case 3:
                         let horaFormateada = new Date(obj["inicio"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -80,7 +80,7 @@ export default class timeSheet {
                         });
                         dato = (obj["inicio"] != "") ? horaFormateada : " ";
                         break;
-                    case 6:
+                    case 4:
                         let horaFormateadaFin = new Date(obj["fin"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -88,14 +88,14 @@ export default class timeSheet {
                         });
                         dato = (obj["fin"] != "") ? horaFormateadaFin : " ";
                         break;
-                    case 7:
+                    case 5:
                         dato = obj["horas"].toFixed(2);
                         break;
-                    case 8:
+                    case 6:
                         dato = obj["salario_hora"].toFixed(2);
                         break;
 
-                    case 9:
+                    case 7:
                         dato = obj["subtotal"].toFixed(2);
                         break;
 
@@ -148,6 +148,27 @@ export default class timeSheet {
         } else if (state == "COMPLETED") {
             state = "Completed events";
         }
+
+        let fecha_inicio = SNavigation.getParam("fecha_inicio");
+        let fecha_fin = SNavigation.getParam("fecha_fin");
+
+        fecha_inicio ? fecha_inicio = new SDate(fecha_inicio + "T00:00:00").toString("MM/dd/yyyy") : fecha_inicio = "--";
+        fecha_fin ? fecha_fin = new SDate(fecha_fin + "T23:59:59").toString("MM/dd/yyyy") : fecha_fin = "--";
+
+        let nombreCompany = null;
+        //AGRUPO POR COMPANY, CUANDO HAY VARIOS NOMBRES DE COMPANY
+        const agrupado = data.reduce((acc, item) => {
+            if (!acc[item.key_company]) {
+                acc[item.key_company] = [];
+            }
+            acc[item.key_company].push(item);
+            return acc;
+        }, {});
+
+        nombreCompany = Object.keys(agrupado).join(', ');
+
+
+
         SPDF.create(<SPDF.Page style={{ width: 791, height: 612, margin: 20, padding: 20, }}
             header={<SPDF.View style={{
                 width: "100%",
@@ -175,10 +196,34 @@ export default class timeSheet {
                     width: "100%",
                     alignItems: "center"
                 }}>
-                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{"REPORTE ASISTENCIA"} - {data[0].usuario}</SPDF.Text>
+                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{"ATTENDANCE REPORT"}</SPDF.Text>
                 </SPDF.View>
-                <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
 
+                <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>
+                <SPDF.Text style={{ width: "100%", fontSize: 12, height: 20, fontWeight: "bold", font: "Roboto" }}>Company: {nombreCompany}</SPDF.Text>
+
+                <SPDF.View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 10, }}>
+                    {/* Columna 1 */}
+                    <SPDF.View style={{ width: "33%" }}>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Request date: {new SDate().toString("MM/dd/yyyy")}</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Name: {data[0].usuario}</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Phone: {data[0].__original?.usuario?.Telefono}</SPDF.Text>
+                    </SPDF.View>
+
+                    {/* Columna 2 */}
+                    <SPDF.View style={{ width: "33%", alignItems: "justifyContent" }}>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Address: {data[0].__original?.usuario?.direccion}</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Email: {data[0].__original?.usuario?.Correo}</SPDF.Text>
+                    </SPDF.View>
+
+                    {/* Columna 3 */}
+                    <SPDF.View style={{ width: "33%", alignItems: "flex-end" }}>
+
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Date from: {fecha_inicio}</SPDF.Text>
+                        <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Date to: {fecha_fin}</SPDF.Text>
+                    </SPDF.View>
+                </SPDF.View>
+                <SPDF.View style={{ width: "100%", height: 20 }}></SPDF.View>
                 {this.renderHeader()}
             </ SPDF.View>}
 
