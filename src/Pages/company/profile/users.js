@@ -86,32 +86,41 @@ export default class users extends Component {
     }
 
     loadData = async () => {
-        const staff_response = await SSocket.sendPromise({
-            component: "usuario_company",
-            type: "getAllStaff",
-            key_company: this.key_company
-        })
-        let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null))];
+        try {
+            const staff_response = await SSocket.sendPromise({
+                component: "usuario_company",
+                type: "getAllStaff",
+                key_company: this.key_company
+            })
+            let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null))];
 
-        const users_request = await SSocket.sendPromise({
-            version: "2.0",
-            service: "usuario",
-            component: "usuario",
-            type: "getAllKeys",
-            keys: keys,
-        });
-        const roles = await SSocket.sendPromise({
-            service: "roles_permisos",
-            component: "rol",
-            type: "getAll",
-        })
-        this.state.roles = roles.data;
-        Object.values(staff_response.data).map(o => {
-            o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
-            o.rol = roles?.data[o.key_rol]
-        })
-        // return Object.values(staff_response.data);
-        return Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User")
+            const users_request = await SSocket.sendPromise({
+                version: "2.0",
+                service: "usuario",
+                component: "usuario",
+                type: "getAllKeys",
+                keys: keys,
+            });
+            const roles = await SSocket.sendPromise({
+                service: "roles_permisos",
+                component: "rol",
+                type: "getAll",
+            })
+            this.state.roles = roles.data;
+            Object.values(staff_response.data).map(o => {
+                o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
+                o.rol = roles?.data[o.key_rol];
+                // o.key = o.key_usuario;
+            })
+            console.log("DATATABLE")
+            console.log(Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User"))
+            // return Object.values(staff_response.data);
+            return Object.values(staff_response.data).filter(a => a?.usuario?.Nombres !== "User")
+        } catch (error) {
+            console.error("Error loading data:", error);
+            return [];
+
+        }
     }
 
     renderStaffTipo(staffTipo) {
@@ -439,7 +448,7 @@ export default class users extends Component {
                             }
                             this.handleChangeStatus(p.row)
                         }}>{this.renderEstado(p.row.estado)}</SView>}
-                   />
+                    />
 
                     <DinamicTable.Col
                         key={"nuevo"}
@@ -459,7 +468,7 @@ export default class users extends Component {
                         customComponent={p => <SView >{this.renderNew(p.row.fecha_on)}</SView>}
                     />
 
-                   <DinamicTable.Col
+                    <DinamicTable.Col
                         key={"rol"}
                         label='Rol en la empresa'
                         data={p => p.row.rol.descripcion}
@@ -472,7 +481,7 @@ export default class users extends Component {
                     <DinamicTable.Col key={"NombreUser"} label='Nombre usuario' width={150}
                         data={e => e.row.usuario.Nombres + " " + e.row.usuario.Apellidos}
                         customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
-                   />
+                    />
 
                     <DinamicTable.Col key={"telefono"} data={p => p.row?.usuario?.Telefono} label='Teléfono' />
                     <DinamicTable.Col key={"email"} data={p => p.row.usuario.Correo} label='Email' />
@@ -496,7 +505,7 @@ export default class users extends Component {
                     <DinamicTable.Col key={"alta"} width={130} data={p => new SDate(p.row.fecha_on).toString("MONTH dd, yyyy")} label='Fecha de alta' />
                     <DinamicTable.Col key={"position"} label='Posición' width={50}
                         data={e => ""}
-                        customComponent={e => <SView height={20} onPress={() => { SNavigation.navigate("/perfil/staff_tipo_adm", { key_usuario: e.row.key_usuario, key_company: this.key_company, salarioUser:e.row.salario_hora }) }}><SIcon name='iposition' width={20} height={20} fill={STheme.color.text} /></SView>}
+                        customComponent={e => <SView height={20} onPress={() => { SNavigation.navigate("/perfil/staff_tipo_adm", { key_usuario: e.row.key_usuario, key_company: this.key_company, salarioUser: e.row.salario_hora }) }}><SIcon name='iposition' width={20} height={20} fill={STheme.color.text} /></SView>}
                     />
                     <DinamicTable.Col
                         key={"posicion"}
