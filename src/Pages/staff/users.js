@@ -10,6 +10,7 @@ import EditClock from './Components/EditClock';
 import MoveStaff from './Components/MoveStaff';
 import PBarraFooter from '../../Components/PBarraFooter';
 import EditSueldo from './Components/EditSueldo';
+import MDL from '../../MDL';
 
 
 const ItemImage = ({ src, label }) => {
@@ -181,10 +182,16 @@ export default class users extends Component {
                     && arrayNivelIngles.includes(item.usuario.nivel_ingles)
                 );
 
-                // this.setState({ data_disponibles: e.data })
-                this.setState({ data_disponibles: filtrados })
-                console.log("filtrados", filtrados)
+                //Ordenar por invitados
+                const dataReordenadoInvitacion = [
+                    ...filtrados.filter(item => item.staff_usuario?.estado === 2),
+                    ...filtrados
+                        .filter(item => item.staff_usuario?.estado !== 2)
+                        .sort((a, b) => (b.participacion ?? 0) - (a.participacion ?? 0)) //ordenar por participacion
+                ];
 
+                this.setState({ data_disponibles: dataReordenadoInvitacion })
+                console.log("filtrados-dataReordenadoInvitacion", dataReordenadoInvitacion)
             })
 
         }).catch(e => {
@@ -392,8 +399,9 @@ export default class users extends Component {
             key_staff: this.pk,
             key_usuario: Model.usuario.Action.getKey(),
         }).then(e => {
-            this.componentDidMount();
             console.log(e)
+            this.componentDidMount();
+
             SNotification.send({
                 title: SLanguage.select({ en: "Invitations sent", es: "Invitaciones enviadas" }),
                 // body: (lenguaje == "es") ? "Se enviaron las invitaciones a los usuarios seleccionados" : "Invitations were sent to the selected users",
@@ -846,18 +854,81 @@ export default class users extends Component {
                                     // },
 
                                     {
-                                        key: "usuario", label: SLanguage.select({
+                                        key: "-usuario", label: SLanguage.select({
                                             en: "User",
                                             es: "Usuario"
-                                        }), width: 130, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
+                                        }), width: 130,
+                                        // render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
+                                        component: (val) => <SView col={"xs-12"}  >
+                                            {/* <SText>{val}</SText> */}
+                                            <SText col={"xs-12"} fontSize={11} justify >{val.usuario.Nombres ?? ""}{" "}{val.usuario.Apellidos ?? ""}</SText>
+                                            {val.staff_usuario?.estado === 2 ? <SView col={"xs-12"} flex style={{ alignItems: "flex-end" }}>
+                                                <SView width={50} center style={{
+                                                    padding: 3,
+                                                    borderRadius: 4,
+                                                    backgroundColor: STheme.color.secondary,
+                                                }}
+                                                    onPress={() => {
+                                                        //aceptar invitación
+                                                        SSocket.sendPromise({
+                                                            component: "staff_usuario",
+                                                            type: "aceptarInvitacion",
+                                                            key_staff_usuario: val?.staff_usuario?.key,
+                                                            // key_usuario: Model.usuario.Action.getKey(),
+                                                            key_usuario: val?.usuario?.key,
 
+                                                        }).then(e => {
+                                                             MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
+                                                            SNotification.send({
+                                                                title: SLanguage.select({
+                                                                    es: "Invitación aceptada",
+                                                                    en: "Invitation accepted"
+                                                                }),
+                                                                body: SLanguage.select({
+                                                                    es: "Se ha aceptado la invitación al usuario seleccionado",
+                                                                    en: "The invitation to the selected user has been accepted"
+                                                                }),
+                                                                color: STheme.color.success,
+                                                                time: 5000
+                                                            });
+                                                            this.loadData();
+                                                        }).catch(e => {
+                                                            console.error(e);
+                                                            SNotification.send({
+                                                                title: SLanguage.select({
+                                                                    es: "Error al aceptar la invitación",
+                                                                    en: "Error accepting the invitation"
+                                                                }),
+                                                                body: SLanguage.select({
+                                                                    es: "Ocurrió un error al aceptar la invitación",
+                                                                    en: "An error occurred while accepting the invitation"
+                                                                }),
+                                                                color: STheme.color.danger,
+                                                                time: 5000
+                                                            });
+                                                        })
+
+                                                   
+                                                        
+
+                                                    }}
+                                                >
+                                                    <SText fontSize={11} language={{
+                                                        es: "Forzar",
+                                                        en: "Force"
+                                                    }} />
+                                                </SView>
+                                            </SView>
+                                                : null
+                                            }
+                                        </SView>
                                     },
 
                                     {
                                         key: "participacion", label: SLanguage.select({
                                             en: "Events\nTREND",
                                             es: "Eventos\nTENDEN."
-                                        }), width: 45, order: "desc", headerColor: STheme.color.warning + "70",
+                                        }), width: 45, headerColor: STheme.color.warning + "70",
                                     },
                                     {
                                         key: "rechazos", label: SLanguage.select({
