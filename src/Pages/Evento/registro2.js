@@ -53,10 +53,11 @@ export default class registro2 extends Component {
     if (!item._ref.verify()) {
      valid = false;
     }
-   }
+   } 
 
    const fecha_inicio = event.fecha + " " + new SDate(item.fecha_inicio, "yyyy-MM-ddThh:mm:ss").toString("hh:mmTZD");
    let fecha_fin = "";
+   console.log("item", item);
    if (!item.fecha_fin) {
     fecha_fin = new SDate(fecha_inicio, "yyyy-MM-ddThh:mm:ss").addDay(1).toString("yyyy-MM-dd hh:mmTZD");
    } else {

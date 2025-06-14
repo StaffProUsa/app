@@ -179,11 +179,33 @@ export default class users extends Component {
                     item.usuario
                     //validar nivel de ingles
                     && arrayNivelIngles.includes(item.usuario.nivel_ingles)
+                    // && item?.staff_usuario?.estado == 2
+
                 );
 
                 // this.setState({ data_disponibles: e.data })
-                this.setState({ data_disponibles: filtrados })
-                console.log("filtrados", filtrados)
+
+                //ordenar por participacion
+
+                //Ordenar por invitados
+                const dataReordenadoInvitacion = [
+                    ...filtrados.filter(item => item.staff_usuario?.estado === 2),
+                    ...filtrados
+                        .filter(item => item.staff_usuario?.estado !== 2)
+                        .sort((a, b) => (b.participacion ?? 0) - (a.participacion ?? 0))
+                ];
+
+                // let data_invitados = this.state.data_invitados || [];
+                // let keysSet = new Set(data_invitados.map(u => u.key_usuario));
+                // let dataDisponiblOrdenada = [
+                //     ...filtrados.filter(item => keysSet.has(item.key_usuario)),
+                //     ...filtrados.filter(item => !keysSet.has(item.key_usuario))
+                // ]
+                console.log("dataReordenadoInvitacion", dataReordenadoInvitacion)
+
+
+                this.setState({ data_disponibles: dataReordenadoInvitacion })
+                console.log("filtrados-dataReordenadoInvitacion", dataReordenadoInvitacion)
 
             })
 
@@ -392,8 +414,9 @@ export default class users extends Component {
             key_staff: this.pk,
             key_usuario: Model.usuario.Action.getKey(),
         }).then(e => {
-            this.componentDidMount();
             console.log(e)
+            this.componentDidMount();
+
             SNotification.send({
                 title: SLanguage.select({ en: "Invitations sent", es: "Invitaciones enviadas" }),
                 // body: (lenguaje == "es") ? "Se enviaron las invitaciones a los usuarios seleccionados" : "Invitations were sent to the selected users",
@@ -857,7 +880,7 @@ export default class users extends Component {
                                         key: "participacion", label: SLanguage.select({
                                             en: "Events\nTREND",
                                             es: "Eventos\nTENDEN."
-                                        }), width: 45, order: "desc", headerColor: STheme.color.warning + "70",
+                                        }), width: 45, headerColor: STheme.color.warning + "70",
                                     },
                                     {
                                         key: "rechazos", label: SLanguage.select({
