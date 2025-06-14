@@ -87,11 +87,13 @@ export default class users extends Component {
 
     loadData = async () => {
         try {
+
             const staff_response = await SSocket.sendPromise({
                 component: "usuario_company",
                 type: "getAllStaff",
                 key_company: this.key_company
             })
+
             let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null))];
 
             const users_request = await SSocket.sendPromise({
@@ -112,8 +114,8 @@ export default class users extends Component {
                 o.rol = roles?.data[o.key_rol];
                 // o.key = o.key_usuario;
             })
-            console.log("DATATABLE")
-            console.log(Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User"))
+            // console.log("DATATABLE")
+            // console.log(Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User"))
             // return Object.values(staff_response.data);
             return Object.values(staff_response.data).filter(a => a?.usuario?.Nombres !== "User")
         } catch (error) {
@@ -471,7 +473,7 @@ export default class users extends Component {
                     <DinamicTable.Col
                         key={"rol"}
                         label='Rol en la empresa'
-                        data={p => p.row.rol.descripcion}
+                        data={p => p.row?.rol?.descripcion}
                         customComponent={p => this.renderRol(p.row)}
                     />
 
@@ -484,7 +486,7 @@ export default class users extends Component {
                     />
 
                     <DinamicTable.Col key={"telefono"} data={p => p.row?.usuario?.Telefono} label='Teléfono' />
-                    <DinamicTable.Col key={"email"} data={p => p.row.usuario.Correo} label='Email' />
+                    <DinamicTable.Col key={"email"} data={p => p.row?.usuario?.Correo} label='Email' />
 
 
                     {/* <DinamicTable.Col
