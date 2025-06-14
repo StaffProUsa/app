@@ -10,6 +10,7 @@ import EditClock from './Components/EditClock';
 import MoveStaff from './Components/MoveStaff';
 import PBarraFooter from '../../Components/PBarraFooter';
 import EditSueldo from './Components/EditSueldo';
+import MDL from '../../MDL';
 
 
 const ItemImage = ({ src, label }) => {
@@ -179,34 +180,18 @@ export default class users extends Component {
                     item.usuario
                     //validar nivel de ingles
                     && arrayNivelIngles.includes(item.usuario.nivel_ingles)
-                    // && item?.staff_usuario?.estado == 2
-
                 );
-
-                // this.setState({ data_disponibles: e.data })
-
-                //ordenar por participacion
 
                 //Ordenar por invitados
                 const dataReordenadoInvitacion = [
                     ...filtrados.filter(item => item.staff_usuario?.estado === 2),
                     ...filtrados
                         .filter(item => item.staff_usuario?.estado !== 2)
-                        .sort((a, b) => (b.participacion ?? 0) - (a.participacion ?? 0))
+                        .sort((a, b) => (b.participacion ?? 0) - (a.participacion ?? 0)) //ordenar por participacion
                 ];
-
-                // let data_invitados = this.state.data_invitados || [];
-                // let keysSet = new Set(data_invitados.map(u => u.key_usuario));
-                // let dataDisponiblOrdenada = [
-                //     ...filtrados.filter(item => keysSet.has(item.key_usuario)),
-                //     ...filtrados.filter(item => !keysSet.has(item.key_usuario))
-                // ]
-                console.log("dataReordenadoInvitacion", dataReordenadoInvitacion)
-
 
                 this.setState({ data_disponibles: dataReordenadoInvitacion })
                 console.log("filtrados-dataReordenadoInvitacion", dataReordenadoInvitacion)
-
             })
 
         }).catch(e => {
@@ -869,11 +854,74 @@ export default class users extends Component {
                                     // },
 
                                     {
-                                        key: "usuario", label: SLanguage.select({
+                                        key: "-usuario", label: SLanguage.select({
                                             en: "User",
                                             es: "Usuario"
-                                        }), width: 130, render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
+                                        }), width: 130,
+                                        // render: (usr) => `${usr.Nombres ?? ""} ${usr.Apellidos ?? ""}`
+                                        component: (val) => <SView col={"xs-12"}  >
+                                            {/* <SText>{val}</SText> */}
+                                            <SText col={"xs-12"} fontSize={11} justify >{val.usuario.Nombres ?? ""}{" "}{val.usuario.Apellidos ?? ""}</SText>
+                                            {val.staff_usuario?.estado === 2 ? <SView col={"xs-12"} flex style={{ alignItems: "flex-end" }}>
+                                                <SView width={50} center style={{
+                                                    padding: 3,
+                                                    borderRadius: 4,
+                                                    backgroundColor: STheme.color.secondary,
+                                                }}
+                                                    onPress={() => {
+                                                        //aceptar invitación
+                                                        SSocket.sendPromise({
+                                                            component: "staff_usuario",
+                                                            type: "aceptarInvitacion",
+                                                            key_staff_usuario: val?.staff_usuario?.key,
+                                                            // key_usuario: Model.usuario.Action.getKey(),
+                                                            key_usuario: val?.usuario?.key,
 
+                                                        }).then(e => {
+                                                             MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
+                                                            SNotification.send({
+                                                                title: SLanguage.select({
+                                                                    es: "Invitación aceptada",
+                                                                    en: "Invitation accepted"
+                                                                }),
+                                                                body: SLanguage.select({
+                                                                    es: "Se ha aceptado la invitación al usuario seleccionado",
+                                                                    en: "The invitation to the selected user has been accepted"
+                                                                }),
+                                                                color: STheme.color.success,
+                                                                time: 5000
+                                                            });
+                                                            this.loadData();
+                                                        }).catch(e => {
+                                                            console.error(e);
+                                                            SNotification.send({
+                                                                title: SLanguage.select({
+                                                                    es: "Error al aceptar la invitación",
+                                                                    en: "Error accepting the invitation"
+                                                                }),
+                                                                body: SLanguage.select({
+                                                                    es: "Ocurrió un error al aceptar la invitación",
+                                                                    en: "An error occurred while accepting the invitation"
+                                                                }),
+                                                                color: STheme.color.danger,
+                                                                time: 5000
+                                                            });
+                                                        })
+
+                                                   
+                                                        
+
+                                                    }}
+                                                >
+                                                    <SText fontSize={11} language={{
+                                                        es: "Forzar",
+                                                        en: "Force"
+                                                    }} />
+                                                </SView>
+                                            </SView>
+                                                : null
+                                            }
+                                        </SView>
                                     },
 
                                     {
