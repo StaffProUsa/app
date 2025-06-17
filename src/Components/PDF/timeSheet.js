@@ -20,6 +20,10 @@ const cols = [
 const HEIGHT = 16;
 const BorderColor = "#CCCCCC"
 const fontSize = 10;
+
+
+
+
 export default class timeSheet {
 
 
@@ -168,17 +172,34 @@ export default class timeSheet {
             })}
         </SPDF.View>
     }
+
+
     static handlePress = (data, fecha_inicio, fecha_fin) => {
 
-        let fecha_inicio_ = fecha_inicio ? new SDate(fecha_inicio + "T00:00:00").toString("MM/dd/yyyy") : "---";
-        let fecha_fin_ = fecha_fin ? new SDate(fecha_fin + "T23:59:59").toString("MM/dd/yyyy") : "---";
+
+        // let fecha_inicio_ = fecha_inicio ? new SDate(fecha_inicio + "T00:00:00").toString("MM/dd/yyyy") : "---";
+        // let fecha_fin_ = fecha_fin ? new SDate(fecha_fin + "T23:59:59").toString("MM/dd/yyyy") : "---";
+
+        let fechaI = new Date(data[0]["fecha"]);
+        let dia = String(fechaI.getUTCDate()).padStart(2, '0');
+        let mes = String(fechaI.getUTCMonth() + 1).padStart(2, '0'); // los meses van de 0 a 11
+        let anio = fechaI.getUTCFullYear();
+        let fecha_fin_ = `${mes}-${dia}-${anio}`
+
+        let acount = Object.keys(data).length;
+        let fechaF = new Date(data[acount - 1]["fecha"]);
+        let diaF = String(fechaF.getUTCDate()).padStart(2, '0');
+        let mesF = String(fechaF.getUTCMonth() + 1).padStart(2, '0'); // los meses van de 0 a 11
+        let anioF = fechaF.getUTCFullYear();
+        let fecha_inicio_ = `${mesF}-${diaF}-${anioF}`
+
 
         //CALCULAR TOTAL DE HORAS
         const total = data.reduce((acc: number, e: any) => {
             return acc + (e.horas ?? 0);
         }, 0);
 
-        
+
         let nombreCliente = null;
 
         let key_company_ = SNavigation.getParam("key_company")

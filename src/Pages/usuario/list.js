@@ -74,7 +74,7 @@ class index extends DPA.list {
     $getData() {
         // let eu = Model.empresa_usuario.Action.getAllByKeyEmpresa(Model.empresa.Action.getKey());
         let usuarios = Parent.model.Action.getAll({});
-        // console.log(eu);
+        console.log(usuarios);
         // if (!eu || !usuarios) return null
         // let data = Object.values(eu).map(a => {
         // let usr = usuarios[a.key_usuario];

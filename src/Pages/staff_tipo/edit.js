@@ -21,8 +21,11 @@ class index extends DPA.edit {
 
     $onSubmit(data) {
         Parent.model.Action.editar({
-            ...this.data,
-            ...data
+            data: {
+                ...this.data,
+                ...data
+            },
+           
         }).then((resp) => {
             SNavigation.goBack();
         }).catch(e => {

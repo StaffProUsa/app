@@ -452,7 +452,7 @@ export default class add extends Component {
                             this._ref["hora_inicio"].setValue(resp);
                         }
                     })} />  */}
-     <Input col={"xs-12 sm-5"} inputStyle={{
+     <Input col={"xs-12 sm-5"} required inputStyle={{
       height: 40,
       borderRadius: 4,
       backgroundColor: STheme.color.card,

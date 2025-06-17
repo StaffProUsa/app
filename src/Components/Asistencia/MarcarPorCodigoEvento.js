@@ -118,6 +118,7 @@ export default class MarcarPorCodigoEvento extends Component {
                             letterSpacing: 11,
                             backgroundColor: STheme.color.white,
                             color: STheme.color.black,
+                            letterSpacing: 5
                         }}
                         // label={"CODIGO"}
                         placeholder={"______"}

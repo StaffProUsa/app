@@ -14,6 +14,50 @@ import PDF from '../../Components/PDF';
 type DataType = any
 const Col = DinamicTable.Col<DataType>
 
+// function ordenarData(data :any) {
+//   return [...data].sort((a, b) => {
+//     const eventoA = a.evento.descripcion || "";
+//     const eventoB = b.evento.descripcion || "";
+//     const staffA = (a.staff_tipo.descripcion || "").toString();
+//     const staffB = (b.staff_tipo.descripcion || "").toString();
+
+
+//     // Primero agrupar por key_evento
+//     if (eventoA < eventoB) return -1;
+//     if (eventoA > eventoB) return 1;
+
+//     // Priorizar "Capitan"
+//     if (staffA === "Capitan" && staffB !== "Capitan") return -1;
+//     if (staffA !== "Capitan" && staffB === "Capitan") return 1;
+
+//     // Ordenar alfabéticamente por staff
+//     return staffA.localeCompare(staffB);
+//   });
+// }
+
+function ordenarData(data:any) {
+  return data.sort((a, b) => {
+    // 1. Ordenar por evento.descripcion (alfabéticamente)
+    const eventoA = a.evento.descripcion?.toLowerCase() || "";
+    const eventoB = b.evento.descripcion?.toLowerCase() || "";
+    if (eventoA !== eventoB) {
+      return eventoA.localeCompare(eventoB);
+    }
+
+    // 2. Priorizar Capitan
+    const tipoA = a.staff_tipo.descripcion || "";
+    const tipoB = b.staff_tipo.descripcion || "";
+
+    const isCapitanA = tipoA === "Capitan";
+    const isCapitanB = tipoB === "Capitan";
+
+    if (isCapitanA && !isCapitanB) return -1;
+    if (!isCapitanA && isCapitanB) return 1;
+
+    // 3. Si ambos no son Capitan, ordenar alfabéticamente por staff_tipo.descripcion
+    return tipoA.localeCompare(tipoB);
+  });
+}
 
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
   return <SView row >
@@ -34,6 +78,10 @@ export default class dashboard extends Component {
   table: DinamicTable<any> | any = null;
 
   params = SNavigation.getAllParams();
+
+
+
+
   async loadData() {
 
     const resp: any = await SSocket.sendPromise({
@@ -41,6 +89,12 @@ export default class dashboard extends Component {
       type: "principal",
       // key_usuario: Model.usuario.Action.getKey()
     })
+
+    //ORDENAR DATA POR EVENTO, PRIORIZANDO CAPITAN 
+    // let dataOrdenada = ordenarData(resp.data);
+    // console.log("prueba", dataOrdenada);
+
+    // return dataOrdenada;
     return resp.data;
   }
 

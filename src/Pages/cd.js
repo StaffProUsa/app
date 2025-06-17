@@ -7,6 +7,7 @@ import Mapa from "./Evento/Components/Mapa";
 import MarcarPorCodigoEvento from "../Components/Asistencia/MarcarPorCodigoEvento";
 import CardEventoSteps from "../Components/Evento/CardEventoSteps";
 import PBarraFooter from "../Components/PBarraFooter";
+import Model from "../Model";
 
 
 const fontz = 16
@@ -31,10 +32,29 @@ export default class cd extends React.Component {
             if (e.data.key_usuario_atiende == null) {
                 this.setState({ data: e.data })
 
+
             } else {
                 this.getUsuario(e.data.key_usuario_atiende).then((data) => {
                     e.data.usuario_atiende = data;
                     this.setState({ data: e.data })
+
+                })
+                //validar si es jefe o no
+                SSocket.sendPromise({
+                    component: "staff",
+                    type: "getPerfilBoss",
+                    key_staff: e.data.staff.key,
+                    key_boss: e.data
+                    // key_boss: Model.usuario.Action.getKey()
+                }).then(res => {
+
+                    this.setState({
+                        dataBoss: res.data
+                    })
+                    console.log("dataBoss", res.data)
+                    // this.state.data = res.data
+                    // this.forceUpdate();
+                }).catch(err => {
 
                 })
             }
@@ -440,11 +460,11 @@ export default class cd extends React.Component {
                                 }}>
                                     <SText color={STheme.color.white} fontSize={16}>!</SText>
                                 </SView>
-                                <SText bold color={STheme.color.warning} fontSize={16} language={{
+                                <SText col={"xs-9"} bold color={STheme.color.warning} fontSize={16} language={{
                                     es: "No tienes jefe asignado para este evento",
                                     en: "You do not have a boss assigned for this event",
-                                }}/>
-                                   
+                                }} />
+
                             </SView>
                         </SView>
                 }
@@ -482,6 +502,8 @@ export default class cd extends React.Component {
                 {
                     this.isVisibleMarcacion() ?
                         <MarcarPorCodigoEvento
+                            dataJefe={(this.state?.data?.key_usuario_atiende === Model.usuario.Action.getKey()) ? true : false}
+                            // dataJefe={true}
                             key_evento={this.state?.data?.evento?.key}
                             onChange={() => {
                                 this.componentDidMount();

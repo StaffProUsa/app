@@ -65,6 +65,26 @@ export default class timeSheets extends Component {
     return data;
   }
 
+  ordenarData(data: any) {
+    return [...data].sort((a, b) => {
+      const eventoA = a.evento.descripcion || "";
+      const eventoB = b.evento.descripcion || "";
+      const staffA = (a.staff_tipo.descripcion || "").toString();
+      const staffB = (b.staff_tipo.descripcion || "").toString();
+
+      // Primero agrupar por key_evento
+      if (eventoA < eventoB) return -1;
+      if (eventoA > eventoB) return 1;
+
+      // Priorizar "Capitan"
+      if (staffA === "Capitan" && staffB !== "Capitan") return -1;
+      if (staffA !== "Capitan" && staffB === "Capitan") return 1;
+
+      // Ordenar alfabéticamente por staff
+      return staffA.localeCompare(staffB);
+    });
+  }
+
   async loadData() {
     const resp: any = await SSocket.sendPromise({
       component: "board",
@@ -81,7 +101,12 @@ export default class timeSheets extends Component {
       return a;
     })
 
-    return resp.data;
+    //ORDENAR DATA POR EVENTO, PRIORIZANDO CAPITAN 
+    let dataOrdenada = this.ordenarData(resp.data);
+    console.log("prueba", dataOrdenada);
+
+    // return resp.data;
+    return dataOrdenada;
   }
 
   calculador_hora(hora_inicio: string, hora_fin: string) {
@@ -103,6 +128,10 @@ export default class timeSheets extends Component {
   componentDidMount() {
     this.loadData();
   }
+
+
+
+
   render() {
 
     return <SPage title={"Time Sheets"} disableScroll
