@@ -11,6 +11,7 @@ import MoveStaff from './Components/MoveStaff';
 import PBarraFooter from '../../Components/PBarraFooter';
 import EditSueldo from './Components/EditSueldo';
 import MDL from '../../MDL';
+import ClockAll from './Components/ClockAll';
 
 
 const ItemImage = ({ src, label }) => {
@@ -490,6 +491,51 @@ export default class users extends Component {
         </SView>
     }
 
+    renderAsignarAsistencia() {
+        if (!this.state.data_disponibles) return;
+        const selecteds = this.state.data_disponibles.filter(a => !!a.select_derecha).map(a => a?.staff_usuario?.key)
+        if (selecteds.length <= 0) return;
+        console.log("selecteds", selecteds)
+
+        return <SView card padding={2} width={80} center row
+            style={{
+                backgroundColor: STheme.color.secondary,
+                position: "absolute",
+                top: -23,
+                left: 115,
+            }}
+            onPress={() => {
+                SPopup.open({
+                    key: "clockAll",
+                    content: <ClockAll data={selecteds} onChange={e => {
+                        this.componentDidMount()
+                        SPopup.close("clockAll")
+                    }} />
+                })
+                // SNavigation.navigate("/company/roles", {
+                //     key_company: this.state.data.evento.key_company,
+                //     key_evento: this.state.data.key_evento,
+                //     onSelect: (usuario) => {
+                //         SSocket.sendPromise({
+                //             component: "staff_usuario",
+                //             type: "asignarJefeMultiple",
+                //             key_usuario: Model.usuario.Action.getKey(),
+                //             key_staff_usuario: selecteds,
+                //             key_usuario_atiende: usuario.key_usuario,
+                //         }).then(e => {
+                //             this.componentDidMount();
+                //         }).catch(e => {
+
+                //         })
+                //     }
+                // })
+
+            }}>
+            <SText bold language={{ es: "Clock", en: "Clock" }} />
+            <SText bold > {selecteds.length}</SText>
+        </SView>
+    }
+
     calculador_hora(hora_inicio, hora_fin) {
         if (!hora_inicio) return "";
         const time = new SDate(hora_inicio, "yyyy-MM-ddThh:mm:ssTZD").diffTime(new SDate(hora_fin, "yyyy-MM-ddThh:mm:ssTZD"))
@@ -878,7 +924,7 @@ export default class users extends Component {
                                                             key_usuario: val?.usuario?.key,
 
                                                         }).then(e => {
-                                                             MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
+                                                            MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
                                                             SNotification.send({
                                                                 title: SLanguage.select({
                                                                     es: "Invitación aceptada",
@@ -908,8 +954,8 @@ export default class users extends Component {
                                                             });
                                                         })
 
-                                                   
-                                                        
+
+
 
                                                     }}
                                                 >
@@ -1236,6 +1282,7 @@ export default class users extends Component {
                                 en: "Staff Accepted"
                             }} />
                             {this.renderAsignarJefe()}
+                            {this.renderAsignarAsistencia()}
 
                             <STable2
                                 key={"Algo1"}
@@ -1357,6 +1404,33 @@ export default class users extends Component {
                                             en: "Clock",
                                             es: "Clock"
                                         }), width: 80,
+                                        // renderHeader: () => {
+                                        //     return <>
+                                        //         <SView width={45} height={12} center
+                                        //             style={{
+                                        //                 position: "absolute",
+                                        //                 right: -25, top: -10,
+                                        //                 borderRadius: 4,
+                                        //                 overflow: "hidden",
+                                        //                 backgroundColor: STheme.color.secondary
+
+                                        //             }}
+                                        //             onPress={() => {
+                                        //                 SPopup.open({
+                                        //                     key: "clockAll",
+                                        //                     content: <ClockAll data={o} onChange={e => {
+                                        //                         this.componentDidMount()
+                                        //                         SPopup.close("clockAll")
+                                        //                     }} />
+                                        //                 })
+                                                        
+                                        //             }}
+                                        //         >
+                                        //             <SText fontSize={9} color={STheme.color.text} center>ALL</SText>
+                                        //         </SView>
+                                        //         <SText fontSize={11} color={STheme.color.text} center>Clock</SText>
+                                        //     </>
+                                        // },
                                         component: (o) => {
                                             return <SText onPress={(e) => {
                                                 SPopup.open({
