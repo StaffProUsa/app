@@ -419,7 +419,7 @@ export default class add extends Component {
       }} />
 
 
-     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion} required placeholder={descripcion} type='textArea'
+     <SInput ref={r => this._ref["descripcion"] = r} label={descripcion}  placeholder={descripcion} type='textArea'
      // onKeyDown={(event) => {
      //  if (event.key === "Enter") {
      //   event.preventDefault();

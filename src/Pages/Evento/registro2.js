@@ -631,7 +631,6 @@ class InputPosition extends Component {
 
       <SInput
         ref={r => this._ref["descripcion"] = r}
-        required
         label={SLanguage.select({ es: "Descripción", en: "Description" })} type='textArea' value={this.props?.staff?.descripcion} onChangeText={e => {
           this.props.staff.descripcion = e;
           this.forceUpdate();
