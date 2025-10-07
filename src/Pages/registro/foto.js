@@ -112,7 +112,7 @@ class foto extends Component {
             ...this.params,
         };
         return (
-            <SPage footer={this.footer()}
+            <SPage footer={this.footer()} preventBack
             >
                 <SView col={"xs-12"} center>
                     <SView col={"xs-11"} >
