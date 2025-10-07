@@ -35,7 +35,7 @@ const Col = DinamicTable.Col<DataType>
 //   });
 // }
 
-function ordenarData(data:any) {
+function ordenarData(data: any) {
   return data.sort((a, b) => {
     // 1. Ordenar por evento.descripcion (alfabéticamente)
     const eventoA = a.evento.descripcion?.toLowerCase() || "";
@@ -259,11 +259,9 @@ export default class dashboard extends Component {
               textAlign: "right"
             }}
             dataType='date'
-            // data={e => new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").date}
-            // dateFormat='MONTH dd, yyyy'
-            data={e => new SDate(e.row.evento.fecha, "yyyy-MM-dd").date}
+            data={e => (!e.row.evento.fecha) ? null : new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyyTZD")}
+            dateFormat='MM-dd-yyyy'
             format={e => new SDate(e.data).toString("MM-dd-yyyy")}
-          // format={e => new SDate(e.data).toString("MONTH dd, yyyy")}
 
           />
 
@@ -342,6 +340,7 @@ export default class dashboard extends Component {
             dataType='date'
             disableFilterGroup
             data={e => !e?.row?.staff?.fecha_inicio ? "" : new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
+            format={e => !e.data ? "" : new SDate(e.data).toString("HH")}
             dateFormat='HH'
 
           // format={e => new SDate(e.data).toString("HH")}
@@ -351,6 +350,7 @@ export default class dashboard extends Component {
           <Col key={"fin"} label={SLanguage.select({ en: "Clock out", es: "Fin" })} width={80}
             dataType='date'
             data={e => !e?.row?.staff?.fecha_fin ? "" : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").date}
+            format={e => !e.data ? "" : new SDate(e.data).toString("HH")}
             // data={e => !e.row.staff.fecha_fin ? null : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").date}
             disableFilterGroup
             dateFormat='HH'
