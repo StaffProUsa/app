@@ -746,7 +746,8 @@ export default class users extends Component {
                                         </SView>,
                                         renderExcel: (a) => {
                                             return "";
-                                        }
+                                        },
+
                                     },
                                     // {
                                     //     key: "-", width: 50, component: (elm) => <SView col={"xs-12"} center>
@@ -890,7 +891,10 @@ export default class users extends Component {
                                             style={{ borderRadius: 4, overflow: "hidden" }}>
                                             <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
                                                 resizeMode: "cover",
-                                            }} /></SView>
+                                            }} /></SView>,
+                                        renderExcel: (a) => {
+                                            return "";
+                                        }
                                     },
                                     // {
                                     //     key: "employee_number", label: SLanguage.select({
@@ -967,7 +971,10 @@ export default class users extends Component {
                                             </SView>
                                                 : null
                                             }
-                                        </SView>
+                                        </SView>,
+                                        renderExcel: (a) => {
+                                            return a.usuario.Nombres + " " + a.usuario.Apellidos;
+                                        }
                                     },
 
                                     {
@@ -975,12 +982,18 @@ export default class users extends Component {
                                             en: "Events\nTREND",
                                             es: "Eventos\nTENDEN."
                                         }), width: 45, headerColor: STheme.color.warning + "70",
+                                        renderExcel: (a) => {
+                                            return !a ? "0" : a
+                                        }
                                     },
                                     {
                                         key: "rechazos", label: SLanguage.select({
                                             en: "Rejects",
                                             es: "Rechazos"
-                                        }), width: 45, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText>
+                                        }), width: 45, component: (number) => <SText fontSize={12} color={(number > 0) ? STheme.color.danger : STheme.color.text} bold >{(number > 0) ? number : null}</SText>,
+                                        // renderExcel: (a) => {
+                                        //     return (a > 0) ? a : "0"
+                                        // }
                                     },
 
                                     // { key: "horas_trabajadas_tipo", label: SLanguage.select({
@@ -1128,88 +1141,93 @@ export default class users extends Component {
                                             if (!a || !a.length) return null;
 
                                             return (
-                                                <SView
-                                                    onPress={() => {
-                                                        SPopup.confirm({
-                                                            title: "Are you sure?",
-                                                            message: "Are you sure you want to transfer this user?",
-                                                            onPress: () => {
-                                                                SSocket.sendPromise({
-                                                                    component: "staff_usuario",
-                                                                    type: "cambiarEvento",
-                                                                    data: [a[0].key_staff_usuario],
-                                                                    key_staff: this.pk,
-                                                                }).then(e => {
-                                                                    SNotification.send({
-                                                                        key: "staff_usuario-asingJefe",
-                                                                        title: "Successfully applied.",
-                                                                        body: "Successfully registered.",
-                                                                        color: STheme.color.success,
-                                                                        time: 5000,
-                                                                    });
-                                                                    this.loadData();
-                                                                }).catch(console.error);
-                                                            }
-                                                        });
-                                                    }}
-                                                    row
-                                                    center
-                                                    col={"xs-12"}
-                                                    style={{ padding: 4, borderRadius: 8 }}
-                                                >
+                                                <SScrollView2 scrollEnabled>
+                                                    <SView
+                                                        onPress={() => {
+                                                            SPopup.confirm({
+                                                                title: "Are you sure?",
+                                                                message: "Are you sure you want to transfer this user?",
+                                                                onPress: () => {
+                                                                    SSocket.sendPromise({
+                                                                        component: "staff_usuario",
+                                                                        type: "cambiarEvento",
+                                                                        data: [a[0].key_staff_usuario],
+                                                                        key_staff: this.pk,
+                                                                    }).then(e => {
+                                                                        SNotification.send({
+                                                                            key: "staff_usuario-asingJefe",
+                                                                            title: "Successfully applied.",
+                                                                            body: "Successfully registered.",
+                                                                            color: STheme.color.success,
+                                                                            time: 5000,
+                                                                        });
+                                                                        this.loadData();
+                                                                    }).catch(console.error);
+                                                                }
+                                                            });
+                                                        }}
+                                                        row
+                                                        center
+                                                        col={"xs-12"}
+                                                        style={{ padding: 4, borderRadius: 8 }}
+                                                    >
 
-                                                    <SView col={"xs-2"} row center>
-                                                        <SIcon name="noDispo" fill={color} width={18} height={18} />
-                                                        <SView width={60} center>
-                                                            <SText
-                                                                center
-                                                                fontSize={10}
-                                                                color={color}
-                                                                style={{ lineHeight: 12 }}
-                                                                language={{
-                                                                    es: "Transferir aquí",
-                                                                    en: "Transfer here"
-                                                                }}
-                                                            />
+                                                        <SView col={"xs-2"} row center>
+                                                            <SIcon name="noDispo" fill={color} width={18} height={18} />
+                                                            <SView width={60} center>
+                                                                <SText
+                                                                    center
+                                                                    fontSize={10}
+                                                                    color={color}
+                                                                    style={{ lineHeight: 12 }}
+                                                                    language={{
+                                                                        es: "Transferir aquí",
+                                                                        en: "Transfer here"
+                                                                    }}
+                                                                />
+                                                            </SView>
+                                                        </SView>
+
+
+                                                        <SView col={"xs-10"} style={{ paddingLeft: 6 }}>
+                                                            {a.map(p => (
+
+                                                                <SView key={p.key_staff_usuario} style={{ marginBottom: 6 }}>
+
+
+                                                                    <SView row style={{ gap: 4, marginTop: -5, marginLeft: 1 }}>
+                                                                        <SText fontSize={7} color={STheme.color.text} style={{ maxWidth: 100 }} numberOfLines={1} language={{ es: `Evento ${p.evento}`, en: `Event ${p.evento}` }}></SText>
+                                                                        <SText fontSize={7} color={STheme.color.text}>{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
+                                                                        <SText fontSize={7} color={STheme.color.text}>-</SText>
+                                                                        <SText fontSize={7} color={STheme.color.text}>{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
+                                                                    </SView>
+                                                                    <SView row style={{ gap: 2, marginBottom: -8 }}>
+                                                                        <SView style={{ color: STheme.color.text, borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4, backgroundColor: STheme.color.primary }} >
+                                                                            <ItemImage src={SSocket.api.root + "staff_tipo/" + p.key_staff_tipo} label={p.descripcion_staff_tipo} />
+                                                                        </SView>
+                                                                        <SView style={{ color: STheme.color.text, borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4, backgroundColor: STheme.color.primary }} >
+                                                                            <ItemImage src={SSocket.api.root + "cliente/" + p.key_cliente} label={p.descripcion_cliente} />
+                                                                        </SView>
+                                                                    </SView>
+
+
+
+
+                                                                </SView>
+                                                            ))}
                                                         </SView>
                                                     </SView>
-
-
-                                                    <SView col={"xs-10"} style={{ paddingLeft: 6 }}>
-                                                        {a.map(p => (
-
-                                                            <SView key={p.key_staff_usuario} style={{ marginBottom: 6 }}>
-
-
-                                                                <SView row style={{ gap: 4, marginTop: -5, marginLeft: 1 }}>
-                                                                    <SText fontSize={7} color={STheme.color.text} style={{ maxWidth: 100 }} numberOfLines={1} language={{ es: `Evento ${p.evento}`, en: `Event ${p.evento}` }}></SText>
-                                                                    <SText fontSize={7} color={STheme.color.text}>{new SDate(p.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
-                                                                    <SText fontSize={7} color={STheme.color.text}>-</SText>
-                                                                    <SText fontSize={7} color={STheme.color.text}>{new SDate(p.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH")}</SText>
-                                                                </SView>
-                                                                <SView row style={{ gap: 2, marginBottom: -8 }}>
-                                                                    <SView style={{ color: STheme.color.text, borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4, backgroundColor: STheme.color.primary }} >
-                                                                        <ItemImage src={SSocket.api.root + "staff_tipo/" + p.key_staff_tipo} label={p.descripcion_staff_tipo} />
-                                                                    </SView>
-                                                                    <SView style={{ color: STheme.color.text, borderWidth: 1, borderColor: STheme.color.primary, borderRadius: 4, backgroundColor: STheme.color.primary }} >
-                                                                        <ItemImage src={SSocket.api.root + "cliente/" + p.key_cliente} label={p.descripcion_cliente} />
-                                                                    </SView>
-                                                                </SView>
-
-
-
-
-                                                            </SView>
-                                                        ))}
-                                                    </SView>
-                                                </SView>
+                                                </SScrollView2>
                                             );
+                                        },
+                                        renderExcel: (a) => {
+                                            return !a ? "" : a.map(b => b.evento + "(" + new SDate(b.fecha_inicio, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH") + "-" + new SDate(b.fecha_fin, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH") + ")").join(", ")
                                         }
                                     }
 
                                     // {
                                     //     key: "eventos_duplicados-otra",
-                                    //     label: SLanguage.select({ en: "Event.", es: "Evento" }),
+                                    //     label: SLanguage.select({en: "Event.", es: "Evento" }),
                                     //     width: 140,
                                     //     component: (a) => {
                                     //         if (!a || !a.length) return null;
@@ -1224,7 +1242,7 @@ export default class users extends Component {
                                     // },
                                     // {
                                     //     key: "eventos_duplicados-otra2",
-                                    //     label: SLanguage.select({ en: "fecha_inicio.", es: "fecha_inicio" }),
+                                    //     label: SLanguage.select({en: "fecha_inicio.", es: "fecha_inicio" }),
                                     //     width: 140,
                                     //     component: (a) => {
                                     //         if (!a || !a.length) return null;
@@ -1239,7 +1257,7 @@ export default class users extends Component {
                                     // },
                                     // {
                                     //     key: "eventos_duplicados-otra3",
-                                    //     label: SLanguage.select({ en: "fecha_fin.", es: "fecha_fin" }),
+                                    //     label: SLanguage.select({en: "fecha_fin.", es: "fecha_fin" }),
                                     //     width: 140,
                                     //     component: (a) => {
                                     //         if (!a || !a.length) return null;
@@ -1255,7 +1273,7 @@ export default class users extends Component {
 
                                     // {
                                     //     key: "eventos_duplicados-otra4",
-                                    //     label: SLanguage.select({ en: "Evento compl", es: "Evento compl" }),
+                                    //     label: SLanguage.select({en: "Evento compl", es: "Evento compl" }),
                                     //     width: 140,
                                     //     component: (a) => {
                                     //         if (!a || !a.length) return null;
@@ -1275,7 +1293,7 @@ export default class users extends Component {
                         </SView >
                     }
                     content2={
-                        <SView flex height backgroundColor={STheme.color.info} style={{ borderRadius: 4, paddingBottom: 70 }} >
+                        < SView flex height backgroundColor={STheme.color.info} style={{ borderRadius: 4, paddingBottom: 70 }} >
                             <SHr h={4} />
                             <SText center fontSize={12} color={STheme.color.text} language={{
                                 es: "Staff Aceptado",
@@ -1343,7 +1361,10 @@ export default class users extends Component {
                                             style={{ borderRadius: 4, overflow: "hidden" }}>
                                             <SImage enablePreview src={SSocket.api.root + "usuario/" + usr} style={{
                                                 resizeMode: "cover",
-                                            }} /></SView>
+                                            }} /></SView>,
+                                        renderExcel: (a) => {
+                                            return "";
+                                        }
                                     },
                                     // {
                                     //     key: "employee_number", label: SLanguage.select({
@@ -1383,9 +1404,9 @@ export default class users extends Component {
                                             es: "Salida"
                                         }), width: 80,
                                         render: a => !a ? "" : new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH"),
-                                        renderExcel: (a) => {
-                                            return a ? new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH") : ""
-                                        }
+                                        // renderExcel: (a) => {
+                                        //     return a ? new SDate(a, "yyyy-MM-ddThh:mm:ss.sssTZD").toString("HH") : ""
+                                        // }
                                     },
                                     {
                                         key: "staff_usuario", label: SLanguage.select({
@@ -1423,7 +1444,7 @@ export default class users extends Component {
                                         //                         SPopup.close("clockAll")
                                         //                     }} />
                                         //                 })
-                                                        
+
                                         //             }}
                                         //         >
                                         //             <SText fontSize={9} color={STheme.color.text} center>ALL</SText>
@@ -1493,9 +1514,7 @@ export default class users extends Component {
                                             </SView>
                                         },
                                         renderExcel: (obj) => {
-                                            const user = this.usuarios[obj.key_usuario_atiende]?.usuario
-                                            return user ? `${user.Nombres} ${user.Apellidos}` : "Sin jefe"
-                                            // return a.map(b => b.descripcion)
+                                            return "";
                                         }
                                     },
                                     {
