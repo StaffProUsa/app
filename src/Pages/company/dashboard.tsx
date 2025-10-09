@@ -8,6 +8,7 @@ import { ExporterStateType } from 'servisofts-table/DinamicTable/DinamicTable';
 import Config from '../../Config';
 import PBarraFooter from '../../Components/PBarraFooter';
 import { SelectEntreFechas } from '../../Components/Fechas';
+import SelectEventos from '../../Components/Filtros/Eventos';
 import { Container } from '../../Components';
 import PDF from '../../Components/PDF';
 
@@ -74,6 +75,7 @@ export default class dashboard extends Component {
   state: any = {
     fecha_inicio: '',
     fecha_fin: '',
+    key_evento: '',
   }
   table: DinamicTable<any> | any = null;
 
@@ -95,6 +97,27 @@ export default class dashboard extends Component {
     // console.log("prueba", dataOrdenada);
 
     // return dataOrdenada;
+    // this.state.data = resp.data;
+    if (this.params.key_company && this.params.key_cliente) {
+      this.setState({ data: (resp.data.filter(item => ((item.cliente.key === this.params.key_cliente) && (item.company.key === this.params.key_company)))) })
+      // this.setState({ data: (this.params.key_company) ? (resp.data.filter(item => item.company.key === this.params.key_company)) : resp.data })
+
+    } else if (this.params.key_company) {
+      this.setState({ data: resp.data.filter(item => item.company.key === this.params.key_company) })
+    } else {
+      this.setState({ data: resp.data })
+    }
+
+    // let datafecha= this.state.data
+    // if (this.state.fecha_inicio || this.state.fecha_fin) {
+    //   datafecha = this.state.data.filter((item) => {
+    //     const itemDate = new SDate(item.fecha, "yyyy-MM-ddThh:mm:ssTZD").getTime();
+    //     const startDate = new SDate(this.state.fecha_inicio, "yyyy-MM-dd").getTime();
+    //     const endDate = new SDate(this.state.fecha_fin, "yyyy-MM-dd").getTime() + (24 * 60 * 60 * 1000) - 1; // Incluir todo el día final
+    //     return itemDate >= startDate && itemDate <= endDate;
+    //   });
+    //   this.setState({ data: datafecha });
+    // }
     return resp.data;
   }
 
@@ -106,6 +129,12 @@ export default class dashboard extends Component {
 
   };
 
+  handleEventoChange = (e: { key_evento: string | String; }) => {
+    this.state.key_evento = e.key_evento;
+    console.log("handleEventoChange", e);
+    this.table.componentDidMount();
+  };
+
   componentDidMount() {
     this.loadData();
   }
@@ -115,15 +144,26 @@ export default class dashboard extends Component {
     return <SPage title={SLanguage.select({ en: "Events and Positions", es: "Eventos y posiciones" })} disableScroll
       footer={<PBarraFooter url={'/company'} />}
     >
-      <SView col={"xs-8 sm-6 md-4"}  >
+      <SView col={"xs-12"}  >
+        <SHr height={5} />
         <SView col={"xs-12"} row>
+          {/* <SView width={200} > */}
+          <SelectEventos
+            onChange={this.handleEventoChange}
+            key_evento=''
+            data={this.state.data ?? []}
+
+          />
+          {/* </SView> */}
+          <SView width={12} />
           <SelectEntreFechas
             onChange={this.handleDateChange}
             fecha_inicio=''
             fecha_fin=''
 
           />
-          <SView width={12} />
+          <SView width={20} />
+
           <SView card padding={8}
             onPress={() => {
               // console.log("this.table.dataFiltrada");
@@ -149,6 +189,14 @@ export default class dashboard extends Component {
                   new SDate(this.state.fecha_inicio, "yyyy-MM-dd").toString("yyyy-MM-dd") + "T00:00:00",
                   new SDate(this.state.fecha_fin, "yyyy-MM-dd").toString("yyyy-MM-dd") + "T23:59:59"
                 ]
+              })
+            }
+            if (this.state.key_evento) {
+              filters.push({
+                "col": "evento",
+                "type": "string",
+                "operator": "contains",
+                "value": this.state.key_evento
               })
             }
             if (this.params.key_company) {
