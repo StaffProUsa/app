@@ -12,6 +12,8 @@ import PBarraFooter from '../../Components/PBarraFooter';
 import { SelectEntreFechas } from '../../Components/Fechas';
 import InputFecha from '../../Components/NuevoInputs/InputFecha';
 import PDF from '../../Components/PDF';
+import SelectEventos from '../../Components/Filtros/Eventos';
+
 
 
 // type DataType = typeof DATATEST[0]
@@ -39,10 +41,11 @@ export default class timeSheets extends Component {
   state: any = {
     fecha_inicio: '',
     fecha_fin: '',
+    key_evento: '',
   }
 
   table: DinamicTable<any> | any = null;
-
+  params = SNavigation.getAllParams();
 
 
   key_company_ = SNavigation.getParam("key_company")
@@ -105,6 +108,16 @@ export default class timeSheets extends Component {
     let dataOrdenada = this.ordenarData(resp.data);
     console.log("prueba", dataOrdenada);
 
+    if (this.params.key_company && this.params.key_cliente) {
+      this.setState({ data: (dataOrdenada.filter(item => ((item.cliente.key === this.params.key_cliente) && (item.company.key === this.params.key_company)))) })
+      // this.setState({ data: (this.params.key_company) ? (resp.data.filter(item => item.company.key === this.params.key_company)) : resp.data })
+
+    } else if (this.params.key_company) {
+      this.setState({ data: dataOrdenada.filter(item => item.company.key === this.params.key_company) })
+    } else {
+      this.setState({ data: dataOrdenada })
+    }
+
     // return resp.data;
     return dataOrdenada;
   }
@@ -129,6 +142,12 @@ export default class timeSheets extends Component {
     this.loadData();
   }
 
+  handleEventoChange = (e: { key_evento: string | String; }) => {
+    this.state.key_evento = e.key_evento;
+    console.log("handleEventoChange", e);
+    this.table.componentDidMount();
+  };
+
 
   render() {
 
@@ -137,6 +156,14 @@ export default class timeSheets extends Component {
       footer={<PBarraFooter url={'/company'} />}>
 
       <SView col={"xs-12"} row >
+        <SelectEventos
+          onChange={this.handleEventoChange}
+          key_evento=''
+          data={this.state.data ?? []}
+
+        />
+        {/* </SView> */}
+        <SView width={12} />
         <SelectEntreFechas
           onChange={this.handleDateChange}
           fecha_inicio=''
@@ -170,6 +197,14 @@ export default class timeSheets extends Component {
                   new SDate(this.state.fecha_inicio, "yyyy-MM-dd").toString("yyyy-MM-dd") + "T00:00:00",
                   new SDate(this.state.fecha_fin, "yyyy-MM-dd").toString("yyyy-MM-dd") + "T23:59:59"
                 ]
+              })
+            }
+            if (this.state.key_evento) {
+              filters.push({
+                "col": "key_evento",
+                "type": "string",
+                "operator": "contains",
+                "value": this.state.key_evento
               })
             }
             if (this.key_company_) {
@@ -227,7 +262,7 @@ export default class timeSheets extends Component {
               cols: {
                 "state": { hidden: true, },
                 "key_company": { hidden: true, },
-                "key_evento": { hidden: true, },
+                // "key_evento": { hidden: true, },
                 "usuario_atiende": { hidden: true, },
                 "salario_hora": { hidden: true, },
                 "subtotal": { hidden: true, },
