@@ -307,7 +307,7 @@ export default class dashboard extends Component {
               textAlign: "right"
             }}
             dataType='date'
-            data={e => (!e.row.evento.fecha) ? null : new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("MM-dd-yyyyTZD")}
+            data={e => (!e.row.evento.fecha) ? null : new SDate(e.row.evento.fecha, "yyyy-MM-ddThh:mm:ss").date}
             dateFormat='MM-dd-yyyy'
             format={e => new SDate(e.data).toString("MM-dd-yyyy")}
 
