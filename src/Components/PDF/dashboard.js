@@ -3,12 +3,14 @@ import { View, Text } from 'react-native';
 import { SDate, SNavigation, SText, SView } from 'servisofts-component';
 import * as SPDF from 'servisofts-rn-spdf'
 
+const key_company = SNavigation.getParam("key_company")
+
 const cols = [
     { key: "index", label: "#", width: 20, },
     { key: "fecha", label: "DATE", width: 60 },
     { key: "company", label: "COMPANY", width: 90 },
     { key: "cliente", label: "CLIENT", width: 150 },
-    { key: "evento", label: "EVENT", width: 110 },
+    { key: "evento", label: "EVENT", width: (!key_company) ? 110 : 200 },
     { key: "staff", label: "POSITION", width: 85 },
     { key: "staff_personal", label: "#N", width: 30 },
     { key: "state", label: "STATE", width: 50 },
@@ -17,7 +19,7 @@ const cols = [
     // { key: "staff_descripcion", label: "DESCRIPTION", width: 65 },
 
 ]
-
+console.log("kkey_company", key_company);
 const HEIGHT = 16;
 const BorderColor = "#CCCCCC"
 const fontSize = 10;
@@ -27,6 +29,11 @@ export default class dashboard {
 
 
     static renderHeader = () => {
+        let key_company_0 = SNavigation.getParam("key_company")
+        console.log("cols", cols);
+        let colsFilter = cols;
+        if (key_company_0)  colsFilter = cols.filter(item => item.key !== "company");
+
         return <SPDF.View style={{
             width: "100%", flexDirection: "row",
             borderColor: BorderColor,
@@ -34,7 +41,7 @@ export default class dashboard {
             // borderBottomWidth: 1,
 
         }}>
-            {cols.map((col, index) => {
+            {colsFilter.map((col, index) => {
                 return <SPDF.View key={index} style={{
                     width: col.width, height: HEIGHT,
                     borderLeftWidth: index == 0 ? 0 : 1,
@@ -76,6 +83,13 @@ export default class dashboard {
                     // case 4:
                     //     dato = (obj["inicio"] != "") ? "YES" : "NO";
                     //     break;
+
+                    case 2:
+                        let key_company_2 = SNavigation.getParam("key_company")
+                        if (key_company_2) return;
+
+                        dato = obj["company"];
+                        break;
 
                     case 8:
                         let horaFormateada = new Date(obj["inicio"]).toLocaleTimeString(undefined, {
