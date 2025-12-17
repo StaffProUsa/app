@@ -86,11 +86,26 @@ export default class invitationDetail extends React.Component {
 
 
   }
+
+  diferenciaEs24Horas(fecha_inicio, fecha_fin) {
+    const inicio = new Date(fecha_inicio);
+    const fin = new Date(fecha_fin);
+
+    const diffMs = fin.getTime() - inicio.getTime();
+    const horas = diffMs / (1000 * 60 * 60);
+
+    return horas === 24;
+  }
   render() {
     // console.log(this.state.usuario)
     // console.log(this.state.data)
     let obj = this.state.data;
     let usuario = this.state.usuario;
+    
+    //Validar fechas para no mostrar hora fin
+    let es24horas = false;
+    es24horas = this.diferenciaEs24Horas(obj?.staff?.fecha_inicio, obj?.staff?.fecha_fin);
+
     return (
       <>
         <SPage titleLanguage={{ es: "Invitación", en: "Invitation" }} onRefresh={(res) => {

@@ -542,6 +542,16 @@ export default class users extends Component {
         return isNaN(time) ? "" : time / 1000 / 60 / 60;
     }
 
+    diferenciaEs24Horas(fecha_inicio, fecha_fin) {
+        const inicio = new Date(fecha_inicio);
+        const fin = new Date(fecha_fin);
+
+        const diffMs = fin.getTime() - inicio.getTime();
+        const horas = diffMs / (1000 * 60 * 60);
+
+        return horas === 24;
+    }
+
     render() {
         let lenguaje = SLanguage.language;
         // console.log(this.state.data_disponibles)
@@ -596,7 +606,7 @@ export default class users extends Component {
                         en: " | End:"
                     }} />
                     <SView width={6} />
-                    <SText fontSize={14} >{new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd, yyyy  HH")}</SText>
+                    <SText fontSize={14} >{!(this.diferenciaEs24Horas(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin)) ? new SDate(this.state?.data?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("MONTH dd, yyyy  HH") : "---"}</SText>
                 </> : null}
                 <SView width={6} />
                 {(this.EsFechaMenorOIgual(this.state?.data?.fecha_inicio, this.state?.data?.fecha_fin)) ? <SText fontSize={16} center color={STheme.color.danger} language={{
