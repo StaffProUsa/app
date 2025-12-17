@@ -324,10 +324,20 @@ class root extends Component {
                                         // SNavigation.replace('/');
 
                                     }).catch(e => {
-                                        if (lenguaje == "en") {
-                                            SPopup.alert('There is already a user with this email.');
+                                        let data1 = e.data;
+                                        let data2 = Object.values(e.data_)[0];
+                                        let campos = ["Correo", "Telefono"]
+                                        let igual = campos.filter(campo => data1[campo] === data2[campo]);
+                                        let campoIngles = ""
+                                        if (igual[0] == "Correo") {
+                                            campoIngles = "EMAIL";
                                         } else {
-                                            SPopup.alert("Ya existe un usuario con este correo.")
+                                            campoIngles = "PHONE"
+                                        }
+                                        if (lenguaje == "en") {
+                                            SPopup.alert("There is already a user with this " + campoIngles);
+                                        } else {
+                                            SPopup.alert("Ya existe un usuario con este " + igual[0].toUpperCase())
                                         }
                                     })
 

@@ -109,7 +109,7 @@ class registroRedes extends Component {
                         <SText fontSize={26} color={STheme.color.text}>Registro</SText>
                     </SView>
                     <SHr height={20} /> */}
-                        <SText color={STheme.color.text}>{Model.usuario.Action.getKey()}</SText>
+                        {/* <SText color={STheme.color.text}>{Model.usuario.Action.getKey()}</SText> */}
                         <SForm
                             ref={(form) => { this.form = form; }}
                             col={"xs-12"}
@@ -323,8 +323,32 @@ class registroRedes extends Component {
                                         },
                                         key_usuario: Model.usuario.Action.getKey()
                                     }).then(resp1 => {
+                                        let dataError = []
+                                        if (resp1.error) {
+                                            dataError = resp1.error;
+                                            if (dataError.length > 0) {
+                                                // Tomamos el mensaje del primer error (asumiendo que todos son iguales)
+                                                const mensaje = dataError[0].error;
 
-                                        SNavigation.replace("/registro/foto", { key_usuario: resp1.data.key })
+                                                // Extraemos todos los nombres y los unimos por coma
+                                                const campos = dataError.map(item => item.nombre).join(", ");
+
+                                                // Combinamos el texto
+                                                const resultado = `${mensaje}: ${campos}`;
+                                                if (lenguaje == "en") {
+                                                    SPopup.alert('Error: The data belongs to another user: ' + campos);
+                                                } else {
+                                                    SPopup.alert('Error: ' + resultado.toUpperCase());
+                                                }
+                                                return;
+                                            }
+                                        }
+                                        Model.usuario.Action.syncUserLog().then(e => {
+                                            SNavigation.replace("/registro/foto", { key_usuario: resp1.data.key })
+                                        })
+
+
+
                                         // Model.usuario.Action.loginByKey({
                                         //     usuario: values["Correo"],
                                         //     password: password
@@ -342,10 +366,27 @@ class registroRedes extends Component {
                                         // })
 
                                     }).catch(e => {
-                                        if (lenguaje == "en") {
-                                            SPopup.alert('There is already a user with this email.');
+                                        let error = e.error;
+
+                                        let campo = error.match(/\["(.*?)"\]/);
+                                        let campoIngles = "";
+
+                                        if (campo && campo[1]) {
+                                            error = campo[1]; // "Telefono"
                                         } else {
-                                            SPopup.alert("Ya existe un usuario con este correo.")
+                                            error = error; // Si no hay coincidencia, deja el texto original
+                                        }
+
+                                        if (error == "Correo") {
+                                            campoIngles = "EMAIL";
+                                        } else {
+                                            campoIngles = "PHONE"
+                                        }
+
+                                        if (lenguaje == "en") {
+                                            SPopup.alert('There is already a user with this email ' + campoIngles);
+                                        } else {
+                                            SPopup.alert("Ya existe un usuario con este correo " + error.toUpperCase())
                                         }
                                     })
 

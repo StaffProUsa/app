@@ -95,25 +95,27 @@ export default class validaciones extends MDLAbstract<EventListener> {
                 return;
             }
             SSocket.sendPromise({
-                version: "2.0",
-                service: "usuario",
-                component: "usuario",
-                type: "getAllKeys",
-                keys: [Model.usuario.Action.getKey()],
+                "version": "2.0",
+                "service": "usuario",
+                "component": "usuario",
+                "type": "getById",
+                "estado": "cargando",
+                "key": Model.usuario.Action.getKey()
             }).then((e: any) => {
                 // this.setState({ StaffTipoFavorito: e.data })
-                let user = e.data[Model.usuario.Action.getKey()]?.usuario
+                let user = e.data
+                if (!user)
 
-                if (!user?.estado_civil || !user?.nivel_ingles ) {
-                    SNavigation.navigate("/registro/redes")
-                    reject(SLanguage.select({
-                        es: "Complete su información.",
-                        en: "Complete your information.",
-                    }))
-                    // reject("No hay staff tipo favorito")
-                    return;
-                    // throw new Error("Imagen no existe");
-                }
+                    if (!user?.estado_civil || !user?.nivel_ingles) {
+                        SNavigation.navigate("/registro/redes")
+                        reject(SLanguage.select({
+                            es: "Complete su información.",
+                            en: "Complete your information.",
+                        }))
+                        // reject("No hay staff tipo favorito")
+                        return;
+                        // throw new Error("Imagen no existe");
+                    }
                 resolve(true)
             }).catch(e => {
                 resolve(true)
