@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { SHr, SIcon, SImage, SNavigation, SText, STheme, SUtil, SView, SLanguage, SDate, SScrollView2, SPopup, SNotification, SLoad } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import event from '../event';
-const getColorFromPercentage = (percentage,alpha = 1) => {
+const getColorFromPercentage = (percentage, alpha = 1) => {
   // Asegurarse de que el valor esté entre 0 y 100
   percentage = Math.max(0, Math.min(percentage, 100));
 
@@ -23,7 +23,7 @@ const getColorFromPercentage = (percentage,alpha = 1) => {
   return `rgba(${r}, ${g}, 0, ${alpha})`;
 }
 
-const getColorFromPercentageChange = (percentage,alpha = 1) => {
+const getColorFromPercentageChange = (percentage, alpha = 1) => {
   // Asegurarse de que el valor esté entre 0 y 100
   percentage = Math.max(0, Math.min(percentage, 100));
 
@@ -34,7 +34,7 @@ const getColorFromPercentageChange = (percentage,alpha = 1) => {
     r = 255;
     // g = Math.floor((percentage / 50) * 255);
     g = 0;
-  }else if(percentage < 100){
+  } else if (percentage < 100) {
     // De 0 a 50, rojo (255, 0, 0) a amarillo (255, 255, 0)
     r = 255;
     g = 255;
@@ -55,7 +55,7 @@ export default class Reclutas extends Component {
     this.state = {
       data: {}
     };
-     this.key_evento = SNavigation.getParam("key_evento")
+    this.key_evento = SNavigation.getParam("key_evento")
   }
 
   componentDidMount() {
@@ -80,6 +80,17 @@ export default class Reclutas extends Component {
 
     })
   }
+
+  diferenciaEs24Horas(fecha_inicio, fecha_fin) {
+    const inicio = new Date(fecha_inicio);
+    const fin = new Date(fecha_fin);
+
+    const diffMs = fin.getTime() - inicio.getTime();
+    const horas = diffMs / (1000 * 60 * 60);
+
+    return horas === 24;
+  }
+
   renderObj(obj) {
     let lenguaje = SLanguage.language;
     return <SView col={"xs-12"} row style={{ paddingTop: 8 }} onPress={() => {
@@ -111,8 +122,8 @@ export default class Reclutas extends Component {
                 es: "Inicio " + new SDate(obj.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
               }} />
               {(obj.fecha_fin != null) ? <SText fontSize={13} language={{
-                en: " | End " + new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
-                es: " | Fin " + new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
+                en: " | End " + (this.diferenciaEs24Horas(obj.fecha_inicio, obj.fecha_fin) ? "---" : new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")),
+                es: " | Fin " + (this.diferenciaEs24Horas(obj.fecha_inicio, obj.fecha_fin) ? "---" : new SDate(obj.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"))
               }} /> : null}
             </SView>
             <SScrollView2 disableHorizontal>
@@ -133,11 +144,11 @@ export default class Reclutas extends Component {
           height: 6,
           borderRadius: 100,
           // backgroundColor:  getColorFromPercentage(obj.porcentaje ?? 0,0.2),
-          backgroundColor:  getColorFromPercentageChange(obj.porcentaje ?? 0,0.2),
+          backgroundColor: getColorFromPercentageChange(obj.porcentaje ?? 0, 0.2),
           overflow: 'hidden',
         }} >
           <SView
-            width={((obj.porcentaje ?? 0)+2) + "%"}
+            width={((obj.porcentaje ?? 0) + 2) + "%"}
             style={{
               height: "100%",
               // backgroundColor: getColorFromPercentage(obj.porcentaje ?? 0),
@@ -170,7 +181,7 @@ export default class Reclutas extends Component {
                     color: STheme.color.success,
                     time: 5000,
                   })
-                   if (event.INSTANCE) event.INSTANCE.componentDidMount();
+                  if (event.INSTANCE) event.INSTANCE.componentDidMount();
                   this.componentDidMount();
                 }).catch(e => {
                   SNotification.send({

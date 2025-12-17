@@ -32,7 +32,7 @@ export default class CardBoss extends Component<{ data: ObjectStaffUsuario, onPr
         const { data } = this.props;
         const fi = new SDate(data?.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD")
         const ff = new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD")
-        
+
         let lbl = {
             en: "Begins in " + new SDate().timeSince(fi),
             es: "Comienza en " + new SDate().timeSince(fi)
@@ -85,13 +85,24 @@ export default class CardBoss extends Component<{ data: ObjectStaffUsuario, onPr
 
 
     }
+    diferenciaEs24Horas(fecha_inicio, fecha_fin) {
+        const inicio = new Date(fecha_inicio);
+        const fin = new Date(fecha_fin);
+
+        const diffMs = fin.getTime() - inicio.getTime();
+        const horas = diffMs / (1000 * 60 * 60);
+
+        return horas === 24;
+    }
     render() {
         const { data } = this.props;
         let keyUser = data?.staff_usuario?.key_usuario_atiende;
         let dataUser = Model.usuario.Action.getAll()
         let fechaFin = " ---";
         if (data?.staff?.fecha_fin) {
-            fechaFin = (new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")).toString();
+            if (!this.diferenciaEs24Horas(data?.staff?.fecha_inicio, data?.staff?.fecha_fin)) {
+                fechaFin = (new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")).toString();
+            }
         }
         console.log("fechafin", fechaFin)
         return <SView col={"xs-12"} style={{

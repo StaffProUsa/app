@@ -38,6 +38,15 @@ class cdboss extends Component {
         })
 
     }
+    diferenciaEs24Horas(fecha_inicio, fecha_fin) {
+        const inicio = new Date(fecha_inicio);
+        const fin = new Date(fecha_fin);
+
+        const diffMs = fin.getTime() - inicio.getTime();
+        const horas = diffMs / (1000 * 60 * 60);
+
+        return horas === 24;
+    }
     render() {
 
 
@@ -81,8 +90,8 @@ class cdboss extends Component {
                                 en: " to ",
                             }} />
                             <SText fontSize={fontz} color={STheme.color.text} language={{
-                                en: new SDate(this.state?.data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
-                                es: new SDate(this.state?.data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
+                                en: this.diferenciaEs24Horas(this.state?.data?.staff?.fecha_inicio, this.state?.data?.staff?.fecha_fin) ? "---" :new SDate(this.state?.data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"),
+                                es: this.diferenciaEs24Horas(this.state?.data?.staff?.fecha_inicio, this.state?.data?.staff?.fecha_fin) ? "---" :new SDate(this.state?.data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")
                             }} />
                         </SView>
                     </SView>

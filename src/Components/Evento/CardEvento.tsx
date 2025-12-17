@@ -52,13 +52,13 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
             // }
         }
 
-        if(!!data.staff_usuario.fecha_ingreso &&!data.staff_usuario.fecha_salida){
+        if (!!data.staff_usuario.fecha_ingreso && !data.staff_usuario.fecha_salida) {
             styles.color = STheme.color.success
             lbl = {
                 en: "working",
                 es: "trabajando"
             }
-        }else if (ff.isBefore(new SDate())) {
+        } else if (ff.isBefore(new SDate())) {
             styles.color = STheme.color.danger
             lbl = {
                 en: "FINISHED",
@@ -103,20 +103,32 @@ export default class CardEvento extends Component<{ data: ObjectStaffUsuario, on
         </SView>
 
     }
+
+    diferenciaEs24Horas(fecha_inicio: any, fecha_fin: any) {
+        const inicio = new Date(fecha_inicio);
+        const fin = new Date(fecha_fin);
+
+        const diffMs = fin.getTime() - inicio.getTime();
+        const horas = diffMs / (1000 * 60 * 60);
+
+        return horas === 24;
+    }
     render() {
         const { data } = this.props;
         let keyUser = data?.staff_usuario?.key_usuario_atiende;
         let dataUser = Model.usuario.Action.getAll()
         let fechaFin = " ---";
         if (data?.staff?.fecha_fin) {
-            fechaFin = (new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")).toString();
+            if (!this.diferenciaEs24Horas(data?.staff?.fecha_inicio, data?.staff?.fecha_fin)) {
+                fechaFin = (new SDate(data?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")).toString();
+            }
         }
         console.log("fechafin", fechaFin)
         return <SView col={"xs-12"} style={{
             borderWidth: 1,
             borderRadius: 8,
             borderColor: STheme.color.card,
-            backgroundColor: STheme.getTheme() == "dark" ? STheme.color.black+"60" : STheme.color.white+"95"
+            backgroundColor: STheme.getTheme() == "dark" ? STheme.color.black + "60" : STheme.color.white + "95"
 
         }} padding={12} onPress={this.props.onPress}>
             <SView col={"xs-12"} row >

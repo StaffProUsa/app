@@ -20,7 +20,7 @@ export default class history extends Component {
     }
     componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
-        this.loadData({fecha_inicio:"2010-01-01", fecha_fin: "3000-01-01"})
+        this.loadData({ fecha_inicio: "2010-01-01", fecha_fin: "3000-01-01" })
 
 
 
@@ -47,8 +47,8 @@ export default class history extends Component {
             // type: "getMisTrabajos",
             type: "getMisTrabajosEntreFechas",
             key_usuario: Model.usuario.Action.getKey(),
-            fecha_inicio: fecha_inicio||null,
-            fecha_fin: fecha_fin||null,
+            fecha_inicio: fecha_inicio || null,
+            fecha_fin: fecha_fin || null,
         }).then(e => {
             Object.values(e.data).map((obj) => {
                 const f = new SDate(obj.evento.fecha, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd")
@@ -70,8 +70,8 @@ export default class history extends Component {
             component: "staff_usuario",
             // type: "getHistorico",
             type: "getHistoricoEntreFechas",
-            fecha_inicio: fecha_inicio||null,
-            fecha_fin: fecha_fin||null,
+            fecha_inicio: fecha_inicio || null,
+            fecha_fin: fecha_fin || null,
             key_usuario: Model.usuario.Action.getKey()
         }).then(e => {
             this.setState({ dataResumen: e.data })
@@ -147,6 +147,17 @@ export default class history extends Component {
             </SView>
         );
     }
+
+    diferenciaEs24Horas(fecha_inicio, fecha_fin) {
+        const inicio = new Date(fecha_inicio);
+        const fin = new Date(fecha_fin);
+
+        const diffMs = fin.getTime() - inicio.getTime();
+        const horas = diffMs / (1000 * 60 * 60);
+
+        return horas === 24;
+    }
+
     getList() {
         return <SList2
             data={this.state.data}
@@ -261,8 +272,8 @@ export default class history extends Component {
                             en: "Start: " + new SDate(obj?.staff?.fecha_inicio).toString("HH"),
                         }} /> : null}
                         {(obj?.staff?.fecha_fin != null) ? <SText col={"xs-4"} fontSize={12} language={{
-                            es: "Fin: " + new SDate(obj?.staff?.fecha_fin).toString("HH"),
-                            en: "End: " + new SDate(obj?.staff?.fecha_fin).toString("HH"),
+                            es: "Fin: " + (this.diferenciaEs24Horas(obj?.staff?.fecha_inicio, obj?.staff?.fecha_fin) ? "---" : new SDate(obj?.staff?.fecha_fin).toString("HH")),
+                            en: "End: " + (this.diferenciaEs24Horas(obj?.staff?.fecha_inicio, obj?.staff?.fecha_fin) ? "---" : new SDate(obj?.staff?.fecha_fin).toString("HH")),
                         }} /> : null}
                     </SView>
                     <SHr height={10} />
@@ -382,8 +393,8 @@ export default class history extends Component {
                     //fecha_inicio={new SDate().setDay(1).toString("yyyy-MM-dd")}
                     // fecha_inicio=''
                     // fecha_fin=''
-                    fecha_inicio={""} 
-                    fecha_fin={""}    
+                    fecha_inicio={""}
+                    fecha_fin={""}
                     onChange={e => {
                         this.entrefecha = e;
                         this.loadData(e)
