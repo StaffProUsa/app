@@ -101,7 +101,7 @@ export default class invitationDetail extends React.Component {
     // console.log(this.state.data)
     let obj = this.state.data;
     let usuario = this.state.usuario;
-    
+
     //Validar fechas para no mostrar hora fin
     let es24horas = false;
     es24horas = this.diferenciaEs24Horas(obj?.staff?.fecha_inicio, obj?.staff?.fecha_fin);
@@ -300,7 +300,7 @@ export default class invitationDetail extends React.Component {
                         }} />
                       </SView>
                       <SView col={'xs-6'} row>
-                        <SText fontSize={20} color={STheme.color.gray} >{new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}</SText>
+                        <SText fontSize={20} color={STheme.color.gray} >{!es24horas ? new SDate(obj?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH") : "---"}</SText>
                       </SView><SHr height={10} /></> : null}
 
 

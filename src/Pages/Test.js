@@ -39,8 +39,8 @@ export default class Test extends Component {
         <SInput label="hour" type='hour' />
         <SInput label="money" type='money' />
         <SInput label="password" type='password' />
-        <SInput label="select" type='select' options={["opcion1", "opcion2", "carlos", "juan"]} />
-        <SInput label="select Mejorado" type='select' options={[
+        <SInput label="select"  options={["opcion1", "opcion2", "carlos", "juan"]} />
+        <SInput label="select Mejorado"  options={[
           { key: "opt", component: <SText color={STheme.color.success}>opcion1</SText> },
           { key: "opt2", component: <SText color={STheme.color.danger}>opcion2</SText> },
         ]} />
