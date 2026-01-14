@@ -10,6 +10,7 @@ import { DinamicTable } from 'servisofts-table';
 import Config from '../Config';
 import TableIcon from '../Components/Table/TableIcon';
 import Col from 'servisofts-table/DinamicTable/Col';
+import BtnWhatsapp from '../Components/BtnWhatsapp';
 
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
     return <SView row >
@@ -31,7 +32,7 @@ class boss extends Component {
         };
     }
     key_staff = SNavigation.getParam("key_staff")
-    sta  = SNavigation.getParam("sta")
+    sta = SNavigation.getParam("sta")
     componentDidMount() {
         // this.loadData()
     }
@@ -204,7 +205,7 @@ class boss extends Component {
                 <DinamicTable
                     loadInitialState={async () => {
                         const filter = []
-                        if(this.sta){
+                        if (this.sta) {
                             filter.push({
                                 "col": "state",
                                 "operator": "=",
@@ -365,50 +366,50 @@ class boss extends Component {
 
                     />
                     <Col key={"state"} label={SLanguage.select({ es: "State", en: "Estado" })} width={70}
-                                data={e => {
-                    
-                                  if (e.row?.fecha_salida) {
-                                    return "COMPLETED"
-                                  }
-                    
-                                  if (e.row?.fecha_ingreso) {
-                                    return "READY"
-                                  }
-                    
-                                  //if (new SDate(e.row?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").getTime() < new SDate().getTime()) {
-                                   // return "FINISHED"
-                                  //}
-                    
-                                  return "PENDING"
-                    
-                                }}
-                    
-                                customComponent={e => {
-                                  let color = STheme.color.primary;
-                                  switch (e.dataFormat) {
-                                    case "FINISHED":
-                                      color = STheme.color.danger;
-                                      break;
-                                    case "READY":
-                                      color = STheme.color.warning;
-                                      break;
-                                    case "PENDING":
-                                      color = STheme.color.lightGray;
-                                      break;
-                                    case "COMPLETED":
-                                      color = STheme.color.success;
-                                      break;
-                                  }
-                    
-                                  return <SView col={"xs-12"} center >
-                                    <SView padding={3} center style={{
-                                      backgroundColor: color,
-                                      borderRadius: 4,
-                                    }}>
-                                      <Text style={[e.textStyle, { color: "#fff", fontSize: 10 }]} >{e.dataFormat}</Text>
-                                    </SView>
-                                  </SView>
-                                }} />
+                        data={e => {
+
+                            if (e.row?.fecha_salida) {
+                                return "COMPLETED"
+                            }
+
+                            if (e.row?.fecha_ingreso) {
+                                return "READY"
+                            }
+
+                            //if (new SDate(e.row?.staff?.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").getTime() < new SDate().getTime()) {
+                            // return "FINISHED"
+                            //}
+
+                            return "PENDING"
+
+                        }}
+
+                        customComponent={e => {
+                            let color = STheme.color.primary;
+                            switch (e.dataFormat) {
+                                case "FINISHED":
+                                    color = STheme.color.danger;
+                                    break;
+                                case "READY":
+                                    color = STheme.color.warning;
+                                    break;
+                                case "PENDING":
+                                    color = STheme.color.lightGray;
+                                    break;
+                                case "COMPLETED":
+                                    color = STheme.color.success;
+                                    break;
+                            }
+
+                            return <SView col={"xs-12"} center >
+                                <SView padding={3} center style={{
+                                    backgroundColor: color,
+                                    borderRadius: 4,
+                                }}>
+                                    <Text style={[e.textStyle, { color: "#fff", fontSize: 10 }]} >{e.dataFormat}</Text>
+                                </SView>
+                            </SView>
+                        }} />
 
                     <DinamicTable.Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
                         dataType='date'
@@ -420,7 +421,7 @@ class boss extends Component {
                         data={e => e.row.cliente.descripcion}
                         labelIcon={<TableIcon name='icliente' />}
                         customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "cliente/" + e.row?.cliente?.key} textStyle={e.textStyle} />}
-                        
+
                     />
                     <DinamicTable.Col key={"evento"} label={SLanguage.select({ en: "Event", es: "Evento" })} width={100}
                         data={e => e.row.evento.descripcion}
@@ -432,13 +433,22 @@ class boss extends Component {
                     />
                     <DinamicTable.Col key={"nombre"} label={SLanguage.select({ en: "User", es: "Usuario" })} width={100}
                         data={e => { return e.row?.usuario?.Nombres + " " + e.row?.usuario?.Apellidos }
-                        
-                    }
-                        
+
+                        }
+                    />
+                    <DinamicTable.Col key={"Telefono_"} label={SLanguage.select({ en: "Phone", es: "Teléfono" })} width={100}
+                        data={e => { return e.row?.usuario?.Telefono }}
+                        customComponent={e => <BtnWhatsapp telefono={e.row?.usuario?.Telefono}
+                            texto={e.row.evento.observacion}
+                        >
+                            <SText fontSize={11} color={STheme.color.text} underLine>
+                                {e.row?.usuario?.Telefono}
+                            </SText>
+                        </BtnWhatsapp>}
                     />
                     <DinamicTable.Col key={"salario"} label={SLanguage.select({ en: "Salary", es: "Salario" })}
                         width={100}
-                        data={e =>e.row?.salario_hora}
+                        data={e => e.row?.salario_hora}
                     />
                     <DinamicTable.Col key={"staff"}
                         labelIcon={<TableIcon name='iposition' />}
