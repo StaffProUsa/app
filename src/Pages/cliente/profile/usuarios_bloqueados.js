@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SDate, SLanguage, SNavigation, SPage, SPopup, STheme } from 'servisofts-component';
+import { SDate, SLanguage, SNavigation, SPage, SPopup, SText, STheme } from 'servisofts-component';
 import SSocket from 'servisofts-socket';
 import { DinamicTable } from 'servisofts-table';
 import FloatButtom from '../../../Components/FloatButtom';
@@ -8,6 +8,7 @@ import { component } from '../../../Services/Usuario/Components/datoCabecera';
 import Config from '../../../Config';
 import Model from '../../../Model';
 import PBarraFooter from '../../../Components/PBarraFooter';
+import BtnWhatsapp from '../../../Components/BtnWhatsapp';
 
 export default class usuarios_bloqueados extends Component {
     constructor(props) {
@@ -57,8 +58,8 @@ export default class usuarios_bloqueados extends Component {
         return data;
     }
     render() {
-     return <SPage title={"Usuarios bloqueados"} disableScroll
-                     footer={<PBarraFooter url={'/company'} />}>
+        return <SPage title={"Usuarios bloqueados"} disableScroll
+            footer={<PBarraFooter url={'/company'} />}>
 
             <DinamicTable
                 ref={ref => this.table = ref}
@@ -113,7 +114,15 @@ export default class usuarios_bloqueados extends Component {
                     es: "Telefono",
                     en: "Phone"
                 })} width={100}
-                    data={a => a.row?.usuario_bloqueado?.Telefono} />
+                    data={a => a.row?.usuario_bloqueado?.Telefono}
+                    customComponent={e => <BtnWhatsapp telefono={e.row?.usuario_bloqueado?.Telefono}
+                        texto={""}
+                    >
+                        <SText fontSize={11} color={STheme.color.text} underLine>
+                            {e.row?.usuario_bloqueado?.Telefono}
+                        </SText>
+                    </BtnWhatsapp>}
+                />
                 <DinamicTable.Col key={"fecha"}
                     label={SLanguage.select({ es: "Fecha de bloqueo", en: "Date of block" })}
                     width={140}

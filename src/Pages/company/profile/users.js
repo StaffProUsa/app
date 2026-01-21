@@ -8,6 +8,7 @@ import Model from '../../../Model';
 import staff from '../../staff';
 import Config from '../../../Config';
 import PBarraFooter from '../../../Components/PBarraFooter';
+import BtnWhatsapp from '../../../Components/BtnWhatsapp';
 
 const ImageLabel = ({ label, src, textStyle, wrap = true }) => {
     return <SView row >
@@ -485,7 +486,15 @@ export default class users extends Component {
                         customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
                     />
 
-                    <DinamicTable.Col key={"telefono"} data={p => p.row?.usuario?.Telefono} label='Teléfono' />
+                    <DinamicTable.Col key={"telefono"} data={p => p.row?.usuario?.Telefono} label='Teléfono'
+                        customComponent={e => <BtnWhatsapp telefono={e.row?.usuario?.Telefono}
+                            texto={""}
+                        >
+                            <SText fontSize={11} color={STheme.color.text} underLine>
+                                {e.row?.usuario?.Telefono}
+                            </SText>
+                        </BtnWhatsapp>}
+                    />
                     <DinamicTable.Col key={"email"} data={p => p.row?.usuario?.Correo} label='Email' />
 
 

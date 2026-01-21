@@ -6,14 +6,15 @@ import * as SPDF from 'servisofts-rn-spdf'
 const cols = [
     { key: "index", label: "#", width: 25, },
     { key: "fecha", label: "DATE", width: 65 },
-    { key: "usuario", label: "NAME", width: 170 },
-    { key: "key_evento", label: "LOCATION", width: 170 },
+    { key: "usuario", label: "NAME", width: 160 },
+    { key: "key_evento", label: "LOCATION", width: 150 },
     // { key: "employee_number", label: "EMPLOYEE N°", width: 170 },
     // { key: "arrived", label: "ARRIVED", width: 70 },
-    { key: "staff", label: "POSITION", width: 100 },
-    { key: "inicio", label: "TIME IN", width: 60 },
-    { key: "fin", label: "TIME OUT", width: 60 },
-    { key: "horas", label: "TTL HOURS", width: 65 },
+    { key: "staff", label: "POSITION", width: 80 },
+    { key: "in", label: "TIME IN", width: 60 },
+    { key: "inicio", label: "CLOCK IN", width: 60 },
+    { key: "fin", label: "CLOCK OUT", width: 60 },
+    { key: "horas", label: "HOURS", width: 55 },
 
 ]
 
@@ -79,8 +80,16 @@ export default class timeSheet {
                     // case 4:
                     //     dato = (obj["inicio"] != "") ? "YES" : "NO";
                     //     break;
+                     case 5:
+                        let horaFormateadaIn = new Date(obj["in"]).toLocaleTimeString(undefined, {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true
+                        });
+                        dato = (obj["in"] != "") ? horaFormateadaIn : " ";
+                        break;
 
-                    case 5:
+                    case 6:
                         let horaFormateada = new Date(obj["inicio"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -88,7 +97,7 @@ export default class timeSheet {
                         });
                         dato = (obj["inicio"] != "") ? horaFormateada : " ";
                         break;
-                    case 6:
+                    case 7:
                         let horaFormateadaFin = new Date(obj["fin"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -96,7 +105,7 @@ export default class timeSheet {
                         });
                         dato = (obj["fin"] != "") ? horaFormateadaFin : " ";
                         break;
-                    case 7:
+                    case 8:
                         dato = obj["horas"].toFixed(2);
                         break;
 

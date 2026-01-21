@@ -13,6 +13,7 @@ import { SelectEntreFechas } from '../../Components/Fechas';
 import InputFecha from '../../Components/NuevoInputs/InputFecha';
 import PDF from '../../Components/PDF';
 import SelectEventos from '../../Components/Filtros/Eventos';
+import BtnWhatsapp from '../../Components/BtnWhatsapp';
 
 
 
@@ -408,6 +409,20 @@ export default class timeSheets extends Component {
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
           />
 
+          <Col key={"telefono"}
+            labelIcon={<TableIcon name='iphone' />}
+            label={SLanguage.select({ es: "Teléfono", en: "Phone" })} width={120}
+            data={e => `${e.row.usuario?.Telefono}`}
+            customComponent={e => <BtnWhatsapp telefono={e.row?.usuario?.Telefono}
+              texto={e.row.evento.observacion}
+            >
+              <SText fontSize={11} color={STheme.color.text} underLine>
+                {e.row?.usuario?.Telefono}
+              </SText>
+            </BtnWhatsapp>}
+          //customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "usuario/" + e.row?.usuario?.key} textStyle={e.textStyle} />}
+          />
+
 
           <Col key={"usuario_atiende"} label={SLanguage.select({ es: "Jefe", en: "Boss" })} width={80}
             data={e => `${e.row.usuario_atiende?.Nombres ?? ""} ${e.row.usuario_atiende?.Apellidos ?? ""}`}
@@ -420,6 +435,13 @@ export default class timeSheets extends Component {
             label={SLanguage.select({ es: "Posición", en: "Position" })} width={100}
             data={e => e.row.staff_tipo.descripcion}
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
+          />
+
+          <Col key={"in"} label={SLanguage.select({ es: "Hora ingreso", en: "Time In" })} width={80}
+            dataType='date'
+            data={e => (!e.row.staff?.fecha_inicio) ? null : new SDate(e.row.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
+            // format={e => new SDate(e.data).toString("HH")}
+            dateFormat='HH'
           />
 
           <Col key={"inicio"} label={SLanguage.select({ es: "Hora inicio", en: "Clock In" })} width={80}
