@@ -157,14 +157,17 @@ export default class timeSheets extends Component {
       footer={<PBarraFooter url={'/company'} />}>
 
       <SView col={"xs-12"} row >
-        <SelectEventos
+        {this.key_evento_ ? null : <><SelectEventos
           onChange={this.handleEventoChange}
           key_evento=''
           data={this.state.data ?? []}
 
         />
-        {/* </SView> */}
-        <SView width={12} />
+          <SView width={12} />
+        </>}
+
+
+
         <SelectEntreFechas
           onChange={this.handleDateChange}
           fecha_inicio=''

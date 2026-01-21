@@ -147,15 +147,16 @@ export default class dashboard extends Component {
       <SView col={"xs-12"}  >
         <SHr height={5} />
         <SView col={"xs-12"} row>
-          {/* <SView width={200} > */}
-          <SelectEventos
-            onChange={this.handleEventoChange}
-            key_evento=''
-            data={this.state.data ?? []}
+          {this.params.key_evento ? null : <>
+            <SelectEventos
+              onChange={this.handleEventoChange}
+              key_evento=''
+              data={this.state.data ?? []}
 
-          />
-          {/* </SView> */}
-          <SView width={12} />
+            />
+            <SView width={12} />
+          </>}
+
           <SelectEntreFechas
             onChange={this.handleDateChange}
             fecha_inicio=''
