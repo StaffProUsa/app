@@ -71,6 +71,7 @@ export default class registro2 extends Component {
         "observacion": item.observacion,
         "key_evento": "this.state.key_evento",
         "key_staff_tipo": item.key_staff_tipo,
+        "location": item.location,
         "fecha_inicio": fecha_inicio,
         "fecha_fin": fecha_fin,
         "cantidad": item.cantidad,
@@ -203,6 +204,7 @@ export default class registro2 extends Component {
       "fecha_fin": "",
       "fecha_inicio": "",
       "key_staff_tipo": "",
+      "location": "",
       "nivel_ingles": "NONE",
       "observacion": "",
 
@@ -395,7 +397,9 @@ class InputPosition extends Component {
     if (!this._ref["descripcion"].verify()) {
       valid = false;
     }
-
+    if (!this._ref["location"].verify()) {
+      valid = false;
+    }
     return valid;
 
     // this._ref["cantidad"].verify();
@@ -529,6 +533,13 @@ class InputPosition extends Component {
           })
         }}
       />
+
+      <SInput col={"xs-12"}
+        ref={r => this._ref["location"] = r}
+        label={SLanguage.select({ es: "Ubicación", en: "Location" })} type='text' value={this.props?.staff?.location} onChangeText={e => {
+          this.props.staff.location = e;
+          this.forceUpdate();
+        }} />
 
       <Input col={"xs-4"} inputStyle={{
         height: 40,

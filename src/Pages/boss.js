@@ -411,12 +411,11 @@ class boss extends Component {
                             </SView>
                         }} />
 
-                    <DinamicTable.Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
+                    {/* <DinamicTable.Col key={"fecha"} label={SLanguage.select({ es: "Fecha", en: "Date" })} width={80}
                         dataType='date'
                         data={e => new SDate(e.row.evento.fecha, "yyyy-MM-dd").date}
                         format={e => new SDate(e.data).toString("yyyy-MM-dd")}
-                    // textStyle={{ color: STheme.color.success }}
-                    />
+                    /> */}
                     <DinamicTable.Col key={"cliente"} label={SLanguage.select({ en: "Client", es: "Cliente" })} width={100}
                         data={e => e.row.cliente.descripcion}
                         labelIcon={<TableIcon name='icliente' />}
@@ -446,15 +445,22 @@ class boss extends Component {
                             </SText>
                         </BtnWhatsapp>}
                     />
-                    <DinamicTable.Col key={"salario"} label={SLanguage.select({ en: "Salary", es: "Salario" })}
+                    {/* <DinamicTable.Col key={"salario"} label={SLanguage.select({ en: "Salary", es: "Salario" })}
                         width={100}
                         data={e => e.row?.salario_hora}
-                    />
+                    /> */}
                     <DinamicTable.Col key={"staff"}
                         labelIcon={<TableIcon name='iposition' />}
                         label={SLanguage.select({ es: "Posición", en: "Position" })} width={100}
                         data={e => e.row.staff_tipo.descripcion}
                         customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
+                    />
+
+                     <DinamicTable.Col key={"staff_"}
+                        // labelIcon={<TableIcon name='iposition_' />}
+                        label={SLanguage.select({ es: "Ubicación", en: "Location" })} width={140}
+                        data={e => e.row.staff.location}
+                        // customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
                     />
 
                     <DinamicTable.Col key={"inicio"} label={SLanguage.select({ es: "Hora inicio", en: "Clock In" })} width={80}
@@ -496,7 +502,7 @@ class boss extends Component {
                         }}
                     // format={e => e.data.toFixed(2)}
                     />
-                    <DinamicTable.Col key={"subtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
+                    {/* <DinamicTable.Col key={"subtotal"} label={SLanguage.select({ es: "Subtotal", en: "Subtotal" })} width={60}
                         dataType='number'
                         data={e => {
                             if (!e.row.fecha_ingreso || !e.row.fecha_salida) return 0;
@@ -521,8 +527,7 @@ class boss extends Component {
                                 <SText col={"xs-12"} color={STheme.color.text} fontSize={10} style={{ textAlign: "right" }}>{total.toFixed(2)}</SText>
                             </SView>
                         }}
-                    // format={e => isNaN(e.data) ? null : Number.isInteger(e.data) ? e.data : e.data.toFixed(2)}
-                    />
+                    /> */}
 
 
 
