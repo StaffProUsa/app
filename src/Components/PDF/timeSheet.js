@@ -7,7 +7,7 @@ const cols = [
     { key: "index", label: "#", width: 25, },
     { key: "fecha", label: "DATE", width: 65 },
     { key: "usuario", label: "NAME", width: 160 },
-    { key: "key_evento", label: "LOCATION", width: 150 },
+    { key: "location", label: "LOCATION", width: 150 },
     // { key: "employee_number", label: "EMPLOYEE N°", width: 170 },
     // { key: "arrived", label: "ARRIVED", width: 70 },
     { key: "staff", label: "POSITION", width: 80 },
@@ -189,19 +189,66 @@ export default class timeSheet {
             nombreCliente = Object.keys(agrupado).join(', ');
         }
         SPDF.create(<SPDF.Page style={{ width: 791, height: 612, margin: 20, padding: 20, }}
-            header={<SPDF.View style={{
+
+            // header={<SPDF.View style={{
+            //     width: "100%",
+            // }}>
+            //     <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
+            //     <SPDF.View style={{
+            //         width: "100%",
+            //         alignItems: "center"
+            //     }}>
+            //         <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{titulo}</SPDF.Text>
+            //     </SPDF.View>
+            //     {nombreCliente && <SPDF.View style={{
+            //         width: "100%",
+            //         alignItems: "justify"
+            //     }}>
+            //         <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>
+            //         <SPDF.Text style={{ width: "100%", fontSize: 12, font: "Roboto" }}>Client: {nombreCliente}</SPDF.Text>
+            //     </SPDF.View>
+            //     }
+            //     <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>
+            //     <SPDF.View style={{
+            //         width: "100%",
+            //         alignItems: "justify",
+            //         flexDirection: "row"
+            //     }}>
+
+            //         <SPDF.Text style={{ fontSize: 12, font: "Roboto" }}>
+            //             {`Date from: ${fecha_inicio_}`}
+            //         </SPDF.Text>
+            //         <SPDF.View style={{ width: 100 }}></SPDF.View>
+            //         <SPDF.Text style={{ fontSize: 12, font: "Roboto" }}>
+            //             {`Date to: ${fecha_fin_}`}
+            //         </SPDF.Text>
+            //     </SPDF.View>
+            //     <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
+
+            //     {this.renderHeader()}
+            // </ SPDF.View>}
+
+            footer={<SPDF.View style={{
+                width: "100%",
+                alignItems: "end"
+            }}>
+                <SPDF.View style={{ width: "100%", height: 10 }}></SPDF.View>
+                <SPDF.Text style={{ fontSize: fontSize, }}>{"Page #${current_page}"}</SPDF.Text>
+            </SPDF.View>
+            }
+        >
+
+            {/* <SPDF.View style={{
+                width: "100%",
+                borderWidth: 1,
+                borderColor: BorderColor
+            }}> */}
+
+            {/* HEADER */}
+            <SPDF.View style={{
                 width: "100%",
                 // borderColor: BorderColor
             }}>
-                {/* <SPDF.View style={{
-                    position: "absolute",
-                    width: 65,
-                    height: 65,
-                    right: 1,
-                    borderWidth: 1,
-
-                }}>
-                </SPDF.View> */}
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
                 <SPDF.View style={{
                     width: "100%",
@@ -223,7 +270,6 @@ export default class timeSheet {
                     alignItems: "justify",
                     flexDirection: "row"
                 }}>
-
                     <SPDF.Text style={{ fontSize: 12, font: "Roboto" }}>
                         {`Date from: ${fecha_inicio_}`}
                     </SPDF.Text>
@@ -235,50 +281,8 @@ export default class timeSheet {
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
 
                 {this.renderHeader()}
-            </ SPDF.View>}
-
-            footer={<SPDF.View style={{
-                width: "100%",
-                alignItems: "end"
-            }}>
-
-
-                {/* <SPDF.View
-                    style={{
-                        borderWidth: 0,
-                        borderColor: "#000",
-                        borderRadius: 8,
-                        padding: 10,
-                        minWidth: 170,
-                        backgroundColor: "#f5f5f5",
-                        width: "100%",
-                        alignItems: "end",
-
-                    }}
-                >
-                    <SPDF.Text style={{ fontSize: 12, color: "#000", font: "Roboto", textAlign: "right" }}>
-                        {"Total Hours: "}
-                    </SPDF.Text>
-                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 12, color: "#000", font: "Roboto" }}>
-                        {total.toFixed(2)} hrs
-                    </SPDF.Text>
-                </SPDF.View> */}
-                <SPDF.View style={{ width: "100%", height: 10 }}></SPDF.View>
-
-
-                <SPDF.Text style={{ fontSize: fontSize, }}>{"Page #${current_page}"}</SPDF.Text>
-            </SPDF.View>
-            }
-        >
-
-            {/* <SPDF.View style={{
-                width: "100%",
-                borderWidth: 1,
-                borderColor: BorderColor
-            }}> */}
-
-            {/* HEADER */}
-
+            </ SPDF.View>
+            {/* FIN HEADER */}
             {data.map((item, index) => {
                 console.log("item", item);
                 return this.renderItem(index + 1, item)
@@ -306,8 +310,7 @@ export default class timeSheet {
                 </SPDF.Text>
             </SPDF.View>
             <SPDF.View style={{ width: "100%", height: 10 }}></SPDF.View>
-
-            {/* </SPDF.View> */}
+            {/* FIN FOOTER */}
         </SPDF.Page >)
     }
 

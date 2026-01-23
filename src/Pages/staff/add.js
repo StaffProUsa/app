@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { SButtom, SDate, SHr, SInput, SNavigation, SPage, SPopup, SText, SView, SLanguage, STheme, SLoad } from 'servisofts-component';
+import { SButtom, SDate, SHr, SInput, SNavigation, SPage, SPopup, SText, SView, SLanguage, STheme, SLoad, SNotification } from 'servisofts-component';
 import { Container } from '../../Components';
 import SSocket from 'servisofts-socket';
 import Model from '../../Model';
@@ -181,7 +181,8 @@ export default class add extends Component {
             // this._ref["fecha_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ss").toString("yyyy-MM-dd"))
             if (e.data.fecha_fin) {
                 this._ref["hora_fin"].setValue(new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH"))
-                this.state.endTime = new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm")
+                //this.state.endTime = new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm")
+                this.setState({ endTime: new SDate(e.data.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("hh:mm") })
             }
             this._ref["nivel_ingles"].setValue(e.data.nivel_ingles)
             // console.log(e);
@@ -250,15 +251,18 @@ export default class add extends Component {
         }
         this.setState({ loading: true })
 
-
         // const currentDate = new SDate().toString("yyyy-MM-dd");
         const fecha_inicio = new SDate(this.state.fecha + "T" + this.state.startTime + ":00", "yyyy-MM-ddThh:mm:ss");
+        //  if (this.state.pk) {
+
         let fecha_fin = new SDate(this.state.fecha + "T" + this.state.endTime + ":00", "yyyy-MM-ddThh:mm:ss");
+        console.log("fechaFIN 1 ", fecha_fin.toString("yyyy-MM-dd hh:mmTZD"))
+
         if (!this.state.endTime) {
             fecha_fin = new SDate(this.state.fecha + "T" + this.state.startTime + ":00", "yyyy-MM-ddThh:mm:ss");
             fecha_fin.addDay(1);
         }
-        if (fecha_inicio.getTime() > fecha_fin.getTime()) {
+        if (fecha_inicio.getTime() >= fecha_fin.getTime()) {
             fecha_fin.addDay(1);
         }
 
@@ -268,6 +272,7 @@ export default class add extends Component {
         // console.log("fecha_fin", fecha_fin.toString("yyyy-MM-dd hh:mmTZD"),);
 
         this.setState({ loading: false })
+        console.log("fechaFIN 2", fecha_fin.toString("yyyy-MM-dd hh:mmTZD"))
 
         if (this.state.pk) {
 
@@ -289,11 +294,24 @@ export default class add extends Component {
             }).then(e => {
                 this.setState({ loading: false })
                 if (event.INSTANCE) event.INSTANCE.componentDidMount()
+                SNotification.send({
+                    key: "register_object",
+                    title: "Success",
+                    time: 5000,
+                    color: STheme.color.success
+                })
                 SNavigation.goBack(this.backAlternative.bind(this));
             }).catch(e => {
                 console.error(e);
+                SNotification.send({
+                    key: "register_object",
+                    title: "error",
+                    time: 5000,
+                    color: STheme.color.danger
+                })
                 this.setState({ loading: false })
             })
+
         } else {
             const dataTipo = this._ref["tipo"].getData();
             SSocket.sendPromise({
@@ -374,6 +392,10 @@ export default class add extends Component {
             hora_inicio = "Start time";
             hora_fin = "End time";
         }
+        // console.log("fecha_inicio", this.state.fecha);
+        // console.log("startTime", this._ref["hora_inicio"].getValue());
+        // console.log("endTime", this._ref["hora_fin"].getValue());
+        console.log("fecha ", this.state.fecha, " hora inicio ", this.state.startTime, " hora fin ", this.state.endTime);
         return <SPage titleLanguage={{ en: "Staff", es: "Staff" }}
             backAlternative={this.backAlternative.bind(this)}
             footer={<PBarraFooter url={'/company'} />}
@@ -584,6 +606,7 @@ export default class add extends Component {
                                     borderRadius: 4
                                 },
                                 render: () => {
+                                    console.log("hora_fin", this._ref["hora_fin"].getValue());
                                     return <SView flex height card>
                                         <InputHora defaultValue={formatTime(this._ref["hora_fin"].getValue())} onChange={val => {
                                             this.state.endTime = val;

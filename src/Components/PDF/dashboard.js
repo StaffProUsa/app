@@ -7,22 +7,23 @@ const key_company = SNavigation.getParam("key_company")
 
 const cols = [
     { key: "index", label: "#", width: 20, },
-    { key: "fecha", label: "DATE", width: 60 },
-    { key: "company", label: "COMPANY", width: 90 },
-    { key: "cliente", label: "CLIENT", width: 150 },
-    { key: "evento", label: "EVENT", width: (!key_company) ? 110 : 200 },
+    { key: "fecha", label: "DATE", width: 55 },
+    { key: "company", label: "COMPANY", width: 80 },
+    { key: "cliente", label: "CLIENT", width: 130 },
+    { key: "evento", label: "EVENT", width: (!key_company) ? 110 : 140 },
     { key: "staff", label: "POSITION", width: 85 },
+    { key: "location", label: "LOCATION", width: 110 },
     { key: "staff_personal", label: "#N", width: 30 },
-    { key: "state", label: "STATE", width: 50 },
-    { key: "inicio", label: "TIME IN", width: 60 },
-    { key: "fin", label: "TIME OUT", width: 60 },
+    { key: "state", label: "STATE", width: 45 },
+    { key: "inicio", label: "TIME IN", width: 52 },
+    { key: "fin", label: "TIME OUT", width: 52 },
     // { key: "staff_descripcion", label: "DESCRIPTION", width: 65 },
 
 ]
 console.log("kkey_company", key_company);
 const HEIGHT = 16;
 const BorderColor = "#CCCCCC"
-const fontSize = 10;
+const fontSize = 9.7;
 export default class dashboard {
 
 
@@ -32,7 +33,7 @@ export default class dashboard {
         let key_company_0 = SNavigation.getParam("key_company")
         console.log("cols", cols);
         let colsFilter = cols;
-        if (key_company_0)  colsFilter = cols.filter(item => item.key !== "company");
+        if (key_company_0) colsFilter = cols.filter(item => item.key !== "company");
 
         return <SPDF.View style={{
             width: "100%", flexDirection: "row",
@@ -91,7 +92,7 @@ export default class dashboard {
                         dato = obj["company"];
                         break;
 
-                    case 8:
+                    case 9:
                         let horaFormateada = new Date(obj["inicio"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -99,7 +100,7 @@ export default class dashboard {
                         });
                         dato = (obj["inicio"] != "") ? horaFormateada : " ";
                         break;
-                    case 9:
+                    case 10:
                         let horaFormateadaFin = new Date(obj["fin"]).toLocaleTimeString(undefined, {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -233,51 +234,55 @@ export default class dashboard {
             titulo = "ALL COMPANIES";
         }
         SPDF.create(<SPDF.Page style={{ width: 791, height: 612, margin: 20, padding: 20, }}
-            header={<SPDF.View style={{
+            // header={<SPDF.View style={{
+            //     width: "100%",
+            // }}>
+
+            //     <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
+
+            //     <SPDF.View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 10, }}>
+            //         {/* Columna 1 */}
+            //         <SPDF.View style={{ width: "33%" }}>
+            //             <SPDF.Text style={{ fontSize: 10, height: 28, fontWeight: "bold", fontSize: 15, font: "Roboto" }}>Company: {titulo}</SPDF.Text>
+            //             <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Request date: {new SDate().toString("MM/dd/yyyy")}</SPDF.Text>
+            //         </SPDF.View>
+
+            //         {/* Columna 2 */}
+            //         <SPDF.View style={{ width: "33%", alignItems: "justifyContent" }}>
+
+            //             <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Date from: {fecha_inicio_}</SPDF.Text>
+            //         </SPDF.View>
+
+            //         {/* Columna 3 */}
+            //         <SPDF.View style={{ width: "33%", alignItems: "flex-end" }}>
+            //             <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Date to: {fecha_fin_}</SPDF.Text>
+            //         </SPDF.View>
+            //     </SPDF.View>
+            //     <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>
+
+            //     {this.renderHeader()}
+            // </ SPDF.View>
+            // }
+
+            footer={<SPDF.View style={{
+                width: "100%",
+                alignItems: "end"
+            }}>
+                <SPDF.Text style={{ fontSize: fontSize, }}>{"Page #${current_page}"}</SPDF.Text>
+            </SPDF.View>
+            }
+        >
+            {/* HEADER */}
+            <SPDF.View style={{
                 width: "100%",
                 // borderColor: BorderColor
             }}>
-                {/* <SPDF.View style={{
-                    position: "absolute",
-                    width: 65,
-                    height: 65,
-                    right: 1,
-                    borderWidth: 1,
 
-                }}>
-                </SPDF.View> */}
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
-                {/* <SPDF.View style={{
-                    width: "100%",
-                    alignItems: "center"
-                }}>
-                    <SPDF.Text style={{ fontWeight: "bold", fontSize: 18, font: "Roboto" }}>{"DASHBOARD"}</SPDF.Text>
-                </SPDF.View>
-                <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View> */}
 
                 <SPDF.View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 10, }}>
                     {/* Columna 1 */}
                     <SPDF.View style={{ width: "33%" }}>
-                        {/* <SPDF.View style={{
-                            width: "100%",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between", // o "flex-start" si prefieres
-                            marginBottom: 10
-                        }}>
-                            <SPDF.Text style={{ fontSize: 15, marginRight: 10, font: "Roboto" }}>
-                                Company:
-                            </SPDF.Text>
-
-                            <SPDF.Image
-                                source={{ uri: "https://staffprousa.servisofts.com/images/company/b8118596-9980-4a27-aa4e-a48384095350" }}
-                                style={{ width: 40, height: 40, marginHorizontal: 10 }}
-                            />
-
-                            <SPDF.Text style={{ fontSize: 15, font: "Roboto" }}>
-                                {titulo}
-                            </SPDF.Text>
-                        </SPDF.View> */}
                         <SPDF.Text style={{ fontSize: 10, height: 28, fontWeight: "bold", fontSize: 15, font: "Roboto" }}>Company: {titulo}</SPDF.Text>
                         <SPDF.Text style={{ fontSize: 10, height: 15, font: "Roboto" }}>Request date: {new SDate().toString("MM/dd/yyyy")}</SPDF.Text>
                     </SPDF.View>
@@ -296,28 +301,13 @@ export default class dashboard {
                 <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>
 
                 {this.renderHeader()}
-            </ SPDF.View>}
-
-            footer={<SPDF.View style={{
-                width: "100%",
-                alignItems: "end"
-            }}>
-                <SPDF.Text style={{ fontSize: fontSize, }}>{"Page #${current_page}"}</SPDF.Text>
-            </SPDF.View>
-            }
-        >
-
-            {/* <SPDF.View style={{
-                width: "100%",
-                borderWidth: 1,
-                borderColor: BorderColor
-            }}> */}
+            </ SPDF.View>
+            {/* FIN HEADER */}
 
             {data.map((item, index) => {
                 console.log("item", item);
                 return this.renderItem(index + 1, item)
             })}
-            {/* </SPDF.View> */}
         </SPDF.Page >)
     }
 

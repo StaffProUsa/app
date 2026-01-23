@@ -329,6 +329,10 @@ export default class dashboard extends Component {
             data={e => e.row.staff_tipo.descripcion}
             customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
           />
+           <Col key={"location"} label={SLanguage.select({ en: "Location", es: "Ubicación" })} width={140}
+            data={e => e.row.staff.location ? e.row.staff.location : " "}
+            // customComponent={e => <ImageLabel wrap={e.colData.wrap} label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
+          />
           <Col key={"staff_personal"} label='#' width={40}
             disableFilter
             cellStyle={{ alignItems: "center" }}

@@ -440,6 +440,13 @@ export default class timeSheets extends Component {
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
           />
 
+           <Col key={"location"}
+            // labelIcon={<TableIcon name='iposition' />}
+            label={SLanguage.select({ es: "Ubicación", en: "Location" })} width={140}
+            data={e => e.row.staff.location ? e.row.staff.location : " "}
+            // customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
+          />
+
           <Col key={"in"} label={SLanguage.select({ es: "Hora ingreso", en: "Time In" })} width={80}
             dataType='date'
             data={e => (!e.row.staff?.fecha_inicio) ? null : new SDate(e.row.staff?.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
