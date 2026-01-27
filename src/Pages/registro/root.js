@@ -69,7 +69,7 @@ class root extends Component {
             papeles = "Choose one of the following options";
         }
         return (
-            <SPage  >
+            <SPage preventBack >
                 <SView col={"xs-12"} center>
                     <SView col={"xs-11"} >
                         <SHr height={10} />

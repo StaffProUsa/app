@@ -42,7 +42,7 @@ export default class onLogin extends Component {
     }
     render() {
         return (
-            <SPage disableScroll center>
+            <SPage disableScroll center preventBack>
                 <SView col="xs-12" center onPress={() => {
                     SNavigation.navigate("/")
                 }}>
