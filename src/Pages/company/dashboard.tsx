@@ -390,23 +390,23 @@ export default class dashboard extends Component {
 
 
           <Col key={"inicio"} label={SLanguage.select({ en: "Clock in", es: "Inicio" })} width={80}
-            dataType='date'
-            disableFilterGroup
-            data={e => !e?.row?.staff?.fecha_inicio ? "" : new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
-            format={e => !e.data ? "" : new SDate(e.data).toString("HH")}
-            dateFormat='HH'
+            data={e => !e?.row?.staff?.fecha_inicio ? "" : new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}
+          // data={e => !e?.row?.staff?.fecha_inicio ? "" : new SDate(e.row.staff.fecha_inicio, "yyyy-MM-ddThh:mm:ssTZD").date}
+          // dataType='date'
+          // disableFilterGroup
 
-          // format={e => new SDate(e.data).toString("HH")}
-          // textStyle={{ color: STheme.color.success }}
+          // format={e => !e.data ? "" : new SDate(e.data).toString("HH")}
+          // dateFormat='HH'
+
           />
 
           <Col key={"fin"} label={SLanguage.select({ en: "Clock out", es: "Fin" })} width={80}
-            dataType='date'
-            data={e => !e?.row?.staff?.fecha_fin ? "" : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").date}
-            format={e => !e.data ? "" : new SDate(e.data).toString("HH")}
-            // data={e => !e.row.staff.fecha_fin ? null : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").date}
-            disableFilterGroup
-            dateFormat='HH'
+            data={e => !e?.row?.staff?.fecha_fin ? "" : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").toString("HH")}
+          // data={e => !e?.row?.staff?.fecha_fin ? "" : new SDate(e.row.staff.fecha_fin, "yyyy-MM-ddThh:mm:ssTZD").date}
+          // dataType='date'
+          // format={e => !e.data ? "" : new SDate(e.data).toString("HH")}
+          // excelFormat='hh:mm AM/PM'
+          // disableFilterGroup
           />
           {/* <Col key={"horas"} label={SLanguage.select({ en: "Times", es: "Horas" })} width={60}
             dataType='number'

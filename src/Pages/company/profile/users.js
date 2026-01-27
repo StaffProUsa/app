@@ -44,47 +44,16 @@ export default class users extends Component {
 
     componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
-        this.getData({ key_company: this.key_company }).then((users) => {
-            console.log(users)
-            this.setState({ data: users })
-        })
+        // this.getData({ key_company: this.key_company }).then((users) => {
+        //     console.log(users)
+        //     this.setState({ data: users })
+        // })
     }
 
     componentWillUnmount() {
         SLanguage.removeListener(this.onChangeLanguage)
     }
 
-    getData = async ({ key_company }) => {
-        const staff_response = await SSocket.sendPromise({
-            component: "usuario_company",
-            type: "getAllStaff",
-            key_company: key_company
-        })
-        let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null))];
-        const users_request = await SSocket.sendPromise({
-            version: "2.0",
-            service: "usuario",
-            component: "usuario",
-            type: "getAllKeys",
-            keys: keys,
-        });
-        const roles = await SSocket.sendPromise({
-            service: "roles_permisos",
-            component: "rol",
-            type: "getAll",
-        })
-        this.state.roles = roles.data;
-        console.log(roles)
-        Object.values(staff_response.data).map(o => {
-            // o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
-            o.usuario = users_request?.data[o.key_usuario]?.usuario ?? { Nombres: "User", Apellidos: "Deleted" };
-            o.rol = roles?.data[o.key_rol]
-        })
-        let users = Object.values(staff_response.data).filter(a => a.usuario?.Nombres !== "User");
-        console.log("users", users)
-        console.log("staff_response", staff_response.data)
-        return users;
-    }
 
     loadData = async () => {
         try {
@@ -95,6 +64,7 @@ export default class users extends Component {
                 key_company: this.key_company
             })
 
+            console.log("staff_response", staff_response)
             let keys = [...new Set(Object.values(staff_response.data).map(a => a.key_usuario).filter(key => key !== null))];
 
             const users_request = await SSocket.sendPromise({

@@ -8,6 +8,7 @@ import Model from '../Model';
 import Calendar from '../Components/Calendar';
 import MisStaffTipo from '../Components/MisStaffTipo';
 import MisCompanys from '../Components/MisCompanys';
+import MDL from '../MDL';
 
 const CANTIDAD_X_PAGE = 30;
 
@@ -52,6 +53,7 @@ export default class Inicio extends Component {
     // })
     // this.verificarImagen();
 
+    MDL.validaciones.componentDidMount();
     this.loadDataInvitaciones();
 
     this.state.data = []
@@ -154,7 +156,7 @@ export default class Inicio extends Component {
   render() {
     return <SPage
       // titleLanguage={{ es: "Próximos eventos", en: "Next events" }} 
-      preventBack 
+      preventBack
       footer={<PBarraFooter url={'/'} />} >
       <Container>
         <SView col={"xs-12"}>
