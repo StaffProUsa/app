@@ -88,7 +88,7 @@ export default class validaciones extends MDLAbstract<EventListener> {
         }
     };
 
-    validarDatos() {
+    validarDatos__() {
         return new Promise((resolve, reject) => {
             if (!Model.usuario.Action.getKey()) {
                 resolve(true);
@@ -124,6 +124,41 @@ export default class validaciones extends MDLAbstract<EventListener> {
         })
 
 
+    }
+
+    async validarDatos() {
+        const key = Model.usuario.Action.getKey();
+        if (!key) return true;
+
+        try {
+            const e = await SSocket.sendPromise({
+                version: "2.0",
+                service: "usuario",
+                component: "usuario",
+                type: "getById",
+                estado: "cargando",
+                "key": Model.usuario.Action.getKey()
+            });
+
+            const user = e?.data;
+            console.log("validarDatos user:", user);
+            if (!user) {
+                throw new Error("Usuario no encontrado");
+            }
+
+            if (!user.estado_civil || !user.nivel_ingles || !user.Telefono || !user.Correo || !user.direccion || !user.otros_idiomas) {
+                SNavigation.navigate("/registro/redes");
+                throw SLanguage.select({
+                    es: "Complete su información.",
+                    en: "Complete your information.",
+                });
+            }
+
+            return true;
+        } catch (error) {
+            console.error("validarDatos error:", error);
+            throw error; // ⬅️ IMPORTANTE
+        }
     }
 
 
