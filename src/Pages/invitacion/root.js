@@ -6,6 +6,7 @@ import { Btn, Container } from '../../Components';
 import Model from '../../Model';
 // import usuarios from './rol/profile/usuarios';
 import SSocket from 'servisofts-socket';
+import MDL from '../../MDL';
 
 export default class root extends React.Component {
   constructor(props) {
@@ -217,8 +218,8 @@ export default class root extends React.Component {
           root.INSTANCE.reload()
         }
         // SNavigation.goBack();
-       SNavigation.replace("/perfil/staff_tipo", { key_company: this.state?.dataInvitacion?.key_company })
-       // SNavigation.replace("/perfil/staff_tipo", { key_company: this.state?.dataInvitacion?.key_company })
+        SNavigation.replace("/perfil/staff_tipo", { key_company: this.state?.dataInvitacion?.key_company })
+        // SNavigation.replace("/perfil/staff_tipo", { key_company: this.state?.dataInvitacion?.key_company })
       }).catch(e => {
         if (e.error == "existe") {
           SNotification.send({
@@ -276,7 +277,7 @@ export default class root extends React.Component {
     console.log(this.state.usuario)
     let usuario = this.state.usuario;
     let company = this.state.dataCompany;
-
+    console.log("usuario", usuario)
     return (
       <>
         <SPage titleLanguage={{ es: "Invitación Staff", en: "Invitation Staff" }}  >
@@ -340,7 +341,16 @@ export default class root extends React.Component {
                   <SView width={25} />
                   <Btn col={"xs-5"} onPress={() => {
                     // SNavigation.navigate("/perfil/editar_")
-                    this.hanldeGuardar(usuario)
+                    console.log("usuario", usuario)
+                    if (!usuario.estado_civil || !usuario.nivel_ingles || !usuario.Telefono || !usuario.Correo || !usuario.direccion || !usuario.otros_idiomas) {
+                      // this.hanldeGuardar(usuario)
+                      MDL.validaciones.componentDidMount();
+                      console.log("Falta completar datos del usuario")
+                    } else {
+                      this.hanldeGuardar(usuario)
+                      console.log("Usuario guardado correctamente")
+
+                    }
                   }}
                     backgroundColor={STheme.color.secondary}
                     loading={this.state.loading}
