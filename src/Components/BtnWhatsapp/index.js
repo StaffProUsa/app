@@ -14,10 +14,10 @@ export default class index extends Component<BtnWhatsappPropsType> {
         super(props);
         this.state = {
         };
-        this.telefono = this.props.telefono.replace(/[+\s]/g, '');
+        this.telefono = (this?.props?.telefono ?? "").replace(/[+\s]/g, '');
         this.telefono = this.telefono.replace(/[(|)|-]/g, '');
         // this.telefono = this.telefono.replace(/[\s]/g, '');
-        
+
     }
 
     _handle_ios() {
