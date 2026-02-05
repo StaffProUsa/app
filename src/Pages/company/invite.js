@@ -54,7 +54,7 @@ export default class invite extends Component {
             },
         }).then(e => {
             // let page_link = 'http://192.168.3.3:3000';
-            let page_link = 'https://staffprousa.servisofts.com';
+            let page_link = 'https://staffpro-usa.com';
             // let invitation_link = `${page_link}/invitation?pk=${e.data.key}`
             let invitation_link = `${page_link}/link/invitation_company?key=${e.data.key}`
             let message = (lenguaje == "es") ? `
