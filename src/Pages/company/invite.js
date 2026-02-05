@@ -33,31 +33,35 @@ export default class invite extends Component {
         let lenguaje = SLanguage.language;
         let usuario = Model.usuario.Action.getUsuarioLog();
         // let empresa = Model.empresa.Action.getSelect();
-        let empresa = Model.company.Action.getAll()[this.key_company];
-        console.log("empresas: ", empresa);
         SSocket.sendPromise({
-            component: "invitacion",
-            type: "registro",
-            key_usuario: Model.usuario.Action.getKey(),
-            key_company: this.key_company,
-            data: {
-                // descripcion: (lenguaje == "es") ? `${empresa?.descripcion} te invita a formar parte de la empresa.` : `${empresa?.descripcion} invites you to join the company.`,
-                descripcion: `${empresa?.descripcion} invites you to join the company.`,
-                // descripcion: "",
-                observacion: (lenguaje == "es") ? "Te invitamos a formar parte de la empresa. Acepta esta invitación." : "We invite you to join the company. Accept this invitation.",
-                fecha_inicio: new SDate().toString(),
-                fecha_fin: new SDate().addDay(1).toString(),
-                color: STheme.color.success,
-                telefono: "",
-                email: "",
-                url: "",
-            },
-        }).then(e => {
-            // let page_link = 'http://192.168.3.3:3000';
-            let page_link = 'https://staffpro-usa.com';
-            // let invitation_link = `${page_link}/invitation?pk=${e.data.key}`
-            let invitation_link = `${page_link}/link/invitation_company?key=${e.data.key}`
-            let message = (lenguaje == "es") ? `
+            component: "company",
+            type: "getByKey",
+            key: this.key_company,
+        }).then(res => {
+            const empresa = res.data;
+            SSocket.sendPromise({
+                component: "invitacion",
+                type: "registro",
+                key_usuario: Model.usuario.Action.getKey(),
+                key_company: this.key_company,
+                data: {
+                    // descripcion: (lenguaje == "es") ? `${empresa?.descripcion} te invita a formar parte de la empresa.` : `${empresa?.descripcion} invites you to join the company.`,
+                    descripcion: `${empresa?.descripcion} invites you to join the company.`,
+                    // descripcion: "",
+                    observacion: (lenguaje == "es") ? "Te invitamos a formar parte de la empresa. Acepta esta invitación." : "We invite you to join the company. Accept this invitation.",
+                    fecha_inicio: new SDate().toString(),
+                    fecha_fin: new SDate().addDay(1).toString(),
+                    color: STheme.color.success,
+                    telefono: "",
+                    email: "",
+                    url: "",
+                },
+            }).then(e => {
+                // let page_link = 'http://192.168.3.3:3000';
+                let page_link = 'https://staffpro-usa.com';
+                // let invitation_link = `${page_link}/invitation?pk=${e.data.key}`
+                let invitation_link = `${page_link}/link/invitation_company?key=${e.data.key}`
+                let message = (lenguaje == "es") ? `
 Hola te invitamos a formar parte de nuesta empresa, Presiona el link para unirte.
 
 ${invitation_link}                
@@ -69,13 +73,18 @@ ${invitation_link}
 
 Welcome to *${empresa?.descripcion}*
     `
-            this.setState({ link: invitation_link, message: message })
-            // Linking.openURL("https://wa.me/?text=" + encodeURIComponent(message))
-            // console.log(invitation_link)
-            // console.log(e);
-        }).catch(e => {
-            console.error(e);
+                this.setState({ link: invitation_link, message: message })
+                // Linking.openURL("https://wa.me/?text=" + encodeURIComponent(message))
+                // console.log(invitation_link)
+                // console.log(e);
+            }).catch(e => {
+                console.error(e);
+            })
+        }).catch(err => {
+
         })
+
+
     }
     componentWillUnmount() {
         SLanguage.removeListener(this.onChangeLanguage)
@@ -159,7 +168,7 @@ Welcome to *${empresa?.descripcion}*
                                     title: "Copy",
                                     body: "El texto fue copiado con éxito.",
                                     time: 5000,
-                                    
+
                                 })
                             }).catch(e => {
 
