@@ -101,6 +101,7 @@ export default class invitationDetail extends React.Component {
     // console.log(this.state.data)
     let obj = this.state.data;
     let usuario = this.state.usuario;
+    let lenguaje = SLanguage.language;
 
     //Validar fechas para no mostrar hora fin
     let es24horas = false;
@@ -371,12 +372,30 @@ export default class invitationDetail extends React.Component {
                         SNavigation.goBack();
                       }).catch(e => {
                         console.error(e);
-                        SNotification.send({
-                          title: "Error",
-                          body: e.error,
-                          color: STheme.color.danger,
-                          time: 5000,
-                        })
+                        if (e.error_code == "YA_TIENE_POSICION") {
+
+                          SNotification.send({
+                            title: "Error",
+                            body: lenguaje == "es" ? "Ya estás asignado en otro horario. Si deseas forzar la aceptación, por favor contacta con el administrador." : "You are already assigned to another schedule. If you want to force acceptance, please contact the administrator.",
+                            color: STheme.color.danger,
+                            time: 8000,
+                          })
+                        } else if (e.error_code == "EVENTO_LLENO") {
+
+                          SNotification.send({
+                            title: "Error",
+                            body: lenguaje == "es" ? "Lo sentimos, los cupos para esta posición ya están completos." : "Sorry, the slots for this position are already full.",
+                            color: STheme.color.danger,
+                            time: 8000,
+                          })
+                        } else {
+                          SNotification.send({
+                            title: "Error",
+                            body: e.error,
+                            color: STheme.color.danger,
+                            time: 8000,
+                          })
+                        }
                         this.setState({ loading: false, error: e.error })
                       })
                     }} backgroundColor={STheme.color.secondary}
