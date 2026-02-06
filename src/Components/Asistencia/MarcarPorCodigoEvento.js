@@ -13,7 +13,9 @@ export default class MarcarPorCodigoEvento extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            secondDuration: 60
+            secondDuration: 60,
+            loadingIn: false,
+            loadingOut: false,
         };
     }
     componentDidMount() {
@@ -138,6 +140,81 @@ export default class MarcarPorCodigoEvento extends Component {
             </SView>
         </>
     }
+
+    marcarAsistencia(code, lenguaje, btn) {
+        if (code.length < 6) {
+            SNotification.send({
+                title: "Error",
+                body: (lenguaje == "es") ? "El código debe ser de 6 dígitos" : "The code must be 6 digits",
+                color: STheme.color.danger,
+                time: 5000
+            })
+            return null;
+        }
+        SNotification.send({
+            key: "asistencia",
+            title: SLanguage.select({
+                en: "Performing Attendance",
+                es: "Realizando asistencia"
+            }),
+            body: SLanguage.select({
+                en: "Please wait a moment",
+                es: "Espere un momento"
+            }),
+            type: "loading",
+        })
+        this.setState({ loadingIn: btn == "in" ? true : false, loadingOut: btn == "out" ? true : false });
+        SSocket.sendPromise({
+            component: "asistencia",
+            type: "asistirEvento",
+            codigo: code,
+            key_evento: this.props.key_evento,
+            key_usuario: Model.usuario.Action.getKey(),
+        }).then(e => {
+            this.setState({ reload: true })
+            new SThread(1000, "ASdas").start(() => {
+                this.setState({ reload: false })
+            })
+            MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
+            SNotification.send({
+                key: "asistencia",
+                title: "Exito",
+                body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
+                time: 8000
+            })
+            if (this.props.onChange) {
+                this.props.onChange();
+            }
+            else {
+                SNavigation.goBack();
+
+            }
+            // SNavigation.navigate("/token/exito")
+            if (btn == "in") {
+                this.setState({ loadingIn: false });
+            }
+            if (btn == "out") {
+                this.setState({ loadingOut: false });
+            }
+            // this.setState({ loadingIn: false, loadingOut: false });
+        }).catch(e => {
+            SNotification.send({
+                key: "asistencia",
+                title: "Error",
+                body: (lenguaje == "es") ? "No se pudo realizar la asistencia." : "The assistance could not be carried out.",
+                color: STheme.color.danger,
+                time: 8000
+            })
+            if (btn == "in") {
+                this.setState({ loadingIn: false });
+            }
+            if (btn == "out") {
+                this.setState({ loadingOut: false });
+            }
+            // this.setState({ loadingIn: false, loadingOut: false })
+            console.error(e);
+        })
+    }
     render() {
         let dataValid = true
 
@@ -193,75 +270,97 @@ export default class MarcarPorCodigoEvento extends Component {
 
             <SHr h={10} />
             {this.getToken()}
-            <SHr h={10} />
-            <PButtom rojo onPress={() => {
-                const code = this.input.getValue() ?? "";
-                if (code.length < 6) {
-                    SNotification.send({
-                        title: "Error",
-                        body: (lenguaje == "es") ? "El código debe ser de 6 dígitos" : "The code must be 6 digits",
-                        color: STheme.color.danger,
-                        time: 5000
-                    })
-                    return null;
-                }
-                SNotification.send({
-                    key: "asistencia",
-                    title: SLanguage.select({
-                        en: "Performing Attendance",
-                        es: "Realizando asistencia"
-                    }),
-                    body: SLanguage.select({
-                        en: "Please wait a moment",
-                        es: "Espere un momento"
-                    }),
-                    type: "loading",
-                })
-                SSocket.sendPromise({
-                    component: "asistencia",
-                    type: "asistirEvento",
-                    codigo: code,
-                    key_evento: this.props.key_evento,
-                    key_usuario: Model.usuario.Action.getKey(),
-                }).then(e => {
-                    this.setState({ reload: true })
-                    new SThread(1000, "ASdas").start(() => {
-                        this.setState({ reload: false })
-                    })
-                    MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
-                    SNotification.send({
-                        key: "asistencia",
-                        title: "Exito",
-                        body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
-                        time: 5000
-                    })
-                    if (this.props.onChange) {
-                        this.props.onChange();
-                    }
-                    else {
-                        SNavigation.goBack();
+            <SHr h={30} />
+            <SView row col={"xs-12"} center>
+                <PButtom width={200} rojo onPress={() => {
+                    const code = this.input.getValue() ?? "";
+                    let btn = "in";
+                    this.marcarAsistencia(code, lenguaje, btn);
 
-                    }
-                    // SNavigation.navigate("/token/exito")
-                }).catch(e => {
-                    SNotification.send({
-                        key: "asistencia",
-                        title: "Error",
-                        body: (lenguaje == "es") ? "No se pudo realizar la asistencia." : "The assistance could not be carried out.",
-                        color: STheme.color.danger,
-                        time: 5000
-                    })
-                    console.error(e);
-                })
-            }}
-                loading={this.state.loading}
-            >
-                <SText color={STheme.color.white} language={{
+                    // if (code.length < 6) {
+                    //     SNotification.send({
+                    //         title: "Error",
+                    //         body: (lenguaje == "es") ? "El código debe ser de 6 dígitos" : "The code must be 6 digits",
+                    //         color: STheme.color.danger,
+                    //         time: 5000
+                    //     })
+                    //     return null;
+                    // }
+                    // SNotification.send({
+                    //     key: "asistencia",
+                    //     title: SLanguage.select({
+                    //         en: "Performing Attendance",
+                    //         es: "Realizando asistencia"
+                    //     }),
+                    //     body: SLanguage.select({
+                    //         en: "Please wait a moment",
+                    //         es: "Espere un momento"
+                    //     }),
+                    //     type: "loading",
+                    // })
+                    // SSocket.sendPromise({
+                    //     component: "asistencia",
+                    //     type: "asistirEvento",
+                    //     codigo: code,
+                    //     key_evento: this.props.key_evento,
+                    //     key_usuario: Model.usuario.Action.getKey(),
+                    // }).then(e => {
+                    //     this.setState({ reload: true })
+                    //     new SThread(1000, "ASdas").start(() => {
+                    //         this.setState({ reload: false })
+                    //     })
+                    //     MDL.evento.dispatchEvent({ type: "onRecibeInvitation" })
+                    //     SNotification.send({
+                    //         key: "asistencia",
+                    //         title: "Exito",
+                    //         body: (lenguaje == "es") ? "Se realizó la asistencia con éxito" : "The assistance was successful",
+                    //         time: 5000
+                    //     })
+                    //     if (this.props.onChange) {
+                    //         this.props.onChange();
+                    //     }
+                    //     else {
+                    //         SNavigation.goBack();
+
+                    //     }
+                    //     // SNavigation.navigate("/token/exito")
+                    // }).catch(e => {
+                    //     SNotification.send({
+                    //         key: "asistencia",
+                    //         title: "Error",
+                    //         body: (lenguaje == "es") ? "No se pudo realizar la asistencia." : "The assistance could not be carried out.",
+                    //         color: STheme.color.danger,
+                    //         time: 5000
+                    //     })
+                    //     console.error(e);
+                    // })
+                }
+                }
+                    loading={this.state.loadingIn}
+                >
+                    {/* <SText color={STheme.color.white} language={{
                     es: (dataValid) ? "INICIAR" : "FINALIZAR",
                     en: "START"
-                }} />
-            </PButtom>
+                }} /> */}
+                    <SText color={STheme.color.white} col={"xs-12"} center>
+                        CLOCK IN
+                    </SText>
+                </PButtom>
 
+                <SView width={20} />
+                <PButtom width={200}  onPress={() => {
+                    const code = this.input.getValue() ?? "";
+                    let btn = "out";
+                    this.marcarAsistencia(code, lenguaje, btn);
+                }
+                }
+                    loading={this.state.loadingOut}
+                >
+                    <SText color={STheme.color.white} col={"xs-12"} center>
+                        CLOCK OUT
+                    </SText>
+                </PButtom>
+            </SView>
 
             <SHr h={30} />
 
