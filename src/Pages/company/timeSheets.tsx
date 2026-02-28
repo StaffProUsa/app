@@ -14,6 +14,7 @@ import InputFecha from '../../Components/NuevoInputs/InputFecha';
 import PDF from '../../Components/PDF';
 import SelectEventos from '../../Components/Filtros/Eventos';
 import BtnWhatsapp from '../../Components/BtnWhatsapp';
+import timeSheetNuevo from '../../Components/PDF/timeSheetNuevo';
 
 
 
@@ -180,13 +181,18 @@ export default class timeSheets extends Component {
             PDF.timeSheet.handlePress(this.table.dataFiltrada, this.state.fecha_inicio, this.state.fecha_fin);
           }} > <SText clean>{"PDF"}</SText>
         </SView>
+        <SView width={8}/>
+        <SView card padding={8}
+          onPress={() => {
+            // console.log("this.table.dataFiltrada");
+            timeSheetNuevo.handlePress(this.table.dataFiltrada, this.state.fecha_inicio, this.state.fecha_fin, this.table);
+          }} > <SText clean>{"PDF NUEVO"}</SText>
+        </SView>
       </SView>
       <SView col={"xs-12"} flex>
         <DinamicTable
-
           ref={ref => this.table = ref}
           language={SLanguage.language}
-
           loadInitialState={async () => {
 
             let filters: ExporterStateType["filters"] = [];
@@ -440,11 +446,11 @@ export default class timeSheets extends Component {
             customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
           />
 
-           <Col key={"location"}
+          <Col key={"location"}
             // labelIcon={<TableIcon name='iposition' />}
             label={SLanguage.select({ es: "Ubicación", en: "Location" })} width={140}
             data={e => e.row.staff.location ? e.row.staff.location : " "}
-            // customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
+          // customComponent={e => <ImageLabel label={e.data} src={SSocket.api.root + "staff_tipo/" + e.row?.staff_tipo?.key} textStyle={e.textStyle} />}
           />
 
           <Col key={"in"} label={SLanguage.select({ es: "Hora ingreso", en: "Time In" })} width={80}

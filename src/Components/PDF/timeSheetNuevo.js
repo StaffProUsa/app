@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { SDate, SNavigation, SText, SView } from 'servisofts-component';
 import * as SPDF from 'servisofts-rn-spdf'
+import { DinamicTable } from 'servisofts-table';
 
 const cols = [
     { key: "index", label: "#", width: 25, },
@@ -24,13 +25,29 @@ const fontSize = 10;
 
 
 
+const truncateText = (text, maxWidth) => {
+    if (!text || typeof text !== 'string') return text || " ";
 
-export default class timeSheet {
+    // Aproximadamente 1.2 caracteres por unidad de width para fontSize 10
+    const maxChars = Math.floor(maxWidth / (fontSize * 0.50));
+
+    if (text.length <= maxChars) {
+        return text;
+    }
+
+    return text.substring(0, maxChars - 3) + "...";
+};
+
+
+export default class timeSheetNuevo {
 
 
 
 
-    static renderHeader = () => {
+    static renderHeader = (_cols) => {
+
+
+
         return <SPDF.View style={{
             width: "100%", flexDirection: "row",
             borderColor: BorderColor,
@@ -38,7 +55,7 @@ export default class timeSheet {
             // borderBottomWidth: 1,
 
         }}>
-            {cols.map((col, index) => {
+            {_cols.map((col, index) => {
                 return <SPDF.View key={index} style={{
                     width: col.width, height: HEIGHT,
                     borderLeftWidth: index == 0 ? 0 : 1,
@@ -53,86 +70,98 @@ export default class timeSheet {
                         font: "Roboto",
                         fontWeight: "bold",
                         height: HEIGHT + 3,
-                    }}>{col.label}</SPDF.Text>
+                    }}>{truncateText(col.label, col.width)}</SPDF.Text>
                 </SPDF.View>
             })}
         </SPDF.View>
     }
-    static renderItem = (index, obj) => {
-        let contador = 0;
+    static renderItem = (index, obj, headers) => {
         console.log("obj", obj);
         return <SPDF.View style={{ width: "100%", flexDirection: "row", borderWidth: 1, borderColor: BorderColor }}>
-            {cols.map((col, i) => {
+            {headers.map((col, i) => {
                 let dato = obj[col.key];
-                contador++;
-                switch (i) {
-                    case 0:
+
+                // Formatear datos según el tipo de columna
+                switch (col.key) {
+                    case "index":
                         dato = index;
                         break;
-                    case 1:
-                        let fecha = new Date(dato);
-                        let dia = String(fecha.getUTCDate()).padStart(2, '0');
-                        let mes = String(fecha.getUTCMonth() + 1).padStart(2, '0'); // los meses van de 0 a 11
-                        let anio = fecha.getUTCFullYear();
-                        dato = `${mes}-${dia}-${anio}`;
+                    case "fecha":
+                        if (dato) {
+                            let fecha = new Date(dato);
+                            let dia = String(fecha.getUTCDate()).padStart(2, '0');
+                            let mes = String(fecha.getUTCMonth() + 1).padStart(2, '0'); // los meses van de 0 a 11
+                            let anio = fecha.getUTCFullYear();
+                            dato = `${mes}-${dia}-${anio}`;
+                        }
                         break;
-
-                    // case 4:
-                    //     dato = (obj["inicio"] != "") ? "YES" : "NO";
-                    //     break;
-                    case 5:
-                        let horaFormateadaIn = new Date(obj["in"]).toLocaleTimeString(undefined, {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                        });
-                        dato = (obj["in"] != "") ? horaFormateadaIn : " ";
+                    case "in":
+                        if (obj["in"] && obj["in"] != "") {
+                            let horaFormateadaIn = new Date(obj["in"]).toLocaleTimeString(undefined, {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true
+                            });
+                            dato = horaFormateadaIn;
+                        } else {
+                            dato = " ";
+                        }
                         break;
-
-                    case 6:
-                        let horaFormateada = new Date(obj["inicio"]).toLocaleTimeString(undefined, {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                        });
-                        dato = (obj["inicio"] != "") ? horaFormateada : " ";
+                    case "inicio":
+                        if (obj["inicio"] && obj["inicio"] != "") {
+                            let horaFormateada = new Date(obj["inicio"]).toLocaleTimeString(undefined, {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true
+                            });
+                            dato = horaFormateada;
+                        } else {
+                            dato = " ";
+                        }
                         break;
-                    case 7:
-                        let horaFormateadaFin = new Date(obj["fin"]).toLocaleTimeString(undefined, {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                        });
-                        dato = (obj["fin"] != "") ? horaFormateadaFin : " ";
+                    case "fin":
+                        if (obj["fin"] && obj["fin"] != "") {
+                            let horaFormateadaFin = new Date(obj["fin"]).toLocaleTimeString(undefined, {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true
+                            });
+                            dato = horaFormateadaFin;
+                        } else {
+                            dato = " ";
+                        }
                         break;
-                    case 8:
-                        dato = obj["horas"].toFixed(2);
+                    case "horas":
+                        if (obj["horas"] !== undefined && obj["horas"] !== null) {
+                            dato = obj["horas"].toFixed(2);
+                        }
                         break;
-
                     default:
                         dato = obj[col.key];
                         break;
                 }
+                console.log(`col.key: ${col.key}, dato: ${dato}`);
 
+                // Remove emoji characters from dato
+                if (typeof dato === 'string') {
+                    dato = dato.replace(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g, '');
+                }
 
+                // Truncar texto si supera el ancho de la columna
 
-                // let val = col.label;
+                const textoTruncado = truncateText(String(dato), col.width);
+
                 return <SPDF.View key={i} style={{
-                    width: col.width, height: HEIGHT,
-                    alignItems: "center", justifyContent: "center",
+                    width: col.width, height: HEIGHT, alignItems: "center", justifyContent: "center",
                     borderLeftWidth: i == 0 ? 0 : 1,
                     borderColor: BorderColor,
                 }}>
-                    {/* <SPDF.Text style={{
-                        fontSize: fontSize,
-                        font: "Roboto",
-                        height: HEIGHT + 3,
-                    }}>{obj[col.key] ?? " "}</SPDF.Text> */}
                     <SPDF.Text style={{
-                        fontSize: fontSize,
+                        // width: col.width,
+                        fontSize: fontSize - 1,
                         font: "Roboto",
                         height: HEIGHT + 3,
-                    }}>{dato ?? " "}</SPDF.Text>
+                    }}>{textoTruncado}</SPDF.Text>
                 </SPDF.View>
 
             })}
@@ -140,9 +169,36 @@ export default class timeSheet {
     }
 
 
-    static handlePress = (data, fecha_inicio, fecha_fin) => {
+    static handlePress = (data, fecha_inicio, fecha_fin, dinamicTable: DinamicTable<any>) => {
 
 
+        console.log("headers", dinamicTable.cols, dinamicTable.colData)
+
+        const headers = dinamicTable.cols.map((col) => {
+            const data = dinamicTable.colData[col.key];
+            const colf = {
+                key: col.key,
+                ...col.props,
+                ...data
+            }
+            return colf;
+        }).filter(col => !col.hidden);
+
+        const maxwidth = 711;
+        const totalWidth = headers.reduce((acc, col) => acc + col.width, 0);
+        console.log("totalWidth", totalWidth, "maxwidth", maxwidth);
+        if (totalWidth > maxwidth) {
+            const scale = maxwidth / totalWidth;
+            headers.forEach(col => {
+                col.width = Math.round((col.width) * scale);
+            });
+        }
+
+        // return;
+
+
+        // return;
+        // return;
         // let fecha_inicio_ = fecha_inicio ? new SDate(fecha_inicio + "T00:00:00").toString("MM/dd/yyyy") : "---";
         // let fecha_fin_ = fecha_fin ? new SDate(fecha_fin + "T23:59:59").toString("MM/dd/yyyy") : "---";
 
@@ -281,12 +337,12 @@ export default class timeSheet {
                 </SPDF.View>
                 <SPDF.View style={{ width: "100%", height: 32 }}></SPDF.View>
 
-                {this.renderHeader()}
+                {this.renderHeader(headers)}
             </ SPDF.View>
             {/* FIN HEADER */}
             {data.map((item, index) => {
                 console.log("item", item);
-                return this.renderItem(index + 1, item)
+                return this.renderItem(index + 1, item, headers)
             })}
             {/* FOOTER */}
             <SPDF.View style={{ width: "100%", height: 15 }}></SPDF.View>
