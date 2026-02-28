@@ -213,6 +213,15 @@ class index extends Component {
                     isRequired: true,
                     height: 54
                 },
+                "carrier": {
+                    placeholder: SLanguage.select({ es: "Compania telefonica", en: "Carrier" }),
+                    label: SLanguage.select({ es: "Compania telefonica", en: "Carrier" }),
+                    defaultValue: this.state?.data?.carrier,
+                    // defaultValue: this.state.data['Telefono'],
+                    // type: 'phone',
+                    // isRequired: true,
+                    height: 54
+                },
                 Correo: {
                     placeholder: SLanguage.select({ es: "Correo electrónico", en: "Email" }),
                     label: SLanguage.select({ es: "Correo electrónico", en: "Email" }),
