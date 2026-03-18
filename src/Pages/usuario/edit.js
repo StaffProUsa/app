@@ -38,6 +38,22 @@ class index extends DPA.edit {
       })
     }
 
+    SSocket.sendPromise({
+      version: "2.0",
+      component: "carrier",
+      type: "getAll",
+    }).then((e) => {
+      console.log("carrier", e)
+      let dataCarrier = Object.values(e.data)
+      const keys = dataCarrier
+        .map(item => item.key)
+        .filter(key => key); // elimina null, undefined o ""
+      this.setState({ carrier: keys })
+
+    }).catch(e => {
+      console.error(e);
+    })
+
   }
   $allowAccess() {
     return Model.usuarioPage.Action.getPermiso({ url: Parent.path, permiso: "edit", user_data: { key_company: this.key_company } })
@@ -61,6 +77,26 @@ class index extends DPA.edit {
     // inputs["salario_hora"].type = "money"
 
     // inputs["salario_hora"].setValues = SMath.formatMoney(this.state?.usuario_company?.salario_hora) ?? ""
+    inputs["carrier"].onPress = (e) => {
+      InputFloat.open({
+        e: e,
+        height: 180,
+        width: 200,
+        style: {
+          backgroundColor: STheme.color.background
+        },
+        render: () => {
+          return <SView col={"xs-12"} flex card>
+            <InputSelect
+              data={this.state?.carrier}
+              onChange={val => {
+                this.form.setValues({ "carrier": val })
+              }}
+              ITEM_HEIGHT={30} />
+          </SView>
+        }
+      })
+    }
 
     inputs["estado_civil"].onPress = (e) => {
       InputFloat.open({
@@ -164,7 +200,7 @@ class index extends DPA.edit {
 
       }).catch(e => {
         console.log(e);
-       
+
         let allUsersObj = Parent.model.Action.getAll();
         let allUsers = Object.values(allUsersObj || {});
         const email = data.Correo?.trim().toLowerCase();

@@ -11,6 +11,7 @@ import CryptoJS from 'crypto-js';
 import PButtom from '../../Components/PButtom';
 import InputFloat from '../../Components/NuevoInputs/InputFloat';
 import InputSelect from "../../Components/NuevoInputs/InputSelect"
+import SSocket from 'servisofts-socket';
 class root extends Component {
     constructor(props) {
         super(props);
@@ -24,6 +25,24 @@ class root extends Component {
     }
     componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
+        SSocket.sendPromise({
+            version: "2.0",
+            component: "carrier",
+            type: "getAll",
+        }).then((e) => {
+            console.log("carrier", e)
+            let dataCarrier = Object.values(e.data)
+            // const result = dataCarrier
+            //     .filter(item => item.key) // opcional: elimina los vacíos
+            //     .map(item => ({
+            //         key: item.key,
+            //         content: item.nombre
+            //     }));
+            this.setState({ carrier: dataCarrier })
+
+        }).catch(e => {
+            console.error(e);
+        })
     }
     componentWillUnmount() {
         SLanguage.removeListener(this.onChangeLanguage)
@@ -150,6 +169,18 @@ class root extends Component {
                                 //     defaultValue: defaultData.salario_hora,
                                 //     icon: this.icon("empleado")
                                 // },
+                                "carrier": {
+                                    label: SLanguage.select({ es: "Compañía telefónico", en: "Carrier" }), isRequired: true, placeholder: SLanguage.select({ es: "Compañía telefónico", en: "Carrier" }),
+                                    type: "select",
+                                    required: "true",
+                                    options: (this.state?.carrier || [])
+                                        .filter(item => item?.key)
+                                        .map(item => ({
+                                            key: item.key,
+                                            content: item.nombre
+                                        })),
+                                    defaultValue: defaultData?.carrier,
+                                },
                                 Telefono: {
                                     label: SLanguage.select({ es: "Número de teléfono", en: "Phone Number" }), isRequired: true, placeholder: SLanguage.select({ es: "Número de teléfono", en: "Phone Number" }), type: "phone", defaultValue: defaultData.Telefono,
                                 },
@@ -188,8 +219,8 @@ class root extends Component {
                                         })
                                     },
                                     icon: this.icon("lenguaje"),
-                                    // options: [{ key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" },
-                                    // { key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, { key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, { key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, { key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
+                                    // options: [{key: "", content: (lenguaje == "en") ? "SELECT" : "SELECCIONAR" },
+                                    // {key: "NONE", content: (lenguaje == "en") ? "NONE" : "NINGUNO" }, {key: "BASIC", content: (lenguaje == "en") ? "BASIC" : "BASICO" }, {key: "MEDIUM", content: (lenguaje == "en") ? "MEDIUM" : "MEDIO" }, {key: "ADVANCED", content: (lenguaje == "en") ? "ADVANCED" : "AVANZADO" }]
                                 },
                                 otros_idiomas: {
                                     label: SLanguage.select({ es: "Escoja una de las siguientes opciones", en: "Choose one of the following points" }),
@@ -222,7 +253,7 @@ class root extends Component {
                                     },
                                     icon: this.icon("lenguaje"),
                                 },
-                                // papeles: { col: "xs-12", label: SLanguage.select({ es: "¿Está autorizado legalmente para trabajar en los Estados Unidos?", en: "Are you legally authorized to work in the United State?" }), type: "checkBox" },
+                                // papeles: {col: "xs-12", label: SLanguage.select({es: "¿Está autorizado legalmente para trabajar en los Estados Unidos?", en: "Are you legally authorized to work in the United State?" }), type: "checkBox" },
 
                                 // FechaNacimiento: {placeholder: "Fecha de Nacimiento", isRequired: false, type: "date", },
                                 //telefono: {placeholder: "Celular", isRequired: true, type: "telefono", isRequired:true},

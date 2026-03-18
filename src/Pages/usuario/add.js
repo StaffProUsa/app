@@ -11,6 +11,25 @@ export default class index extends React.Component {
         if (this.pk) {
 
         }
+        SSocket.sendPromise({
+            version: "2.0",
+            component: "carrier",
+            type: "getAll",
+        }).then((e) => {
+            console.log("carrier", e)
+            let dataCarrier = Object.values(e.data)
+            const result = dataCarrier
+                .filter(item => item.key) // opcional: elimina los vacíos
+                .map(item => ({
+                    key: item.key,
+                    content: item.nombre
+                }));
+            this.setState({ carrier: dataCarrier })
+            console.log(result)
+
+        }).catch(e => {
+            console.error(e);
+        })
     }
     render() {
         return <SPage title={"Nuevo usuario"}>
@@ -30,6 +49,15 @@ export default class index extends React.Component {
                         "Apellidos": { col: "xs-5.8", label: "Apellidos" },
                         // "CI": { col: "xs-5.8", label: "Numero de identidad", placeholder: "_ _ _ _ _ _ _" },
                         "Correo": { col: "xs-9.5", type: "email", label: "Correo", placeholder: "correo@example.com" },
+                        // "carrier": { col: "xs-5.8", type: "select", label: "Carrier", placeholder: "Carrier", options:[{ key: "", content:"f"}, { key: "", content:"oo"}]},
+                        "carrier": {
+                            col: "xs-5.8", type: "select", label: "Carrier", placeholder: "Carrier", options: (this.state?.carrier || [])
+                                .filter(item => item?.key)
+                                .map(item => ({
+                                    key: item.key,
+                                    content: item.nombre
+                                }))
+                        },
                         "Telefono": { col: "xs-5.8", type: "telefono", label: "Telefono", defaultValue: "+1 " },
                     }} onSubmit={(val) => {
                         if (val.Telefono.length <= 6) {
@@ -47,7 +75,6 @@ export default class index extends React.Component {
                             },
                         }).then(e => {
                             Model.usuario.Action._dispatch(e);
-                            // SNavigation.goBack();
                             SNavigation.replace("/usuario/profile", { pk: e?.data?.key })
                             console.log(e);
                         }).catch(e => {

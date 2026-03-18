@@ -14,7 +14,11 @@ import PBarraFooter from '../../Components/PBarraFooter';
 class index extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            carrier: [],
+            // loading: false,
+            // data: {}
+        };
     }
 
     onChangeLanguage(language) {
@@ -22,14 +26,14 @@ class index extends Component {
     }
     componentDidMount() {
         SLanguage.addListener(this.onChangeLanguage.bind(this))
-         this.data = {}
+        this.data = {}
         SSocket.sendPromise({
             version: "2.0",
             service: "usuario",
             component: "usuario",
             type: "getAllKeys",
             keys: [Model.usuario.Action.getKey()],
-        }).then((e ) => {
+        }).then((e) => {
             // this.setState({ StaffTipoFavorito: e.data })
             this.data = e.data[Model.usuario.Action.getKey()].usuario
             console.log("user", this.data)
@@ -43,9 +47,20 @@ class index extends Component {
             //     return;
             // }
             // resolve(true)
-            this.setState({data: e.data[Model.usuario.Action.getKey()].usuario})
+            this.setState({ data: e.data[Model.usuario.Action.getKey()].usuario })
         }).catch(e => {
             // resolve(true)
+            console.error(e);
+        })
+
+        SSocket.sendPromise({
+            version: "2.0",
+            component: "carrier",
+            type: "getAll",
+        }).then((e) => {
+            console.log("carrier", e)
+            this.setState({ carrier: Object.values(e.data) })
+        }).catch(e => {
             console.error(e);
         })
     }
@@ -66,7 +81,7 @@ class index extends Component {
             component: "usuario",
             type: "getAllKeys",
             keys: [Model.usuario.Action.getKey()],
-        }).then((e ) => {
+        }).then((e) => {
             // this.setState({ StaffTipoFavorito: e.data })
             this.data = e.data[Model.usuario.Action.getKey()].usuario
             console.log("user", this.data)
@@ -214,9 +229,18 @@ class index extends Component {
                     height: 54
                 },
                 "carrier": {
-                    placeholder: SLanguage.select({ es: "Compania telefonica", en: "Carrier" }),
-                    label: SLanguage.select({ es: "Compania telefonica", en: "Carrier" }),
+                    placeholder: SLanguage.select({ es: "Compañía telefónica", en: "Carrier" }),
+                    label: SLanguage.select({ es: "Compañía telefónica", en: "Carrier" }),
+                    // defaultValue: this.state?.carrier.find((r) => r.key == this.state?.data?.carrier?.key),
                     defaultValue: this.state?.data?.carrier,
+                    type: 'select',
+                    isRequired: true,
+                    options: this.state.carrier.map((p) => ({
+                        key: p.key,
+                        content: p.nombre
+                    })),
+
+
                     // defaultValue: this.state.data['Telefono'],
                     // type: 'phone',
                     // isRequired: true,
@@ -310,20 +334,23 @@ class index extends Component {
                     ...this.data,
                     ...values
                 }
+                console.log("finalObj: ", finalObj)
+
                 this.form.uploadFiles(Model.usuario._get_image_upload_path(SSocket.api, this.state?.data?.key), "foto_p");
+
                 Model.usuario.Action.editar({
                     data: finalObj,
                     key_usuario: Model.usuario.Action.getKey()
                 }).then((resp) => {
                     this.setState({ loading: false })
                     SStorage.setItem("usr_log", JSON.stringify(finalObj)) //Modificar SStorage datos session
-                    // Model.usuario.Action.CLEAR(); //Limpiar caché
                     Model.usuario.Action.syncUserLog()
                     SNavigation.goBack();
                 }).catch((e) => {
                     this.setState({ loading: false })
                     SPopup.alert("Error en los datos");
                 })
+
             }}
         />
     }
@@ -357,7 +384,7 @@ class index extends Component {
     }
 
     render() {
-
+        console.log("CARRIER", this.state.carrier)
         return (
             <>
                 <SPage titleLanguage={{ es: "Editar perfil", en: "Edit profile" }} onRefresh={() => {

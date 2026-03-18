@@ -30,6 +30,7 @@ Usuario.init({
         "employee_number": { type: "text", label: "Employee Number",  editable: true },
         "salario_hora": { type: "text", label: "Salary",  editable: true },
         "Telefono": { type: "text", label: "Phone Number", editable: true, notNull: true },
+        "carrier": {type: "text", label: "Carrier", editable: true, notNull: true},
         // "CI": { type: "text", notNull: true, editable: true },
         "Correo": { type: "text", label: "Email", notNull: true, editable: true },
         "direccion": { type: "text", label: "Home Address", editable: true , notNull: true,},
