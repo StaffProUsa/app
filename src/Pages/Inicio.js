@@ -8,6 +8,7 @@ import Model from '../Model';
 import Calendar from '../Components/Calendar';
 import MisStaffTipo from '../Components/MisStaffTipo';
 import MisCompanys from '../Components/MisCompanys';
+import AvisoPush from '../Components/AvisoPush';
 import MDL from '../MDL';
 
 const CANTIDAD_X_PAGE = 30;
@@ -165,6 +166,7 @@ export default class Inicio extends Component {
             {this.renderInvitaciones()}
             <SHr h={10} />
           </>}
+          <AvisoPush />
         </SView>
       </Container>
       <SView col={"xs-12"} center>
