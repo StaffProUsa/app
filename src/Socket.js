@@ -1,6 +1,7 @@
 import React from "react";
 import { Platform } from "react-native";
 import SSocket, { setProps } from 'servisofts-socket';
+import { SLanguage } from 'servisofts-component';
 import Config from "./Config";
 import Model from "./Model";
 import DeviceKey from "./Firebase/DeviceKey"
@@ -8,6 +9,11 @@ import packageInfo from "../package.json"
 
 setProps(Config.socket);
 DeviceKey.init();
+
+// Al cambiar el idioma (bandera) se re-identifica para actualizar el tag "language" del token push
+SLanguage.addListener(() => {
+    SSocket.identificarse().catch(e => console.log("Socket: no se pudo re-identificar", e));
+});
 
 export default ({ store }) => {
     return <SSocket
@@ -17,7 +23,9 @@ export default ({ store }) => {
             let tags = {
                 platform: Platform.OS,
                 user_type: "undefined",
-                app_version: packageInfo.version
+                app_version: packageInfo.version,
+                // El backend envía cada push en el idioma elegido por el usuario
+                language: SLanguage.language
             };
 
             var usuario = props?.state?.usuarioReducer?.usuarioLog;
