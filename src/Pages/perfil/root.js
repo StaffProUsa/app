@@ -15,6 +15,7 @@ import SSocket from 'servisofts-socket';
 import Carrito from '../../Components/Carrito';
 import PBarraFooter from '../../Components/PBarraFooter';
 import SwitchTheme from '../../Components/SwitchTheme';
+import FilaPush from '../../Components/AvisoPush/FilaPush';
 import carrito from '../../Services/Casagrandeadmin/Components/carrito';
 import packageInfo from "../../../package.json"
 // import Roles_permisos from '../Roles_permisos';
@@ -292,6 +293,7 @@ class Perfil extends Component {
               titulo_en: 'Notifications',
               icon: 'Notificacion'
             })}
+            <FilaPush />
             {!permiso_show_admin ? null : this.opcion({
               url: 'admin',
               titulo: 'Administración',

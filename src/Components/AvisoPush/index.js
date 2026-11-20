@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import { SHr, SIcon, SText, STheme, SView } from 'servisofts-component';
 import Firebase from '../../Firebase';
+import { estadoPush, PASOS_IOS, TEXTO_BLOQUEADO } from './estado';
 
 // Aviso del inicio para activar las notificaciones push web.
 // - Permiso sin pedir: botón ACTIVAR (el navegador exige que el permiso se pida tras un toque).
 // - Permiso bloqueado: cómo desbloquearlo.
 // - iPhone en Safari sin instalar: cómo agregar la web a la pantalla de inicio (única forma de recibir push en iOS).
 // - Ya activas o navegador sin soporte: no se muestra.
-// "Ahora no" lo oculta unos días en este navegador.
+// "Ahora no" lo oculta unos días en este navegador; siempre se pueden activar desde Perfil → Opciones (FilaPush).
 const KEY_OCULTO = "staffpro_aviso_push_hasta";
 const DIAS_OCULTO = 3;
 
@@ -27,13 +28,9 @@ export default class AvisoPush extends Component {
     }
 
     calcularEstado() {
-        if (Platform.OS != "web") return "oculto";
         if (this.ocultoHasta() > Date.now()) return "oculto";
-        if (Firebase.esIOS() && !Firebase.esInstalada()) return "ios";
-        const permiso = Firebase.permiso();
-        if (permiso == "default") return "activar";
-        if (permiso == "denied") return "bloqueado";
-        return "oculto";
+        const estado = estadoPush();
+        return ["ios", "activar", "bloqueado"].includes(estado) ? estado : "oculto";
     }
 
     ocultoHasta() {
@@ -68,13 +65,8 @@ export default class AvisoPush extends Component {
     }
 
     renderPasosIOS() {
-        const pasos = [
-            { es: "1. Toca el botón Compartir (el cuadrado con la flecha ⬆️) en Safari.", en: "1. Tap the Share button (the square with the arrow ⬆️) in Safari." },
-            { es: "2. Elige \"Agregar a pantalla de inicio\".", en: "2. Choose \"Add to Home Screen\"." },
-            { es: "3. Abre Staff Pro USA desde el nuevo ícono y activa las notificaciones.", en: "3. Open Staff Pro USA from the new icon and turn on notifications." },
-        ];
         return <SView col={"xs-12"} style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 12 }}>
-            {pasos.map((p, i) => <SText key={i} color={"#585858"} language={p} />)}
+            {PASOS_IOS.map((p, i) => <SText key={i} color={"#585858"} language={p} />)}
         </SView>
     }
 
@@ -89,7 +81,7 @@ export default class AvisoPush extends Component {
             boton = this.renderBoton(cargando ? { es: "...", en: "..." } : { es: "ACTIVAR", en: "TURN ON" }, () => this.activar());
         } else if (estado == "bloqueado") {
             titulo = { es: "NOTIFICACIONES BLOQUEADAS", en: "NOTIFICATIONS BLOCKED" };
-            texto = { es: "Toca el 🔒 junto a la dirección de la página → Notificaciones → Permitir, y recarga.", en: "Tap the 🔒 next to the page address → Notifications → Allow, then reload." };
+            texto = TEXTO_BLOQUEADO;
         } else {
             titulo = { es: "RECIBE AVISOS EN TU IPHONE", en: "GET ALERTS ON YOUR IPHONE" };
             texto = { es: "Agrega Staff Pro USA a tu pantalla de inicio para recibir notificaciones.", en: "Add Staff Pro USA to your Home Screen to receive notifications." };
@@ -116,6 +108,10 @@ export default class AvisoPush extends Component {
                         <SView onPress={() => this.ahoraNo()}>
                             <SText fontSize={12} color={"#3B6FB6"} language={{ es: "Ahora no", en: "Not now" }} />
                         </SView>
+                        <SText fontSize={11} color={"#8B8B8B"} language={{
+                            es: "Puedes activarlas después en Perfil → Opciones.",
+                            en: "You can turn them on later in Profile → Options."
+                        }} />
                     </SView>
                     {boton}
                 </SView>
